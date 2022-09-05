@@ -11,8 +11,8 @@ public class GuestMenu extends Menu {
     private EsempioGerarchiaLayout finestra;
 
     public GuestMenu(EsempioGerarchiaLayout finestra) {
-        this.finestra = finestra;
 
+        this.finestra = finestra;
         JButton browse = new JButton("Sfoglia catalogo");
         browse.setActionCommand("browse");
         // .... agganciate i listener

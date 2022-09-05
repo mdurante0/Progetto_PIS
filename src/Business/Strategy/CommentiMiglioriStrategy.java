@@ -7,13 +7,16 @@ import java.util.List;
 
 public class CommentiMiglioriStrategy implements IOrdinamentoCommentoStrategy{
 
-
     @Override
     public void ordina(List<Commento> listaCommenti) {
 
         listaCommenti.sort(new Comparator<Commento>() {
             @Override
             public int compare(Commento o1, Commento o2) {
+
+                // restituisce 0 se o1.punteggio = o2.punteggio
+                // restituisce n>0 se o1.punteggio < o2.punteggio
+                // restituisce n<0 se o1.punteggio > o2.punteggio
 
                 if(o1.getPunteggio() == o2.getPunteggio()) return 0;
 
@@ -34,6 +37,7 @@ public class CommentiMiglioriStrategy implements IOrdinamentoCommentoStrategy{
                 }
 
                 return punteggio2 - punteggio1;
+
             }
         });
     }

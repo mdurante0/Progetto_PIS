@@ -5,7 +5,7 @@ import Model.Commento;
 import java.util.Comparator;
 import java.util.List;
 
-public class CommentiRecentiStrategy implements IOrdinamentoCommentoStrategy{
+public class CommentiRecentiStrategy implements IOrdinamentoCommentoStrategy {
 
     @Override
     public void ordina(List<Commento> listaCommenti) {
@@ -19,5 +19,6 @@ public class CommentiRecentiStrategy implements IOrdinamentoCommentoStrategy{
                 return o2.getData().compareTo(o1.getData());
             }
         });
+
     }
 }

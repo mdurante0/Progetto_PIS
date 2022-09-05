@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CatalogoPanel extends JPanel {
 
@@ -38,15 +37,14 @@ public class CatalogoPanel extends JPanel {
 
         //JTable tabella = new JTable(dati, nomiColonne);
 
-
-        List<RigaCatalogo> righe = new ArrayList<RigaCatalogo>();
+        java.util.List<RigaCatalogo> righe = new ArrayList<RigaCatalogo>();
         //popoliamo con dati fake (voi dovete popolare tramite DAO)
         RigaCatalogo riga1 = new RigaCatalogo();
         riga1.setIdProdotto(759);
-        riga1.setNomeProdotto("Tavolo Giardino");
+        riga1.setNomeProdotto("Tavolo giardino");
         riga1.setNomeProduttore("Produttore X");
         riga1.setNomeCategoria("Esterni");
-        riga1.setPrezzo(99.0F);
+        riga1.setPrezzo(99.9F);
 
         RigaCatalogo riga2 = new RigaCatalogo();
         riga2.setIdProdotto(88);
@@ -60,7 +58,7 @@ public class CatalogoPanel extends JPanel {
         riga3.setNomeProdotto("Tosaerba");
         riga3.setNomeProduttore("Produttore Z");
         riga3.setNomeCategoria("Utensili");
-        riga3.setPrezzo(99.0F);
+        riga3.setPrezzo(350.0F);
 
         righe.add(riga1);
         righe.add(riga2);
@@ -69,7 +67,9 @@ public class CatalogoPanel extends JPanel {
         CatalogoTableModel tableModel = new CatalogoTableModel(righe);
         JTable tabella = new JTable(tableModel);
 
-        JScrollPane scrollPane = new JScrollPane();
+        tabella.setRowHeight(200);
+
+        JScrollPane scrollPane = new JScrollPane(tabella);
         add(scrollPane, BorderLayout.CENTER);
 
         JPanel pulsantiAzioneTabella = new JPanel();
@@ -81,17 +81,17 @@ public class CatalogoPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int[] righeSelezionate = tabella.getSelectedRows();
                 System.out.println(righeSelezionate[0]);
-                CatalogoTableModel tModel = (CatalogoTableModel)  tabella.getModel();
-                for(int i = 0; i < righeSelezionate.length; i++){
-                    RigaCatalogo rigaSelezionata = ((CatalogoTableModel) tabella.getModel()).getRighe().get(righeSelezionate[i]);
-                    System.out.println("ID prodotto selezionato: " + rigaSelezionata.getIdProdotto());
+                CatalogoTableModel tModel = (CatalogoTableModel) tabella.getModel();
+                for(int i=0;i<righeSelezionate.length;i++) {
+                    RigaCatalogo rigaSelezionata = tModel.getRighe().get(righeSelezionate[i]);
+                    System.out.println("ID prodotto selezionato: "+rigaSelezionata.getIdProdotto());
                 }
-
             }
         });
 
-
         pulsantiAzioneTabella.add(mettiNelCarrello);
         add(mettiNelCarrello, BorderLayout.SOUTH);
+
+
     }
 }

@@ -4,24 +4,24 @@ import java.util.Date;
 
 public class Commento {
 
-
     public enum Punteggio { SCARSO, MEDIOCRE, BUONO, ECCELLENTE }
 
+    private int id;
     private Punteggio punteggio;
     private String openText;
     private boolean letto;
     //private boolean risposto;
     private Risposta risposta;
     private Date data;
-    private int id;
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int id) {
+    public void setId(int id) {
         this.id = id;
     }
+
     public Punteggio getPunteggio() {
         return punteggio;
     }

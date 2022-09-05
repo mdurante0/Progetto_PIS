@@ -1,7 +1,7 @@
 package Business.Bridge;
 
 import Model.ListaAcquisto;
-import Model.Composite.IProdotto;
+import Model.composite.IProdotto;
 
 import java.io.File;
 import java.io.IOException;

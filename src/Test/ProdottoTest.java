@@ -1,7 +1,7 @@
 package Test;
 
 import Model.composite.Prodotto;
-import Model.Composite.ProdottoComposito;
+import Model.composite.ProdottoComposito;
 import org.junit.Assert;
 import org.junit.Test;
 

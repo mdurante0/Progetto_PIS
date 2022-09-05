@@ -27,6 +27,7 @@ public class UtenteBusiness {
             result.setMessage("Lo username inserito non esiste");
             return result;
         }
+
         // 2. controllare se username e password sono ok
         boolean credentialsOk = uDao.checkCredentials(username, password);
         if(!credentialsOk) {
@@ -34,6 +35,7 @@ public class UtenteBusiness {
             result.setMessage("La password digitata non è corretta");
             return result;
         }
+
         // 3. che tipo di utente e' (cliente/manager/amministratore)
         boolean isCliente = uDao.isCliente(username);
         boolean isManager = uDao.isManager(username);

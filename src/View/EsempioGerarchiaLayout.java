@@ -28,7 +28,6 @@ public class EsempioGerarchiaLayout extends JFrame {
         Container c = this.getContentPane();
         c.setLayout(new BorderLayout());
 
-        JPanel centro = new JPanel();
         JPanel sud = new JPanel();
 
         nord.setLayout(new FlowLayout());

@@ -29,7 +29,7 @@ public class CatalogoTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 7;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CatalogoTableModel extends AbstractTableModel {
 
         RigaCatalogo riga = righe.get(rowIndex);
 
-        switch (columnIndex) {
+        switch(columnIndex) {
             case 0: return riga.getIdProdotto();
             case 1: return riga.getNomeProdotto();
             case 2: return riga.getNomeProduttore();
@@ -45,8 +45,8 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 4: return riga.getPrezzo();
             case 5: return riga.getSelezionato();
             case 6:
-                //URL url = getClass().getResource("/downloaded.jpeg");
-                InputStream stream = getClass().getResourceAsStream("/downloaded.jpeg");
+                //URL url = getClass().getResource("/download.jpeg");
+                InputStream stream = getClass().getResourceAsStream("/download.jpeg");
                 try {
                     ImageIcon icon = new ImageIcon(ImageIO.read(stream));
                     return icon;
@@ -64,7 +64,7 @@ public class CatalogoTableModel extends AbstractTableModel {
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         RigaCatalogo riga = righe.get(rowIndex);
 
-        switch (columnIndex) {
+        switch(columnIndex) {
             case 0: riga.setIdProdotto(Integer.parseInt(value.toString()));
             case 1: riga.setNomeProdotto(value.toString());
             case 2: riga.setNomeProduttore(value.toString());
@@ -72,22 +72,27 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 4: riga.setPrezzo(Float.parseFloat(value.toString()));
             case 5: riga.setSelezionato(Boolean.parseBoolean(value.toString()));
         }
+
+        System.out.println('.');
+
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 4;
+        return columnIndex >= 4;
     }
 
     @Override
     public String getColumnName(int columnIndex) {
-        switch (columnIndex) {
+
+        switch(columnIndex) {
             case 0: return "ID prodotto";
             case 1: return "Nome";
             case 2: return "Produttore";
             case 3: return "Categoria";
             case 4: return "Prezzo (€)";
             case 5: return "Seleziona";
+            case 6: return "Immagine";
         }
 
         return null;
