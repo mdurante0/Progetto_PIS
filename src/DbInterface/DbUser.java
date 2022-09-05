@@ -8,8 +8,8 @@ public class DbUser {
 
     private DbUser() {
         userName = "root";
-        pwd = "12345";
-        schemaName = "myshop";
+        pwd = "";
+        schemaName = "progetto_pis";
     }
 
     public static DbUser getInstance() {
