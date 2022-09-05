@@ -93,7 +93,7 @@ public class EsempioGerarchiaLayout extends JFrame {
 
         west.setLayout(new GridLayout(10,1));
 
-        View.Decorator.Menu guestMenu = new GuestMenu();
+        View.Decorator.Menu guestMenu = new GuestMenu(this);
 
         for(JButton btn : guestMenu.getPulsanti()) {
             west.add(btn);
@@ -129,7 +129,7 @@ public class EsempioGerarchiaLayout extends JFrame {
 
         if(u instanceof Cliente) {
             //decoriamo il menu usando il ClienteMenuDecorator
-            View.Decorator.Menu guestMenu = new GuestMenu();
+            View.Decorator.Menu guestMenu = new GuestMenu(this);
             View.Decorator.Menu clienteMenu = new ClienteMenuDecorator(guestMenu);
             for(JButton btn : clienteMenu.getPulsanti())
                 west.add(btn);

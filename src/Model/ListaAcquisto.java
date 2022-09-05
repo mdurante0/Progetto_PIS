@@ -1,6 +1,6 @@
 package Model;
 
-import Model.composite.IProdotto;
+import Model.Composite.IProdotto;
 
 import java.util.ArrayList;
 import java.util.Date;

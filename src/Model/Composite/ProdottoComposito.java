@@ -1,4 +1,4 @@
-package Model.composite;
+package Model.Composite;
 
 import Model.Articolo;
 import Model.Collocazione;
