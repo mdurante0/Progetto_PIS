@@ -9,7 +9,6 @@ import Model.composite.Prodotto;
 public class MainClass {
 
     public static void main(String args[]) {
-        System.out.println("applicazione avviata");
 
         /*
         JFrame finestra = new JFrame("Prima finestra");
