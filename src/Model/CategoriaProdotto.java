@@ -7,10 +7,10 @@ import java.util.List;
 
 public class CategoriaProdotto implements ICategoria {
 
+    private int idCategoriaProdotto;
     private String nome;
 
     private List<CategoriaProdotto> sottocategorie;
-
     public CategoriaProdotto() {
     }
 

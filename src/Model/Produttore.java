@@ -1,13 +1,46 @@
 package Model;
 
-import java.net.URL;
-
 public class Produttore {
 
+    private int idProduttore;
     private String nome;
     private String mail;
     private String citta;
     private String nazione;
+    private int telefono;
+    private String descrizione;
+
+    public int getIdProduttore() {
+        return idProduttore;
+    }
+
+    public void setIdProduttore(int idProduttore) {
+        this.idProduttore = idProduttore;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
 
     public String getNome() {
         return nome;

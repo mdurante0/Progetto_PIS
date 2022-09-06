@@ -1,14 +1,18 @@
 package Model;
 
 import Business.AbstractFactory.IArticolo;
+import Business.AbstractFactory.ICategoria;
 
 import java.util.List;
 
 public class Articolo implements IArticolo {
 
+    protected int idArticolo;
     protected Float prezzo;
     private List<Feedback> commenti;
     protected String nome;
+    protected String descrizione;
+    protected ICategoria categoria;
 
     public Float getPrezzo() {
         return prezzo;

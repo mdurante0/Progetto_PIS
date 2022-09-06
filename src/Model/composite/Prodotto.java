@@ -2,7 +2,11 @@ package Model.composite;
 
 import Model.Articolo;
 import Model.Collocazione;
+import Model.Immagine;
 import Model.Produttore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Prodotto extends Articolo implements IProdotto {
 
@@ -13,7 +17,7 @@ public class Prodotto extends Articolo implements IProdotto {
     /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
       (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
      */
-    private byte[] immagine;
+    private List<Immagine> immagini = new ArrayList<>();
 
     @Override
     public Float getPrezzo() {

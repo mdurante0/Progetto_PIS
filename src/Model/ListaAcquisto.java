@@ -8,8 +8,7 @@ import java.util.List;
 
 public class ListaAcquisto {
 
-    public enum StatoLista { DA_PAGARE, PAGATA}
-
+    public boolean pagata;
     private String nome;
     private List<IProdotto> prodotti = new ArrayList<>();
     private Date dataCreazione;
@@ -46,11 +45,5 @@ public class ListaAcquisto {
         this.dataCreazione = dataCreazione;
     }
 
-    public StatoLista getStatoLista() {
-        return statoLista;
-    }
 
-    public void setStatoLista(StatoLista statoLista) {
-        this.statoLista = statoLista;
-    }
 }

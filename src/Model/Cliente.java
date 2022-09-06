@@ -2,6 +2,7 @@ package Model;
 
 import Business.FactoryMethod.NotificationFactory;
 
+import java.util.Date;
 import java.util.List;
 
 public class Cliente extends Utente {
@@ -10,6 +11,24 @@ public class Cliente extends Utente {
     private List<Prenotazione> prenotazioni;
     private PuntoVendita puntoVenditaDiRegistrazione;
     private NotificationFactory.TipoNotifica canalePreferito;
+    private Date registrazione;
+    private boolean abilitazione;
+
+    public Date getRegistrazione() {
+        return registrazione;
+    }
+
+    public void setRegistrazione(Date registrazione) {
+        this.registrazione = registrazione;
+    }
+
+    public boolean isAbilitazione() {
+        return abilitazione;
+    }
+
+    public void setAbilitazione(boolean abilitazione) {
+        this.abilitazione = abilitazione;
+    }
 
     public List<ListaAcquisto> getListeAcquisto() {
         return listeAcquisto;

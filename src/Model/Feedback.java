@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Feedback {
 
-    public enum Punteggio { SCARSO, MEDIOCRE, BUONO, ECCELLENTE }
+    public enum Punteggio { SCARSO, MEDIOCRE, BUONO, OTTIMO, ECCELLENTE }
 
     private int idFeedback;
     private Punteggio gradimento;
