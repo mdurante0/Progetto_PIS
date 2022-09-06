@@ -18,7 +18,9 @@ public class CategoriaProdotto implements ICategoria {
         this.nome = nome;
         this.sottocategorie = new ArrayList<CategoriaProdotto>();
     }
-
+    public int getIdCategoriaProdotto() {
+        return idCategoriaProdotto;
+    }
     public List<CategoriaProdotto> getSottocategorie() {
         return sottocategorie;
     }

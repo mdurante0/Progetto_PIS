@@ -11,7 +11,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
 
-    private final List<IProdotto> sottoprodotti = new ArrayList<IProdotto>();
+    private final List<IProdotto> sottoprodotti = new ArrayList<>();
 
     public void add(IProdotto prodotto) {
         // if ...

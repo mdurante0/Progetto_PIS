@@ -13,7 +13,14 @@ public class ListaAcquisto {
     private String nome;
     private List<IProdotto> prodotti = new ArrayList<>();
     private Date dataCreazione;
-    private StatoLista statoLista;
+
+    public boolean isPagata() {
+        return pagata;
+    }
+
+    public void setPagata(boolean pagata) {
+        this.pagata = pagata;
+    }
 
     public String getNome() {
         return nome;

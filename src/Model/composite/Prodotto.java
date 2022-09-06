@@ -23,4 +23,11 @@ public class Prodotto extends Articolo implements IProdotto {
     public String getNome() {return this.nome; }
 
     public void setNome(String nome) { this.nome = nome; }
+
+    public void add(Immagine immagine){
+        this.immagini.add(immagine);
+    }
+    public void add(List<Immagine> immagini){
+        this.immagini.addAll(immagini);
+    }
 }

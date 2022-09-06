@@ -17,4 +17,11 @@ public class Manager extends Utente {
         this.salario = salario;
     }
 
+    public int getDurataIncarico() {
+        return durataIncarico;
+    }
+
+    public void setDurataIncarico(int durataIncarico) {
+        this.durataIncarico = durataIncarico;
+    }
 }

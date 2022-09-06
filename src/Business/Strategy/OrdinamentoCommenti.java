@@ -1,15 +1,15 @@
 package Business.Strategy;
 
-import Model.Commento;
+import Model.Feedback;
 
 import java.util.List;
 
 public class OrdinamentoCommenti {
 
-    private List<Commento> listaCommenti;
+    private List<Feedback> listaCommenti;
     private IOrdinamentoCommentoStrategy ordinamentoCommentoStrategy;
 
-    public OrdinamentoCommenti(List<Commento> listaCommenti) {
+    public OrdinamentoCommenti(List<Feedback> listaCommenti) {
         this.listaCommenti = listaCommenti;
     }
 

@@ -1,6 +1,6 @@
 package Business.Strategy;
 
-import Model.Commento;
+import Model.Feedback;
 
 import java.util.Comparator;
 import java.util.List;
@@ -8,28 +8,28 @@ import java.util.List;
 public class CommentiUrgentiStrategy implements IOrdinamentoCommentoStrategy{
 
     @Override
-    public void ordina(List<Commento> listaCommenti) {
+    public void ordina(List<Feedback> listaCommenti) {
 
-        listaCommenti.sort(new Comparator<Commento>() {
+        listaCommenti.sort(new Comparator<Feedback>() {
             @Override
-            public int compare(Commento o1, Commento o2) {
+            public int compare(Feedback o1, Feedback o2) {
 
                 // restituisce 0 se o1.punteggio = o2.punteggio
                 // restituisce n>0 se o1.punteggio < o2.punteggio
                 // restituisce n<0 se o1.punteggio > o2.punteggio
 
-                if(o1.getPunteggio() == o2.getPunteggio()) return 0;
+                if(o1.getGradimento() == o2.getGradimento()) return 0;
 
                 int punteggio1=0, punteggio2=0;
 
-                switch(o1.getPunteggio()) {
+                switch(o1.getGradimento()) {
                     case SCARSO: punteggio1 = 1; break;
                     case MEDIOCRE: punteggio1 = 2; break;
                     case BUONO: punteggio1 = 3; break;
                     case ECCELLENTE: punteggio1 = 4;
                 }
 
-                switch(o2.getPunteggio()) {
+                switch(o2.getGradimento()) {
                     case SCARSO: punteggio2 = 1; break;
                     case MEDIOCRE: punteggio2 = 2; break;
                     case BUONO: punteggio2 = 3; break;

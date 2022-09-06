@@ -1,6 +1,6 @@
 package Business.Strategy;
 
-import Model.Commento;
+import Model.Feedback;
 
 import java.util.Comparator;
 import java.util.List;
@@ -8,11 +8,11 @@ import java.util.List;
 public class CommentiRecentiStrategy implements IOrdinamentoCommentoStrategy {
 
     @Override
-    public void ordina(List<Commento> listaCommenti) {
+    public void ordina(List<Feedback> listaCommenti) {
 
-        listaCommenti.sort(new Comparator<Commento>() {
+        listaCommenti.sort(new Comparator<Feedback>() {
             @Override
-            public int compare(Commento o1, Commento o2) {
+            public int compare(Feedback o1, Feedback o2) {
 
                 if(o2 == null || o1 == null) return 0;
 

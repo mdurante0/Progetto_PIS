@@ -5,7 +5,7 @@ import java.net.URL;
 public class Produttore {
 
     private String nome;
-    private URL web;
+    private String mail;
     private String citta;
     private String nazione;
 
@@ -15,14 +15,6 @@ public class Produttore {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public URL getWeb() {
-        return web;
-    }
-
-    public void setWeb(URL web) {
-        this.web = web;
     }
 
     public String getCitta() {

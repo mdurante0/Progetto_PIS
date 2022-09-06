@@ -5,11 +5,8 @@ public class Collocazione {
     private String corsia;
     private int scaffale;
 
-    public Collocazione() {
 
-    }
-
-    public Collocazione(String corsia, int scaffale) {
+    public Collocazione(int corsia, int scaffale) {
         this.corsia = corsia;
         this.scaffale = scaffale;
     }
