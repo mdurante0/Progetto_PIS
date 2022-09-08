@@ -10,6 +10,7 @@ public class Collocazione {
         this.corsia = corsia;
         this.scaffale = scaffale;
     }
+    public Collocazione(){}
 
     public int getCorsia() {
         return corsia;
@@ -26,4 +27,5 @@ public class Collocazione {
     public void setScaffale(int scaffale) {
         this.scaffale = scaffale;
     }
+    public String toString(){return null;}
 }

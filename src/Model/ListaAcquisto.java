@@ -13,6 +13,13 @@ public class ListaAcquisto {
     private List<IProdotto> prodotti = new ArrayList<>();
     private Date dataCreazione;
 
+    public ListaAcquisto(){}
+    public ListaAcquisto(String nome, List<IProdotto> prodotti, Date dataCreazione) {
+        this.nome = nome;
+        this.prodotti = prodotti;
+        this.dataCreazione = dataCreazione;
+    }
+
     public boolean isPagata() {
         return pagata;
     }
@@ -44,6 +51,7 @@ public class ListaAcquisto {
     public void setDataCreazione(Date dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
+    public String toString(){return null;}
 
 
 }

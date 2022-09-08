@@ -14,6 +14,13 @@ public class Feedback {
     private String risposta;
     private Date data;
 
+    public Feedback(){}
+    public Feedback(Punteggio gradimento, String commento, Date data) {
+        this.gradimento = gradimento;
+        this.commento = commento;
+        this.data = data;
+    }
+
     public int getIdFeedback() {
         return idFeedback;
     }
@@ -61,4 +68,5 @@ public class Feedback {
     public void setData(Date data) {
         this.data = data;
     }
+    public String toString(){return null;}
 }

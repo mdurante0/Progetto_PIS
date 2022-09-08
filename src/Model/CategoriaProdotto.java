@@ -18,6 +18,7 @@ public class CategoriaProdotto implements ICategoria {
         this.nome = nome;
         this.sottocategorie = new ArrayList<CategoriaProdotto>();
     }
+
     public int getIdCategoriaProdotto() {
         return idCategoriaProdotto;
     }
@@ -40,5 +41,6 @@ public class CategoriaProdotto implements ICategoria {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    public String toString(){return null;}
 
 }

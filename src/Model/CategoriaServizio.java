@@ -6,6 +6,11 @@ public class CategoriaServizio implements ICategoria {
     private int idCategoriaServizio;
     private String nome;
 
+    public CategoriaServizio(){}
+    public CategoriaServizio(String nome) {
+        this.nome = nome;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -17,4 +22,5 @@ public class CategoriaServizio implements ICategoria {
     public int getIdCategoriaServizio() {
         return idCategoriaServizio;
     }
+    public String toString(){return null;}
 }

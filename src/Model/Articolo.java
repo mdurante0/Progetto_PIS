@@ -14,6 +14,16 @@ public class Articolo implements IArticolo {
     protected String descrizione;
     protected ICategoria categoria;
 
+    public Articolo(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria) {
+        this.prezzo = prezzo;
+        this.commenti = commenti;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.categoria = categoria;
+    }
+
+    public Articolo() {}
+
     public Float getPrezzo() {
         return prezzo;
     }
@@ -61,4 +71,5 @@ public class Articolo implements IArticolo {
     public void setCategoria(ICategoria categoria) {
         this.categoria = categoria;
     }
+    public String toString(){return null;}
 }

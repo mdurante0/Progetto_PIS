@@ -17,4 +17,7 @@ public class Immagine {
     public Immagine(ImageIcon pic) {
         this.pic = pic;
     }
+
+    public Immagine() {
+    }
 }

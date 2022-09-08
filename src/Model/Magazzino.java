@@ -11,6 +11,13 @@ public class Magazzino {
     private int quantitaScaffali;
     private Map<IProdotto,Integer> prodotti = new HashMap<>();
 
+    public Magazzino(){}
+    public Magazzino(int quantitaCorsie, int quantitaScaffali, Map<IProdotto, Integer> prodotti) {
+        this.quantitaCorsie = quantitaCorsie;
+        this.quantitaScaffali = quantitaScaffali;
+        this.prodotti = prodotti;
+    }
+
     public int getQuantitaCorsie() {
         return quantitaCorsie;
     }
@@ -40,5 +47,6 @@ public class Magazzino {
     public void clear(){
         prodotti.clear();
     }
+    public String toString(){return null;}
 
 }

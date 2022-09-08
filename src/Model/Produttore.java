@@ -10,6 +10,16 @@ public class Produttore {
     private int telefono;
     private String descrizione;
 
+    public Produttore(){}
+    public Produttore(String nome, String mail, String citta, String nazione, int telefono, String descrizione) {
+        this.nome = nome;
+        this.mail = mail;
+        this.citta = citta;
+        this.nazione = nazione;
+        this.telefono = telefono;
+        this.descrizione = descrizione;
+    }
+
     public int getIdProduttore() {
         return idProduttore;
     }
@@ -65,4 +75,5 @@ public class Produttore {
     public void setNazione(String nazione) {
         this.nazione = nazione;
     }
+    public String toString(){return null;}
 }

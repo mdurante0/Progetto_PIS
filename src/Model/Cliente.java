@@ -61,4 +61,5 @@ public class Cliente extends Utente {
     public void setCanalePreferito(NotificationFactory.TipoNotifica canalePreferito) {
         this.canalePreferito = canalePreferito;
     }
+    public String toString(){return null;}
 }

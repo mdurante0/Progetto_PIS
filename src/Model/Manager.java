@@ -24,4 +24,5 @@ public class Manager extends Utente {
     public void setDurataIncarico(int durataIncarico) {
         this.durataIncarico = durataIncarico;
     }
+    public String toString(){return null;}
 }

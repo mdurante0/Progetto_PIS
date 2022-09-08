@@ -10,6 +10,16 @@ public class Fornitore {
     private int telefono;
     private String descrizione;
 
+    public  Fornitore(){}
+    public Fornitore(String nome, String mail, String citta, String nazione, int telefono, String descrizione) {
+        this.nome = nome;
+        this.mail = mail;
+        this.citta = citta;
+        this.nazione = nazione;
+        this.telefono = telefono;
+        this.descrizione = descrizione;
+    }
+
     public int getIdFornitore() {
         return idFornitore;
     }
@@ -65,4 +75,5 @@ public class Fornitore {
     public void setNazione(String nazione) {
         this.nazione = nazione;
     }
+    public String toString(){return null;}
 }
