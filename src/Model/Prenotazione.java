@@ -3,6 +3,7 @@ package Model;
 import Model.composite.Prodotto;
 
 import java.util.Date;
+import java.util.List;
 
 public class Prenotazione {
 

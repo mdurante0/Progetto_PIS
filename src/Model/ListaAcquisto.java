@@ -8,7 +8,8 @@ import java.util.List;
 
 public class ListaAcquisto {
 
-    public boolean pagata;
+    private int idLista;
+    private boolean pagata;
     private String nome;
     private List<IProdotto> prodotti = new ArrayList<>();
     private Date dataCreazione;

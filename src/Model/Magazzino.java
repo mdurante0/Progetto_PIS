@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Magazzino {
+
     private int idMagazzino;
     private int quantitaCorsie;
     private int quantitaScaffali;
