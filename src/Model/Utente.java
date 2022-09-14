@@ -84,7 +84,14 @@ public class Utente {
         this.tipo = tipo;
     }
 
+    @Override
     public String toString() {
-        return name + " " + surname + " " + username + " " + pwd + " " + email + " " + tipo;
+        return "Utente{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }

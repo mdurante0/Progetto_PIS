@@ -24,5 +24,16 @@ public class Manager extends Utente {
     public void setDurataIncarico(int durataIncarico) {
         this.durataIncarico = durataIncarico;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "nome="+super.getName()+
+                ", cognome=" +super.getSurname()+
+                ", username="+super.getUsername()+
+                ", email="+super.getEmail()+
+                ", durataIncarico=" + durataIncarico +
+                ", salario=" + salario +
+                '}';
+    }
 }

@@ -75,5 +75,16 @@ public class Fornitore {
     public void setNazione(String nazione) {
         this.nazione = nazione;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Fornitore{" +
+                "nome='" + nome + '\'' +
+                ", mail='" + mail + '\'' +
+                ", citta='" + citta + '\'' +
+                ", nazione='" + nazione + '\'' +
+                ", telefono=" + telefono +
+                ", descrizione='" + descrizione + '\'' +
+                '}';
+    }
 }

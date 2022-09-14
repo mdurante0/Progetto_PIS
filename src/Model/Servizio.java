@@ -9,5 +9,15 @@ public class Servizio extends Articolo {
         super(prezzo, commenti, nome, descrizione, categoria);
     }
     public Servizio(){}
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Prodotto{" +
+                ", nome=" + super.getNome() +
+                ", prezzo=" + super.getPrezzo() +
+                ", descrizione=" + super.getDescrizione() +
+                ", categoria=" + super.getCategoria().getNome() +
+                ", fornitore=" + fornitore.getNome() +
+                '}';
+    }
 }

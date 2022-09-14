@@ -27,5 +27,12 @@ public class Collocazione {
     public void setScaffale(int scaffale) {
         this.scaffale = scaffale;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Collocazione{" +
+                "corsia=" + corsia +
+                ", scaffale=" + scaffale +
+                '}';
+    }
 }

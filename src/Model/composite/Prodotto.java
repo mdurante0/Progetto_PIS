@@ -28,7 +28,7 @@ public class Prodotto extends Articolo implements IProdotto {
 
     @Override
     public Float getPrezzo() {
-        return this.prezzo;
+        return super.getPrezzo();
     }
 
     public String getNome() {return this.nome; }
@@ -41,5 +41,14 @@ public class Prodotto extends Articolo implements IProdotto {
     public void add(List<Immagine> immagini){
         this.immagini.addAll(immagini);
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Prodotto{" +
+                ", nome=" + super.getNome() +
+                ", prezzo=" + super.getPrezzo() +
+                ", categoria=" + super.getCategoria().getNome() +
+                ", produttore=" + produttore.getNome() +
+                '}';
+    }
 }

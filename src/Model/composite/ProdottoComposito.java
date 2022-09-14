@@ -48,4 +48,12 @@ public class ProdottoComposito extends Articolo implements IProdotto {
 
         return p;
     }
+
+    @Override
+    public String toString() {
+        return "ProdottoComposito{" +
+                "nome=" + super.getNome() +
+                ", sottoprodotti=" + sottoprodotti +
+                '}';
+    }
 }

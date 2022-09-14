@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Articolo implements IArticolo {
 
-    protected int idArticolo;
-    protected Float prezzo;
+    private int idArticolo;
+    private Float prezzo;
     private List<Feedback> commenti;
     protected String nome;
     protected String descrizione;
@@ -71,5 +71,14 @@ public class Articolo implements IArticolo {
     public void setCategoria(ICategoria categoria) {
         this.categoria = categoria;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Articolo{" +
+                ", prezzo=" + prezzo +
+                ", nome='" + nome + '\'' +
+                ", descrizione='" + descrizione + '\'' +
+                ", categoria=" + categoria.getNome() +
+                '}';
+    }
 }

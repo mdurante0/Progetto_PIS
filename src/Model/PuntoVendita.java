@@ -13,5 +13,13 @@ public class PuntoVendita {
         this.indirizzo = indirizzo;
         this.telefono = telefono;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "PuntoVendita{" +
+                "citta='" + citta + '\'' +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", telefono=" + telefono +
+                '}';
+    }
 }

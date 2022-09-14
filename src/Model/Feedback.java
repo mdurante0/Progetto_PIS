@@ -68,5 +68,16 @@ public class Feedback {
     public void setData(Date data) {
         this.data = data;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "gradimento=" + gradimento +
+                ", commento='" + commento + '\'' +
+                ", letto=" + letto +
+                ", risposto=" + risposto +
+                ", risposta='" + risposta + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

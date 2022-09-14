@@ -41,6 +41,12 @@ public class CategoriaProdotto implements ICategoria {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String toString(){return null;}
 
+    @Override
+    public String toString() {
+        return "CategoriaProdotto{" +
+                "nome='" + nome + '\'' +
+                ", sottocategorie=" + sottocategorie +
+                '}';
+    }
 }

@@ -20,6 +20,14 @@ public class ListaAcquisto {
         this.dataCreazione = dataCreazione;
     }
 
+    public int getIdLista() {
+        return idLista;
+    }
+
+    public void setIdLista(int idLista) {
+        this.idLista = idLista;
+    }
+
     public boolean isPagata() {
         return pagata;
     }
@@ -51,7 +59,14 @@ public class ListaAcquisto {
     public void setDataCreazione(Date dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
-    public String toString(){return null;}
 
-
+    @Override
+    public String toString() {
+        return "ListaAcquisto{" +
+                "pagata=" + pagata +
+                ", nome='" + nome + '\'' +
+                ", prodotti=" + prodotti +
+                ", dataCreazione=" + dataCreazione +
+                '}';
+    }
 }

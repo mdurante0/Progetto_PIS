@@ -61,5 +61,17 @@ public class Cliente extends Utente {
     public void setCanalePreferito(NotificationFactory.TipoNotifica canalePreferito) {
         this.canalePreferito = canalePreferito;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome="+super.getName()+
+                ", cognome=" + super.getSurname() +
+                ", username="+super.getUsername()+
+                ", email=" + super.getEmail() +
+                ", puntoVenditaDiRegistrazione=" + puntoVenditaDiRegistrazione +
+                ", registrazione=" + registrazione +
+                ", abilitazione=" + abilitazione +
+                '}';
+    }
 }

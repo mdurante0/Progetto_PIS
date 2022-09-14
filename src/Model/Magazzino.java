@@ -47,6 +47,13 @@ public class Magazzino {
     public void clear(){
         prodotti.clear();
     }
-    public String toString(){return null;}
 
+    @Override
+    public String toString() {
+        return "Magazzino{" +
+                "quantitaCorsie=" + quantitaCorsie +
+                ", quantitaScaffali=" + quantitaScaffali +
+                ", prodotti=" + prodotti +
+                '}';
+    }
 }
