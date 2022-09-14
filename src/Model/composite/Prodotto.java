@@ -31,9 +31,9 @@ public class Prodotto extends Articolo implements IProdotto {
         return super.getPrezzo();
     }
 
-    public String getNome() {return this.nome; }
+    public String getNome() {return super.getNome(); }
 
-    public void setNome(String nome) { this.nome = nome; }
+    public void setNome(String nome) { super.setNome(nome); }
 
     public void add(Immagine immagine){
         this.immagini.add(immagine);

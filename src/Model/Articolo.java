@@ -10,9 +10,9 @@ public class Articolo implements IArticolo {
     private int idArticolo;
     private Float prezzo;
     private List<Feedback> commenti;
-    protected String nome;
-    protected String descrizione;
-    protected ICategoria categoria;
+    private String nome;
+    private String descrizione;
+    private ICategoria categoria;
 
     public Articolo(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria) {
         this.prezzo = prezzo;

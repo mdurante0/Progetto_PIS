@@ -23,29 +23,18 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     }
 
     public String getNome() {
-        return this.nome;
+        return super.getNome();
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        super.setNome(nome);
     }
 
     @Override
     public Float getPrezzo() {
-
         Float p = 0F;
-
         for(IProdotto prodotto : sottoprodotti)
             p+=prodotto.getPrezzo();
-
-        p = 0F;
-
-        Iterator<IProdotto> i = sottoprodotti.iterator();
-        while(i.hasNext()) {
-            IProdotto prodotto = i.next();
-            p+=prodotto.getPrezzo();
-        }
-
         return p;
     }
 

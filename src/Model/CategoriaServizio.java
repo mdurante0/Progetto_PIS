@@ -22,5 +22,11 @@ public class CategoriaServizio implements ICategoria {
     public int getIdCategoriaServizio() {
         return idCategoriaServizio;
     }
-    public String toString(){return null;}
+
+    @Override
+    public String toString() {
+        return "CategoriaServizio{" +
+                ", nome='" + nome + '\'' +
+                '}';
+    }
 }
