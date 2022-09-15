@@ -8,7 +8,7 @@ import Model.composite.Prodotto;
 
 public class MainClass {
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         /*
         JFrame finestra = new JFrame("Prima finestra");
