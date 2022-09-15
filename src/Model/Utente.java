@@ -2,7 +2,7 @@ package Model;
 
 public class Utente {
 
-    private int id;
+    private int idUtente;
     private String name;
     private String surname;
     private String username;
@@ -10,14 +10,7 @@ public class Utente {
     private String email;
     private String tipo;
 
-    public Utente() {
-        this.name = "";
-        this.surname = "";
-        this.username = "";
-        this.pwd = "";
-        this.email = "";
-        this.tipo = "";
-    }
+    public Utente() {}
 
     public Utente(String name, String surname, String username, String pwd, String email, String tipo) {
         this.name = name;
@@ -29,12 +22,12 @@ public class Utente {
     }
 
 
-    public int getId() {
-        return id;
+    public int getIdUtente() {
+        return idUtente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
     }
     public String getName() {
         return name;

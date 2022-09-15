@@ -3,17 +3,21 @@ package Model;
 import Model.composite.Prodotto;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Prenotazione {
 
     private int idPrenotazione;
-    private List<Prodotto> prodotti;
+    private Map<Prodotto,Integer> prodotti;
     private Date dataPrenotazione;
 
-    public Prenotazione(){}
 
-    public Prenotazione(List<Prodotto> prodotti, Date dataPrenotazione) {
+    public Prenotazione(){
+        this.prodotti = new HashMap<>();
+    }
+
+    public Prenotazione(Map<Prodotto,Integer> prodotti, Date dataPrenotazione) {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
     }
@@ -26,11 +30,11 @@ public class Prenotazione {
         this.idPrenotazione = idPrenotazione;
     }
 
-    public List<Prodotto> getProdotti() {
+    public Map<Prodotto,Integer> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
+    public void setProdotti(Map<Prodotto,Integer> prodotti) {
         this.prodotti = prodotti;
     }
 

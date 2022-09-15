@@ -2,20 +2,22 @@ package Model;
 
 import Model.composite.IProdotto;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ListaAcquisto {
 
     private int idLista;
     private boolean pagata;
     private String nome;
-    private List<IProdotto> prodotti = new ArrayList<>();
+    private Map<IProdotto,Integer> prodotti;
     private Date dataCreazione;
 
-    public ListaAcquisto(){}
-    public ListaAcquisto(String nome, List<IProdotto> prodotti, Date dataCreazione) {
+    public ListaAcquisto(){
+        this.prodotti = new HashMap<>();
+    }
+    public ListaAcquisto(String nome, Map<IProdotto,Integer> prodotti, Date dataCreazione) {
         this.nome = nome;
         this.prodotti = prodotti;
         this.dataCreazione = dataCreazione;
@@ -45,11 +47,11 @@ public class ListaAcquisto {
         this.nome = nome;
     }
 
-    public List<IProdotto> getProdotti() {
+    public Map<IProdotto,Integer> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<IProdotto> prodotti) {
+    public void setProdotti(Map<IProdotto,Integer> prodotti) {
         this.prodotti = prodotti;
     }
 

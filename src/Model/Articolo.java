@@ -3,6 +3,7 @@ package Model;
 import Business.AbstractFactory.IArticolo;
 import Business.AbstractFactory.ICategoria;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Articolo implements IArticolo {
@@ -22,7 +23,9 @@ public class Articolo implements IArticolo {
         this.categoria = categoria;
     }
 
-    public Articolo() {}
+    public Articolo() {
+        this.commenti = new ArrayList<>();
+    }
 
     public Float getPrezzo() {
         return prezzo;

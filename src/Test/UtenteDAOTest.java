@@ -71,6 +71,6 @@ public class UtenteDAOTest {
         Assert.assertTrue(SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Cliente);
 
         Cliente c = (Cliente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-        Assert.assertTrue(c.getId() == 1);
+        Assert.assertTrue(c.getIdUtente() == 1);
     }
 }

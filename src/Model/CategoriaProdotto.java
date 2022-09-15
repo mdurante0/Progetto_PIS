@@ -12,11 +12,12 @@ public class CategoriaProdotto implements ICategoria {
 
     private List<CategoriaProdotto> sottocategorie;
     public CategoriaProdotto() {
+        this.sottocategorie = new ArrayList<>();
     }
 
     public CategoriaProdotto(String nome) {
         this.nome = nome;
-        this.sottocategorie = new ArrayList<CategoriaProdotto>();
+        this.sottocategorie = new ArrayList<>();
     }
 
     public int getIdCategoriaProdotto() {

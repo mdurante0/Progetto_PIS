@@ -35,8 +35,10 @@ public class MainClass {
         Prodotto p2 = new Prodotto();
         p2.setNome("prodotto 2");
 
+/*
         lista.getProdotti().add(p1);
         lista.getProdotti().add(p2);
+*/
 
         Documento listaAcquisto = new DocumentoListaAcquisto(lista, new PdfBoxAPI());
 

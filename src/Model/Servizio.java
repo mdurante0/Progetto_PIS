@@ -12,7 +12,9 @@ public class Servizio extends Articolo {
         super(prezzo, commenti, nome, descrizione, categoria);
         this.fornitore = fornitore;
     }
-    public Servizio(){}
+    public Servizio(){
+        super();
+    }
 
     @Override
     public String toString() {

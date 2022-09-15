@@ -241,7 +241,7 @@ public class UtenteDAO implements IUtenteDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                c.setId(rs.getInt("idUtente"));
+                c.setIdUtente(rs.getInt("idUtente"));
                 c.setName(rs.getString("nome"));
                 c.setSurname(rs.getString("cognome"));
                 c.setEmail(rs.getString("email"));

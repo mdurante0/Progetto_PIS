@@ -4,13 +4,11 @@ import Model.Articolo;
 import Model.Collocazione;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ProdottoComposito extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
-
     private final List<IProdotto> sottoprodotti = new ArrayList<>();
 
     public void add(IProdotto prodotto) {

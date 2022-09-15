@@ -2,6 +2,7 @@ package Model;
 
 import Business.FactoryMethod.NotificationFactory;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,11 @@ public class Cliente extends Utente {
     private NotificationFactory.TipoNotifica canalePreferito;
     private Date registrazione;
     private boolean abilitazione;
+
+    public Cliente() {
+        this.listeAcquisto = new ArrayList<>();
+        this.prenotazioni = new ArrayList<>();
+    }
 
     public Date getRegistrazione() {
         return registrazione;

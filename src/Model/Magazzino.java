@@ -10,9 +10,11 @@ public class Magazzino {
     private int idMagazzino;
     private int quantitaCorsie;
     private int quantitaScaffali;
-    private Map<IProdotto,Integer> prodotti = new HashMap<>();
+    private Map<IProdotto,Integer> prodotti;
 
-    public Magazzino(){}
+    public Magazzino(){
+        this.prodotti = new HashMap<>();
+    }
     public Magazzino(int quantitaCorsie, int quantitaScaffali, Map<IProdotto, Integer> prodotti) {
         this.quantitaCorsie = quantitaCorsie;
         this.quantitaScaffali = quantitaScaffali;

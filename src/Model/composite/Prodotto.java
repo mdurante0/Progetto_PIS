@@ -15,9 +15,12 @@ public class Prodotto extends Articolo implements IProdotto {
     /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
       (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
      */
-    private List<Immagine> immagini = new ArrayList<>();
+    private List<Immagine> immagini;
 
-    public Prodotto(){}
+    public Prodotto(){
+        super();
+        this.immagini = new ArrayList<>();
+    }
     public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, int quantita, List<Immagine> immagini) {
         super(prezzo, commenti, nome, descrizione, categoria);
         this.collocazione = collocazione;
