@@ -15,7 +15,7 @@ public class ListaAcquisto {
     public ListaAcquisto(){
         this.prodotti = new ArrayList<>();
     }
-    public ListaAcquisto(String nome, Map<IProdotto,Integer> prodotti, Date dataCreazione) {
+    public ListaAcquisto(String nome, List<IProdotto> prodotti, Date dataCreazione) {
         this.nome = nome;
         this.prodotti = prodotti;
         this.dataCreazione = dataCreazione;

@@ -248,7 +248,6 @@ public class UtenteDAO implements IUtenteDAO {
                 c.setSurname(rs.getString("cognome"));
                 c.setEmail(rs.getString("email"));
                 c.setUsername(rs.getString("username"));
-                //c.setCanalePreferito();
                 return c;
             }
 

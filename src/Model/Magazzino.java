@@ -44,8 +44,8 @@ public class Magazzino {
     public void add(IProdotto prodotto){
         prodotti.add(prodotto);
     }
-    public void remove(IProdotto prodotto, int quantita){
-        prodotti.remove(prodotto, quantita);
+    public void remove(IProdotto prodotto){
+        prodotti.remove(prodotto);
     }
     public void clear(){
         prodotti.clear();
