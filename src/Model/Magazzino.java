@@ -2,20 +2,20 @@ package Model;
 
 import Model.composite.IProdotto;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Magazzino {
 
     private int idMagazzino;
     private int quantitaCorsie;
     private int quantitaScaffali;
-    private Map<IProdotto,Integer> prodotti;
+    private List<IProdotto> prodotti;
 
     public Magazzino(){
-        this.prodotti = new HashMap<>();
+        this.prodotti = new ArrayList<>();
     }
-    public Magazzino(int quantitaCorsie, int quantitaScaffali, Map<IProdotto, Integer> prodotti) {
+    public Magazzino(int quantitaCorsie, int quantitaScaffali, List<IProdotto> prodotti) {
         this.quantitaCorsie = quantitaCorsie;
         this.quantitaScaffali = quantitaScaffali;
         this.prodotti = prodotti;
@@ -41,8 +41,8 @@ public class Magazzino {
         return idMagazzino;
     }
 
-    public void add(IProdotto prodotto, int quantita){
-        prodotti.put(prodotto,quantita);
+    public void add(IProdotto prodotto){
+        prodotti.add(prodotto);
     }
     public void remove(IProdotto prodotto, int quantita){
         prodotti.remove(prodotto, quantita);

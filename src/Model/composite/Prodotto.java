@@ -9,6 +9,39 @@ import java.util.List;
 public class Prodotto extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
+
+    public Collocazione getCollocazione() {
+        return collocazione;
+    }
+
+    public void setCollocazione(Collocazione collocazione) {
+        this.collocazione = collocazione;
+    }
+
+    public Produttore getProduttore() {
+        return produttore;
+    }
+
+    public void setProduttore(Produttore produttore) {
+        this.produttore = produttore;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
+
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
+    }
+
     private Produttore produttore;
     private int quantita;
 

@@ -42,7 +42,7 @@ public class UtenteDAO implements IUtenteDAO {
 
         //design pattern command completo
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT Nome, Cognome, Username, email FROM Utente WHERE Username = '" + username + "';";
+        String sql = "SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente WHERE username = '" + username + "';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -50,10 +50,11 @@ public class UtenteDAO implements IUtenteDAO {
             rs.next();
             if (rs.getRow()==1) {
                 utente = new Utente();
-                utente.setName(rs.getString("Nome"));
-                utente.setSurname(rs.getString("Cognome"));
-                utente.setUsername(rs.getString("Username"));
+                utente.setName(rs.getString("nome"));
+                utente.setSurname(rs.getString("cognome"));
+                utente.setUsername(rs.getString("username"));
                 utente.setEmail(rs.getString("email"));
+                utente.setTipo(rs.getString("tipo"));
                 return utente;
             }
         } catch (SQLException e) {
@@ -73,15 +74,16 @@ public class UtenteDAO implements IUtenteDAO {
     @Override
     public ArrayList<Utente> findAll() {
         conn = DbConnection.getInstance();
-        rs = conn.executeQuery("SELECT Nome, Cognome, Username, email FROM Utente;");
+        rs = conn.executeQuery("SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente;");
         ArrayList<Utente> utenti = new ArrayList<>();
         try {
             while (rs.next()) {
                 utente = new Utente();
-                utente.setName(rs.getString("Nome"));
-                utente.setSurname(rs.getString("Cognome"));
-                utente.setUsername(rs.getString("Username"));
+                utente.setName(rs.getString("nome"));
+                utente.setSurname(rs.getString("cognome"));
+                utente.setUsername(rs.getString("username"));
                 utente.setEmail(rs.getString("email"));
+                utente.setTipo(rs.getString("tipo"));
                 utenti.add(utente);
             }
             return utenti;
@@ -102,7 +104,7 @@ public class UtenteDAO implements IUtenteDAO {
     @Override
     public int add(Utente utente) {
         conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("INSERT INTO Utente (Nome, Cognome, Username, Pwd, email, Tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');");
+        int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');");
         conn.close();
         return rowCount;
     }
@@ -110,7 +112,7 @@ public class UtenteDAO implements IUtenteDAO {
     @Override
     public int removeById(String username) {
         conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("DELETE FROM Utente WHERE username = '"+ username + "';");
+        int rowCount = conn.executeUpdate("DELETE FROM progetto_pis.utente WHERE username = '"+ username + "';");
         conn.close();
         return rowCount;
     }
@@ -118,14 +120,14 @@ public class UtenteDAO implements IUtenteDAO {
     @Override
     public int update(Utente utente) {
         conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("UPDATE Utente SET Nome = '" + utente.getName() + "', Cognome = '" + utente.getSurname() + "', Email = '" + utente.getEmail() + "' WHERE username = '" + utente.getUsername() + "';");
+        int rowCount = conn.executeUpdate("UPDATE progetto_pis.utente SET nome = '" + utente.getName() + "', cognome = '" + utente.getSurname() + "', email = '" + utente.getEmail() + "' WHERE username = '" + utente.getUsername() + "';");
         conn.close();
         return rowCount;
     }
 
     public boolean userExists(String username) {
 
-        String sql = "SELECT count(*) AS count from myshop.utente as U where U.username='"+username+"';";
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u WHERE u.username='"+username+"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -146,7 +148,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean checkCredentials(String username, String password) {
 
-        String sql = "SELECT count(*) AS count FROM myshop.utente AS U where U.username='"+username+"' AND U.password='"+password+"';";
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u WHERE u.username='" + username + "' AND u.password='" + password + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -167,7 +169,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean isCliente(String username) {
 
-        String sql = "SELECT count(*) AS count FROM myshop.utente AS U INNER JOIN myshop.cliente AS C ON U.idutente = C.utente_idutente WHERE U.username='"+username+"';";
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.cliente AS c ON u.idutente = c.utente_idutente WHERE u.username='"+username+"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -188,7 +190,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean isManager(String username) {
 
-        String sql = "SELECT count(*) AS count FROM myshop.utente AS U INNER JOIN myshop.manager AS M ON U.idutente = M.utente_idutente WHERE U.username='"+username+"';";
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente WHERE u.username='"+username+"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -209,7 +211,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean isAmministratore(String username) {
 
-        String sql = "SELECT count(*) AS count FROM myshop.utente AS U INNER JOIN myshop.amministratore AS A ON U.idutente = A.utente_idutente WHERE U.username='"+username+"';";
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente WHERE u.username='"+username+"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -232,7 +234,7 @@ public class UtenteDAO implements IUtenteDAO {
 
         Cliente c = new Cliente();
 
-        String sql = "SELECT U.idUtente, U.nome, U.cognome, U.email, U.username, C.canale_preferito FROM myshop.utente AS U INNER JOIN myshop.cliente AS C ON U.idutente = C.utente_idutente WHERE U.username = '"+username+"';";
+        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente WHERE u.username = '"+username+"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -241,7 +243,7 @@ public class UtenteDAO implements IUtenteDAO {
         try {
             rs.next();
             if (rs.getRow() == 1) {
-                c.setIdUtente(rs.getInt("idUtente"));
+                c.setIdUtente(rs.getInt("idutente"));
                 c.setName(rs.getString("nome"));
                 c.setSurname(rs.getString("cognome"));
                 c.setEmail(rs.getString("email"));
