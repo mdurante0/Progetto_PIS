@@ -41,7 +41,9 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
         //design pattern command completo
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente WHERE u.username = '"+username+"';";
+        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente " +
+                "AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente " +
+                "WHERE u.username = '"+username+"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -100,9 +102,35 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
     @Override
     public int add(Amministratore amministratore) {
+
         conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ amministratore.getName() + "','" + amministratore.getSurname() + "','" + amministratore.getUsername() + "','" + amministratore.getPwd() + "','" + amministratore.getEmail() + "','" + amministratore.getTipo() + "');");
-        conn.close();
+        int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente " +
+                "(nome, cognome, username, password, email, tipo) VALUES ('" +
+                amministratore.getName() + "','" +
+                amministratore.getSurname() + "','" +
+                amministratore.getUsername() + "','" +
+                amministratore.getPwd() + "','" +
+                amministratore.getEmail() + "','" +
+                amministratore.getTipo() + "');");
+
+        rs = conn.executeQuery("SELECT max(idutente) FROM progetto_pis.utente;");
+        try {
+            rs.next();
+            amministratore.setIdUtente(rs.getInt("max(idutente)"));
+            rowCount = conn.executeUpdate("INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" + amministratore.getIdUtente() + "');");
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        } finally {
+            conn.close();
+        }
+
         return rowCount;
     }
 

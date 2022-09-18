@@ -73,8 +73,12 @@ public class UtenteDAO implements IUtenteDAO {
 
     @Override
     public ArrayList<Utente> findAll() {
-        conn = DbConnection.getInstance();
-        rs = conn.executeQuery("SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente;");
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
         ArrayList<Utente> utenti = new ArrayList<>();
         try {
             while (rs.next()) {

@@ -1,12 +1,8 @@
 package Test;
 
-import Business.LoginResult;
-import Business.SessionManager;
-import Business.UtenteBusiness;
-import DAO.IUtenteDAO;
-import DAO.UtenteDAO;
-import Model.Cliente;
-import Model.Utente;
+import DAO.AmministratoreDAO;
+import DAO.IAmministratoreDAO;
+import Model.Amministratore;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,11 +10,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class UtenteDAOTest {
+public class AmministratoreDAOTest {
     @Before
     public void setUp() throws Exception {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        utenteDAO.add(new Utente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "MN"));
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        amministratoreDAO.add(new Amministratore("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "am"));
     }
 
     @After
@@ -29,11 +25,11 @@ public class UtenteDAOTest {
 
     @Test
     public void findAllTest() {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        ArrayList<Utente> utenti = utenteDAO.findAll();
-        Assert.assertEquals(7, utenti.size());
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        ArrayList<Amministratore> amministratori = amministratoreDAO.findAll();
+        Assert.assertEquals(3, amministratori.size());
     }
-
+/*
     @Test
     public void findByIdTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
@@ -73,4 +69,6 @@ public class UtenteDAOTest {
         Cliente c = (Cliente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
         Assert.assertTrue(c.getIdUtente() == 1);
     }
+
+ */
 }
