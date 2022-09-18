@@ -73,8 +73,12 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
     @Override
     public ArrayList<Amministratore> findAll() {
-        conn = DbConnection.getInstance();
-        rs = conn.executeQuery("SELECT nome, cognome, username, email FROM progetto_pis.utente WHERE tipo='am';");
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT nome, cognome, username, email FROM progetto_pis.utente " +
+                "AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
         ArrayList<Amministratore> amministratori = new ArrayList<>();
         try {
             while (rs.next()) {
