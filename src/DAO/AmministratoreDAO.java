@@ -107,7 +107,12 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     @Override
     public int add(Amministratore amministratore) {
 
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        int rowCount = utenteDAO.add(amministratore);
+
         conn = DbConnection.getInstance();
+
+        /*
         int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente " +
                 "(nome, cognome, username, password, email, tipo) VALUES ('" +
                 amministratore.getName() + "','" +
@@ -117,11 +122,14 @@ public class AmministratoreDAO implements IAmministratoreDAO {
                 amministratore.getEmail() + "','" +
                 amministratore.getTipo() + "');");
 
+         */
+
         rs = conn.executeQuery("SELECT max(idutente) FROM progetto_pis.utente;");
         try {
             rs.next();
             amministratore.setIdUtente(rs.getInt("max(idutente)"));
-            rowCount = conn.executeUpdate("INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" + amministratore.getIdUtente() + "');");
+            rowCount = conn.executeUpdate("INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" +
+                    amministratore.getIdUtente() + "');");
 
         } catch (SQLException e) {
             // handle any errors
