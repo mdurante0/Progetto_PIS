@@ -110,9 +110,14 @@ public class UtenteDAO implements IUtenteDAO {
     public int add(Utente utente) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');";
+        String sql = "INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+
+                utente.getName() + "','" +
+                utente.getSurname() + "','" +
+                utente.getUsername() + "','" +
+                utente.getPwd() + "','" +
+                utente.getEmail() + "','" +
+                utente.getTipo() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
-        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
         /*
         conn = DbConnection.getInstance();
@@ -121,7 +126,7 @@ public class UtenteDAO implements IUtenteDAO {
         return rowCount;
 
          */
-        return rowCount;
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 
     @Override
