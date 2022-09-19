@@ -5,6 +5,7 @@ import DbInterface.IDbConnection;
 import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
+import DbInterface.command.WriteOperation;
 import Model.Cliente;
 import Model.Utente;
 
@@ -107,9 +108,19 @@ public class UtenteDAO implements IUtenteDAO {
 
     @Override
     public int add(Utente utente) {
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');";
+        IDbOperation writeOp = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        /*
         conn = DbConnection.getInstance();
         int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');");
         conn.close();
+        return rowCount;
+
+         */
         return rowCount;
     }
 
