@@ -14,17 +14,22 @@ public class Articolo implements IArticolo {
     private String nome;
     private String descrizione;
     private ICategoria categoria;
+    private List<Immagine> immagini;
 
-    public Articolo(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria) {
+
+
+    public Articolo(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, List<Immagine> immagini) {
         this.prezzo = prezzo;
         this.commenti = commenti;
         this.nome = nome;
         this.descrizione = descrizione;
         this.categoria = categoria;
+        this.immagini = immagini;
     }
 
     public Articolo() {
         this.commenti = new ArrayList<>();
+        this.immagini = new ArrayList<>();
     }
 
     public Float getPrezzo() {
@@ -75,6 +80,13 @@ public class Articolo implements IArticolo {
         this.categoria = categoria;
     }
 
+    public List<Immagine> getImmagini() {
+        return immagini;
+    }
+
+    public void setImmagini(List<Immagine> immagini) {
+        this.immagini = immagini;
+    }
     @Override
     public String toString() {
         return "Articolo{" +
