@@ -8,6 +8,6 @@ public interface IAmministratoreDAO {
     Amministratore findById(String email);
     ArrayList<Amministratore> findAll();
     int add(Amministratore amministratore);
-    int removeById(String email);
+    int removeById(String username);
     int update(Amministratore amministratore);
 }

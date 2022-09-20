@@ -87,6 +87,20 @@ public class Articolo implements IArticolo {
     public void setImmagini(List<Immagine> immagini) {
         this.immagini = immagini;
     }
+
+    public void addImage(Immagine immagine){
+        this.immagini.add(immagine);
+    }
+    public void addAllImage(List<Immagine> immagini){
+        this.immagini.addAll(immagini);
+    }
+    public void addFeedback(Feedback commento){
+        this.commenti.add(commento);
+    }
+    public void addAllFeedback(List<Feedback> commenti){
+        this.commenti.addAll(commenti);
+    }
+
     @Override
     public String toString() {
         return "Articolo{" +

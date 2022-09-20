@@ -5,6 +5,7 @@ import DbInterface.IDbConnection;
 import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
+import DbInterface.command.WriteOperation;
 import Model.Amministratore;
 
 import java.sql.ResultSet;
@@ -55,6 +56,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
                 amministratore.setSurname(rs.getString("cognome"));
                 amministratore.setUsername(rs.getString("username"));
                 amministratore.setEmail(rs.getString("email"));
+
                 return amministratore;
             }
         } catch (SQLException e) {
@@ -65,9 +67,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            conn.close();
-        }
+        } //conn.close();
         return null;
     }
 
@@ -98,9 +98,8 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            conn.close();
-        }
+        } //conn.close();
+
         return null;
     }
 
@@ -108,28 +107,23 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     public int add(Amministratore amministratore) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        int rowCount = utenteDAO.add(amministratore);
+        utenteDAO.add(amministratore);
 
-        conn = DbConnection.getInstance();
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT max(idutente) FROM progetto_pis.utente;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
 
-        /*
-        int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente " +
-                "(nome, cognome, username, password, email, tipo) VALUES ('" +
-                amministratore.getName() + "','" +
-                amministratore.getSurname() + "','" +
-                amministratore.getUsername() + "','" +
-                amministratore.getPwd() + "','" +
-                amministratore.getEmail() + "','" +
-                amministratore.getTipo() + "');");
-
-         */
-
-        rs = conn.executeQuery("SELECT max(idutente) FROM progetto_pis.utente;");
+        int rowCount = 0;
         try {
             rs.next();
             amministratore.setIdUtente(rs.getInt("max(idutente)"));
-            rowCount = conn.executeUpdate("INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" +
-                    amministratore.getIdUtente() + "');");
+            sql = "INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" +
+                amministratore.getIdUtente() + "');";
+            IDbOperation writeOp = new WriteOperation(sql);
+
+            rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
 
         } catch (SQLException e) {
             // handle any errors
@@ -139,18 +133,59 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            conn.close();
-        }
+        } //conn.close();
 
         return rowCount;
+
     }
 
     @Override
     public int removeById(String username) {
+        Amministratore a = new Amministratore();
+        String sql = "SELECT idutente, username FROM progetto_pis.utente AS u INNER JOIN progetto_pis.amministratore " +
+                " AS a ON u.idutente = a.utente_idutente WHERE u.username = '" + username + "';";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        int rowCount = 0;
+        try {
+            rs.next();
+            amministratore.setIdUtente(rs.getInt("idutente"));
+            sql = "DELETE FROM progetto_pis.amministratore WHERE utente_idutente = '" + amministratore.getIdUtente() + "';";
+            IDbOperation writeOp = new WriteOperation(sql);
+            rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        } //conn.close();
+/*
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+
+                utente.getName() + "','" +
+                utente.getSurname() + "','" +
+                utente.getUsername() + "','" +
+                utente.getPwd() + "','" +
+                utente.getEmail() + "','" +
+                utente.getTipo() + "');";
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+
+
         conn = DbConnection.getInstance();
         int rowCount = conn.executeUpdate("DELETE FROM progetto_pis.utente WHERE username = '"+ username + "';");
         conn.close();
+ */
+
+        UtenteDAO utente = UtenteDAO.getInstance();
+        utente.removeById(username);
+
         return rowCount;
     }
 

@@ -19,23 +19,24 @@ public class AmministratoreDAOTest {
 
     @After
     public void tearDown() throws Exception {
-        //IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        //utenteDAO.removeById("vr46");
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        amministratoreDAO.removeById("vr46");
     }
 
     @Test
     public void findAllTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
         ArrayList<Amministratore> amministratori = amministratoreDAO.findAll();
-        Assert.assertEquals(3, amministratori.size());
+        Assert.assertEquals(1, amministratori.size());
     }
-/*
+
     @Test
     public void findByIdTest() {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Utente utente = utenteDAO.findById("vr46");
-        Assert.assertEquals("Valentino", utente.getName());
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        Amministratore amministratore = amministratoreDAO.findById("vr46");
+        Assert.assertEquals("Valentino", amministratore.getName());
     }
+    /*
 
     @Test
     public void removeByIdTest() {

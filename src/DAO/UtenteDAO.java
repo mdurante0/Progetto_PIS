@@ -118,14 +118,6 @@ public class UtenteDAO implements IUtenteDAO {
                 utente.getEmail() + "','" +
                 utente.getTipo() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
-
-        /*
-        conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("INSERT INTO progetto_pis.utente (nome, cognome, username, password, email, tipo) VALUES ('"+ utente.getName() + "','" + utente.getSurname() + "','" + utente.getUsername() + "','" + utente.getPwd() + "','" + utente.getEmail() + "','" + utente.getTipo() + "');");
-        conn.close();
-        return rowCount;
-
-         */
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 

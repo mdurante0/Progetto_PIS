@@ -3,7 +3,6 @@ package Model.composite;
 import Business.AbstractFactory.ICategoria;
 import Model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Prodotto extends Articolo implements IProdotto {
@@ -34,32 +33,21 @@ public class Prodotto extends Articolo implements IProdotto {
         this.quantita = quantita;
     }
 
-    public List<Immagine> getImmagini() {
-        return immagini;
-    }
-
-    public void setImmagini(List<Immagine> immagini) {
-        this.immagini = immagini;
-    }
-
     private Produttore produttore;
     private int quantita;
 
     /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
       (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
      */
-    private List<Immagine> immagini;
 
     public Prodotto(){
         super();
-        this.immagini = new ArrayList<>();
     }
     public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, int quantita, List<Immagine> immagini) {
-        super(prezzo, commenti, nome, descrizione, categoria);
+        super(prezzo, commenti, nome, descrizione, categoria, immagini);
         this.collocazione = collocazione;
         this.produttore = produttore;
         this.quantita = quantita;
-        this.immagini = immagini;
     }
 
     @Override
@@ -71,12 +59,6 @@ public class Prodotto extends Articolo implements IProdotto {
 
     public void setNome(String nome) { super.setNome(nome); }
 
-    public void add(Immagine immagine){
-        this.immagini.add(immagine);
-    }
-    public void add(List<Immagine> immagini){
-        this.immagini.addAll(immagini);
-    }
 
     @Override
     public String toString() {
