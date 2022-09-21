@@ -1,8 +1,12 @@
 package Test;
 
+import Business.LoginResult;
+import Business.SessionManager;
+import Business.UtenteBusiness;
 import DAO.AmministratoreDAO;
 import DAO.IAmministratoreDAO;
 import Model.Amministratore;
+import Model.Cliente;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,25 +40,25 @@ public class AmministratoreDAOTest {
         Amministratore amministratore = amministratoreDAO.findById("vr46");
         Assert.assertEquals("Valentino", amministratore.getName());
     }
-    /*
+
 
     @Test
     public void removeByIdTest() {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        int rowCount = utenteDAO.removeById("vr46");
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        int rowCount = amministratoreDAO.removeById("vr46");
         Assert.assertEquals(1, rowCount);
     }
 
     @Test
     public void updateTest() {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        Utente utente = new Utente("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN");
-        utenteDAO.update(utente);
-        utente = utenteDAO.findById("vr46");
-        Assert.assertEquals("valentino@vr46.com", utente.getEmail());
+        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
+        Amministratore amministratore = new Amministratore("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN");
+        amministratoreDAO.update(amministratore);
+        amministratore = amministratoreDAO.findById("vr46");
+        Assert.assertEquals("valentino@vr46.com", amministratore.getEmail());
     }
 
-    @Test
+    //@Test
     public void loginTest() {
 
         UtenteBusiness ub = UtenteBusiness.getInstance();
@@ -71,5 +75,4 @@ public class AmministratoreDAOTest {
         Assert.assertTrue(c.getIdUtente() == 1);
     }
 
- */
 }

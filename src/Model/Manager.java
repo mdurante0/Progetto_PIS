@@ -9,6 +9,11 @@ public class Manager extends Utente {
         this.salario = salario;
     }
 
+    public Manager() {
+        super();
+        super.setTipo("MA");
+    }
+
     public Float getSalario() {
         return salario;
     }

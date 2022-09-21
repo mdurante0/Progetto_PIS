@@ -5,34 +5,34 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Amministratore;
+import Model.Cliente;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AmministratoreDAO implements IAmministratoreDAO {
-    private static AmministratoreDAO instance = new AmministratoreDAO();
-    private Amministratore amministratore;
+public class ClienteDAO implements IClienteDAO {
+    private static ClienteDAO instance = new ClienteDAO();
+    private Cliente cliente;
     private static IDbConnection conn;
     private static ResultSet rs;
 
-    private AmministratoreDAO() {
-        amministratore = null;
+    private ClienteDAO() {
+        cliente = null;
         conn = null;
         rs = null;
     }
 
-    public static AmministratoreDAO getInstance() {
+    public static ClienteDAO getInstance() {
         return instance;
     }
 
     @Override
-    public Amministratore findById(String username) {
+    public Cliente findById(String username) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente " +
-                "AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente " +
+                "AS u INNER JOIN progetto_pis.utente_acquirente AS m ON u.idutente = m.utente_idutente " +
                 "WHERE u.username = '"+username+"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -40,13 +40,13 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         try {
             rs.next();
             if (rs.getRow()==1) {
-                amministratore = new Amministratore();
-                amministratore.setName(rs.getString("nome"));
-                amministratore.setSurname(rs.getString("cognome"));
-                amministratore.setUsername(rs.getString("username"));
-                amministratore.setEmail(rs.getString("email"));
+                cliente = new Cliente();
+                cliente.setName(rs.getString("nome"));
+                cliente.setSurname(rs.getString("cognome"));
+                cliente.setUsername(rs.getString("username"));
+                cliente.setEmail(rs.getString("email"));
 
-                return amministratore;
+                return cliente;
             }
         } catch (SQLException e) {
             // handle any errors
@@ -61,24 +61,24 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     }
 
     @Override
-    public ArrayList<Amministratore> findAll() {
+    public ArrayList<Cliente> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT nome, cognome, username, email FROM progetto_pis.utente " +
-                "AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente;";
+                "AS u INNER JOIN progetto_pis.utente_acquirente AS m ON u.idutente = m.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Amministratore> amministratori = new ArrayList<>();
+        ArrayList<Cliente> clienti = new ArrayList<>();
         try {
             while (rs.next()) {
-                amministratore = new Amministratore();
-                amministratore.setName(rs.getString("nome"));
-                amministratore.setSurname(rs.getString("cognome"));
-                amministratore.setUsername(rs.getString("username"));
-                amministratore.setEmail(rs.getString("email"));
-                amministratori.add(amministratore);
+                cliente = new Cliente();
+                cliente.setName(rs.getString("nome"));
+                cliente.setSurname(rs.getString("cognome"));
+                cliente.setUsername(rs.getString("username"));
+                cliente.setEmail(rs.getString("email"));
+                clienti.add(cliente);
             }
-            return amministratori;
+            return clienti;
         } catch (SQLException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("SQLException: " + e.getMessage());
@@ -93,16 +93,11 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     }
 
     @Override
-    public int add(Amministratore amministratore) {
+    public int add(Cliente cliente) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        utenteDAO.add(amministratore);
-/*
-        DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES (LAST_INSERT_ID());";
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
- */
+        utenteDAO.add(cliente);
+
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT max(idutente) FROM progetto_pis.utente;";
         IDbOperation readOp = new ReadOperation(sql);
@@ -111,9 +106,9 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         int rowCount = 0;
         try {
             rs.next();
-            amministratore.setIdUtente(rs.getInt("max(idutente)"));
-            sql = "INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES ('" +
-                amministratore.getIdUtente() + "');";
+            cliente.setIdUtente(rs.getInt("max(idutente)"));
+            sql = "INSERT INTO progetto_pis.utente_acquirente (utente_idutente) VALUES ('" +
+                cliente.getIdUtente() + "');";
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
@@ -128,10 +123,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return rowCount;
-
-
     }
 
     @Override
@@ -142,9 +134,9 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     }
 
     @Override
-    public int update(Amministratore amministratore) {
+    public int update(Cliente cliente) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        return utenteDAO.update(amministratore);
+        return utenteDAO.update(cliente);
     }
 }

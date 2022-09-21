@@ -23,15 +23,15 @@ public class UtenteDAOTest {
 
     @After
     public void tearDown() throws Exception {
-        //IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        //utenteDAO.removeById("vr46");
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        utenteDAO.removeById("vr46");
     }
 
     @Test
     public void findAllTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         ArrayList<Utente> utenti = utenteDAO.findAll();
-        Assert.assertEquals(7, utenti.size());
+        Assert.assertEquals(1, utenti.size());
     }
 
     @Test
@@ -39,13 +39,6 @@ public class UtenteDAOTest {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         Utente utente = utenteDAO.findById("vr46");
         Assert.assertEquals("Valentino", utente.getName());
-    }
-
-    @Test
-    public void removeByIdTest() {
-        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-        int rowCount = utenteDAO.removeById("vr46");
-        Assert.assertEquals(1, rowCount);
     }
 
     @Test
@@ -58,6 +51,15 @@ public class UtenteDAOTest {
     }
 
     @Test
+    public void removeByIdTest() {
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        int rowCount = utenteDAO.removeById("vr46");
+        Assert.assertEquals(1, rowCount);
+    }
+
+
+
+    //@Test
     public void loginTest() {
 
         UtenteBusiness ub = UtenteBusiness.getInstance();

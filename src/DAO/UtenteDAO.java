@@ -1,12 +1,10 @@
 package DAO;
 
-import DbInterface.DbConnection;
 import DbInterface.IDbConnection;
 import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Cliente;
 import Model.Utente;
 
 import java.sql.ResultSet;
@@ -67,7 +65,7 @@ public class UtenteDAO implements IUtenteDAO {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
         } finally {
-            conn.close();
+            //conn.close();
         }
         return null;
     }
@@ -100,9 +98,8 @@ public class UtenteDAO implements IUtenteDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
-        } finally {
-            conn.close();
         }
+
         return null;
     }
 
@@ -123,18 +120,23 @@ public class UtenteDAO implements IUtenteDAO {
 
     @Override
     public int removeById(String username) {
-        conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("DELETE FROM progetto_pis.utente WHERE username = '"+ username + "';");
-        conn.close();
-        return rowCount;
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "DELETE FROM progetto_pis.utente WHERE username = '"+ username + "';";
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 
     @Override
     public int update(Utente utente) {
-        conn = DbConnection.getInstance();
-        int rowCount = conn.executeUpdate("UPDATE progetto_pis.utente SET nome = '" + utente.getName() + "', cognome = '" + utente.getSurname() + "', email = '" + utente.getEmail() + "' WHERE username = '" + utente.getUsername() + "';");
-        conn.close();
-        return rowCount;
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "UPDATE progetto_pis.utente SET nome = '" + utente.getName() +
+                "', cognome = '" + utente.getSurname() +
+                "', email = '" + utente.getEmail() +
+                "' WHERE username = '" + utente.getUsername() + "';";
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 
     public boolean userExists(String username) {
@@ -240,34 +242,5 @@ public class UtenteDAO implements IUtenteDAO {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public Cliente caricaCliente(String username) {
-
-        Cliente c = new Cliente();
-
-        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente WHERE u.username = '"+username+"';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
-
-        try {
-            rs.next();
-            if (rs.getRow() == 1) {
-                c.setIdUtente(rs.getInt("idutente"));
-                c.setName(rs.getString("nome"));
-                c.setSurname(rs.getString("cognome"));
-                c.setEmail(rs.getString("email"));
-                c.setUsername(rs.getString("username"));
-                return c;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return null;
     }
 }
