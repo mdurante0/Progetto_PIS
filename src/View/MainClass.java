@@ -31,9 +31,9 @@ public class MainClass {
         ListaAcquisto lista = new ListaAcquisto();
 
         Prodotto p1 = new Prodotto();
-        p1.setNome("prodotto 1");
+        p1.setName("prodotto 1");
         Prodotto p2 = new Prodotto();
-        p2.setNome("prodotto 2");
+        p2.setName("prodotto 2");
 
 /*
         lista.getProdotti().add(p1);

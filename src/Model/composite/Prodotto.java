@@ -55,15 +55,15 @@ public class Prodotto extends Articolo implements IProdotto {
         return super.getPrezzo();
     }
 
-    public String getNome() {return super.getNome(); }
+    public String getName() {return super.getName(); }
 
-    public void setNome(String nome) { super.setNome(nome); }
+    public void setName(String name) { super.setName(name); }
 
 
     @Override
     public String toString() {
         return "Prodotto{" +
-                ", nome=" + super.getNome() +
+                ", nome=" + super.getName() +
                 ", prezzo=" + super.getPrezzo() +
                 ", categoria=" + super.getCategoria().getNome() +
                 ", produttore=" + produttore.getNome() +

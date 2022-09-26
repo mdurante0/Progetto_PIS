@@ -11,17 +11,17 @@ public class Articolo implements IArticolo {
     private int idArticolo;
     private Float prezzo;
     private List<Feedback> commenti;
-    private String nome;
+    private String name;
     private String descrizione;
     private ICategoria categoria;
     private List<Immagine> immagini;
 
 
 
-    public Articolo(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, List<Immagine> immagini) {
+    public Articolo(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini) {
         this.prezzo = prezzo;
         this.commenti = commenti;
-        this.nome = nome;
+        this.name = name;
         this.descrizione = descrizione;
         this.categoria = categoria;
         this.immagini = immagini;
@@ -56,12 +56,12 @@ public class Articolo implements IArticolo {
         this.commenti = commenti;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescrizione() {
@@ -105,7 +105,7 @@ public class Articolo implements IArticolo {
     public String toString() {
         return "Articolo{" +
                 ", prezzo=" + prezzo +
-                ", nome='" + nome + '\'' +
+                ", nome='" + name + '\'' +
                 ", descrizione='" + descrizione + '\'' +
                 ", categoria=" + categoria.getNome() +
                 '}';

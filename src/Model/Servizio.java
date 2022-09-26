@@ -19,7 +19,7 @@ public class Servizio extends Articolo {
     @Override
     public String toString() {
         return "Prodotto{" +
-                ", nome=" + super.getNome() +
+                ", nome=" + super.getName() +
                 ", prezzo=" + super.getPrezzo() +
                 ", descrizione=" + super.getDescrizione() +
                 ", categoria=" + super.getCategoria().getNome() +

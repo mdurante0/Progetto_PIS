@@ -20,12 +20,12 @@ public class ProdottoComposito extends Articolo implements IProdotto {
         sottoprodotti.addAll(prodotti);
     }
 
-    public String getNome() {
-        return super.getNome();
+    public String getName() {
+        return super.getName();
     }
 
-    public void setNome(String nome) {
-        super.setNome(nome);
+    public void setName(String name) {
+        super.setName(name);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     @Override
     public String toString() {
         return "ProdottoComposito{" +
-                "nome=" + super.getNome() +
+                "nome=" + super.getName() +
                 ", sottoprodotti=" + sottoprodotti +
                 '}';
     }
