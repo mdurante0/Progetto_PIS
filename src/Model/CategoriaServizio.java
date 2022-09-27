@@ -1,14 +1,20 @@
 package Model;
 
 import Business.AbstractFactory.ICategoria;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoriaServizio implements ICategoria {
     private int idCategoriaServizio;
     private String nome;
+    private List<CategoriaServizio> sottocategorie;
 
-    public CategoriaServizio(){}
-    public CategoriaServizio(String nome) {
+    public CategoriaServizio(){
+        this.sottocategorie = new ArrayList<>();
+    }
+    public CategoriaServizio(String nome, List sottocategorie) {
         this.nome = nome;
+        this.sottocategorie = sottocategorie;
     }
 
     public String getNome() {

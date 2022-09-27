@@ -9,8 +9,8 @@ public class CategoriaProdotto implements ICategoria {
 
     private int idCategoriaProdotto;
     private String nome;
-
     private List<CategoriaProdotto> sottocategorie;
+
     public CategoriaProdotto() {
         this.sottocategorie = new ArrayList<>();
     }

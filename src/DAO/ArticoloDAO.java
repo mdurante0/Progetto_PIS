@@ -45,7 +45,6 @@ public class ArticoloDAO implements IArticoloDAO {
                 articolo.setName(rs.getString("nome"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setPrezzo(rs.getFloat("costo"));
-                //categoria
                 return articolo;
             }
         } catch (SQLException e) {
@@ -77,9 +76,6 @@ public class ArticoloDAO implements IArticoloDAO {
                 articolo.setName(rs.getString("nome"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setPrezzo(rs.getFloat("costo"));
-                //categoria
-                //immagini
-                //feedback
                 articoli.add(articolo);
             }
             return articoli;

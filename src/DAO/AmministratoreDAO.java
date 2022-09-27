@@ -97,12 +97,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
         utenteDAO.add(amministratore);
-/*
-        DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES (LAST_INSERT_ID());";
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
- */
+
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT max(idutente) FROM progetto_pis.utente;";
         IDbOperation readOp = new ReadOperation(sql);

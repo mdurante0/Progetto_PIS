@@ -13,6 +13,7 @@ public class Feedback {
     private boolean risposto;
     private String risposta;
     private Date data;
+    private int idArticolo;
 
     public Feedback(){}
     public Feedback(Punteggio gradimento, String commento, Date data) {

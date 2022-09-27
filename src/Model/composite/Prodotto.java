@@ -8,7 +8,8 @@ import java.util.List;
 public class Prodotto extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
-
+    private Produttore produttore;
+    private int quantita;
     public Collocazione getCollocazione() {
         return collocazione;
     }
@@ -33,8 +34,7 @@ public class Prodotto extends Articolo implements IProdotto {
         this.quantita = quantita;
     }
 
-    private Produttore produttore;
-    private int quantita;
+
 
     /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
       (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
