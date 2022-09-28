@@ -98,8 +98,6 @@ public class ArticoloDAO implements IArticoloDAO {
         String sql = "INSERT INTO progetto_pis.articolo (nome, descrizione, categoria_idcategoria, costo) VALUES ('"+
                 articolo.getName() + "','" +
                 articolo.getDescrizione() + "','" +
-                //categoria +
-                "','" +
                 articolo.getPrezzo()+ "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -123,7 +121,6 @@ public class ArticoloDAO implements IArticoloDAO {
 
         String sql = "UPDATE progetto_pis.articolo " +
                 "SET descrizione = '" + articolo.getDescrizione() +
-                //"', categoria_idcategoria = '" + articolo.getCategoria() +
                 "', costo = '" + articolo.getPrezzo() +
                 "' WHERE nome = '" + articolo.getName() + "';";
 

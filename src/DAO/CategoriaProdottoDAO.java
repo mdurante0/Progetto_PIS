@@ -5,7 +5,6 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Amministratore;
 import Model.CategoriaProdotto;
 
 import java.sql.ResultSet;
@@ -14,12 +13,12 @@ import java.util.ArrayList;
 
 public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     private static CategoriaProdottoDAO instance = new CategoriaProdottoDAO();
-    private CategoriaProdotto categoria;
+    private CategoriaProdotto categoriaProdotto;
     private static IDbConnection conn;
     private static ResultSet rs;
 
     private CategoriaProdottoDAO() {
-        categoria = null;
+        categoriaProdotto = null;
         conn = null;
         rs = null;
     }
@@ -32,7 +31,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     public CategoriaProdotto findById(String name) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcategoria, nome, categoria_idcategoria FROM progetto_pis.categoria " +
+        String sql = "SELECT idcategoria_prodotto, nome FROM progetto_pis.categoria_prodotto " +
                 "WHERE nome = '"+name+"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -40,10 +39,10 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         try {
             rs.next();
             if (rs.getRow()==1) {
-                categoria = new CategoriaProdotto();
-                categoria.setNome(rs.getString("nome"));
+                categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setNome(rs.getString("nome"));
 
-                return categoria;
+                return categoriaProdotto;
             }
         } catch (SQLException e) {
             // handle any errors
@@ -60,17 +59,17 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     @Override
     public ArrayList<CategoriaProdotto> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, categoria_idcategoria FROM progetto_pis.categoria ;";
+        String sql = "SELECT nome FROM progetto_pis.categoria_prodotto ;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<CategoriaProdotto> categorie = new ArrayList<>();
         try {
             while (rs.next()) {
-                categoria = new CategoriaProdotto();
-                categoria.setNome(rs.getString("nome"));
+                categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setNome(rs.getString("nome"));
 
-                categorie.add(categoria);
+                categorie.add(categoriaProdotto);
             }
             return categorie;
         } catch (SQLException e) {
@@ -88,16 +87,10 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
 
     @Override
     public int add(CategoriaProdotto categoria) {
-/*
-        DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.amministratore (utente_idutente) VALUES (LAST_INSERT_ID());";
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
- */
-        DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.categoria (nome) VALUES ('"+categoria.getNome()+"');";
-        IDbOperation writeOp = new WriteOperation(sql);
 
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome) VALUES ('"+categoria.getNome()+"');";
+        IDbOperation writeOp = new WriteOperation(sql);
 
         return  executor.executeOperation(writeOp).getRowsAffected();
 
@@ -106,7 +99,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
 
     @Override
     public int removeById(String name) {
-        String sql = "DELETE FROM progetto_pis.categoria " +
+        String sql = "DELETE FROM progetto_pis.categoria_prodotto " +
                 "WHERE nome = '"+ name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -114,16 +107,20 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    /*
     @Override
     public int update(CategoriaProdotto categoria) {
 
-        String sql = "UPDATE progetto_pis.categoria " +
+        String sql = "UPDATE progetto_pis.categoria_prodotto " +
                 "SET nome = '" + categoria.getNome() +
-                //"', categoria_idcategoria = '" + categoria.getIdCategoriaProdotto() +
                 "' WHERE nome = '" + categoria.getNome() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
+
+        STAI CERCANDO DI MODIFICARE IL NOME DI UNA CATEGORIA RIMETTENDO LO STESSO NOME!!!
+        MAESTRO, MA COSA MI COMBINA?!
+     */
 }

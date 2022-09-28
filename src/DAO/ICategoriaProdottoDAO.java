@@ -9,5 +9,5 @@ public interface ICategoriaProdottoDAO {
     ArrayList<CategoriaProdotto> findAll();
     int add(CategoriaProdotto categoriaProdotto);
     int removeById(String nome);
-    int update(CategoriaProdotto categoriaProdotto);
+    //int update(CategoriaProdotto categoriaProdotto); DA RIVEDERE
 }
