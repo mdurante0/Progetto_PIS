@@ -26,7 +26,7 @@ public class DocumentoListaAcquisto extends Documento {
         Iterator<IProdotto> i = prodotti.iterator();
         while(i.hasNext()) {
             IProdotto p = i.next();
-            text += p.getNome()+", ";
+            text += p.getName()+", ";
         }
 
         try {

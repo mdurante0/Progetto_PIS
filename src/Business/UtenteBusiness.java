@@ -8,7 +8,7 @@ public class UtenteBusiness {
     private static UtenteBusiness instance;
 
     public static synchronized UtenteBusiness getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new UtenteBusiness();
         }
         return instance;
@@ -22,7 +22,7 @@ public class UtenteBusiness {
 
         // 1. controllare se l'utente esiste
         boolean userExists = uDao.userExists(username);
-        if(!userExists) {
+        if (!userExists) {
             result.setResult(LoginResult.Result.USER_DOESNT_EXIST);
             result.setMessage("Lo username inserito non esiste");
             return result;
@@ -30,7 +30,7 @@ public class UtenteBusiness {
 
         // 2. controllare se username e password sono ok
         boolean credentialsOk = uDao.checkCredentials(username, password);
-        if(!credentialsOk) {
+        if (!credentialsOk) {
             result.setResult(LoginResult.Result.WRONG_PASSWORD);
             result.setMessage("La password digitata non è corretta");
             return result;
@@ -42,7 +42,7 @@ public class UtenteBusiness {
         boolean isAmministratore = uDao.isAmministratore(username);
 
         // 4. caricare oggetto utente (a seconda della tipologia)
-        if(isCliente) {
+       /* if(isCliente) {
             Cliente c = uDao.caricaCliente(username);
             // ...
             SessionManager.getSession().put(SessionManager.LOGGED_USER, c);
@@ -60,6 +60,7 @@ public class UtenteBusiness {
 
         return result;
 
+    }*/
+        return null;
     }
-
 }

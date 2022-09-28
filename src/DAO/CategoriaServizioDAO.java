@@ -107,19 +107,17 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
-    /*
+
     @Override
     public int update(CategoriaServizio categoria) {
 
         String sql = "UPDATE progetto_pis.categoria " +
                 "SET nome = '" + categoria.getNome() +
-                "' WHERE nome = '" + categoria.getNome() + "';";
+                "' WHERE idcategoria_servizio = '" + categoria.getIdCategoriaServizio() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-        STAI CERCANDO DI MODIFICARE IL NOME DI UNA CATEGORIA RIMETTENDO LO STESSO NOME!!!
-        MAESTRO, MA COSA MI COMBINA?!
-     */
+
 }
