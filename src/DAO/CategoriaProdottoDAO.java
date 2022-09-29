@@ -40,6 +40,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             rs.next();
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 return categoriaProdotto;
@@ -67,6 +68,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         try {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 categorie.add(categoriaProdotto);

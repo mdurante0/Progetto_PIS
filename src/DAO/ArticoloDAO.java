@@ -120,9 +120,10 @@ public class ArticoloDAO implements IArticoloDAO {
     public int update(Articolo articolo) {
 
         String sql = "UPDATE progetto_pis.articolo " +
-                "SET descrizione = '" + articolo.getDescrizione() +
+                "SET nome = '" + articolo.getName() +
                 "', costo = '" + articolo.getPrezzo() +
-                "' WHERE nome = '" + articolo.getName() + "';";
+                "', descrizione = '" + articolo.getDescrizione() +
+                "' WHERE idarticolo = '" + articolo.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

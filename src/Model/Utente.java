@@ -21,7 +21,6 @@ public class Utente {
         this.tipo = tipo;
     }
 
-
     public int getIdUtente() {
         return idUtente;
     }

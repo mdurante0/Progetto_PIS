@@ -7,6 +7,13 @@ public class Immagine {
     private ImageIcon pic;
     private int idArticolo;
 
+    public Immagine(ImageIcon pic, int idArticolo) {
+        this.pic = pic;
+        this.idArticolo = idArticolo;
+    }
+
+    public Immagine() {}
+
     public ImageIcon getPic() {
         return pic;
     }
@@ -31,10 +38,5 @@ public class Immagine {
         this.idImmagine = idImmagine;
     }
 
-    public Immagine(ImageIcon pic) {
-        this.pic = pic;
-    }
 
-    public Immagine() {
-    }
 }

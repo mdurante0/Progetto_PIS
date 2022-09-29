@@ -10,6 +10,7 @@ public class Prodotto extends Articolo implements IProdotto {
     private Collocazione collocazione;
     private Produttore produttore;
     private int quantita;
+    private int idMagazzino;
     public Collocazione getCollocazione() {
         return collocazione;
     }
@@ -34,7 +35,13 @@ public class Prodotto extends Articolo implements IProdotto {
         this.quantita = quantita;
     }
 
+    public int getIdMagazzino() {
+        return idMagazzino;
+    }
 
+    public void setIdMagazzino(int idMagazzino) {
+        this.idMagazzino = idMagazzino;
+    }
 
     /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
       (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
@@ -58,7 +65,6 @@ public class Prodotto extends Articolo implements IProdotto {
     public String getName() {return super.getName(); }
 
     public void setName(String name) { super.setName(name); }
-
 
     @Override
     public String toString() {

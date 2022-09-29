@@ -17,6 +17,18 @@ public class CategoriaServizio implements ICategoria {
         this.sottocategorie = sottocategorie;
     }
 
+    public void setIdCategoriaServizio(int idCategoriaServizio) {
+        this.idCategoriaServizio = idCategoriaServizio;
+    }
+
+    public List<CategoriaServizio> getSottocategorie() {
+        return sottocategorie;
+    }
+
+    public void setSottocategorie(List<CategoriaServizio> sottocategorie) {
+        this.sottocategorie = sottocategorie;
+    }
+
     public String getNome() {
         return nome;
     }

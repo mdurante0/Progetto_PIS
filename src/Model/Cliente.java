@@ -11,6 +11,7 @@ public class Cliente extends Utente {
     private List<ListaAcquisto> listeAcquisto;
     private List<Prenotazione> prenotazioni;
     private PuntoVendita puntoVenditaDiRegistrazione;
+    private int idPuntoVendita;
     private NotificationFactory.TipoNotifica canalePreferito;
     private Date registrazione;
     private boolean abilitazione;
@@ -18,6 +19,25 @@ public class Cliente extends Utente {
     public Cliente() {
         this.listeAcquisto = new ArrayList<>();
         this.prenotazioni = new ArrayList<>();
+    }
+
+    public Cliente(List<ListaAcquisto> listeAcquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
+        this.listeAcquisto = listeAcquisto;
+        this.prenotazioni = prenotazioni;
+        this.puntoVenditaDiRegistrazione = puntoVenditaDiRegistrazione;
+        this.canalePreferito = canalePreferito;
+        this.registrazione = registrazione;
+        this.abilitazione = abilitazione;
+    }
+
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, List<ListaAcquisto> listeAcquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
+        super(name, surname, username, pwd, email, tipo);
+        this.listeAcquisto = listeAcquisto;
+        this.prenotazioni = prenotazioni;
+        this.puntoVenditaDiRegistrazione = puntoVenditaDiRegistrazione;
+        this.canalePreferito = canalePreferito;
+        this.registrazione = registrazione;
+        this.abilitazione = abilitazione;
     }
 
     public Date getRegistrazione() {
@@ -56,8 +76,17 @@ public class Cliente extends Utente {
         return puntoVenditaDiRegistrazione;
     }
 
+
     public void setPuntoVenditaDiRegistrazione(PuntoVendita puntoVenditaDiRegistrazione) {
         this.puntoVenditaDiRegistrazione = puntoVenditaDiRegistrazione;
+    }
+
+    public int getIdPuntoVendita() {
+        return idPuntoVendita;
+    }
+
+    public void setIdPuntoVendita(int idPuntoVendita) {
+        this.idPuntoVendita = idPuntoVendita;
     }
 
     public NotificationFactory.TipoNotifica getCanalePreferito() {

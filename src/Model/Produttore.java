@@ -7,11 +7,12 @@ public class Produttore {
     private String mail;
     private String citta;
     private String nazione;
-    private int telefono;
+    private String telefono;
     private String descrizione;
 
     public Produttore(){}
-    public Produttore(String nome, String mail, String citta, String nazione, int telefono, String descrizione) {
+
+    public Produttore(String nome, String mail, String citta, String nazione, String telefono, String descrizione) {
         this.nome = nome;
         this.mail = mail;
         this.citta = citta;
@@ -36,11 +37,11 @@ public class Produttore {
         this.mail = mail;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

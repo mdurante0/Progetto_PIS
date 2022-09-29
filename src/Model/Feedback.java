@@ -5,7 +5,6 @@ import java.util.Date;
 public class Feedback {
 
     public enum Punteggio { SCARSO, MEDIOCRE, BUONO, OTTIMO, ECCELLENTE }
-
     private int idFeedback;
     private Punteggio gradimento;
     private String commento;
@@ -14,12 +13,18 @@ public class Feedback {
     private String risposta;
     private Date data;
     private int idArticolo;
+    private int idUtente;
 
     public Feedback(){}
-    public Feedback(Punteggio gradimento, String commento, Date data) {
+
+    public Feedback(Punteggio gradimento, String commento, boolean letto, boolean risposto, String risposta, Date data, int idArticolo) {
         this.gradimento = gradimento;
         this.commento = commento;
+        this.letto = letto;
+        this.risposto = risposto;
+        this.risposta = risposta;
         this.data = data;
+        this.idArticolo = idArticolo;
     }
 
     public int getIdFeedback() {
@@ -68,6 +73,30 @@ public class Feedback {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public boolean isRisposto() {
+        return risposto;
+    }
+
+    public void setRisposto(boolean risposto) {
+        this.risposto = risposto;
+    }
+
+    public int getIdArticolo() {
+        return idArticolo;
+    }
+
+    public void setIdArticolo(int idArticolo) {
+        this.idArticolo = idArticolo;
+    }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
     }
 
     @Override

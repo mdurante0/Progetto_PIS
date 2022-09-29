@@ -16,6 +16,14 @@ public class Servizio extends Articolo {
         super();
     }
 
+    public Fornitore getFornitore() {
+        return fornitore;
+    }
+
+    public void setFornitore(Fornitore fornitore) {
+        this.fornitore = fornitore;
+    }
+
     @Override
     public String toString() {
         return "Prodotto{" +

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CategoriaProdotto implements ICategoria {
 
+
     private int idCategoriaProdotto;
     private String nome;
     private List<CategoriaProdotto> sottocategorie;
@@ -15,14 +16,23 @@ public class CategoriaProdotto implements ICategoria {
         this.sottocategorie = new ArrayList<>();
     }
 
-    public CategoriaProdotto(String nome) {
+    public CategoriaProdotto(String nome, List sottocategorie) {
         this.nome = nome;
-        this.sottocategorie = new ArrayList<>();
+        this.sottocategorie = sottocategorie;
     }
 
     public int getIdCategoriaProdotto() {
         return idCategoriaProdotto;
     }
+
+    public void setIdCategoriaProdotto(int idCategoriaProdotto) {
+        this.idCategoriaProdotto = idCategoriaProdotto;
+    }
+
+    public void setSottocategorie(List<CategoriaProdotto> sottocategorie) {
+        this.sottocategorie = sottocategorie;
+    }
+
     public List<CategoriaProdotto> getSottocategorie() {
         return sottocategorie;
     }

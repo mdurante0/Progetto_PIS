@@ -41,6 +41,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             rs.next();
             if (rs.getRow()==1) {
                 amministratore = new Amministratore();
+                amministratore.setIdUtente(rs.getInt("utente_idutente"));
                 amministratore.setName(rs.getString("nome"));
                 amministratore.setSurname(rs.getString("cognome"));
                 amministratore.setUsername(rs.getString("username"));
@@ -72,6 +73,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         try {
             while (rs.next()) {
                 amministratore = new Amministratore();
+                amministratore.setIdUtente(rs.getInt("utente_idutente"));
                 amministratore.setName(rs.getString("nome"));
                 amministratore.setSurname(rs.getString("cognome"));
                 amministratore.setUsername(rs.getString("username"));
@@ -88,7 +90,6 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return null;
     }
 
@@ -113,7 +114,6 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
-
         } catch (SQLException e) {
             // handle any errors
             System.out.println("SQLException: " + e.getMessage());
@@ -123,10 +123,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return rowCount;
-
-
     }
 
     @Override

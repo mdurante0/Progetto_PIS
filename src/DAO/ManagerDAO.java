@@ -41,6 +41,7 @@ public class ManagerDAO implements IManagerDAO {
             rs.next();
             if (rs.getRow()==1) {
                 manager = new Manager();
+                manager.setIdUtente(rs.getInt("utente_idutente"));
                 manager.setName(rs.getString("nome"));
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));
@@ -72,6 +73,7 @@ public class ManagerDAO implements IManagerDAO {
         try {
             while (rs.next()) {
                 manager = new Manager();
+                manager.setIdUtente(rs.getInt("utente_idutente"));
                 manager.setName(rs.getString("nome"));
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));

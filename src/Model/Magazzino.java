@@ -11,13 +11,27 @@ public class Magazzino {
     private int quantitaCorsie;
     private int quantitaScaffali;
     private List<IProdotto> prodotti;
+    private int idPuntoVendita;
 
     public Magazzino(){
         this.prodotti = new ArrayList<>();
     }
+
     public Magazzino(int quantitaCorsie, int quantitaScaffali, List<IProdotto> prodotti) {
         this.quantitaCorsie = quantitaCorsie;
         this.quantitaScaffali = quantitaScaffali;
+        this.prodotti = prodotti;
+    }
+
+    public void setIdMagazzino(int idMagazzino) {
+        this.idMagazzino = idMagazzino;
+    }
+
+    public List<IProdotto> getProdotti() {
+        return prodotti;
+    }
+
+    public void setProdotti(List<IProdotto> prodotti) {
         this.prodotti = prodotti;
     }
 
@@ -39,6 +53,14 @@ public class Magazzino {
 
     public int getIdMagazzino() {
         return idMagazzino;
+    }
+
+    public int getIdPuntoVendita() {
+        return idPuntoVendita;
+    }
+
+    public void setIdPuntoVendita(int idPuntoVendita) {
+        this.idPuntoVendita = idPuntoVendita;
     }
 
     public void add(IProdotto prodotto){

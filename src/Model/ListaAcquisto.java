@@ -11,11 +11,14 @@ public class ListaAcquisto {
     private String nome;
     private List<IProdotto> prodotti;
     private Date dataCreazione;
+    private int idUtente;
 
     public ListaAcquisto(){
         this.prodotti = new ArrayList<>();
     }
-    public ListaAcquisto(String nome, List<IProdotto> prodotti, Date dataCreazione) {
+
+    public ListaAcquisto(boolean pagata, String nome, List<IProdotto> prodotti, Date dataCreazione) {
+        this.pagata = pagata;
         this.nome = nome;
         this.prodotti = prodotti;
         this.dataCreazione = dataCreazione;
@@ -59,6 +62,14 @@ public class ListaAcquisto {
 
     public void setDataCreazione(Date dataCreazione) {
         this.dataCreazione = dataCreazione;
+    }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
     }
 
     @Override

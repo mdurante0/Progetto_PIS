@@ -1,18 +1,26 @@
 package Model.composite;
 
+import Business.AbstractFactory.ICategoria;
 import Model.Articolo;
-import Model.Collocazione;
+import Model.Feedback;
+import Model.Immagine;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProdottoComposito extends Articolo implements IProdotto {
 
-    private Collocazione collocazione;
     private final List<IProdotto> sottoprodotti = new ArrayList<>();
+    private int idMagazzino;
+
+    public ProdottoComposito(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini) {
+        super(prezzo, commenti, name, descrizione, categoria, immagini);
+    }
+
+    public ProdottoComposito() {
+    }
 
     public void add(IProdotto prodotto) {
-        // if ...
         sottoprodotti.add(prodotto);
     }
 
@@ -26,6 +34,18 @@ public class ProdottoComposito extends Articolo implements IProdotto {
 
     public void setName(String name) {
         super.setName(name);
+    }
+
+    public List<IProdotto> getSottoprodotti() {
+        return sottoprodotti;
+    }
+
+    public int getIdMagazzino() {
+        return idMagazzino;
+    }
+
+    public void setIdMagazzino(int idMagazzino) {
+        this.idMagazzino = idMagazzino;
     }
 
     @Override

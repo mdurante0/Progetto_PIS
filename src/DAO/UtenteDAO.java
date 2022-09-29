@@ -49,6 +49,7 @@ public class UtenteDAO implements IUtenteDAO {
             rs.next();
             if (rs.getRow()==1) {
                 utente = new Utente();
+                utente.setIdUtente(rs.getInt("idutente"));
                 utente.setName(rs.getString("nome"));
                 utente.setSurname(rs.getString("cognome"));
                 utente.setUsername(rs.getString("username"));
@@ -82,6 +83,7 @@ public class UtenteDAO implements IUtenteDAO {
         try {
             while (rs.next()) {
                 utente = new Utente();
+                utente.setIdUtente(rs.getInt("idutente"));
                 utente.setName(rs.getString("nome"));
                 utente.setSurname(rs.getString("cognome"));
                 utente.setUsername(rs.getString("username"));
@@ -133,8 +135,9 @@ public class UtenteDAO implements IUtenteDAO {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "UPDATE progetto_pis.utente SET nome = '" + utente.getName() +
                 "', cognome = '" + utente.getSurname() +
+                "', username = '" + utente.getUsername() +
                 "', email = '" + utente.getEmail() +
-                "' WHERE username = '" + utente.getUsername() + "';";
+                "' WHERE idutente = '" + utente.getIdUtente() + "';";
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }

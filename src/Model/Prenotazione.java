@@ -9,6 +9,7 @@ public class Prenotazione {
     private int idPrenotazione;
     private List<Prodotto> prodotti;
     private Date dataPrenotazione;
+    private int idUtente;
 
 
     public Prenotazione(){
@@ -19,6 +20,7 @@ public class Prenotazione {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
     }
+
 
     public int getIdPrenotazione() {
         return idPrenotazione;
@@ -42,6 +44,14 @@ public class Prenotazione {
 
     public void setDataPrenotazione(Date dataPrenotazione) {
         this.dataPrenotazione = dataPrenotazione;
+    }
+
+    public int getIdUtente() {
+        return idUtente;
+    }
+
+    public void setIdUtente(int idUtente) {
+        this.idUtente = idUtente;
     }
 
     @Override
