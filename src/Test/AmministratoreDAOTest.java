@@ -53,6 +53,7 @@ public class AmministratoreDAOTest {
     public void updateTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
         Amministratore amministratore = new Amministratore("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN");
+        amministratore.setIdUtente(amministratoreDAO.findById(amministratore.getUsername()).getIdUtente());
         amministratoreDAO.update(amministratore);
         amministratore = amministratoreDAO.findById("vr46");
         Assert.assertEquals("valentino@vr46.com", amministratore.getEmail());

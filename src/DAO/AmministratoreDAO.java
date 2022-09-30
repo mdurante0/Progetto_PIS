@@ -41,7 +41,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             rs.next();
             if (rs.getRow()==1) {
                 amministratore = new Amministratore();
-                amministratore.setIdUtente(rs.getInt("utente_idutente"));
+                amministratore.setIdUtente(rs.getInt("idutente"));
                 amministratore.setName(rs.getString("nome"));
                 amministratore.setSurname(rs.getString("cognome"));
                 amministratore.setUsername(rs.getString("username"));
@@ -64,7 +64,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     @Override
     public ArrayList<Amministratore> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email FROM progetto_pis.utente " +
+        String sql = "SELECT idutente, nome, cognome, username, email FROM progetto_pis.utente " +
                 "AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -73,7 +73,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         try {
             while (rs.next()) {
                 amministratore = new Amministratore();
-                amministratore.setIdUtente(rs.getInt("utente_idutente"));
+                amministratore.setIdUtente(rs.getInt("idutente"));
                 amministratore.setName(rs.getString("nome"));
                 amministratore.setSurname(rs.getString("cognome"));
                 amministratore.setUsername(rs.getString("username"));
