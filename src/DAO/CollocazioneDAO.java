@@ -124,4 +124,27 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    public boolean isFree(Collocazione collocazione) {
+
+        String sql = "SELECT count(*) AS count FROM progetto_pis.collocazione AS c " +
+                "WHERE c.corsia='"+ collocazione.getCorsia() +
+                "' && c.scaffale = '" + collocazione.getScaffale() +
+                "' && c.magazzino_idmagazzino = '" + collocazione.getIdMagazzino() + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
