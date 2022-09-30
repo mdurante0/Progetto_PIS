@@ -95,6 +95,9 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     @Override
     public int add(Collocazione collocazione) {
 
+        if(!isFree(collocazione))
+            return 0;
+
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale, magazzino_idmagazzino) VALUES ('"+
                 collocazione.getCorsia() + "','" +
@@ -107,6 +110,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
 
     @Override
     public int removeById(int id) {
+
         String sql = "DELETE FROM progetto_pis.collocazione " +
                 "WHERE idcollocazione = '"+ id + "';";
 
@@ -115,9 +119,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
-
     @Override
     public int update(Collocazione collocazione) {
+
+        if(!checkCollocazione(collocazione))
+            return 0;
 
         String sql = "UPDATE progetto_pis.collocazione " +
                 "SET corsia = '" + collocazione.getCorsia() +
@@ -130,15 +136,19 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
-    public boolean isFree(Collocazione collocazione) {
+    public boolean checkCollocazione(Collocazione collocazione){
 
         MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino magazzino = magazzinoDAO.findById(collocazione.getIdMagazzino());
 
-        if(magazzino.getQuantitaCorsie() < collocazione.getCorsia() || magazzino.getQuantitaScaffali() < collocazione.getScaffale()){
-            //la posizione non esiste, impedisco l'inserimento del prodotto restituendo false
-            return false;
-        }
+        return magazzino.getQuantitaCorsie() >= collocazione.getCorsia() &&
+                magazzino.getQuantitaScaffali() >= collocazione.getScaffale();
+    }
+
+    public boolean isFree(Collocazione collocazione) {
+
+        if(!checkCollocazione(collocazione))
+            return false; //la posizione non esiste, impedisco l'inserimento del prodotto
 
         String sql = "SELECT count(*) AS count FROM progetto_pis.collocazione AS c " +
                 "WHERE c.corsia='"+ collocazione.getCorsia() +
