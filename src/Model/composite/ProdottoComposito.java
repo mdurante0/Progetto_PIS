@@ -28,6 +28,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
         sottoprodotti.addAll(prodotti);
     }
 
+    @Override
     public String getName() {
         return super.getName();
     }

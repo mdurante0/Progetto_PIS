@@ -61,7 +61,7 @@ public class Prodotto extends Articolo implements IProdotto {
     public Float getPrezzo() {
         return super.getPrezzo();
     }
-
+    @Override
     public String getName() {return super.getName(); }
 
     public void setName(String name) { super.setName(name); }

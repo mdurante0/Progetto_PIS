@@ -6,6 +6,7 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Collocazione;
+import Model.Magazzino;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,11 +29,13 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     @Override
-    public Collocazione findById(int corsia, int scaffale) {
+    public Collocazione findById(int corsia, int scaffale, int idMagazzino) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcollocazione, scaffale, corsia FROM progetto_pis.collocazione " +
-                "WHERE corsia = '" + corsia + "'&& scaffale = '" + scaffale + "';";
+        String sql = "SELECT idcollocazione, scaffale, corsia, magazzino_idmagazzino FROM progetto_pis.collocazione " +
+                "WHERE corsia = '" + corsia +
+                "' && scaffale = '" + scaffale +
+                "' && magazzino_idmagazzino = '"+ idMagazzino +"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -61,7 +64,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     @Override
     public ArrayList<Collocazione> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT corsia, scaffale FROM progetto_pis.collocazione ;";
+        String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione ;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -72,6 +75,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
+                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
 
                 collocazioni.add(collocazione);
             }
@@ -92,9 +96,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     public int add(Collocazione collocazione) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale) VALUES ('"+
+        String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale, magazzino_idmagazzino) VALUES ('"+
                 collocazione.getCorsia() + "','" +
-                collocazione.getScaffale() + ");";
+                collocazione.getScaffale() + "','" +
+                collocazione.getIdMagazzino() + ");";
         IDbOperation writeOp = new WriteOperation(sql);
 
         return  executor.executeOperation(writeOp).getRowsAffected();
@@ -117,6 +122,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "UPDATE progetto_pis.collocazione " +
                 "SET corsia = '" + collocazione.getCorsia() +
                 "', scaffale = '"+ collocazione.getScaffale() +
+                "', magazzino_idmagazzino = '"+ collocazione.getIdMagazzino() +
                 "' WHERE idcollocazione = '" + collocazione.getIdCollocazione() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -125,6 +131,14 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     public boolean isFree(Collocazione collocazione) {
+
+        MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        Magazzino magazzino = magazzinoDAO.findById(collocazione.getIdMagazzino());
+
+        if(magazzino.getQuantitaCorsie() < collocazione.getCorsia() || magazzino.getQuantitaScaffali() < collocazione.getScaffale()){
+            //la posizione non esiste, impedisco l'inserimento del prodotto restituendo false
+            return false;
+        }
 
         String sql = "SELECT count(*) AS count FROM progetto_pis.collocazione AS c " +
                 "WHERE c.corsia='"+ collocazione.getCorsia() +
