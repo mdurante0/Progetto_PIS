@@ -139,7 +139,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
             rs.next();
             if (rs.getRow() == 1) {
                 int count = rs.getInt("count");
-                return count == 1;
+                return count == 0;
             }
             return false;
         } catch (SQLException e) {
