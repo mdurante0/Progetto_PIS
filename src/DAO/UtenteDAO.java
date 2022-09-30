@@ -41,7 +41,7 @@ public class UtenteDAO implements IUtenteDAO {
 
         //design pattern command completo
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente WHERE username = '" + username + "';";
+        String sql = "SELECT idutente, nome, cognome, username, email, tipo FROM progetto_pis.utente WHERE username = '" + username + "';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -75,7 +75,7 @@ public class UtenteDAO implements IUtenteDAO {
     public ArrayList<Utente> findAll() {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email, tipo FROM progetto_pis.utente;";
+        String sql = "SELECT idutente, nome, cognome, username, email, tipo FROM progetto_pis.utente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 

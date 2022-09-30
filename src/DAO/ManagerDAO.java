@@ -109,8 +109,8 @@ public class ManagerDAO implements IManagerDAO {
         try {
             rs.next();
             manager.setIdUtente(rs.getInt("max(idutente)"));
-            sql = "INSERT INTO progetto_pis.manager (utente_idutente) VALUES ('" +
-                manager.getIdUtente() + "');";
+            sql = "INSERT INTO progetto_pis.manager (utente_idutente, durata_incarico) VALUES ('" +
+                manager.getIdUtente() + "','" + manager.getDurataIncarico() + "');";
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
@@ -142,6 +142,13 @@ public class ManagerDAO implements IManagerDAO {
     public int update(Manager manager) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        return utenteDAO.update(manager);
+        utenteDAO.update(manager);
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "UPDATE progetto_pis.manager " +
+                "SET durata_incarico = '" + manager.getDurataIncarico() +
+                "' WHERE utente_idutente = '" + manager.getIdUtente() + "';";
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 }

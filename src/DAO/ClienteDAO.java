@@ -41,6 +41,7 @@ public class ClienteDAO implements IClienteDAO {
             rs.next();
             if (rs.getRow()==1) {
                 cliente = new Cliente();
+                cliente.setIdUtente(rs.getInt("idutente"));
                 cliente.setName(rs.getString("nome"));
                 cliente.setSurname(rs.getString("cognome"));
                 cliente.setUsername(rs.getString("username"));
@@ -63,8 +64,8 @@ public class ClienteDAO implements IClienteDAO {
     @Override
     public ArrayList<Cliente> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email FROM progetto_pis.utente " +
-                "AS u INNER JOIN progetto_pis.utente_acquirente AS m ON u.idutente = m.utente_idutente;";
+        String sql = "SELECT idutente, nome, cognome, username, email FROM progetto_pis.utente " +
+                "AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -72,6 +73,7 @@ public class ClienteDAO implements IClienteDAO {
         try {
             while (rs.next()) {
                 cliente = new Cliente();
+                cliente.setIdUtente(rs.getInt("idutente"));
                 cliente.setName(rs.getString("nome"));
                 cliente.setSurname(rs.getString("cognome"));
                 cliente.setUsername(rs.getString("username"));
@@ -107,8 +109,12 @@ public class ClienteDAO implements IClienteDAO {
         try {
             rs.next();
             cliente.setIdUtente(rs.getInt("max(idutente)"));
-            sql = "INSERT INTO progetto_pis.utente_acquirente (utente_idutente) VALUES ('" +
-                cliente.getIdUtente() + "');";
+            sql = "INSERT INTO progetto_pis.utente_acquirente " +
+                    "(utente_idutente, punto_vendita_idpunto_vendita, abilitazione, data_registrazione) VALUES ('" +
+                    cliente.getIdUtente() + "','" +
+                    cliente.getIdPuntoVendita() + "','" +
+                    cliente.isAbilitazione() + "','" +
+                    cliente.getRegistrazione() + ");";
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
@@ -129,14 +135,23 @@ public class ClienteDAO implements IClienteDAO {
     @Override
     public int removeById(String username) {
 
-        UtenteDAO utente = UtenteDAO.getInstance();
-        return utente.removeById(username);
+        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+        return utenteDAO.removeById(username);
     }
 
     @Override
     public int update(Cliente cliente) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        return utenteDAO.update(cliente);
+        utenteDAO.update(cliente);
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "UPDATE progetto_pis.cliente " +
+                "SET punto_vendita_idpunto_vendita = '" + cliente.getIdPuntoVendita() +
+                "', abilitazione = '" + cliente.isAbilitazione() +
+                "', data_registrazione = '" + cliente.getRegistrazione() +
+                "' WHERE utente_idutente = '" + cliente.getIdUtente() + "';";
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 }

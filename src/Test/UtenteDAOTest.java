@@ -45,6 +45,7 @@ public class UtenteDAOTest {
     public void updateTest() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         Utente utente = new Utente("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN");
+        utente.setIdUtente(utenteDAO.findById("vr46").getIdUtente());
         utenteDAO.update(utente);
         utente = utenteDAO.findById("vr46");
         Assert.assertEquals("valentino@vr46.com", utente.getEmail());
