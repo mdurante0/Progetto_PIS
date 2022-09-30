@@ -101,7 +101,6 @@ public class UtenteDAO implements IUtenteDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return null;
     }
 
