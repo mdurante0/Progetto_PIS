@@ -1,7 +1,7 @@
 package Business.Bridge;
 
+import Model.Articolo;
 import Model.ListaAcquisto;
-import Model.composite.IProdotto;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,13 +20,13 @@ public class DocumentoListaAcquisto extends Documento {
     @Override
     public void invia(String indirizzo) {
 
-        List<IProdotto> prodotti = lista.getProdotti();
+        List<Articolo> articoli = lista.getArticoli();
         String text = "";
 
-        Iterator<IProdotto> i = prodotti.iterator();
+        Iterator<Articolo> i = articoli.iterator();
         while(i.hasNext()) {
-            IProdotto p = i.next();
-            text += p.getName()+", ";
+            Articolo a = i.next();
+            text += a.getName()+", ";
         }
 
         try {

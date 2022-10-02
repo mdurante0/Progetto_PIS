@@ -16,16 +16,6 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     private ListaAcquisto listaAcquisto;
     private static IDbConnection conn;
     private static ResultSet rs;
-
-    private ListaAcquistoDAO() {
-        listaAcquisto = null;
-        conn = null;
-        rs = null;
-    }
-
-    public static ListaAcquistoDAO getInstance() {
-        return instance;
-    }
     @Override
     public ListaAcquisto findById(int idLista) {
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
@@ -94,7 +84,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ArrayList<ListaAcquisto> findAll() {
-        String sql = "SELECT idlist_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
                 "FROM progetto_pis.lista_acquisto ";
 
         DbOperationExecutor executor = new DbOperationExecutor();
