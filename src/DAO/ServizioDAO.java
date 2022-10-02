@@ -5,33 +5,33 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Immagine;
+import Model.Servizio;
+import Model.Servizio;
 
-import javax.swing.*;
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ImmagineDAO implements IImmagineDAO {
-    private static ImmagineDAO instance = new ImmagineDAO();
-    private Immagine immagine;
+public class ServizioDAO implements IServizioDAO {
+    private static ServizioDAO instance = new ServizioDAO();
+    private Servizio servizio;
     private static IDbConnection conn;
     private static ResultSet rs;
-    private ImmagineDAO() {
-        immagine = null;
+
+    private ServizioDAO() {
+        servizio = null;
         conn = null;
         rs = null;
     }
 
-    public static ImmagineDAO getInstance() {
+    public static ServizioDAO getInstance() {
         return instance;
     }
     @Override
-    public Immagine findById(int id) {
-        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
-                "FROM progetto_pis.immagine " +
-                "WHERE articolo_idarticolo = '" + id + "';";
+    public Servizio findById(int idServizio) {
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore " +
+                "FROM progetto_pis.servizio " +
+                "WHERE articolo_idarticolo = '" + idServizio + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -40,12 +40,10 @@ public class ImmagineDAO implements IImmagineDAO {
         try {
             rs.next();
             if (rs.getRow()==1) {
-                immagine = new Immagine();
-                immagine.setIdImmagine(rs.getInt("idimmagine"));
-                immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
-
-                return immagine;
+                servizio = new Servizio();
+                servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                return servizio;
             }
         } catch (SQLException e) {
             // handle any errors
@@ -59,26 +57,25 @@ public class ImmagineDAO implements IImmagineDAO {
         return null;
     }
 
+  
     @Override
-    public ArrayList<Immagine> findAll() {
-        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
-                "FROM progetto_pis.immagine ;";
+    public ArrayList<Servizio> findAll() {
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore " +
+                "FROM progetto_pis.servizio ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Immagine> immagini = new ArrayList<>();
+        ArrayList<Servizio> servizi = new ArrayList<>();
         try {
             while (rs.next()) {
-                immagine = new Immagine();
-                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
-                immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                immagine.setIdImmagine(rs.getInt("idimmagine"));
-
-                immagini.add(immagine);
+                servizio = new Servizio();
+                servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizi.add(servizio);
             }
-            return immagini;
+            return servizi;
         } catch (SQLException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("SQLException: " + e.getMessage());
@@ -93,11 +90,10 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
     @Override
-    public int add(Immagine immagine) {
+    public int add(Servizio servizio) {
+        String sql = "INSERT INTO progetto_pis.servizio (fornitore_idfornitore) VALUES ('"+
+                servizio.getIdFornitore() + "');";
 
-        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
-                (Blob) immagine.getPic() + "','" +
-                immagine.getIdArticolo() +"');";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
@@ -105,29 +101,21 @@ public class ImmagineDAO implements IImmagineDAO {
 
     @Override
     public int removeById(int id) {
-        String sql = "DELETE FROM progetto_pis.immagine " +
-                "WHERE idimmagine = '" + id + "';";
+
+        String sql = "DELETE FROM progetto_pis.servizio " +
+                "WHERE articolo_idarticolo = '" + id + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
-    public int removeByArticolo(int idArticolo) {
-        String sql = "DELETE FROM progetto_pis.immagine " +
-                "WHERE articolo_idarticolo = '" + idArticolo + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
+    
 
     @Override
-    public int update(Immagine immagine) {
-        String sql = "UPDATE progetto_pis.immagine " +
-                "SET immagine = '" + immagine.getPic() +
-                "', articolo_idarticolo = '" + immagine.getIdArticolo() +
-                "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
+    public int update(Servizio servizio) {
+        String sql = "UPDATE progetto_pis.prenotazione " +
+                "SET fornitore_idfornitore= '" + servizio.getIdFornitore() +
+                "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

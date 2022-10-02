@@ -6,9 +6,9 @@ import Model.Servizio;
 import java.util.ArrayList;
 
 public interface IServizioDAO {
-    Servizio findById(String nome);
+    Servizio findById(int idServizio);
     ArrayList<Servizio> findAll();
-    int add(String nome);
-    int removeById(String nome);
+    int add(Servizio servizio);
+    int removeById(int idServizio);
     int update(Servizio servizio);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class Cliente extends Utente {
 
     private List<ListaAcquisto> listeAcquisto;
-    private List<Prenotazione> prenotazioni;
+    private List<Prodotto> prenotazioni;
     private PuntoVendita puntoVenditaDiRegistrazione;
     private int idPuntoVendita;
     private NotificationFactory.TipoNotifica canalePreferito;
@@ -21,7 +21,7 @@ public class Cliente extends Utente {
         this.prenotazioni = new ArrayList<>();
     }
 
-    public Cliente(List<ListaAcquisto> listeAcquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
+    public Cliente(List<ListaAcquisto> listeAcquisto, List<Prodotto> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
         this.listeAcquisto = listeAcquisto;
         this.prenotazioni = prenotazioni;
         this.puntoVenditaDiRegistrazione = puntoVenditaDiRegistrazione;
@@ -30,7 +30,7 @@ public class Cliente extends Utente {
         this.abilitazione = abilitazione;
     }
 
-    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, List<ListaAcquisto> listeAcquisto, List<Prenotazione> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, List<ListaAcquisto> listeAcquisto, List<Prodotto> prenotazioni, PuntoVendita puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, Date registrazione, boolean abilitazione) {
         super(name, surname, username, pwd, email, tipo);
         this.listeAcquisto = listeAcquisto;
         this.prenotazioni = prenotazioni;
@@ -64,11 +64,11 @@ public class Cliente extends Utente {
         this.listeAcquisto = listeAcquisto;
     }
 
-    public List<Prenotazione> getPrenotazioni() {
+    public List<Prodotto> getPrenotazioni() {
         return prenotazioni;
     }
 
-    public void setPrenotazioni(List<Prenotazione> prenotazioni) {
+    public void setPrenotazioni(List<Prodotto> prenotazioni) {
         this.prenotazioni = prenotazioni;
     }
 

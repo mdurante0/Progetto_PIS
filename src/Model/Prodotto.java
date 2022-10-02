@@ -1,22 +1,19 @@
 package Model;
 
-import Model.composite.Prodotto;
-
 import java.util.*;
 
-public class Prenotazione {
+public class Prodotto {
 
     private int idPrenotazione;
-    private List<Prodotto> prodotti;
+    private List<Model.composite.Prodotto> prodotti;
     private Date dataPrenotazione;
     private int idUtente;
 
-
-    public Prenotazione(){
+    public Prodotto(){
         this.prodotti = new ArrayList<>();
     }
 
-    public Prenotazione(List<Prodotto> prodotti, Date dataPrenotazione) {
+    public Prodotto(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione) {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
     }
@@ -30,11 +27,11 @@ public class Prenotazione {
         this.idPrenotazione = idPrenotazione;
     }
 
-    public List<Prodotto> getProdotti() {
+    public List<Model.composite.Prodotto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<Prodotto> prodotti) {
+    public void setProdotti(List<Model.composite.Prodotto> prodotti) {
         this.prodotti = prodotti;
     }
 

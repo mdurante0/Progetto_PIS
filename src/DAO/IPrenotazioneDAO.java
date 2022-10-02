@@ -1,14 +1,15 @@
 package DAO;
 
-import Model.Magazzino;
-import Model.Prenotazione;
+import Model.Prodotto;
 
 import java.util.ArrayList;
 
 public interface IPrenotazioneDAO {
-    Prenotazione findById(int id);
-    ArrayList<Prenotazione> findAll();
-    int add(Prenotazione prenotazione);
+    Prodotto findById(int id);
+    ArrayList<Prodotto> findByUser(int idUser);
+    ArrayList<Prodotto> findAll();
+    int add(Prodotto prenotazione);
     int removeById(int id);
-    int update(Prenotazione prenotazione);
+    int removeByUser(int idUser);
+    int update(Prodotto prenotazione);
 }

@@ -1,6 +1,5 @@
 package DAO;
 
-import Model.Prenotazione;
 import Model.Produttore;
 
 import java.util.ArrayList;
