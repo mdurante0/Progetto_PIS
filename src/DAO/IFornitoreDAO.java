@@ -5,7 +5,7 @@ import Model.Fornitore;
 import java.util.ArrayList;
 
 public interface IFornitoreDAO {
-    Fornitore findById(String email);
+    Fornitore findById(String name);
     ArrayList<Fornitore> findAll();
     int add(Fornitore fornitore);
     int removeById(String email);

@@ -6,9 +6,9 @@ import Model.Produttore;
 import java.util.ArrayList;
 
 public interface IProduttoreDAO {
-    Produttore findById(String email);
+    Produttore findById(String nome);
     ArrayList<Produttore> findAll();
-    int add(String email);
-    int removeById(String email);
+    int add(Produttore produttore);
+    int removeById(String nome);
     int update(Produttore produttore);
 }

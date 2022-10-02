@@ -12,6 +12,7 @@ public class ListaAcquisto {
     private List<IProdotto> prodotti;
     private Date dataCreazione;
     private int idUtente;
+    private float costoFinale;
 
     public ListaAcquisto(){
         this.prodotti = new ArrayList<>();
@@ -70,6 +71,17 @@ public class ListaAcquisto {
 
     public void setIdUtente(int idUtente) {
         this.idUtente = idUtente;
+    }
+
+    public float getCostoFinale() {
+        float c=0F;
+        for (IProdotto p : prodotti)
+            c+= p.getPrezzo();
+        return c;
+    }
+
+    public void setCostoFinale(float costoFinale) {
+        this.costoFinale = costoFinale;
     }
 
     @Override
