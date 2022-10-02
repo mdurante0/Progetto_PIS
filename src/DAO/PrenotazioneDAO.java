@@ -5,7 +5,7 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Prodotto;
+import Model.Prenotazione;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 public class PrenotazioneDAO implements IPrenotazioneDAO {
     private static PrenotazioneDAO instance = new PrenotazioneDAO();
-    private Prodotto prenotazione;
+    private Prenotazione prenotazione;
     private static IDbConnection conn;
     private static ResultSet rs;
     @Override
-    public Prodotto findById(int idPrenotazione) {
+    public Prenotazione findById(int idPrenotazione) {
         String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
                 "FROM progetto_pis.prenotazione " +
                 "WHERE idprenotazione = '" + idPrenotazione + "';";
@@ -29,7 +29,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         try {
             rs.next();
             if (rs.getRow()==1) {
-                prenotazione = new Prodotto();
+                prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 return prenotazione;
@@ -46,7 +46,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return null;
     }
 
-    public ArrayList<Prodotto> findByUser(int idUtenteAcquirente){
+    public ArrayList<Prenotazione> findByUser(int idUtenteAcquirente){
 
         String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
                 "FROM progetto_pis.prenotazione " +
@@ -55,10 +55,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Prodotto> prenotazioni = new ArrayList<>();
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
         try {
             while (rs.next()) {
-                prenotazione = new Prodotto();
+                prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idlista_acquisto"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
 
@@ -79,7 +79,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public ArrayList<Prodotto> findAll() {
+    public ArrayList<Prenotazione> findAll() {
         String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
                 "FROM progetto_pis.prenotazione;";
 
@@ -87,10 +87,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Prodotto> prenotazioni = new ArrayList<>();
+        ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
         try {
             while (rs.next()) {
-                prenotazione = new Prodotto();
+                prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazioni.add(prenotazione);
@@ -110,7 +110,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public int add(Prodotto prenotazione) {
+    public int add(Prenotazione prenotazione) {
         String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente) VALUES ('"+
                 prenotazione.getIdUtente() + "');";
 
@@ -141,7 +141,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public int update(Prodotto prenotazione) {
+    public int update(Prenotazione prenotazione) {
         String sql = "UPDATE progetto_pis.prenotazione " +
                 "SET utente_acquirente_utente_idutente = '" + prenotazione.getIdUtente() +
                 "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";

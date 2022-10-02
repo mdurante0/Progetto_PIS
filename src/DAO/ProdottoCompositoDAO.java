@@ -1,19 +1,12 @@
 package DAO;
 
 import DbInterface.IDbConnection;
-import DbInterface.command.DbOperationExecutor;
-import DbInterface.command.IDbOperation;
-import DbInterface.command.ReadOperation;
-import DbInterface.command.WriteOperation;
-import Model.Prodotto;
-import Model.ProdottoComposito;
 import Model.composite.ProdottoComposito;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
+
+public class ProdottoCompositoDAO{
     private static ProdottoCompositoDAO instance = new ProdottoCompositoDAO();
     private ProdottoComposito prodottoComposito;
     private static IDbConnection conn;
@@ -28,12 +21,12 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     public static ProdottoCompositoDAO getInstance() {
         return instance;
     }
-
+/*
     @Override
-    public ProdottoComposito findById(int idPrenotazione) {
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
-                "FROM progetto_pis.prenotazione " +
-                "WHERE idprenotazione = '" + idPrenotazione + "';";
+    public ProdottoComposito findById(int idProdottoComposito) {
+        String sql = "SELECT prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1 " +
+                "FROM progetto_pis.prodotto_has_prodotto " +
+                "WHERE prodotto_articolo_idarticolo = '" + idProdottoComposito + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -163,4 +156,6 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
+
+ */
 }

@@ -1,6 +1,5 @@
 package DAO;
 
-import Model.Servizio;
 import Model.composite.ProdottoComposito;
 
 import java.util.ArrayList;

@@ -2,18 +2,18 @@ package Model;
 
 import java.util.*;
 
-public class Prodotto {
+public class Prenotazione {
 
     private int idPrenotazione;
     private List<Model.composite.Prodotto> prodotti;
     private Date dataPrenotazione;
     private int idUtente;
 
-    public Prodotto(){
+    public Prenotazione(){
         this.prodotti = new ArrayList<>();
     }
 
-    public Prodotto(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione) {
+    public Prenotazione(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione) {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
     }

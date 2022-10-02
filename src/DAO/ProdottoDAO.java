@@ -5,13 +5,13 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Prodotto;
+import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ProdottoDAO implements IPrenotazioneDAO {
+public class ProdottoDAO implements IProdottoDAO {
     private static ProdottoDAO instance = new ProdottoDAO();
     private Prodotto prodotto;
     private static IDbConnection conn;
@@ -74,7 +74,7 @@ public class ProdottoDAO implements IPrenotazioneDAO {
                 prodotto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazioni.add(prodotto);
             }
-            return prenotazioni;
+            return prodotti;
         } catch (SQLException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("SQLException: " + e.getMessage());
@@ -89,13 +89,37 @@ public class ProdottoDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public int add(Prodotto prenotazione) {
-        String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente) VALUES ('"+
-                prenotazione.getIdUtente() + "');";
+    public int add(Prodotto prodotto) {
+
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        articoloDAO.add(prodotto);
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        String sql = "INSERT INTO progetto_pis.prodotto (produttore_idproduttore) VALUES ('"+
+                prodotto.getIdProduttore() + "');";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        int rowCount = 0;
+        try {
+            rs.next();
+            prodotto.setIdArticolo(rs.getInt("max(idutente)"));
+            sql = "INSERT INTO progetto_pis.prodotto (produttore_idproduttore) VALUES ('" +
+                    prodotto.getIdProduttore() + "');";
+            IDbOperation writeOp = new WriteOperation(sql);
+
+            rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return rowCount;
     }
 
     @Override
