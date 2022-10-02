@@ -84,7 +84,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ArrayList<ListaAcquisto> findAll() {
-        String sql = "SELECT utente_acquirente_utente_idutente, pagata, costo_finale " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
                 "FROM progetto_pis.lista_acquisto ";
 
         DbOperationExecutor executor = new DbOperationExecutor();

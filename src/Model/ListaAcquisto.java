@@ -1,27 +1,27 @@
 package Model;
 
-import Model.composite.IProdotto;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ListaAcquisto {
 
     private int idLista;
     private boolean pagata;
     private String nome;
-    private List<IProdotto> prodotti;
+    private List<Articolo> articoli;
     private Date dataCreazione;
     private int idUtente;
     private float costoFinale;
 
     public ListaAcquisto(){
-        this.prodotti = new ArrayList<>();
+        this.articoli = new ArrayList<>();
     }
 
-    public ListaAcquisto(boolean pagata, String nome, List<IProdotto> prodotti, Date dataCreazione) {
+    public ListaAcquisto(boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
         this.pagata = pagata;
         this.nome = nome;
-        this.prodotti = prodotti;
+        this.articoli = articoli;
         this.dataCreazione = dataCreazione;
     }
 
@@ -49,12 +49,12 @@ public class ListaAcquisto {
         this.nome = nome;
     }
 
-    public List<IProdotto> getProdotti() {
-        return prodotti;
+    public List<Articolo> getArticoli() {
+        return articoli;
     }
 
-    public void setProdotti(List<IProdotto> prodotti) {
-        this.prodotti = prodotti;
+    public void setArticoli(List<Articolo> articoli) {
+        this.articoli = articoli;
     }
 
     public Date getDataCreazione() {
@@ -75,8 +75,8 @@ public class ListaAcquisto {
 
     public float getCostoFinale() {
         float c=0F;
-        for (IProdotto p : prodotti)
-            c+= p.getPrezzo();
+        for (Articolo a : articoli)
+            c+= a.getPrezzo();
         return c;
     }
 
@@ -89,7 +89,7 @@ public class ListaAcquisto {
         return "ListaAcquisto{" +
                 "pagata=" + pagata +
                 ", nome='" + nome + '\'' +
-                ", prodotti=" + prodotti +
+                ", prodotti=" + articoli +
                 ", dataCreazione=" + dataCreazione +
                 '}';
     }
