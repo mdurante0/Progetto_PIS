@@ -31,8 +31,8 @@ public class ClienteDAO implements IClienteDAO {
     public Cliente findById(String username) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente " +
-                "AS u INNER JOIN progetto_pis.utente_acquirente AS m ON u.idutente = m.utente_idutente " +
+        String sql = "SELECT idutente, nome, cognome, email, username, abilitazione, data_registrazione, punto_vendita_idpunto_vendita " +
+                "FROM progetto_pis.utente AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente " +
                 "WHERE u.username = '"+username+"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -46,7 +46,9 @@ public class ClienteDAO implements IClienteDAO {
                 cliente.setSurname(rs.getString("cognome"));
                 cliente.setUsername(rs.getString("username"));
                 cliente.setEmail(rs.getString("email"));
-
+                cliente.setAbilitazione(rs.getBoolean("abilitazione"));
+                cliente.setIdPuntoVendita(rs.getInt("punto_vendita_idpunto_vendita"));
+                cliente.setRegistrazione(rs.getDate("data_registrazione"));
                 return cliente;
             }
         } catch (SQLException e) {
@@ -64,8 +66,8 @@ public class ClienteDAO implements IClienteDAO {
     @Override
     public ArrayList<Cliente> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idutente, nome, cognome, username, email FROM progetto_pis.utente " +
-                "AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente;";
+        String sql = "SELECT idutente, nome, cognome, username, email, abilitazione, data_registrazione, punto_vendita_idpunto_vendita " +
+                "FROM progetto_pis.utente AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -78,6 +80,9 @@ public class ClienteDAO implements IClienteDAO {
                 cliente.setSurname(rs.getString("cognome"));
                 cliente.setUsername(rs.getString("username"));
                 cliente.setEmail(rs.getString("email"));
+                cliente.setAbilitazione(rs.getBoolean("abilitazione"));
+                cliente.setIdPuntoVendita(rs.getInt("punto_vendita_idpunto_vendita"));
+                cliente.setRegistrazione(rs.getDate("data_registrazione"));
                 clienti.add(cliente);
             }
             return clienti;
@@ -90,7 +95,6 @@ public class ClienteDAO implements IClienteDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return null;
     }
 
@@ -118,7 +122,6 @@ public class ClienteDAO implements IClienteDAO {
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
-
 
         } catch (SQLException e) {
             // handle any errors

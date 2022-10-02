@@ -8,6 +8,6 @@ public interface IFornitoreDAO {
     Fornitore findById(String name);
     ArrayList<Fornitore> findAll();
     int add(Fornitore fornitore);
-    int removeById(String email);
+    int removeById(String nome);
     int update(Fornitore fornitore);
 }

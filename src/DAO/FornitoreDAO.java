@@ -16,7 +16,8 @@ public class FornitoreDAO implements IFornitoreDAO {
     private Fornitore fornitore;
     private static IDbConnection conn;
     private static ResultSet rs;
-    private FornitoreDAO() {
+
+    private FornitoreDAO(){
         fornitore = null;
         conn = null;
         rs = null;
@@ -25,6 +26,7 @@ public class FornitoreDAO implements IFornitoreDAO {
     public static FornitoreDAO getInstance() {
         return instance;
     }
+
     @Override
     public Fornitore findById(String name) {
         String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione" +

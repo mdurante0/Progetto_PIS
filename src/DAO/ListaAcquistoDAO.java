@@ -16,6 +16,17 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     private ListaAcquisto listaAcquisto;
     private static IDbConnection conn;
     private static ResultSet rs;
+
+    private ListaAcquistoDAO(){
+        listaAcquisto = null;
+        conn = null;
+        rs = null;
+    }
+
+    public static ListaAcquistoDAO getInstance() {
+        return instance;
+    }
+
     @Override
     public ListaAcquisto findById(int idLista) {
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
@@ -43,6 +54,74 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
             System.out.println("VendorError: " + e.getErrorCode());
         } catch (NullPointerException e) {
             // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+    @Override
+    public ArrayList<ListaAcquisto> findAll() {
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
+                "FROM progetto_pis.lista_acquisto ";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
+                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setPagata(rs.getBoolean("pagata"));
+                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                listeAcquisto.add(listaAcquisto);
+            }
+            return listeAcquisto;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<ListaAcquisto> findNotPaid() {
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
+                "FROM progetto_pis.lista_acquisto " +
+                "WHERE pagata = '0';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
+                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setPagata(rs.getBoolean("pagata"));
+                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                listeAcquisto.add(listaAcquisto);
+            }
+            return listeAcquisto;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
         return null;
@@ -78,41 +157,6 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
-
-        return null;
-    }
-
-    @Override
-    public ArrayList<ListaAcquisto> findAll() {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
-                "FROM progetto_pis.lista_acquisto ";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
-
-        ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
-        try {
-            while (rs.next()) {
-                listaAcquisto = new ListaAcquisto();
-                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
-                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
-                listaAcquisto.setPagata(rs.getBoolean("pagata"));
-                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
-
-                listeAcquisto.add(listaAcquisto);
-            }
-            return listeAcquisto;
-        } catch (SQLException e) {
-            // Gestisce le differenti categorie d'errore
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-            // Gestisce le differenti categorie d'errore
-            System.out.println("Resultset: " + e.getMessage());
-        }
-
         return null;
     }
 

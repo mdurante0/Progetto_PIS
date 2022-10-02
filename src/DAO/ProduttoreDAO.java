@@ -17,7 +17,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
     private static IDbConnection conn;
     private static ResultSet rs;
 
-    private ProduttoreDAO() {
+    private ProduttoreDAO(){
         produttore = null;
         conn = null;
         rs = null;
@@ -26,6 +26,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
     public static ProduttoreDAO getInstance() {
         return instance;
     }
+
     @Override
     public Produttore findById(String name) {
         String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione" +
