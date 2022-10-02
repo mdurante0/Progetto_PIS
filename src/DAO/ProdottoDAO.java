@@ -40,8 +40,8 @@ public class ProdottoDAO implements IProdottoDAO {
             rs.next();
             if (rs.getRow()==1) {
                 prodotto = new Prodotto();
-                prodotto.set(rs.getInt("idprenotazione"));
-                prodotto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
                 return prodotto;
             }
         } catch (SQLException e) {
@@ -59,20 +59,20 @@ public class ProdottoDAO implements IProdottoDAO {
 
     @Override
     public ArrayList<Prodotto> findAll() {
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
-                "FROM progetto_pis.prenotazione;";
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore " +
+                "FROM progetto_pis.prodotto;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Prodotto> prenotazioni = new ArrayList<>();
+        ArrayList<Prodotto> prodotti = new ArrayList<>();
         try {
             while (rs.next()) {
                 prodotto = new Prodotto();
-                prodotto.setIdPrenotazione(rs.getInt("idprenotazione"));
-                prodotto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
-                prenotazioni.add(prodotto);
+                prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                prodotto.setIdProduttore(rs.getInt("utente_acquirente_utente_idutente"));
+                prodotti.add(prodotto);
             }
             return prodotti;
         } catch (SQLException e) {
@@ -123,22 +123,22 @@ public class ProdottoDAO implements IProdottoDAO {
     }
 
     @Override
-    public int removeById(int id) {
+    public int removeById(String nome) {
 
-        String sql = "DELETE FROM progetto_pis.prenotazione " +
-                "WHERE idprenotazione = '" + id + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        return articoloDAO.removeById(nome);
     }
 
 
     @Override
-    public int update(Prodotto prenotazione) {
-        String sql = "UPDATE progetto_pis.prenotazione " +
-                "SET utente_acquirente_utente_idutente = '" + prenotazione.getIdUtente() +
-                "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+    public int update(Prodotto prodotto) {
+
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        articoloDAO.update(prodotto);
+
+        String sql = "UPDATE progetto_pis.prodotto " +
+                "SET produttore_idproduttore = '" + prodotto.getIdProduttore() +
+                "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

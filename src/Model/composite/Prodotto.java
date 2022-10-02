@@ -9,6 +9,10 @@ public class Prodotto extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
     private Produttore produttore;
+    private int idProduttore;
+
+
+
     private int quantita;
     private int idMagazzino;
     public Collocazione getCollocazione() {
@@ -43,9 +47,13 @@ public class Prodotto extends Articolo implements IProdotto {
         this.idMagazzino = idMagazzino;
     }
 
-    /*viene avvalorata in maniera diversa a seconda se prendiamo l'immagine dal db
-      (campo BLOB), oppure da un path locale, oppure dal Cloud (es. Amazon S3)
-     */
+    public int getIdProduttore() {
+        return idProduttore;
+    }
+
+    public void setIdProduttore(int idProduttore) {
+        this.idProduttore = idProduttore;
+    }
 
     public Prodotto(){
         super();
