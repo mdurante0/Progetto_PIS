@@ -6,9 +6,9 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Immagine;
-import Model.Produttore;
 
 import javax.swing.*;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ImmagineDAO implements IImmagineDAO {
     private static ResultSet rs;
     @Override
     public Immagine findById(int id) {
-        String sql = "SELECT immagine" +
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
                 "FROM progetto_pis.immagine " +
                 "WHERE articolo_idarticolo = '" + id + "';";
 
@@ -32,6 +32,8 @@ public class ImmagineDAO implements IImmagineDAO {
             rs.next();
             if (rs.getRow()==1) {
                 immagine = new Immagine();
+                immagine.setIdImmagine(rs.getInt("idimmagine"));
+                immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setPic((ImageIcon) rs.getBlob("immagine"));
 
                 return immagine;
@@ -50,7 +52,7 @@ public class ImmagineDAO implements IImmagineDAO {
 
     @Override
     public ArrayList<Immagine> findAll() {
-        String sql = "SELECT immagine, articolo_idarticolo" +
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
                 "FROM progetto_pis.immagine ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -63,6 +65,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 immagine = new Immagine();
                 immagine.setPic((ImageIcon) rs.getBlob("immagine"));
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                immagine.setIdImmagine(rs.getInt("idimmagine"));
 
                 immagini.add(immagine);
             }
@@ -84,7 +87,7 @@ public class ImmagineDAO implements IImmagineDAO {
     public int add(Immagine immagine) {
 
         String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
-                immagine.getPic() + "','" +
+                (Blob) immagine.getPic() + "','" +
                 immagine.getIdArticolo() +"');";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -94,7 +97,16 @@ public class ImmagineDAO implements IImmagineDAO {
     @Override
     public int removeById(int id) {
         String sql = "DELETE FROM progetto_pis.immagine " +
-                "WHERE articolo_idarticolo = '" + id + "';";
+                "WHERE idimmagine = '" + id + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
+    public int removeByArticolo(int idArticolo) {
+        String sql = "DELETE FROM progetto_pis.immagine " +
+                "WHERE articolo_idarticolo = '" + idArticolo + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -105,7 +117,8 @@ public class ImmagineDAO implements IImmagineDAO {
     public int update(Immagine immagine) {
         String sql = "UPDATE progetto_pis.immagine " +
                 "SET immagine = '" + immagine.getPic() +
-                "' WHERE articolo_idarticolo = '" + immagine.getIdArticolo() + "';";
+                "', articolo_idarticolo = '" + immagine.getIdArticolo() +
+                "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

@@ -6,12 +6,10 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.ListaAcquisto;
-import Model.Produttore;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListaAcquistoDAO implements IListaAcquistoDAO {
     private static ListaAcquistoDAO instance = new ListaAcquistoDAO();
@@ -20,7 +18,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     private static ResultSet rs;
     @Override
     public ListaAcquisto findById(int idLista) {
-        String sql = "SELECT utente_acquirente_utente_idutente, pagata, costo_finale " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
                 "FROM progetto_pis.lista_acquisto " +
                 "WHERE idlista_acquisto = '" + idLista + "';";
 
@@ -32,6 +30,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
             rs.next();
             if (rs.getRow()==1) {
                 listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
@@ -49,27 +48,27 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return null;
     }
 
-    public ArrayList<ArrayList<ListaAcquisto>> findByUser(int id){
+    public ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT utente_acquirente_utente_idutente, pagata, costo_finale " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
                 "FROM progetto_pis.lista_acquisto " +
-                "WHERE utente_acquirente_utente_idutente = '" + id + "';";
+                "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
-        ArrayList<ArrayList<ListaAcquisto>> liste = new ArrayList<>();
         try {
             while (rs.next()) {
                 listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
                 listeAcquisto.add(listaAcquisto);
-                liste.add(listeAcquisto);
             }
-            return liste;
+            return listeAcquisto;
         } catch (SQLException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("SQLException: " + e.getMessage());
@@ -96,9 +95,11 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         try {
             while (rs.next()) {
                 listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
                 listeAcquisto.add(listaAcquisto);
             }
             return listeAcquisto;
@@ -137,6 +138,17 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
+
+    public int removeByUser(int idUtenteAcquirente) {
+
+        String sql = "DELETE FROM progetto_pis.lista_acquisto " +
+                "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
     @Override
     public int update(ListaAcquisto listaAcquisto) {
         String sql = "UPDATE progetto_pis.lista_acquisto " +

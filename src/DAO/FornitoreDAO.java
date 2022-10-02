@@ -5,7 +5,6 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Articolo;
 import Model.Fornitore;
 
 import java.sql.ResultSet;
@@ -19,7 +18,7 @@ public class FornitoreDAO implements IFornitoreDAO {
     private static ResultSet rs;
     @Override
     public Fornitore findById(String name) {
-        String sql = "SELECT nome, email, telefono, citta, nazione, descrizione" +
+        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione" +
                 "FROM progetto_pis.fornitore " +
                 "WHERE nome = '" + name + "';";
 
@@ -31,6 +30,7 @@ public class FornitoreDAO implements IFornitoreDAO {
             rs.next();
             if (rs.getRow()==1) {
                  fornitore = new Fornitore();
+                fornitore.setIdFornitore(rs.getInt("idfornitore"));
                 fornitore.setNome(rs.getString("nome"));
                 fornitore.setMail(rs.getString("email"));
                 fornitore.setTelefono(rs.getString("telefono"));
@@ -53,7 +53,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public ArrayList<Fornitore> findAll() {
-        String sql = "SELECT nome, email, telefono, citta, nazione, descrizione" +
+        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione" +
                 "FROM progetto_pis.fornitore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -64,6 +64,7 @@ public class FornitoreDAO implements IFornitoreDAO {
         try {
             while (rs.next()) {
                 fornitore = new Fornitore();
+                fornitore.setIdFornitore(rs.getInt("idfornitore"));
                 fornitore.setNome(rs.getString("nome"));
                 fornitore.setMail(rs.getString("email"));
                 fornitore.setTelefono(rs.getString("telefono"));

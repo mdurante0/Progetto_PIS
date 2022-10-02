@@ -5,7 +5,6 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Fornitore;
 import Model.Produttore;
 
 import java.sql.ResultSet;
@@ -19,7 +18,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
     private static ResultSet rs;
     @Override
     public Produttore findById(String name) {
-        String sql = "SELECT nome, email, telefono, citta, nazione, descrizione" +
+        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione" +
                 "FROM progetto_pis.produttore " +
                 "WHERE nome = '" + name + "';";
 
@@ -31,6 +30,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
             rs.next();
             if (rs.getRow()==1) {
                 produttore = new Produttore();
+                produttore.setIdProduttore(rs.getInt("idproduttore"));
                 produttore.setNome(rs.getString("nome"));
                 produttore.setMail(rs.getString("email"));
                 produttore.setTelefono(rs.getString("telefono"));
@@ -53,7 +53,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public ArrayList<Produttore> findAll() {
-        String sql = "SELECT nome, email, telefono, citta, nazione, descrizione" +
+        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione" +
                 "FROM progetto_pis.produttore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -64,6 +64,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
         try {
             while (rs.next()) {
                 produttore = new Produttore();
+                produttore.setIdProduttore(rs.getInt("idproduttore"));
                 produttore.setNome(rs.getString("nome"));
                 produttore.setMail(rs.getString("email"));
                 produttore.setTelefono(rs.getString("telefono"));
