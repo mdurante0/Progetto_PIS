@@ -31,7 +31,7 @@ public class ManagerDAO implements IManagerDAO {
     public Manager findById(String username) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente " +
+        String sql = "SELECT idutente, nome, cognome, email, username, durata_incarico FROM progetto_pis.utente " +
                 "AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente " +
                 "WHERE u.username = '"+username+"';";
         IDbOperation readOp = new ReadOperation(sql);
@@ -46,7 +46,7 @@ public class ManagerDAO implements IManagerDAO {
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));
                 manager.setEmail(rs.getString("email"));
-
+                manager.setDurataIncarico(rs.getInt("durata_incarico"));
                 return manager;
             }
         } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class ManagerDAO implements IManagerDAO {
     @Override
     public ArrayList<Manager> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email FROM progetto_pis.utente " +
+        String sql = "SELECT nome, cognome, username, email, durata_incarico FROM progetto_pis.utente " +
                 "AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -78,6 +78,7 @@ public class ManagerDAO implements IManagerDAO {
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));
                 manager.setEmail(rs.getString("email"));
+                manager.setDurataIncarico(rs.getInt("durata_incarico"));
                 managers.add(manager);
             }
             return managers;

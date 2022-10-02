@@ -14,12 +14,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ImmagineDAO implements IImmagineDAO {
-    private static IImmagineDAO instance = new ImmagineDAO();
+    private static ImmagineDAO instance = new ImmagineDAO();
     private Immagine immagine;
     private static IDbConnection conn;
     private static ResultSet rs;
+
+    private ImmagineDAO() {
+        immagine = null;
+        conn = null;
+        rs = null;
+    }
+
+    public static ImmagineDAO getInstance() {
+        return instance;
+    }
+
     @Override
     public Immagine findById(int id) {
+
         String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
                 "FROM progetto_pis.immagine " +
                 "WHERE articolo_idarticolo = '" + id + "';";
@@ -80,6 +92,38 @@ public class ImmagineDAO implements IImmagineDAO {
             System.out.println("Resultset: " + e.getMessage());
         }
 
+        return null;
+    }
+
+    public ArrayList<Immagine> findByArticolo(int idArticolo) {
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
+                "FROM progetto_pis.immagine " +
+                "WHERE articolo_idarticolo = '" + idArticolo + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<Immagine> immagini = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                immagine = new Immagine();
+                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
+                immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                immagine.setIdImmagine(rs.getInt("idimmagine"));
+
+                immagini.add(immagine);
+            }
+            return immagini;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
         return null;
     }
 
