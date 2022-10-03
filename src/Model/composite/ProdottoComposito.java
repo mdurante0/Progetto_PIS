@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ProdottoComposito extends Articolo implements IProdotto {
 
-    private final List<IProdotto> sottoprodotti = new ArrayList<>();
+    private final List<Prodotto> sottoprodotti = new ArrayList<>();
     private int idMagazzino;
 
     public ProdottoComposito(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini) {
@@ -20,11 +20,11 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public ProdottoComposito() {
     }
 
-    public void add(IProdotto prodotto) {
+    public void add(Prodotto prodotto) {
         sottoprodotti.add(prodotto);
     }
 
-    public void add(List<IProdotto> prodotti) {
+    public void add(List<Prodotto> prodotti) {
         sottoprodotti.addAll(prodotti);
     }
 
@@ -37,7 +37,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
         super.setName(name);
     }
 
-    public List<IProdotto> getSottoprodotti() {
+    public List<Prodotto> getSottoprodotti() {
         return sottoprodotti;
     }
 

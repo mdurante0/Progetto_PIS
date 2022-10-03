@@ -6,7 +6,6 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Servizio;
-import Model.Servizio;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,8 +28,10 @@ public class ServizioDAO implements IServizioDAO {
     }
     @Override
     public Servizio findById(int idServizio) {
-        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore " +
-                "FROM progetto_pis.servizio " +
+
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo " +
+                "FROM progetto_pis.servizio AS s INNER JOIN progetto_pis.articolo AS a " +
+                "ON a.idarticolo = s.articolo_idarticolo" +
                 "WHERE articolo_idarticolo = '" + idServizio + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -43,6 +44,10 @@ public class ServizioDAO implements IServizioDAO {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.setName(rs.getString("nome"));
+                servizio.setDescrizione(rs.getString("descrizione"));
+                servizio.setPrezzo(rs.getFloat("costo"));
+
                 return servizio;
             }
         } catch (SQLException e) {
@@ -60,8 +65,10 @@ public class ServizioDAO implements IServizioDAO {
   
     @Override
     public ArrayList<Servizio> findAll() {
-        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore " +
-                "FROM progetto_pis.servizio ;";
+
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo " +
+                "FROM progetto_pis.servizio AS s INNER JOIN progetto_pis.articolo AS a " +
+                "ON a.idarticolo = s.articolo_idarticolo;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -73,6 +80,10 @@ public class ServizioDAO implements IServizioDAO {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.setName(rs.getString("nome"));
+                servizio.setDescrizione(rs.getString("descrizione"));
+                servizio.setPrezzo(rs.getFloat("costo"));
+
                 servizi.add(servizio);
             }
             return servizi;
@@ -91,29 +102,53 @@ public class ServizioDAO implements IServizioDAO {
 
     @Override
     public int add(Servizio servizio) {
-        String sql = "INSERT INTO progetto_pis.servizio (fornitore_idfornitore) VALUES ('"+
-                servizio.getIdFornitore() + "');";
+
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        articoloDAO.add(servizio);
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        String sql = "SELECT max(idarticolo) FROM progetto_pis.articolo;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        int rowCount = 0;
+        try {
+            rs.next();
+            servizio.setIdArticolo(rs.getInt("max(idarticolo)"));
+            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, produttore_idproduttore) VALUES ('" +
+                    servizio.getIdArticolo() + "','" +
+                    servizio.getIdFornitore() + "');";
+            IDbOperation writeOp = new WriteOperation(sql);
+
+            rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return rowCount;
     }
 
     @Override
-    public int removeById(int id) {
+    public int removeById(String nome) {
 
-        String sql = "DELETE FROM progetto_pis.servizio " +
-                "WHERE articolo_idarticolo = '" + id + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        return articoloDAO.removeById(nome);
     }
     
 
     @Override
     public int update(Servizio servizio) {
-        String sql = "UPDATE progetto_pis.prenotazione " +
+
+        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        articoloDAO.update(servizio);
+
+        String sql = "UPDATE progetto_pis.servizio " +
                 "SET fornitore_idfornitore= '" + servizio.getIdFornitore() +
                 "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
 

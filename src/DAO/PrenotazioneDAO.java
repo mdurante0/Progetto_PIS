@@ -16,6 +16,16 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     private Prenotazione prenotazione;
     private static IDbConnection conn;
     private static ResultSet rs;
+
+    private PrenotazioneDAO (){
+        prenotazione = null;
+        conn = null;
+        rs = null;
+    }
+    public static PrenotazioneDAO getInstance() {
+        return instance;
+    }
+
     @Override
     public Prenotazione findById(int idPrenotazione) {
         String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +

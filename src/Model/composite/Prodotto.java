@@ -10,9 +10,6 @@ public class Prodotto extends Articolo implements IProdotto {
     private Collocazione collocazione;
     private Produttore produttore;
     private int idProduttore;
-
-
-
     private int quantita;
     private int idMagazzino;
     public Collocazione getCollocazione() {

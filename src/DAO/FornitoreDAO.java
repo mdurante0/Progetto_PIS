@@ -40,7 +40,7 @@ public class FornitoreDAO implements IFornitoreDAO {
         try {
             rs.next();
             if (rs.getRow()==1) {
-                 fornitore = new Fornitore();
+                fornitore = new Fornitore();
                 fornitore.setIdFornitore(rs.getInt("idfornitore"));
                 fornitore.setNome(rs.getString("nome"));
                 fornitore.setMail(rs.getString("email"));
