@@ -28,8 +28,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     @Override
     public Prenotazione findById(int idPrenotazione) {
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
-                "FROM progetto_pis.prenotazione " +
+
+        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
+                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
+                "ON p.idprenotazione = pp.prenotazione_idprenotazione " +
                 "WHERE idprenotazione = '" + idPrenotazione + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -42,6 +44,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setIdProdotto(rs.getInt("prodotto_articolo_idarticolo"));
+                prenotazione.setQuantita(rs.getInt("quantita"));
+
                 return prenotazione;
             }
         } catch (SQLException e) {
@@ -58,8 +64,9 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     public ArrayList<Prenotazione> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
-                "FROM progetto_pis.prenotazione " +
+        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
+                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
+        "ON p.idprenotazione = pp.prenotazione_idprenotazione " +
                 "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -71,6 +78,9 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idlista_acquisto"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setIdProdotto(rs.getInt("prodotto_articolo_idarticolo"));
+                prenotazione.setQuantita(rs.getInt("quantita"));
 
                 prenotazioni.add(prenotazione);
             }
@@ -90,8 +100,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     @Override
     public ArrayList<Prenotazione> findAll() {
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente " +
-                "FROM progetto_pis.prenotazione;";
+
+        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
+                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
+                "ON p.idprenotazione = pp.prenotazione_idprenotazione;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -103,6 +115,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setIdProdotto(rs.getInt("prodotto_articolo_idarticolo"));
+                prenotazione.setQuantita(rs.getInt("quantita"));
+
                 prenotazioni.add(prenotazione);
             }
             return prenotazioni;
@@ -121,12 +137,42 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     @Override
     public int add(Prenotazione prenotazione) {
-        String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente) VALUES ('"+
-                prenotazione.getIdUtente() + "');";
+
+        String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente, data_prenotazione) VALUES ('"+
+                prenotazione.getIdUtente() + "','" + prenotazione.getDataPrenotazione() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        executor.executeOperation(writeOp).getRowsAffected();
+
+        executor = new DbOperationExecutor();
+        sql = "SELECT max(idprenotazione) FROM progetto_pis.prenotazione;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        int rowCount = 0;
+        try {
+            rs.next();
+            prenotazione.setIdPrenotazione(rs.getInt("max(idprenotazione)"));
+            sql = "INSERT INTO progetto_pis.prenotazione_has_prodotto " +
+                    "(prenotazione_idprenotazione, prodotto_articolo_idarticolo, quantita) VALUES ('" +
+                    prenotazione.getIdPrenotazione() + "','" +
+                    prenotazione.getIdProdotto() + "','" +
+                    prenotazione.getQuantita() + "');";
+            writeOp = new WriteOperation(sql);
+
+            rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return rowCount;
     }
 
     @Override
@@ -154,10 +200,18 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     public int update(Prenotazione prenotazione) {
         String sql = "UPDATE progetto_pis.prenotazione " +
                 "SET utente_acquirente_utente_idutente = '" + prenotazione.getIdUtente() +
+                "', data_prenotazione = '" + prenotazione.getDataPrenotazione() +
                 "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
+        executor.executeOperation(writeOp).getRowsAffected();
+
+        sql = "UPDATE progetto_pis.prenotazione_has_prodotto " +
+                "SET prodotto_articolo_idarticolo = '" + prenotazione.getIdProdotto() +
+                "', quantita = '" + prenotazione.getQuantita() +
+                "' WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+        writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 }

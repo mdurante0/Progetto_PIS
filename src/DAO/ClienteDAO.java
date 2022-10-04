@@ -118,7 +118,7 @@ public class ClienteDAO implements IClienteDAO {
                     cliente.getIdUtente() + "','" +
                     cliente.getIdPuntoVendita() + "','" +
                     cliente.isAbilitazione() + "','" +
-                    cliente.getRegistrazione() + ");";
+                    cliente.getRegistrazione() + "');";
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();

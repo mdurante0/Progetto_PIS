@@ -8,6 +8,8 @@ public class Prenotazione {
     private List<Model.composite.Prodotto> prodotti;
     private Date dataPrenotazione;
     private int idUtente;
+    private int idProdotto;
+    private int quantita;
 
     public Prenotazione(){
         this.prodotti = new ArrayList<>();
@@ -51,11 +53,27 @@ public class Prenotazione {
         this.idUtente = idUtente;
     }
 
+    public int getIdProdotto() {
+        return idProdotto;
+    }
+
+    public void setIdProdotto(int idProdotto) {
+        this.idProdotto = idProdotto;
+    }
+
     @Override
     public String toString() {
         return "Prenotazione{" +
                 "prodotti=" + prodotti +
                 ", dataPrenotazione=" + dataPrenotazione +
                 '}';
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 }
