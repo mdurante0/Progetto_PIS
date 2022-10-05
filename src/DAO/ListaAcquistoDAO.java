@@ -5,11 +5,14 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Articolo;
 import Model.ListaAcquisto;
+import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ListaAcquistoDAO implements IListaAcquistoDAO {
     private static ListaAcquistoDAO instance = new ListaAcquistoDAO();
@@ -29,8 +32,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ListaAcquisto findById(int idLista) {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
-                "FROM progetto_pis.lista_acquisto " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+                "prodotto_articolo_idarticolo, quantita, servizio_articolo_idarticolo " +
+                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_prodotto AS lp" +
+                " ON l.idlista_acquisto = lp.lista_acquisto_idlista_acquisto" +
+                " INNER JOIN progetto_pis.lista_acquisto_has_servizio AS ls" +
+                " ON l.idlista_acquisto = ls.lista_acquisto_idlista_acquisto" +
                 "WHERE idlista_acquisto = '" + idLista + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -45,6 +52,18 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                ServizioDAO servizioDAO = ServizioDAO.getInstance();
+                Prodotto prodotto;
+                while (rs.next()){
+                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(prodotto);
+                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+
+                }
+
                 return listaAcquisto;
             }
         } catch (SQLException e) {
@@ -62,8 +81,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ArrayList<ListaAcquisto> findAll() {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
-                "FROM progetto_pis.lista_acquisto ";
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+                "prodotto_articolo_idarticolo, quantita, servizio_articolo_idarticolo " +
+                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_prodotto AS lp" +
+                " ON l.idlista_acquisto = lp.lista_acquisto_idlista_acquisto" +
+                " INNER JOIN progetto_pis.lista_acquisto_has_servizio AS ls" +
+                " ON l.idlista_acquisto = ls.lista_acquisto_idlista_acquisto;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -77,6 +100,17 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                ServizioDAO servizioDAO = ServizioDAO.getInstance();
+                Prodotto prodotto;
+                while (rs.next()){
+                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(prodotto);
+                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+
+                }
 
                 listeAcquisto.add(listaAcquisto);
             }
@@ -95,8 +129,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     }
 
     public ArrayList<ListaAcquisto> findNotPaid() {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
-                "FROM progetto_pis.lista_acquisto " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+                "prodotto_articolo_idarticolo, quantita, servizio_articolo_idarticolo " +
+                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_prodotto AS lp" +
+                " ON l.idlista_acquisto = lp.lista_acquisto_idlista_acquisto" +
+                " INNER JOIN progetto_pis.lista_acquisto_has_servizio AS ls" +
+                " ON l.idlista_acquisto = ls.lista_acquisto_idlista_acquisto" +
                 "WHERE pagata = '0';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -111,6 +149,17 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                ServizioDAO servizioDAO = ServizioDAO.getInstance();
+                Prodotto prodotto;
+                while (rs.next()){
+                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(prodotto);
+                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+
+                }
 
                 listeAcquisto.add(listaAcquisto);
             }
@@ -129,8 +178,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     public ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale " +
-                "FROM progetto_pis.lista_acquisto " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+                "prodotto_articolo_idarticolo, quantita, servizio_articolo_idarticolo " +
+                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_prodotto AS lp" +
+                " ON l.idlista_acquisto = lp.lista_acquisto_idlista_acquisto" +
+                " INNER JOIN progetto_pis.lista_acquisto_has_servizio AS ls" +
+                " ON l.idlista_acquisto = ls.lista_acquisto_idlista_acquisto" +
                 "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -144,6 +197,17 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                ServizioDAO servizioDAO = ServizioDAO.getInstance();
+                Prodotto prodotto;
+                while (rs.next()){
+                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(prodotto);
+                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+
+                }
 
                 listeAcquisto.add(listaAcquisto);
             }
@@ -169,8 +233,41 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        executor.executeOperation(writeOp);
+
+        executor = new DbOperationExecutor();
+        sql = "SELECT max(idlista_acquisto) FROM progetto_pis.lista_acquisto;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        int rowCount = 0;
+        try {
+            rs.next();
+            listaAcquisto.setIdLista(rs.getInt("max(idlista_acquisto)"));
+
+            Iterator<Articolo> articoloIterator = listaAcquisto.getArticoli().iterator();
+            while (articoloIterator.hasNext()) {
+
+                Articolo articolo = articoloIterator.next();
+                sql = "";
+                writeOp = new WriteOperation(sql);
+
+                rowCount += executor.executeOperation(writeOp).getRowsAffected();
+            }
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return rowCount;
     }
+
+    //add articolo
 
     @Override
     public int removeById(int id) {
@@ -192,6 +289,8 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
+
+    // remove articolo
 
     @Override
     public int update(ListaAcquisto listaAcquisto) {
