@@ -22,7 +22,7 @@ public class ProdottoTest {
 
         Assert.assertTrue(p3.getPrezzo() == 12.0F);
 
-        p3.add(p3);
+        //p3.add(p3);
         //p3.getPrezzo(); //va in stack overflow
 
     }

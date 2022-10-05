@@ -1,6 +1,10 @@
 package Model;
 
-import java.util.*;
+import Model.composite.Prodotto;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Prenotazione {
 
@@ -8,8 +12,6 @@ public class Prenotazione {
     private List<Model.composite.Prodotto> prodotti;
     private Date dataPrenotazione;
     private int idUtente;
-    private int idProdotto;
-    private int quantita;
 
     public Prenotazione(){
         this.prodotti = new ArrayList<>();
@@ -19,7 +21,6 @@ public class Prenotazione {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
     }
-
 
     public int getIdPrenotazione() {
         return idPrenotazione;
@@ -53,12 +54,16 @@ public class Prenotazione {
         this.idUtente = idUtente;
     }
 
-    public int getIdProdotto() {
-        return idProdotto;
+    public void add(Prodotto prodotto) {
+        prodotti.add(prodotto);
     }
 
-    public void setIdProdotto(int idProdotto) {
-        this.idProdotto = idProdotto;
+    public void remove(Prodotto prodotto){
+        prodotti.remove(prodotto);
+    }
+
+    public void clear(){
+        prodotti.clear();
     }
 
     @Override
@@ -67,13 +72,5 @@ public class Prenotazione {
                 "prodotti=" + prodotti +
                 ", dataPrenotazione=" + dataPrenotazione +
                 '}';
-    }
-
-    public int getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
     }
 }

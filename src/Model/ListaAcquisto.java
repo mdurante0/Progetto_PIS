@@ -25,6 +25,18 @@ public class ListaAcquisto {
         this.dataCreazione = dataCreazione;
     }
 
+    public boolean add(Articolo articolo) {
+        return articoli.add(articolo);
+    }
+
+    public boolean remove(Articolo articolo) {
+        return articoli.remove(articolo);
+    }
+
+    public void clear() {
+        articoli.clear();
+    }
+
     public int getIdLista() {
         return idLista;
     }

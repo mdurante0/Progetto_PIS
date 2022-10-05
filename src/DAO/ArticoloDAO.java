@@ -30,7 +30,7 @@ public class ArticoloDAO implements IArticoloDAO {
     @Override
     public Articolo findById(String name) {
 
-        String sql = "SELECT nome, descrizione, categoria_idcategoria, costo " +
+        String sql = "SELECT idarticolo, nome, descrizione, categoria_idcategoria, costo " +
                 "FROM progetto_pis.articolo " +
                 "WHERE nome = '" + name + "';";
 
@@ -42,6 +42,7 @@ public class ArticoloDAO implements IArticoloDAO {
             rs.next();
             if (rs.getRow()==1) {
                 articolo = new Articolo();
+                articolo.setIdArticolo(rs.getInt("idarticolo"));
                 articolo.setName(rs.getString("nome"));
                 articolo.setDescrizione(rs.getString("descrizione"));
                 articolo.setPrezzo(rs.getFloat("costo"));
