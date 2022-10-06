@@ -10,7 +10,6 @@ public class Prodotto extends Articolo implements IProdotto {
     private Collocazione collocazione;
     private Produttore produttore;
     private int idProduttore;
-    private int quantita;
     private int idMagazzino;
     public Collocazione getCollocazione() {
         return collocazione;
@@ -26,14 +25,6 @@ public class Prodotto extends Articolo implements IProdotto {
 
     public void setProduttore(Produttore produttore) {
         this.produttore = produttore;
-    }
-
-    public int getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
     }
 
     public int getIdMagazzino() {
@@ -56,10 +47,9 @@ public class Prodotto extends Articolo implements IProdotto {
         super();
     }
     public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, int quantita, List<Immagine> immagini) {
-        super(prezzo, commenti, nome, descrizione, categoria, immagini);
+        super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
         this.collocazione = collocazione;
         this.produttore = produttore;
-        this.quantita = quantita;
     }
 
     @Override

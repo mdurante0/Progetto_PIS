@@ -9,8 +9,8 @@ public class Servizio extends Articolo {
     private Fornitore fornitore;
     private int idFornitore;
 
-    public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Fornitore fornitore, List<Immagine> immagini) {
-        super(prezzo, commenti, nome, descrizione, categoria, immagini);
+    public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Fornitore fornitore, List<Immagine> immagini, int quantita) {
+        super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
         this.fornitore = fornitore;
     }
     public Servizio(){

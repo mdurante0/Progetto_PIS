@@ -12,17 +12,19 @@ public class Articolo implements IArticolo {
     private Float prezzo;
     private String name;
     private String descrizione;
+    private int quantita;
     private List<Feedback> commenti;
     private ICategoria categoria;
     private List<Immagine> immagini;
 
-    public Articolo(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini) {
+    public Articolo(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini, int quantita) {
         this.prezzo = prezzo;
         this.commenti = commenti;
         this.name = name;
         this.descrizione = descrizione;
         this.categoria = categoria;
         this.immagini = immagini;
+        this.quantita = quantita;
     }
 
     public Articolo() {
@@ -68,6 +70,14 @@ public class Articolo implements IArticolo {
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 
     public ICategoria getCategoria() {

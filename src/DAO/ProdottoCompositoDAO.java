@@ -149,13 +149,13 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
             idProdottoComposito = rs.getInt("max(idarticolo)");
             sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo) VALUES ('" + idProdottoComposito + ");";
             IDbOperation writeOp = new WriteOperation(sql);
-            executor.executeOperation(writeOp).getRowsAffected();
+            executor.executeOperation(writeOp);
 
             Iterator<Prodotto> sottoprodottiIterator = prodottoComposito.getSottoprodotti().iterator();
             while (sottoprodottiIterator.hasNext()) {
 
                 Prodotto sottoprodotto = sottoprodottiIterator.next();
-                int idSottoprodotto = articoloDAO.findById(sottoprodotto.getName()).getIdArticolo();
+                int idSottoprodotto = articoloDAO.findByName(sottoprodotto.getName()).getIdArticolo();
 
                 sql = "INSERT INTO progetto_pis.prodotto_has_prodotto " +
                         "(prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1, quantita) " +

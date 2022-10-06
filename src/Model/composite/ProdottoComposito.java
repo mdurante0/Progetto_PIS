@@ -13,8 +13,8 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     private final List<Prodotto> sottoprodotti = new ArrayList<>();
     private int idMagazzino;
 
-    public ProdottoComposito(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini) {
-        super(prezzo, commenti, name, descrizione, categoria, immagini);
+    public ProdottoComposito(Float prezzo, List<Feedback> commenti, String name, String descrizione, ICategoria categoria, List<Immagine> immagini, int quantita) {
+        super(prezzo, commenti, name, descrizione, categoria, immagini, quantita);
     }
 
     public ProdottoComposito() {

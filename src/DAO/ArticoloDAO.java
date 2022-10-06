@@ -28,7 +28,39 @@ public class ArticoloDAO implements IArticoloDAO {
     }
 
     @Override
-    public Articolo findById(String name) {
+    public Articolo findById(int idArticolo) {
+
+        String sql = "SELECT idarticolo, nome, descrizione, categoria_idcategoria, costo " +
+                "FROM progetto_pis.articolo " +
+                "WHERE idarticolo = '" + idArticolo + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                articolo = new Articolo();
+                articolo.setIdArticolo(rs.getInt("idarticolo"));
+                articolo.setName(rs.getString("nome"));
+                articolo.setDescrizione(rs.getString("descrizione"));
+                articolo.setPrezzo(rs.getFloat("costo"));
+                return articolo;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Articolo findByName(String name) {
 
         String sql = "SELECT idarticolo, nome, descrizione, categoria_idcategoria, costo " +
                 "FROM progetto_pis.articolo " +

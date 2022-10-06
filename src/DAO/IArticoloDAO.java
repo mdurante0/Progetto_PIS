@@ -5,7 +5,7 @@ import Model.Articolo;
 import java.util.ArrayList;
 
 public interface IArticoloDAO {
-    Articolo findById(String nome);
+    Articolo findById(int idArticolo);
     ArrayList<Articolo> findAll();
     int add(Articolo articolo);
     int removeById(String nome);
