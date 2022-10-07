@@ -199,7 +199,6 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                     articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
                     articolo.setQuantita(rs.getInt("quantita"));
                     listaAcquisto.add(articolo);
-
                 }
 
                 listeAcquisto.add(listaAcquisto);
