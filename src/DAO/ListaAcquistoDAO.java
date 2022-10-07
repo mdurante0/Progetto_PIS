@@ -7,7 +7,6 @@ import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Articolo;
 import Model.ListaAcquisto;
-import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +32,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     @Override
     public ListaAcquisto findById(int idLista) {
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
-                "prodotto_articolo_idarticolo, quantita " +
+                "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
                 "WHERE idlista_acquisto = '" + idLista + "';";
@@ -51,14 +50,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
-                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                ServizioDAO servizioDAO = ServizioDAO.getInstance();
-                Prodotto prodotto;
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+                Articolo articolo;
                 while (rs.next()){
-                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
-                    prodotto.setQuantita(rs.getInt("quantita"));
-                    listaAcquisto.add(prodotto);
-                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+                    articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(articolo);
 
                 }
 
@@ -100,10 +97,9 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
                 Articolo articolo;
                 while (rs.next()){
-                    articolo = articoloDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
                     articolo.setQuantita(rs.getInt("quantita"));
                     listaAcquisto.add(articolo);
-                    listaAcquisto.add(articoloDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
 
                 }
 
@@ -123,12 +119,13 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return null;
     }
 
-    public ArrayList<ListaAcquisto> findNotPaid() {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+    public ArrayList<ListaAcquisto> findNotPaidByPuntoVendita(int idPuntoVendita) {
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, punto_vendita_idpunto_vendita, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_acquisto AS la" +
-                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
-                "WHERE pagata = '0';";
+                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto " +
+                "INNER JOIN  progetto_pis.utente_acquirente AS c ON l.utente_acquirente_utente_idutente" +
+                "WHERE pagata = '0' AND punto_vendita_idpunto_vendita = '" + idPuntoVendita + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -143,14 +140,12 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
-                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                ServizioDAO servizioDAO = ServizioDAO.getInstance();
-                Prodotto prodotto;
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+                Articolo articolo;
                 while (rs.next()){
-                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
-                    prodotto.setQuantita(rs.getInt("quantita"));
-                    listaAcquisto.add(prodotto);
-                    listaAcquisto.add(servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
+                    articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(articolo);
 
                 }
 
@@ -167,6 +162,15 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
             System.out.println("Resultset: " + e.getMessage());
         }
         return null;
+    }
+
+    public int setPagata(int idListaAcquisto){
+
+        String sql = "UPDATE progetto_pis.lista_acquisto SET pagata = 1 WHERE idlista_acquisto = '" + idListaAcquisto + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
 
     public ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente){
@@ -192,10 +196,9 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
                 Articolo articolo;
                 while (rs.next()){
-                    articolo = articoloDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
                     articolo.setQuantita(rs.getInt("quantita"));
                     listaAcquisto.add(articolo);
-                    listaAcquisto.add(articoloDAO.findById(rs.getInt("servizio_articolo_idarticolo")));
 
                 }
 
@@ -292,7 +295,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
-    public int removeProdotto(int idListaAcquisto, Articolo articolo){
+    public int removeArticolo(int idListaAcquisto, Articolo articolo){
 
         String sql = "DELETE FROM progetto_pis.lista_acquisto_has_articolo " +
                 "WHERE lista_acquisto_idlista_acquisto = '" + idListaAcquisto +
