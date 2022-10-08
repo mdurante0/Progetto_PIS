@@ -70,12 +70,16 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
 
     @Override
     public ArrayList<CategoriaServizio> findAll() {
+
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcategoria_servizio, nome, servizio_articolo_idarticolo FROM progetto_pis.categoria_servizio AS c INNER JOIN progetto_pis.categoria_servizio AS cs ON c.idcategoria_servizio = cs.categoria_servizio_idcategoria_servizio;";
+        String sql = "SELECT idcategoria_servizio, nome, servizio_articolo_idarticolo " +
+                "FROM progetto_pis.categoria_servizio AS c INNER JOIN progetto_pis.categoria_servizio AS cs " +
+                "ON c.idcategoria_servizio = cs.categoria_servizio_idcategoria_servizio;";
+
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<CategoriaServizio> categorie = new ArrayList<>();
+        ArrayList<CategoriaServizio> categorieServizio = new ArrayList<>();
         try {
             while (rs.next()) {
                 categoriaServizio = new CategoriaServizio();
@@ -89,9 +93,9 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
                     categoriaServizio.add(servizio);
 
                 }
-                categorie.add(categoriaServizio);
+                categorieServizio.add(categoriaServizio);
             }
-            return categorie;
+            return categorieServizio;
         } catch (SQLException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("SQLException: " + e.getMessage());
@@ -109,7 +113,7 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
     public int add(CategoriaServizio categoriaServizio) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.categoria_servizio (nome) VALUES ('"+ categoriaServizio.getNome() +"');";
+        String sql = "INSERT INTO progetto_pis.categoria_servizio (nome) VALUES ('" + categoriaServizio.getNome() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
 
         executor.executeOperation(writeOp);
@@ -123,12 +127,12 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
             rs.next();
             categoriaServizio.setIdCategoriaServizio(rs.getInt("max(idcategoria_servizio)"));
 
-            ServizioDAO servizioDao = ServizioDAO.getInstance();
+            ServizioDAO servizioDAO = ServizioDAO.getInstance();
             Iterator<Servizio> servizioIterator = categoriaServizio.getServizi().iterator();
             Servizio servizio;
             while (servizioIterator.hasNext()) {
 
-                servizio = servizioDao.findByName(servizioIterator.next().getName());
+                servizio = servizioDAO.findByName(servizioIterator.next().getName());
                 sql = "INSERT INTO progetto_pis.categoria_servizio_has_servizio" +
                         "(categoria_servizio_idcategoria_servizio, servizio_articolo_idarticolo) " +
                         "VALUES ('" + categoriaServizio.getIdCategoriaServizio() +  "','" +
