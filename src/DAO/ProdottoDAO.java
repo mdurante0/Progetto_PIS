@@ -62,6 +62,41 @@ public class ProdottoDAO implements IProdottoDAO {
         return null;
     }
 
+    public Prodotto findByName(String name) {
+
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo " +
+                "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
+                "ON a.idarticolo = p.articolo_idarticolo" +
+                "WHERE nome = '" + name + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                prodotto = new Prodotto();
+                prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.setName(rs.getString("nome"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setPrezzo(rs.getFloat("costo"));
+
+                return prodotto;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     @Override
     public ArrayList<Prodotto> findAll() {

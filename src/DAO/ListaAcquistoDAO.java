@@ -31,7 +31,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ListaAcquisto findById(int idLista) {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
@@ -47,6 +47,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto = new ListaAcquisto();
                 listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
@@ -76,7 +77,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public ArrayList<ListaAcquisto> findAll() {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto";
@@ -91,6 +92,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto = new ListaAcquisto();
                 listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
@@ -120,7 +122,8 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     }
 
     public ArrayList<ListaAcquisto> findNotPaidByPuntoVendita(int idPuntoVendita) {
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, punto_vendita_idpunto_vendita, pagata, costo_finale, " +
+
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, punto_vendita_idpunto_vendita, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_acquisto AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto " +
@@ -137,6 +140,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto = new ListaAcquisto();
                 listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
@@ -173,13 +177,15 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    @Override
     public ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, pagata, costo_finale, " +
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
                 "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
+
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -190,6 +196,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto = new ListaAcquisto();
                 listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
                 listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
                 listaAcquisto.setPagata(rs.getBoolean("pagata"));
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
@@ -218,8 +225,11 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public int add(ListaAcquisto listaAcquisto) {
-        String sql = "INSERT INTO progetto_pis.lista_acquisto (utente_acquirente_utente_idutente, pagata, costo_finale) VALUES ('"+
+
+        String sql = "INSERT INTO progetto_pis.lista_acquisto " +
+                "(utente_acquirente_utente_idutente, nome, pagata, costo_finale) VALUES ('"+
                 listaAcquisto.getIdUtente() + "','" +
+                listaAcquisto.getNome() + "','" +
                 listaAcquisto.isPagata() + "','" +
                 listaAcquisto.getCostoFinale()+"');";
 
@@ -227,7 +237,6 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         executor.executeOperation(writeOp);
 
-        executor = new DbOperationExecutor();
         sql = "SELECT max(idlista_acquisto) FROM progetto_pis.lista_acquisto;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -262,15 +271,16 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     }
 
     public int addArticolo(int idListaAcquisto, Articolo articolo){
+
         String sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
                 "(lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) VALUES ('" +
                 idListaAcquisto + "','" +
                 articolo.getIdArticolo() + "','" +
                 articolo.getQuantita() + "');";
+
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
-
     }
 
     @Override
@@ -284,6 +294,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    @Override
     public int removeByUser(int idUtenteAcquirente) {
 
         String sql = "DELETE FROM progetto_pis.lista_acquisto " +
@@ -307,8 +318,10 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public int update(ListaAcquisto listaAcquisto) {
+
         String sql = "UPDATE progetto_pis.lista_acquisto " +
                 "SET utente_acquirente_utente_idutente = '" + listaAcquisto.getIdUtente() +
+                "', nome = '" + listaAcquisto.getNome() +
                 "', pagata = '" + listaAcquisto.isPagata() +
                 "', costo_finale = '" + listaAcquisto.getCostoFinale() +
                 "' WHERE idlista_acquisto = '" + listaAcquisto.getIdLista() + "';";

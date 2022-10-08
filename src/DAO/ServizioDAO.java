@@ -62,7 +62,43 @@ public class ServizioDAO implements IServizioDAO {
         return null;
     }
 
-  
+    public Servizio findByName(String name) {
+
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo " +
+                "FROM progetto_pis.servizio AS s INNER JOIN progetto_pis.articolo AS a " +
+                "ON a.idarticolo = s.articolo_idarticolo" +
+                "WHERE nome = '" + name + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                servizio = new Servizio();
+                servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.setName(rs.getString("nome"));
+                servizio.setDescrizione(rs.getString("descrizione"));
+                servizio.setPrezzo(rs.getFloat("costo"));
+
+                return servizio;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+
     @Override
     public ArrayList<Servizio> findAll() {
 

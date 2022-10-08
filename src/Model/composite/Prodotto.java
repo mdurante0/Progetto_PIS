@@ -11,6 +11,8 @@ public class Prodotto extends Articolo implements IProdotto {
     private Produttore produttore;
     private int idProduttore;
     private int idMagazzino;
+    private int idCollocazione;
+
     public Collocazione getCollocazione() {
         return collocazione;
     }
@@ -61,6 +63,14 @@ public class Prodotto extends Articolo implements IProdotto {
 
     public void setName(String name) { super.setName(name); }
 
+    public int getIdCollocazione() {
+        return idCollocazione;
+    }
+
+    public void setIdCollocazione(int idCollocazione){
+        this.idCollocazione = idCollocazione;
+    }
+
     @Override
     public String toString() {
         return "Prenotazione{" +
@@ -70,4 +80,6 @@ public class Prodotto extends Articolo implements IProdotto {
                 ", produttore=" + produttore.getNome() +
                 '}';
     }
+
+
 }

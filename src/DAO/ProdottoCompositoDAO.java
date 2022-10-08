@@ -32,6 +32,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
     @Override
     public ProdottoComposito findById(int idProdottoComposito) {
+
         String sql = "SELECT prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1, quantita, nome, descrizione, costo " +
                 "FROM progetto_pis.prodotto_has_prodotto INNER JOIN progetto_pis.articolo " +
                 "ON prodotto_articolo_idarticolo = idarticolo WHERE idarticolo = '" + idProdottoComposito + "';";
@@ -48,7 +49,6 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
                 prodottoComposito.setName(rs.getString("nome"));
                 prodottoComposito.setDescrizione(rs.getString("descrizione"));
                 prodottoComposito.setPrezzo(rs.getFloat("costo"));
-
             }
 
             //aggiungo i componenti del prodotto composito
@@ -76,6 +76,53 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
         }
         return null;
     }
+
+    public ProdottoComposito findByName(String name) {
+
+        String sql = "SELECT prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1, quantita, nome, descrizione, costo " +
+                "FROM progetto_pis.prodotto_has_prodotto INNER JOIN progetto_pis.articolo " +
+                "ON prodotto_articolo_idarticolo = idarticolo WHERE nome = '" + name + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                prodottoComposito = new ProdottoComposito();
+                prodottoComposito.setIdArticolo(rs.getInt("prodotto_articolo_idarticolo"));
+                prodottoComposito.setName(rs.getString("nome"));
+                prodottoComposito.setDescrizione(rs.getString("descrizione"));
+                prodottoComposito.setPrezzo(rs.getFloat("costo"));
+            }
+
+            //aggiungo i componenti del prodotto composito
+            ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+            int idSottoprodotto;
+            int quantita;
+            while (rs.next()) {
+
+                idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
+                quantita = rs.getInt("quantita");
+                Prodotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
+                sottoprodotto.setQuantita(quantita);
+                prodottoComposito.add(sottoprodotto);
+            }
+            return prodottoComposito;
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     @Override
     public ArrayList<ProdottoComposito> findAll() {
