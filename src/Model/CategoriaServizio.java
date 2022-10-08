@@ -7,26 +7,38 @@ import java.util.List;
 public class CategoriaServizio implements ICategoria {
     private int idCategoriaServizio;
     private String nome;
-    private List<CategoriaServizio> sottocategorie;
+    private List<Servizio> servizi;
 
     public CategoriaServizio(){
-        this.sottocategorie = new ArrayList<>();
+        this.servizi = new ArrayList<>();
     }
-    public CategoriaServizio(String nome, List sottocategorie) {
+    public CategoriaServizio(String nome, ArrayList<Servizio> servizi) {
         this.nome = nome;
-        this.sottocategorie = sottocategorie;
+        this.servizi = servizi;
+    }
+
+    public void clear() {
+        servizi.clear();
+    }
+
+    public void add(Servizio servizio) {
+        servizi.add(servizio);
+    }
+
+    public boolean remove(Servizio servizio) {
+        return servizi.remove(servizio);
     }
 
     public void setIdCategoriaServizio(int idCategoriaServizio) {
         this.idCategoriaServizio = idCategoriaServizio;
     }
 
-    public List<CategoriaServizio> getSottocategorie() {
-        return sottocategorie;
+    public List<Servizio> getServizi() {
+        return servizi;
     }
 
-    public void setSottocategorie(List<CategoriaServizio> sottocategorie) {
-        this.sottocategorie = sottocategorie;
+    public void setServizi(List<Servizio> servizi) {
+        this.servizi = servizi;
     }
 
     public String getNome() {
