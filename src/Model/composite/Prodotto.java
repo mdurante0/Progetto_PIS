@@ -12,6 +12,7 @@ public class Prodotto extends Articolo implements IProdotto {
     private int idProduttore;
     private int idMagazzino;
     private int idCollocazione;
+    private int idCategoria;
 
     public Collocazione getCollocazione() {
         return collocazione;
@@ -69,6 +70,14 @@ public class Prodotto extends Articolo implements IProdotto {
 
     public void setIdCollocazione(int idCollocazione){
         this.idCollocazione = idCollocazione;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     @Override

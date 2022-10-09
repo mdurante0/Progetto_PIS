@@ -28,11 +28,12 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     }
 
     @Override
-    public CategoriaProdotto findById(String name) {
+    public CategoriaProdotto findById(int idCategoria) {
+
+        String sql = "SELECT idcategoria_prodotto, nome, categoria_prodotto_idcategoria_prodotto FROM progetto_pis.categoria_prodotto " +
+                "WHERE idcategoria_prodotto = '" + idCategoria + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcategoria_prodotto, nome FROM progetto_pis.categoria_prodotto " +
-                "WHERE nome = '"+name+"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -41,6 +42,39 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.setNome(rs.getString("nome"));
+
+                return categoriaProdotto;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public CategoriaProdotto findByName(String name) {
+
+
+        String sql = "SELECT idcategoria_prodotto, nome, categoria_prodotto_idcategoria_prodotto FROM progetto_pis.categoria_prodotto " +
+                "WHERE nome = '" + name + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 return categoriaProdotto;
@@ -59,8 +93,10 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
 
     @Override
     public ArrayList<CategoriaProdotto> findAll() {
+
+        String sql = "SELECT idcategoria_prodotto, nome, categoria_prodotto_idcategoria_prodotto FROM progetto_pis.categoria_prodotto ;";
+
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome FROM progetto_pis.categoria_prodotto ;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -69,6 +105,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 categorie.add(categoriaProdotto);
@@ -83,24 +120,57 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
+        return null;
+    }
 
+    public ArrayList<CategoriaProdotto> findAllByParent(int idCategoriaParent) {
+
+        String sql = "SELECT idcategoria_prodotto, nome, categoria_prodotto_idcategoria_prodotto " +
+                "FROM progetto_pis.categoria_prodotto " +
+                "WHERE categoria_prodotto_idcategoria_prodotto = '" + idCategoriaParent + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<CategoriaProdotto> categorie = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                categoriaProdotto = new CategoriaProdotto();
+                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.setNome(rs.getString("nome"));
+
+                categorie.add(categoriaProdotto);
+            }
+            return categorie;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
         return null;
     }
 
     @Override
-    public int add(CategoriaProdotto categoria) {
+    public int add(CategoriaProdotto categoriaProdotto) {
+
+        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome, categoria_prodotto_idcategoria_prodotto) " +
+                "VALUES ('" + categoriaProdotto.getNome() + "','" + categoriaProdotto.getIdCategoriaProdottoParent() + ");";
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome) VALUES ('"+categoria.getNome()+"');";
         IDbOperation writeOp = new WriteOperation(sql);
-
         return  executor.executeOperation(writeOp).getRowsAffected();
-
 
     }
 
     @Override
     public int removeById(String name) {
+
         String sql = "DELETE FROM progetto_pis.categoria_prodotto " +
                 "WHERE nome = '"+ name + "';";
 
@@ -115,6 +185,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
 
         String sql = "UPDATE progetto_pis.categoria_prodotto " +
                 "SET nome = '" + categoria.getNome() +
+                "', categoria_prodotto_idcategoria_prodotto = '" + categoria.getIdCategoriaProdottoParent() +
                 "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoriaProdotto() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

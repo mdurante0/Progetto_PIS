@@ -1,6 +1,7 @@
 package Model;
 
 import Business.AbstractFactory.ICategoria;
+import Model.composite.IProdotto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +11,20 @@ public class CategoriaProdotto implements ICategoria {
 
     private int idCategoriaProdotto;
     private String nome;
+
+    private int idCategoriaProdottoParent;
     private List<CategoriaProdotto> sottocategorie;
+    private List<IProdotto> prodotti;
 
     public CategoriaProdotto() {
         this.sottocategorie = new ArrayList<>();
+        this.prodotti = new ArrayList<>();
     }
 
-    public CategoriaProdotto(String nome, List sottocategorie) {
+    public CategoriaProdotto(String nome, ArrayList<CategoriaProdotto> sottocategorie, ArrayList<IProdotto> prodotti) {
         this.nome = nome;
         this.sottocategorie = sottocategorie;
+        this.prodotti = prodotti;
     }
 
     public int getIdCategoriaProdotto() {
@@ -37,12 +43,28 @@ public class CategoriaProdotto implements ICategoria {
         return sottocategorie;
     }
 
-    public void aggiungiSottocategoria(CategoriaProdotto c) {
-        sottocategorie.add(c);
+    public boolean add(CategoriaProdotto categoriaProdotto) {
+        return sottocategorie.add(categoriaProdotto);
     }
 
-    public void aggiungiSottocategoria(List<CategoriaProdotto> c) {
-        sottocategorie.addAll(c);
+    public boolean remove(CategoriaProdotto categoriaProdotto) {
+        return sottocategorie.remove(categoriaProdotto);
+    }
+
+    public void clearSottocategorie() {
+        sottocategorie.clear();
+    }
+
+    public boolean add(IProdotto iProdotto) {
+        return prodotti.add(iProdotto);
+    }
+
+    public boolean remove(IProdotto prodotto){
+        return prodotti.remove(prodotto);
+    }
+
+    public void clearProdotti(){
+        prodotti.clear();
     }
 
     public String getNome() {
@@ -51,6 +73,14 @@ public class CategoriaProdotto implements ICategoria {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getIdCategoriaProdottoParent() {
+        return idCategoriaProdottoParent;
+    }
+
+    public void setIdCategoriaProdottoParent(int idCategoriaProdottoParent) {
+        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
     }
 
     @Override

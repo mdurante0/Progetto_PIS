@@ -64,7 +64,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
     public Prodotto findByName(String name) {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo " +
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo" +
                 "WHERE nome = '" + name + "';";
@@ -82,6 +82,7 @@ public class ProdottoDAO implements IProdottoDAO {
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
+                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
                 return prodotto;
             }
@@ -101,7 +102,7 @@ public class ProdottoDAO implements IProdottoDAO {
     @Override
     public ArrayList<Prodotto> findAll() {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo " +
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo;";
 
@@ -118,6 +119,45 @@ public class ProdottoDAO implements IProdottoDAO {
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
+                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+
+                prodotti.add(prodotto);
+            }
+            return prodotti;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Prodotto> findAllByCategoria(int idCategoria) {
+
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
+                "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
+                "ON a.idarticolo = p.articolo_idarticolo" +
+                 "WHERE categoria_prodotto_idcategoria_prodotto = '" + idCategoria + ";";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                prodotto = new Prodotto();
+                prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
+                prodotto.setIdProduttore(rs.getInt("utente_acquirente_utente_idutente"));
+                prodotto.setName(rs.getString("nome"));
+                prodotto.setDescrizione(rs.getString("descrizione"));
+                prodotto.setPrezzo(rs.getFloat("costo"));
+                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
                 prodotti.add(prodotto);
             }
@@ -150,8 +190,10 @@ public class ProdottoDAO implements IProdottoDAO {
         try {
             rs.next();
             prodotto.setIdArticolo(rs.getInt("max(idarticolo)"));
-            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, produttore_idproduttore) VALUES ('" +
+            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto, produttore_idproduttore) " +
+                    "VALUES ('" +
                     prodotto.getIdArticolo() + "','" +
+                    prodotto.getIdCategoria() + "','" +
                     prodotto.getIdProduttore() + "');";
             IDbOperation writeOp = new WriteOperation(sql);
 
@@ -185,6 +227,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
         String sql = "UPDATE progetto_pis.prodotto " +
                 "SET produttore_idproduttore = '" + prodotto.getIdProduttore() +
+                "', categoria_prodotto_idcategoria_prodotto = '" + prodotto.getIdCategoria() +
                 "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

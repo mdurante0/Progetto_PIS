@@ -6,12 +6,10 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.CategoriaServizio;
-import Model.Servizio;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class CategoriaServizioDAO implements ICategoriaServizioDAO {
     private static CategoriaServizioDAO instance = new CategoriaServizioDAO();
@@ -30,13 +28,13 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
     }
 
     @Override
-    public CategoriaServizio findById(String name) {
+    public CategoriaServizio findById(int idCategoria) {
+
+        String sql = "SELECT idcategoria_servizio, nome " +
+                "FROM progetto_pis.categoria_servizio " +
+                "WHERE idcategoria_servizio = '" + idCategoria + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcategoria_servizio, nome, servizio_articolo_idarticolo " +
-                "FROM progetto_pis.categoria_servizio AS c INNER JOIN progetto_pis.categoria_servizio AS cs " +
-                "ON c.idcategoria_servizio = cs.categoria_servizio_idcategoria_servizio " +
-                "WHERE nome = '" + name + "';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -47,13 +45,37 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
                 categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
                 categoriaServizio.setNome(rs.getString("nome"));
 
-                ServizioDAO servizioDAO = ServizioDAO.getInstance();
-                Servizio servizio;
-                while (rs.next()){
-                    servizio = servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo"));
-                    categoriaServizio.add(servizio);
+                return categoriaServizio;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
 
-                }
+    public CategoriaServizio findByName(String name) {
+
+        String sql = "SELECT idcategoria_servizio, nome " +
+                "FROM progetto_pis.categoria_servizio " +
+                "WHERE nome = '" + name + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                categoriaServizio = new CategoriaServizio();
+                categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
+                categoriaServizio.setNome(rs.getString("nome"));
+
                 return categoriaServizio;
             }
         } catch (SQLException e) {
@@ -71,11 +93,10 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
     @Override
     public ArrayList<CategoriaServizio> findAll() {
 
-        DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcategoria_servizio, nome, servizio_articolo_idarticolo " +
-                "FROM progetto_pis.categoria_servizio AS c INNER JOIN progetto_pis.categoria_servizio AS cs " +
-                "ON c.idcategoria_servizio = cs.categoria_servizio_idcategoria_servizio;";
+        String sql = "SELECT idcategoria_servizio, nome " +
+                "FROM progetto_pis.categoria_servizio;";
 
+        DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -86,13 +107,6 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
                 categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
                 categoriaServizio.setNome(rs.getString("nome"));
 
-                ServizioDAO servizioDAO = ServizioDAO.getInstance();
-                Servizio servizio;
-                while (rs.next()){
-                    servizio = servizioDAO.findById(rs.getInt("servizio_articolo_idarticolo"));
-                    categoriaServizio.add(servizio);
-
-                }
                 categorieServizio.add(categoriaServizio);
             }
             return categorieServizio;
@@ -105,63 +119,13 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return null;
     }
 
     @Override
     public int add(CategoriaServizio categoriaServizio) {
 
-        DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "INSERT INTO progetto_pis.categoria_servizio (nome) VALUES ('" + categoriaServizio.getNome() + "');";
-        IDbOperation writeOp = new WriteOperation(sql);
-
-        executor.executeOperation(writeOp);
-
-        sql = "SELECT max(idcategoria_servizio) FROM progetto_pis.categoria_servizio;";
-        IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
-
-        int rowCount = 0;
-        try {
-            rs.next();
-            categoriaServizio.setIdCategoriaServizio(rs.getInt("max(idcategoria_servizio)"));
-
-            ServizioDAO servizioDAO = ServizioDAO.getInstance();
-            Iterator<Servizio> servizioIterator = categoriaServizio.getServizi().iterator();
-            Servizio servizio;
-            while (servizioIterator.hasNext()) {
-
-                servizio = servizioDAO.findByName(servizioIterator.next().getName());
-                sql = "INSERT INTO progetto_pis.categoria_servizio_has_servizio" +
-                        "(categoria_servizio_idcategoria_servizio, servizio_articolo_idarticolo) " +
-                        "VALUES ('" + categoriaServizio.getIdCategoriaServizio() +  "','" +
-                        servizio.getIdArticolo() + "');";
-
-                writeOp = new WriteOperation(sql);
-                rowCount += executor.executeOperation(writeOp).getRowsAffected();
-            }
-
-        } catch (SQLException e) {
-            // handle any errors
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-            // handle any errors
-            System.out.println("Resultset: " + e.getMessage());
-        }
-        return rowCount;
-
-
-    }
-
-    public int addServizio(int idCategoriaServizio, Servizio servizio){
-
-        String sql = "INSERT INTO progetto_pis.categoria_servizio_has_servizio" +
-                "(categoria_servizio_idcategoria_servizio, servizio_articolo_idarticolo) VALUES ('" +
-                idCategoriaServizio + "','" +
-                servizio.getIdArticolo() +"');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -172,25 +136,12 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
     public int removeById(String name) {
 
         String sql = "DELETE FROM progetto_pis.categoria_servizio " +
-                "WHERE nome = '"+ name + "';";
+                "WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
-
-    public int removeServizio(int idCategoriaServizio, Servizio servizio){
-
-        String sql = "DELETE FROM progetto_pis.categoria_servizio_has_servizio " +
-                "WHERE categoria_servizio_idcategoria_servizio = '" + idCategoriaServizio +
-                "' AND servizio_articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
-
 
     @Override
     public int update(CategoriaServizio categoriaServizio) {
@@ -203,5 +154,4 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
 }

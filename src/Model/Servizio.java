@@ -8,6 +8,7 @@ public class Servizio extends Articolo {
 
     private Fornitore fornitore;
     private int idFornitore;
+    private int idCategoria;
 
     public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Fornitore fornitore, List<Immagine> immagini, int quantita) {
         super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
@@ -31,6 +32,14 @@ public class Servizio extends Articolo {
 
     public void setFornitore(Fornitore fornitore) {
         this.fornitore = fornitore;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     @Override
