@@ -41,7 +41,7 @@ public class ManagerDAO implements IManagerDAO {
             rs.next();
             if (rs.getRow()==1) {
                 manager = new Manager();
-                manager.setIdUtente(rs.getInt("utente_idutente"));
+                manager.setIdUtente(rs.getInt("idutente"));
                 manager.setName(rs.getString("nome"));
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));
@@ -64,7 +64,7 @@ public class ManagerDAO implements IManagerDAO {
     @Override
     public ArrayList<Manager> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT nome, cognome, username, email, durata_incarico FROM progetto_pis.utente " +
+        String sql = "SELECT idutente, nome, cognome, username, email, durata_incarico FROM progetto_pis.utente " +
                 "AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente;";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -73,7 +73,7 @@ public class ManagerDAO implements IManagerDAO {
         try {
             while (rs.next()) {
                 manager = new Manager();
-                manager.setIdUtente(rs.getInt("utente_idutente"));
+                manager.setIdUtente(rs.getInt("idutente"));
                 manager.setName(rs.getString("nome"));
                 manager.setSurname(rs.getString("cognome"));
                 manager.setUsername(rs.getString("username"));

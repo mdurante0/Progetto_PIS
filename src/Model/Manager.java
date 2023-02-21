@@ -4,14 +4,15 @@ public class Manager extends Utente {
 
     private int durataIncarico;
     private Float salario;
-    public Manager(String name, String surname, String username, String pwd, String email, String tipo, Float salario) {
+    public Manager(String name, String surname, String username, String pwd, String email, String tipo, Float salario, int durataIncarico) {
         super(name, surname, username, pwd, email, tipo);
         this.salario = salario;
+        this.durataIncarico = durataIncarico;
     }
 
     public Manager() {
         super();
-        super.setTipo("MA");
+        super.setTipo("MN");
     }
 
     public Float getSalario() {
