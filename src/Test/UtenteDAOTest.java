@@ -57,9 +57,40 @@ public class UtenteDAOTest {
         int rowCount = utenteDAO.removeById("vr46");
         Assert.assertEquals(1, rowCount);
     }
-
-
-
+    @Test
+    public void userExistsTest(){
+    IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+    boolean exist = utenteDAO.userExists("vr46");
+    Assert.assertEquals(true, exist);
+    exist = utenteDAO.userExists("robby");
+    Assert.assertEquals(false, exist);
+    }
+    @Test
+    public void checkCredentialsTest(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        boolean check = utenteDAO.checkCredentials("vr46", "123");
+        Assert.assertEquals(true, check);
+        check = utenteDAO.checkCredentials("vr46", "125");
+        Assert.assertEquals(false, check);
+    }
+    @Test
+    public void isClienteTest(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        boolean check = utenteDAO.isCliente("vr46");
+        Assert.assertEquals(false, check);
+    }
+    @Test
+    public void isManagerTest(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        boolean check = utenteDAO.isManager("vr46");
+        Assert.assertEquals(true, check);
+    }
+    @Test
+    public void isAmministratoreTest(){
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+        boolean check = utenteDAO.isAmministratore("vr46");
+        Assert.assertEquals(false, check);
+    }
     //@Test
     public void loginTest() {
 

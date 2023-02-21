@@ -185,7 +185,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean isCliente(String username) {
 
-        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.cliente AS c ON u.idutente = c.utente_idutente WHERE u.username='"+username+"';";
+        String sql = "SELECT count(*) as count FROM progetto_pis.utente AS u WHERE u.username='"+username+"' and u.tipo='CL';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -206,7 +206,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     public boolean isManager(String username) {
 
-        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente WHERE u.username='"+username+"';";
+        String sql = "SELECT count(*) as count FROM progetto_pis.utente AS u WHERE u.username='"+username+"' and u.tipo='MN';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -223,11 +223,29 @@ public class UtenteDAO implements IUtenteDAO {
             e.printStackTrace();
             return false;
         }
-    }
+/*  CODICE PROBLEMATICO PERCHè PRENDE IL TIPO DALLA TABELLA MANAGER E NON DA QUELLA DI UTENTE
 
+        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente WHERE u.username='"+username+"';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                int count = rs.getInt("count");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }*/
+    }
     public boolean isAmministratore(String username) {
 
-        String sql = "SELECT count(*) AS count FROM progetto_pis.utente AS u INNER JOIN progetto_pis.amministratore AS a ON u.idutente = a.utente_idutente WHERE u.username='"+username+"';";
+        String sql ="SELECT count(*) as count FROM progetto_pis.utente AS u WHERE u.username='"+username+"' and u.tipo='AM';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
