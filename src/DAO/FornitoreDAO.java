@@ -29,9 +29,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public Fornitore findById(String name) {
-        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione" +
-                "FROM progetto_pis.fornitore " +
-                "WHERE nome = '" + name + "';";
+        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -64,8 +62,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public ArrayList<Fornitore> findAll() {
-        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione" +
-                "FROM progetto_pis.fornitore ;";
+        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -116,8 +113,7 @@ public class FornitoreDAO implements IFornitoreDAO {
     @Override
     public int removeById(String nome) {
 
-        String sql = "DELETE FROM progetto_pis.fornitore " +
-                "WHERE nome = '" + nome + "';";
+        String sql = "DELETE FROM progetto_pis.fornitore WHERE nome = '" + nome + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
