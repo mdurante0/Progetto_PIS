@@ -29,9 +29,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public Produttore findById(String name) {
-        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione" +
-                "FROM progetto_pis.produttore " +
-                "WHERE nome = '" + name + "';";
+        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -64,8 +62,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public ArrayList<Produttore> findAll() {
-        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione" +
-                "FROM progetto_pis.produttore ;";
+        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -116,8 +113,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
     @Override
     public int removeById(String nome) {
 
-        String sql = "DELETE FROM progetto_pis.fornitore " +
-                "WHERE nome = '" + nome + "';";
+        String sql = "DELETE FROM progetto_pis.produttore WHERE nome = '" + nome + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
