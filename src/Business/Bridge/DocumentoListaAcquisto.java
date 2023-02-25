@@ -1,7 +1,9 @@
 package Business.Bridge;
 
+import Business.MailHelper;
 import Model.Articolo;
 import Model.ListaAcquisto;
+import Model.composite.Prodotto;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,18 +23,36 @@ public class DocumentoListaAcquisto extends Documento {
     public void invia(String indirizzo) {
 
         List<Articolo> articoli = lista.getArticoli();
-        String text = "";
+        StringBuilder text = new StringBuilder();
+        text.append("MYSHOP \n \n");
 
         Iterator<Articolo> i = articoli.iterator();
         while(i.hasNext()) {
             Articolo a = i.next();
-            text += a.getName()+", ";
+            text.append(a.getName()).append(" ");
+            text.append(a.getPrezzo().toString()).append("€ ");
+
+            //per i prodotti inserisco anche la collocazione
+            if(a instanceof Prodotto){
+                int scaffale = ((Prodotto) a).getCollocazione().getScaffale();
+                int corsia = ((Prodotto) a).getCollocazione().getCorsia();
+                text.append("Corsia: ").append(corsia).append(" ");
+                text.append("Scaffale: ").append(scaffale);
+            }
+            text.append("\n");
         }
 
         try {
-            File tempFile = File.createTempFile("myshop", ".pdf");
+            File tempFile = File.createTempFile("MyShop: " + lista.getNome(), ".pdf");
             System.out.println(tempFile);
-            pdfAPI.creaPdf(text, tempFile.getAbsolutePath());
+
+            String path = tempFile.getAbsolutePath();
+            pdfAPI.creaPdf(text.toString(), path);
+
+            //invio della mail
+            MailHelper.getInstance().send(indirizzo, "Ecco la tua lista d'acquisto!",
+                    "Utilizza il file in allegato per il resoconto della tua spesa!", path);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

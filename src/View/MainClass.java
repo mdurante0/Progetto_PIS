@@ -43,7 +43,7 @@ public class MainClass {
         Documento listaAcquisto = new DocumentoListaAcquisto(lista, new PdfBoxAPI());
 
         //prendere l'utente loggato dalla sessione e ottenere la mail dall'oggetto cliente
-        listaAcquisto.invia("roberto.vergallo@unisalento.it");
+        //listaAcquisto.invia("");
 
     }
 }

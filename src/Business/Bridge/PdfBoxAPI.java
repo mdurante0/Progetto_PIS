@@ -19,14 +19,30 @@ public class PdfBoxAPI implements PdfAPI {
             PDPage page = new PDPage();
             doc.addPage(page);
 
-            PDFont font = new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD);
+            PDFont titolo = new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD);
+            PDFont testo = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
 
             try (PDPageContentStream contents = new PDPageContentStream(doc, page))
             {
                 contents.beginText();
-                contents.setFont(font, 12);
-                contents.newLineAtOffset(100, 700);
-                contents.showText(text);
+                contents.setFont(titolo, 22);
+                contents.newLineAtOffset(260, 700);
+
+                // Divide la stringa in sottostringhe utilizzando il carattere di nuova riga
+                String[] lines = text.split("\\n");
+
+                //inserimento del titolo
+                contents.showText(lines[0]);
+                contents.newLineAtOffset(-200, -25);
+
+                //inserimento del contenuto
+                contents.setFont(testo, 18);
+                for (int i = 1; i < lines.length; i++) {
+                    // Aggiungi ciascuna sottostringa al contenuto della pagina
+                    contents.showText(lines[i]);
+                    contents.newLineAtOffset(0, -25);
+                }
+
                 contents.endText();
             }
 
