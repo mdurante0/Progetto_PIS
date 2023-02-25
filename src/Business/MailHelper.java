@@ -12,8 +12,9 @@ public class MailHelper {
 
     private static MailHelper instance;
 
-    private static String FROM = "";
-    private static String PASSWORD = "";
+    private static String FROM = "myshopdurantescelsi@gmail.com";
+    private static String PASSWORD = "gjrkxarpiovtrpwn";
+    private Properties props = new Properties();
 
     public static synchronized MailHelper getInstance() {
         if(instance == null)
@@ -69,6 +70,55 @@ public class MailHelper {
             Transport.send(message);
             System.out.println("message sent successfully");
         } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+            System.out.println("message not sent");
+        }
+
+    }
+
+    public void send(String to,String sub,String msg){
+        //Get properties object
+        Properties props = new Properties();
+
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "465");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.required", "true");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //get Session
+        Session session = Session.getDefaultInstance(props,
+                new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(FROM,PASSWORD);
+                    }
+                });
+
+        //compose message
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject(sub);
+            message.setText(msg);
+
+            Multipart emailContent = new MimeMultipart();
+
+            //Text body part
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setText(msg);
+
+            //Attach body parts
+            emailContent.addBodyPart(textBodyPart);
+
+            //Attach multipart to message
+            message.setContent(emailContent);
+
+            //send message
+            Transport.send(message);
+            System.out.println("message sent successfully");
+        } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("message not sent");
         }
