@@ -1,4 +1,4 @@
-package Business;
+package Business.Bridge;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -8,21 +8,10 @@ import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.Properties;
 
-public class MailHelper {
+public class MailHelperAPI implements MailAPI{
 
-    private static MailHelper instance;
-
-    private static String FROM = "myshopdurantescelsi@gmail.com";
-    private static String PASSWORD = "gjrkxarpiovtrpwn";
-    private Properties props = new Properties();
-
-    public static synchronized MailHelper getInstance() {
-        if(instance == null)
-            instance = new MailHelper();
-        return instance;
-    }
-
-    public void send(String to,String sub,String msg, String pathFile){
+    @Override
+    public void send(String from, String password, String to,String sub,String msg, String pathFile){
         //Get properties object
         Properties props = new Properties();
 
@@ -38,7 +27,7 @@ public class MailHelper {
         Session session = Session.getDefaultInstance(props,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(FROM,PASSWORD);
+                        return new PasswordAuthentication(from,password);
                     }
                 });
 
@@ -76,7 +65,7 @@ public class MailHelper {
 
     }
 
-    public void send(String to,String sub,String msg){
+    public void send(String from, String password, String to,String sub,String msg){
         //Get properties object
         Properties props = new Properties();
 
@@ -92,7 +81,7 @@ public class MailHelper {
         Session session = Session.getDefaultInstance(props,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(FROM,PASSWORD);
+                        return new PasswordAuthentication(from,password);
                     }
                 });
 
@@ -124,5 +113,4 @@ public class MailHelper {
         }
 
     }
-
 }

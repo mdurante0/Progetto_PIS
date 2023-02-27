@@ -1,6 +1,5 @@
 package Business.Bridge;
 
-import Business.MailHelper;
 import Model.Articolo;
 import Model.ListaAcquisto;
 import Model.composite.Prodotto;
@@ -9,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class DocumentoListaAcquisto extends Documento {
 
@@ -30,7 +30,7 @@ public class DocumentoListaAcquisto extends Documento {
         while(i.hasNext()) {
             Articolo a = i.next();
             text.append(a.getName()).append(" ");
-            text.append(a.getPrezzo().toString()).append("€ ");
+            text.append(String.format(Locale.ITALIAN,"%.2f",a.getPrezzo())).append(" € ");
 
             //per i prodotti inserisco anche la collocazione
             if(a instanceof Prodotto){
@@ -50,8 +50,7 @@ public class DocumentoListaAcquisto extends Documento {
             pdfAPI.creaPdf(text.toString(), path);
 
             //invio della mail
-            MailHelper.getInstance().send(indirizzo, "Ecco la tua lista d'acquisto!",
-                    "Utilizza il file in allegato per il resoconto della tua spesa!", path);
+            MailHelper.getInstance(new MailHelperAPI(), indirizzo, "Ecco la tua lista d'acquisto!", "Utilizza il file in allegato per il resoconto della tua spesa!").send(path);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
