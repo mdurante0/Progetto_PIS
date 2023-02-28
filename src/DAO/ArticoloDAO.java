@@ -30,7 +30,7 @@ public class ArticoloDAO implements IArticoloDAO {
     @Override
     public Articolo findById(int idArticolo) {
 
-        String sql = "SELECT idarticolo, nome, descrizione, categoria_idcategoria, costo " +
+        String sql = "SELECT idarticolo, nome, descrizione, costo " +
                 "FROM progetto_pis.articolo " +
                 "WHERE idarticolo = '" + idArticolo + "';";
 
@@ -62,7 +62,7 @@ public class ArticoloDAO implements IArticoloDAO {
 
     public Articolo findByName(String name) {
 
-        String sql = "SELECT idarticolo, nome, descrizione, categoria_idcategoria, costo " +
+        String sql = "SELECT idarticolo, nome, descrizione, costo " +
                 "FROM progetto_pis.articolo " +
                 "WHERE nome = '" + name + "';";
 
@@ -95,7 +95,7 @@ public class ArticoloDAO implements IArticoloDAO {
     @Override
     public ArrayList<Articolo> findAll() {
 
-        String sql = "SELECT nome, descrizione, categoria_idcategoria, costo " +
+        String sql = "SELECT nome, descrizione, costo " +
                 "FROM progetto_pis.articolo;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -128,7 +128,7 @@ public class ArticoloDAO implements IArticoloDAO {
     @Override
     public int add(Articolo articolo) {
 
-        String sql = "INSERT INTO progetto_pis.articolo (nome, descrizione, categoria_idcategoria, costo) VALUES ('"+
+        String sql = "INSERT INTO progetto_pis.articolo (nome, descrizione, costo) VALUES ('"+
                 articolo.getName() + "','" +
                 articolo.getDescrizione() + "','" +
                 articolo.getPrezzo()+ "');";

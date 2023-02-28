@@ -10,4 +10,6 @@ public interface IArticoloDAO {
     int add(Articolo articolo);
     int removeById(String nome);
     int update(Articolo articolo);
+
+    Articolo findByName(String name);
 }
