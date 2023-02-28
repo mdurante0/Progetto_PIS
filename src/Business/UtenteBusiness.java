@@ -19,7 +19,6 @@ public class UtenteBusiness {
     public LoginResult login(String username, String password) {
 
         UtenteDAO uDao = UtenteDAO.getInstance();
-
         LoginResult result = new LoginResult();
 
         // 1. controllare se l'utente esiste
@@ -47,8 +46,15 @@ public class UtenteBusiness {
        if(isCliente) {
            IClienteDAO cDao = ClienteDAO.getInstance();
            Cliente c = cDao.findById(username);
-           SessionManager.getSession().put(SessionManager.LOGGED_USER, c);
-           result.setMessage("Benvenuto "+ c.getName() +" e buona spesa con MyShop!!");
+           if(c.isAbilitazione()) {
+               SessionManager.getSession().put(SessionManager.LOGGED_USER, c);
+               result.setMessage("Benvenuto " + c.getName() + " e buona spesa con MyShop!!");
+           }
+           else{
+               result.setResult(LoginResult.Result.USER_BLOCKED);
+               result.setMessage("Accesso negato! Chiedere assistenza");
+               return result;
+           }
 
        } else if(isManager) {
            IManagerDAO mDao = ManagerDAO.getInstance();

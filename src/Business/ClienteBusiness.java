@@ -63,6 +63,8 @@ public class ClienteBusiness {
             return result;
         }
 
+        c.setAbilitazione(true);
+
         //4. inserimento del nuovo cliente
         ClienteDAO cDao = ClienteDAO.getInstance();
         cDao.add(c);
