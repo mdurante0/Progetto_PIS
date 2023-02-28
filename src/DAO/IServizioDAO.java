@@ -8,6 +8,6 @@ public interface IServizioDAO {
     Servizio findById(int idServizio);
     ArrayList<Servizio> findAll();
     int add(Servizio servizio);
-    int removeById(String nome);
+    int removeById(int idServizio);
     int update(Servizio servizio);
 }

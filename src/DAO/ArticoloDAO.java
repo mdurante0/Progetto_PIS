@@ -60,6 +60,7 @@ public class ArticoloDAO implements IArticoloDAO {
         return null;
     }
 
+    @Override
     public Articolo findByName(String name) {
 
         String sql = "SELECT idarticolo, nome, descrizione, costo " +
@@ -139,10 +140,10 @@ public class ArticoloDAO implements IArticoloDAO {
     }
 
     @Override
-    public int removeById(String nome) {
+    public int removeById(int idArticolo) {
 
         String sql = "DELETE FROM progetto_pis.articolo " +
-                "WHERE nome = '"+ nome + "';";
+                "WHERE idarticolo = '"+ idArticolo + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

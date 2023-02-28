@@ -1,7 +1,7 @@
 package Test;
-import DAO.*;
+
+import DAO.ArticoloDAO;
 import DAO.IArticoloDAO;
-import Model.Amministratore;
 import Model.Articolo;
 import org.junit.After;
 import org.junit.Assert;
@@ -19,7 +19,7 @@ public class ArticoloDAOTest {
     @After
     public void tearDown(){
        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.removeById("Armadio");
+        articoloDAO.removeById(articoloDAO.findByName("Armadio").getIdArticolo());
     }
     @Test
     public void testFindByName() {

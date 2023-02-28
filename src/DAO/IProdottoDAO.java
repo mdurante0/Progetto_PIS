@@ -8,6 +8,6 @@ public interface IProdottoDAO {
     Prodotto findById(int idProdotto);
     ArrayList<Prodotto> findAll();
     int add(Prodotto prodotto);
-    int removeById(String nome);
+    int removeById(int idProdotto);
     int update(Prodotto prodotto);
 }

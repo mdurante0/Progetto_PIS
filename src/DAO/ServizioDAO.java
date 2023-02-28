@@ -218,10 +218,10 @@ public class ServizioDAO implements IServizioDAO {
     }
 
     @Override
-    public int removeById(String nome) {
+    public int removeById(int idServizio) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        return articoloDAO.removeById(nome);
+        return articoloDAO.removeById(idServizio);
     }
     
 

@@ -8,8 +8,7 @@ public interface IArticoloDAO {
     Articolo findById(int idArticolo);
     ArrayList<Articolo> findAll();
     int add(Articolo articolo);
-    int removeById(String nome);
+    int removeById(int idArticolo);
     int update(Articolo articolo);
-
     Articolo findByName(String name);
 }

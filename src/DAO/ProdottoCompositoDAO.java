@@ -245,10 +245,10 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     }
 
     @Override
-    public int removeById(String name) {
+    public int removeById(int idProdottoComposito) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        return articoloDAO.removeById(name);
+        return articoloDAO.removeById(idProdottoComposito);
     }
 
     @Override

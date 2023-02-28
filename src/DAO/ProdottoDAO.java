@@ -212,10 +212,10 @@ public class ProdottoDAO implements IProdottoDAO {
     }
 
     @Override
-    public int removeById(String nome) {
+    public int removeById(int idProdotto) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        return articoloDAO.removeById(nome);
+        return articoloDAO.removeById(idProdotto);
     }
 
 
