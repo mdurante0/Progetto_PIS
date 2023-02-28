@@ -1,4 +1,4 @@
-package Business.Bridge;
+package Business.Bridge.Pdf;
 
 public interface PdfAPI {
 

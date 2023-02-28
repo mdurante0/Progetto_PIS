@@ -1,4 +1,4 @@
-package Business.Bridge;
+package Business.Bridge.Mail;
 
 public abstract class Mail {
     protected MailAPI mailAPI;

@@ -1,4 +1,4 @@
-package Business.Bridge;
+package Business.Bridge.Mail;
 
 public class MailHelper extends Mail {
 
@@ -20,8 +20,7 @@ public class MailHelper extends Mail {
 
 
     public static synchronized MailHelper getInstance(MailAPI mailAPI, String to, String sub, String msg) {
-        if(instance == null)
-            instance = new MailHelper(mailAPI,to,sub,msg);
+        instance = new MailHelper(mailAPI,to,sub,msg);
         return instance;
     }
 

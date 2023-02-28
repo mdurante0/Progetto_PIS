@@ -1,8 +1,8 @@
 package View;
 
-import Business.Bridge.Documento;
-import Business.Bridge.DocumentoListaAcquisto;
-import Business.Bridge.PdfBoxAPI;
+import Business.Bridge.Pdf.Documento;
+import Business.Bridge.Pdf.DocumentoListaAcquisto;
+import Business.Bridge.Pdf.PdfBoxAPI;
 import Model.ListaAcquisto;
 import Model.composite.Prodotto;
 

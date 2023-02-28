@@ -1,4 +1,4 @@
-package Business.Bridge;
+package Business.Bridge.Pdf;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;

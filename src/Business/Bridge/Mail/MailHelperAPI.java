@@ -1,4 +1,4 @@
-package Business.Bridge;
+package Business.Bridge.Mail;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

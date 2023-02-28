@@ -1,5 +1,7 @@
-package Business.Bridge;
+package Business.Bridge.Pdf;
 
+import Business.Bridge.Mail.MailHelper;
+import Business.Bridge.Mail.MailHelperAPI;
 import Model.Articolo;
 import Model.ListaAcquisto;
 import Model.composite.Prodotto;
