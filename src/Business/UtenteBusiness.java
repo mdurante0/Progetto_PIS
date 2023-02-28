@@ -4,6 +4,7 @@ import DAO.*;
 import Model.Amministratore;
 import Model.Cliente;
 import Model.Manager;
+import Model.Utente;
 
 public class UtenteBusiness {
 
@@ -29,8 +30,9 @@ public class UtenteBusiness {
             return result;
         }
 
+        String encryptedPwd = Encrypt.encrypt(password);
         // 2. controllare se username e password sono ok
-        boolean credentialsOk = uDao.checkCredentials(username, password);
+        boolean credentialsOk = uDao.checkCredentials(username, encryptedPwd);
         if (!credentialsOk) {
             result.setResult(LoginResult.Result.WRONG_PASSWORD);
             result.setMessage("La password digitata non è corretta! Riprova");
@@ -71,6 +73,71 @@ public class UtenteBusiness {
        }
 
         result.setResult(LoginResult.Result.LOGIN_OK);
+        return result;
+    }
+
+
+    public RegisterResult register(Utente u) {
+
+        UtenteDAO uDao = UtenteDAO.getInstance();
+        RegisterResult result = new RegisterResult();
+
+        // 1. controllare se l'utente esiste già
+        boolean userExists = uDao.userExists(u.getUsername());
+        if (userExists) {
+            result.setResult(RegisterResult.Result.USER_ALREADY_EXISTS);
+            result.setMessage("Lo username inserito è già esistente! Riprova");
+            return result;
+        }
+
+        //2. controllare se la password è troppo debole
+        String pwd = u.getPwd();
+        final int MINIMUM_LENGTH = 8;
+        boolean length = pwd.length() >= MINIMUM_LENGTH;
+        if(length){
+            result.setResult(RegisterResult.Result.WEAK_PASSWORD);
+            result.setMessage("La password inserita deve contenere almeno 8 caratteri! Riprova");
+            return result;
+        }
+        boolean containsUpper = pwd.matches(".*[A-Z].*");
+        if (!containsUpper) {
+            result.setResult(RegisterResult.Result.WEAK_PASSWORD);
+            result.setMessage("La password deve contenere almento una lettera maiuscola! Riprova");
+            return result;
+        }
+        boolean containsDigits = pwd.matches(".*[0-9].*");
+        if (!containsDigits) {
+            result.setResult(RegisterResult.Result.WEAK_PASSWORD);
+            result.setMessage("La password deve contenere almeno un numero! Riprova");
+            return result;
+        }
+        boolean containsSimbols = pwd.matches(".*\\p{Punct}.*");
+        if (!containsSimbols) {
+            result.setResult(RegisterResult.Result.WEAK_PASSWORD);
+            result.setMessage("La password deve contenere almeno un simbolo! Riprova");
+            return result;
+        }
+
+        String pwdEncrypted = Encrypt.encrypt(u.getPwd());
+        u.setPwd(pwdEncrypted);
+
+        //3. inserimento del nuovo utente
+        if(u.getTipo().equals("CL")) { //il nuovo utente è un cliente
+            ClienteDAO cDao = ClienteDAO.getInstance();
+            cDao.add((Cliente) u);
+
+        } else if (u.getTipo().equals("MN")){ //il nuovo utente è un manager
+            ManagerDAO mDao = ManagerDAO.getInstance();
+            mDao.add((Manager) u);
+
+        }else { //tipo non previsto
+            result.setResult(RegisterResult.Result.WRONG_TYPE);
+            result.setMessage("Tipo di utente non specificato!");
+            return result;
+        }
+
+        result.setResult(RegisterResult.Result.REGISTER_OK);
+        result.setMessage("Registrazione effettuata con successo! Benvenuto in MyShop!");
         return result;
     }
 }

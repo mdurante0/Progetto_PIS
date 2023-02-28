@@ -2,7 +2,7 @@ package Business;
 
 public class RegisterResult {
 
-    public enum Result { REGISTER_OK, WEAK_PASSWORD, USER_ALREADY_EXISTS, TOO_YOUNG }
+    public enum Result { REGISTER_OK, WEAK_PASSWORD, USER_ALREADY_EXISTS, WRONG_TYPE }
 
     private Result result;
     private String message;
