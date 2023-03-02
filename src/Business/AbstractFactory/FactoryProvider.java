@@ -6,8 +6,6 @@ public class FactoryProvider {
 
     public static AbstractFactory getFactory(FactoryType type) {
 
-        if(type == null) return null;
-
         switch(type) {
             case PRODOTTO: return new ProdottoFactory();
             case PRODOTTO_COMPOSITO: return new ProdottoCompositoFactory();

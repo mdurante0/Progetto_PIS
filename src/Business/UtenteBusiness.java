@@ -122,11 +122,11 @@ public class UtenteBusiness {
         u.setPwd(pwdEncrypted);
 
         //3. inserimento del nuovo utente
-        if(u.getTipo().equals("CL")) { //il nuovo utente è un cliente
+        if(u.getTipo().equalsIgnoreCase("CL")) { //il nuovo utente è un cliente
             ClienteDAO cDao = ClienteDAO.getInstance();
             cDao.add((Cliente) u);
 
-        } else if (u.getTipo().equals("MN")){ //il nuovo utente è un manager
+        } else if (u.getTipo().equalsIgnoreCase("MN")){ //il nuovo utente è un manager
             ManagerDAO mDao = ManagerDAO.getInstance();
             mDao.add((Manager) u);
 
