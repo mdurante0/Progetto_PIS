@@ -2,8 +2,6 @@ package Test;
 
 import DAO.ArticoloDAO;
 import DAO.IArticoloDAO;
-import DAO.IUtenteDAO;
-import DAO.UtenteDAO;
 import Model.Articolo;
 import org.junit.After;
 import org.junit.Assert;
