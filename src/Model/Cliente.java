@@ -52,6 +52,18 @@ public class Cliente extends Utente {
         this.professione = professione;
         this.telefono = telefono;
     }
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, boolean abilitazione, int eta, String residenza,
+                   String professione, String telefono) {
+
+        super(name, surname, username, pwd, email, tipo);
+        idPuntoVendita = puntoVenditaDiRegistrazione;
+        this.canalePreferito = canalePreferito;
+        this.abilitazione = abilitazione;
+        this.eta = eta;
+        this.residenza = residenza;
+        this.professione = professione;
+        this.telefono = telefono;
+    }
 
     public int getEta() {
         return eta;
@@ -84,8 +96,17 @@ public class Cliente extends Utente {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
     public boolean isAbilitazione() {
         return abilitazione;
+    }
+
+    public int isAbilitazione(boolean abilitazione) {
+        int abilitato = 0;
+        if(abilitazione)
+            abilitato = 1;
+
+        return abilitato;
     }
 
     public void setAbilitazione(boolean abilitazione) {
