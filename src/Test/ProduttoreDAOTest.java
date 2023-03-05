@@ -1,11 +1,7 @@
 package Test;
 
-import Business.LoginResult;
-import Business.SessionManager;
-import Business.UtenteBusiness;
 import DAO.IProduttoreDAO;
 import DAO.ProduttoreDAO;
-import Model.Cliente;
 import Model.Produttore;
 import org.junit.After;
 import org.junit.Assert;
@@ -58,22 +54,4 @@ public class ProduttoreDAOTest {
         produttore = produttoreDAO.findById("Valentino");
         Assert.assertEquals("vr46@gmail.it", produttore.getMail());
     }
-
-    //@Test
-    public void loginTest() {
-
-        UtenteBusiness ub = UtenteBusiness.getInstance();
-        String username = "roberto";
-        String password = "12345";
-        LoginResult result = ub.login(username, password);
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.getResult() == LoginResult.Result.LOGIN_OK);
-        Assert.assertNotNull(SessionManager.getSession().get(SessionManager.LOGGED_USER));
-        Assert.assertTrue(SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Cliente);
-
-        Cliente c = (Cliente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-        Assert.assertTrue(c.getIdUtente() == 1);
-    }
-
 }

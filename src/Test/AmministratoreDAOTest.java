@@ -1,12 +1,8 @@
 package Test;
 
-import Business.LoginResult;
-import Business.SessionManager;
-import Business.UtenteBusiness;
 import DAO.AmministratoreDAO;
 import DAO.IAmministratoreDAO;
 import Model.Amministratore;
-import Model.Cliente;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,22 +54,4 @@ public class AmministratoreDAOTest {
         amministratore = amministratoreDAO.findById("vr46");
         Assert.assertEquals("valentino@vr46.com", amministratore.getEmail());
     }
-
-    //@Test
-    public void loginTest() {
-
-        UtenteBusiness ub = UtenteBusiness.getInstance();
-        String username = "roberto";
-        String password = "12345";
-        LoginResult result = ub.login(username, password);
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.getResult() == LoginResult.Result.LOGIN_OK);
-        Assert.assertNotNull(SessionManager.getSession().get(SessionManager.LOGGED_USER));
-        Assert.assertTrue(SessionManager.getSession().get(SessionManager.LOGGED_USER) instanceof Cliente);
-
-        Cliente c = (Cliente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-        Assert.assertTrue(c.getIdUtente() == 1);
-    }
-
 }
