@@ -1,5 +1,7 @@
 package Business;
 
+import Business.Results.LoginResult;
+import Business.Results.RegisterResult;
 import DAO.*;
 import Model.Amministratore;
 import Model.Cliente;
@@ -122,13 +124,15 @@ public class UtenteBusiness {
         u.setPwd(pwdEncrypted);
 
         //3. inserimento del nuovo utente
+        int inserito = 0;
+
         if(u.getTipo().equalsIgnoreCase("CL")) { //il nuovo utente è un cliente
             ClienteDAO cDao = ClienteDAO.getInstance();
-            cDao.add((Cliente) u);
+            inserito = cDao.add((Cliente) u);
 
         } else if (u.getTipo().equalsIgnoreCase("MN")){ //il nuovo utente è un manager
             ManagerDAO mDao = ManagerDAO.getInstance();
-            mDao.add((Manager) u);
+            inserito = mDao.add((Manager) u);
 
         }else { //tipo non previsto
             result.setResult(RegisterResult.Result.WRONG_TYPE);
@@ -136,6 +140,11 @@ public class UtenteBusiness {
             return result;
         }
 
+        if(inserito == 0){
+            result.setResult(RegisterResult.Result.REGISTER_ERROR);
+            result.setMessage("Errore nella registrazione! Riprova!");
+            return result;
+        }
         result.setResult(RegisterResult.Result.REGISTER_OK);
         result.setMessage("Registrazione effettuata con successo! Benvenuto in MyShop!");
         return result;
