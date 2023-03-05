@@ -28,9 +28,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     }
     @Override
     public PuntoVendita findById(int idPuntoVendita) {
-        String sql = "SELECT idpunto_vendita, manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono " +
-                "FROM progetto_pis.punto_vendita " +
-                "WHERE idpunto_vendita = '" + idPuntoVendita + "';";
+        String sql = "SELECT * FROM progetto_pis.punto_vendita WHERE idpunto_vendita = '" + idPuntoVendita + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -46,6 +44,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
+                puntoVendita.setNome(rs.getString("nome"));
                 return puntoVendita;
             }
         } catch (SQLException e) {
@@ -60,10 +59,42 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         return null;
     }
 
+    @Override
+    public PuntoVendita findByName(String nome) {
+        String sql = "SELECT * FROM progetto_pis.punto_vendita WHERE nome = '" + nome + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                puntoVendita = new PuntoVendita();
+                puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
+                puntoVendita.setIdManager(rs.getInt("manager_utente_idutente"));
+                puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+                puntoVendita.setCitta(rs.getString("citta"));
+                puntoVendita.setIndirizzo(rs.getString("indirizzo"));
+                puntoVendita.setTelefono(rs.getString("telefono"));
+                puntoVendita.setNome(rs.getString("nome"));
+                return puntoVendita;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<PuntoVendita> findByManager(int idManager){
-        String sql = "SELECT idpunto_vendita, manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono " +
-                "FROM progetto_pis.punto_vendita " +
-                "WHERE manager_utente_idutente = '" + idManager + "';";
+        String sql = "SELECT * FROM progetto_pis.punto_vendita WHERE manager_utente_idutente = '" + idManager + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -78,7 +109,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
-
+                puntoVendita.setNome(rs.getString("nome"));
                 puntiVendita.add(puntoVendita);
             }
             return puntiVendita;
@@ -97,8 +128,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
 
     @Override
     public ArrayList<PuntoVendita> findAll() {
-        String sql = "SELECT idpunto_vendita, manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono " +
-                "FROM progetto_pis.punto_vendita ;";
+        String sql = "SELECT * FROM progetto_pis.punto_vendita ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -114,6 +144,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
+                puntoVendita.setNome(rs.getString("nome"));
 
                 puntiVendita.add(puntoVendita);
             }

@@ -8,13 +8,15 @@ public class PuntoVendita {
     private String citta;
     private String indirizzo;
     private String telefono;
+    private String nome;
 
     public PuntoVendita(){}
 
-    public PuntoVendita(String citta, String indirizzo, String telefono) {
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome) {
         this.citta = citta;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
+        this.nome = nome;
     }
 
     public int getIdPuntoVendita() {
@@ -66,6 +68,13 @@ public class PuntoVendita {
         this.telefono = telefono;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
     @Override
     public String toString() {
         return "PuntoVendita{" +
@@ -74,4 +83,6 @@ public class PuntoVendita {
                 ", telefono=" + telefono +
                 '}';
     }
+
+
 }
