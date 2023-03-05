@@ -1,9 +1,6 @@
 package Test;
 
 import Business.FactoryMethod.NotificationFactory;
-import Business.LoginResult;
-import Business.SessionManager;
-import Business.UtenteBusiness;
 import DAO.ClienteDAO;
 import DAO.IClienteDAO;
 import DAO.IPuntoVenditaDAO;
@@ -18,7 +15,7 @@ import java.util.List;
 
 public class ClienteDAOTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
 
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
@@ -29,15 +26,15 @@ public class ClienteDAOTest {
 
         boolean abilitazione = true;
         int eta = 18;
-        String residenza = "non sono cazzi tuoi coglione";
-        String professione = "fallito";
+        String residenza = "via mozart 21";
+        String professione = "avvocato";
         String telefono = "0231561237";
 
-        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","Cl", puntoVendita.getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono ));
+        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono ));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
         clienteDAO.removeById("vr46");
     }
@@ -46,7 +43,7 @@ public class ClienteDAOTest {
     public void findAllTest() {
         IClienteDAO clienteDao = ClienteDAO.getInstance();
         ArrayList<Cliente> clienti = clienteDao.findAll();
-        Assert.assertEquals(1, clienti.size());
+        Assert.assertEquals(2, clienti.size());
     }
 
     @Test
@@ -78,8 +75,8 @@ public class ClienteDAOTest {
         boolean abilitazione = true;
 
         int eta = 18;
-        String residenza = "non sono cazzi tuoi coglione";
-        String professione = "fallito";
+        String residenza = "viale delle rose 17";
+        String professione = "avvocato";
         String telefono = "0231561237";
 
 

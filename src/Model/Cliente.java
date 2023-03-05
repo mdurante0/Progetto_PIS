@@ -101,12 +101,11 @@ public class Cliente extends Utente {
         return abilitazione;
     }
 
-    public int isAbilitazione(boolean abilitazione) {
-        int abilitato = 0;
-        if(abilitazione)
-            abilitato = 1;
-
-        return abilitato;
+    public int getAbilitazione() {
+        if(this.abilitazione)
+            return 1;
+        else
+            return 0;
     }
 
     public void setAbilitazione(boolean abilitazione) {
