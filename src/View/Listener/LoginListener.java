@@ -1,6 +1,6 @@
 package View.Listener;
 
-import Business.LoginResult;
+import Business.Results.LoginResult;
 import Business.UtenteBusiness;
 import View.EsempioGerarchiaLayout;
 

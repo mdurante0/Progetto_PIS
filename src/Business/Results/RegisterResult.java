@@ -1,8 +1,8 @@
-package Business;
+package Business.Results;
 
 public class RegisterResult {
 
-    public enum Result { REGISTER_OK, WEAK_PASSWORD, USER_ALREADY_EXISTS, WRONG_TYPE }
+    public enum Result { REGISTER_OK, WEAK_PASSWORD, USER_ALREADY_EXISTS, WRONG_TYPE, REGISTER_ERROR }
 
     private Result result;
     private String message;

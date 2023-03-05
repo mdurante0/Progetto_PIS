@@ -1,6 +1,6 @@
 package Test;
 
-import Business.LoginResult;
+import Business.Results.LoginResult;
 import Business.SessionManager;
 import Business.UtenteBusiness;
 import DAO.IUtenteDAO;

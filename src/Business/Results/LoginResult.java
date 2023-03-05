@@ -1,4 +1,4 @@
-package Business;
+package Business.Results;
 
 public class LoginResult {
 

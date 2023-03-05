@@ -1,7 +1,7 @@
-package Business;
+package Business.Results;
 
 public class ArticoloResult {
-    public enum Result { ADD_OK, ITEM_ALREADY_EXISTS, WRONG_TYPE }
+    public enum Result { ADD_OK, ITEM_ALREADY_EXISTS, WRONG_TYPE, ITEM_ERROR }
 
     private Result result;
     private String message;
