@@ -64,7 +64,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
     public Prodotto findByName(String name) {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
+        String sql = "SELECT * " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo" +
                 "WHERE nome = '" + name + "';";
@@ -102,8 +102,7 @@ public class ProdottoDAO implements IProdottoDAO {
     @Override
     public ArrayList<Prodotto> findAll() {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
-                "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
+        String sql = "SELECT * FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -139,8 +138,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
     public ArrayList<Prodotto> findAllByCategoria(int idCategoria) {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto " +
-                "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
+        String sql = "SELECT * FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo" +
                  "WHERE categoria_prodotto_idcategoria_prodotto = '" + idCategoria + ";";
 

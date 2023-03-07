@@ -16,13 +16,13 @@ import java.util.ArrayList;
 
 public class UtenteDAOTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         utenteDAO.add(new Utente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "MN"));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
         utenteDAO.removeById("vr46");
     }
