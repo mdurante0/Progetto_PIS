@@ -29,6 +29,7 @@ public class MagazzinoDAOTest {
         // m viene settato a null perchè se il magazzino non contiene alcun prodotto l'inner join non funziona
         // problema: non si possono eliminare magazzini vuoti
         // possibile soluzione: rimuovere l'inner join da tutti i find e creare un metodo getProdotti in MagazzinoDAO
+
         magazzinoDAO.removeById(m.getIdMagazzino());
     }
 
