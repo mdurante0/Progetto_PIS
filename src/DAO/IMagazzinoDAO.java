@@ -1,13 +1,13 @@
 package DAO;
 
-import Model.CategoriaProdotto;
 import Model.Magazzino;
 import Model.composite.IProdotto;
 
 import java.util.ArrayList;
 
 public interface IMagazzinoDAO {
-    Magazzino findById(String indirizzo);
+    Magazzino findById(int id);
+    Magazzino findByAddress(String indirizzo);
     ArrayList<Magazzino> findAll();
     int add(Magazzino magazzino);
     int removeById(int id);

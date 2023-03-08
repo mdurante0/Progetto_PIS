@@ -1,6 +1,9 @@
 package Test;
-import DAO.*;
-import Model.CategoriaProdotto;
+
+import DAO.IMagazzinoDAO;
+import DAO.IProdottoDAO;
+import DAO.MagazzinoDAO;
+import DAO.ProdottoDAO;
 import Model.Magazzino;
 import Model.composite.Prodotto;
 import org.junit.After;
@@ -11,61 +14,76 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class MagazzinoDAOTest {
+
     @Before
     public void setUp() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        magazzinoDAO.add(new Magazzino( 4, 2, null));
+        Magazzino m = new Magazzino( 4, 2, "via Paoli 23", null);
+        magazzinoDAO.add(m);
     }
 
     @After
     public void tearDown() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        magazzinoDAO.removeById(1);
+        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+        // m viene settato a null perchè se il magazzino non contiene alcun prodotto l'inner join non funziona
+        // problema: non si possono eliminare magazzini vuoti
+        // possibile soluzione: rimuovere l'inner join da tutti i find e creare un metodo getProdotti in MagazzinoDAO
+        magazzinoDAO.removeById(m.getIdMagazzino());
     }
+
     @Test
     public void findAllTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         ArrayList<Magazzino> magazzini = magazzinoDAO.findAll();
-        Assert.assertEquals(2, magazzini.size());
+        Assert.assertEquals(1, magazzini.size());
     }
 
     @Test
     public void findByIdTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = magazzinoDAO.findById(1);
-        Assert.assertEquals(1, magazzino.getIdMagazzino());
+        Magazzino magazzino = magazzinoDAO.findById(0);
+        Assert.assertEquals(0, magazzino.getIdMagazzino());
+    }
+
+    @Test
+    public void findByAddressTest() {
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Beethoven 23");
+        Assert.assertEquals(4, magazzino.getQuantitaCorsie());
     }
 
     @Test
     public void updateTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = new Magazzino(7, 5, null);
-        magazzino.setIdMagazzino(magazzinoDAO.findById(1).getIdMagazzino());
+        Magazzino magazzino = new Magazzino(7, 5, "via Mozart 23", null);
+        magazzino.setIdMagazzino(magazzinoDAO.findByAddress(magazzino.getIndirizzo()).getIdMagazzino());
         magazzinoDAO.update(magazzino);
-        magazzino = magazzinoDAO.findById(1);
-        Assert.assertEquals(7, magazzino.getQuantitaCorsie());
+        magazzino = magazzinoDAO.findById(magazzino.getIdMagazzino());
+        Assert.assertEquals("via Mozart 23", magazzino.getIndirizzo());
     }
 
 
     @Test
     public void addProdottoTest(){
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("arredamento", null, null);
-        Prodotto prodotto = new Prodotto(12.5F, null, "Sedia", "Sedia in legno massello", categoriaProdotto, null, null, 9, null );
-        prodottoDAO.add(prodotto);
-        int rowCount = magazzinoDAO.addProdotto(1, prodotto);
+        IProdottoDAO pDao = ProdottoDAO.getInstance();
+        Prodotto p = pDao.findByName("tavolo");
+        Magazzino m = magazzinoDAO.findByAddress("via Beethoven 23");
+        int rowCount = magazzinoDAO.addProdotto(m.getIdMagazzino(), p);
         Assert.assertEquals(1, rowCount);
     }
-  /*  @Test
+
+   @Test
     public void removeProdottoTest(){
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Prodotto prodotto = new Prodotto(12.5F, null, "Sedia", "Sedia in legno massello", null, null, null, 9, null );
-
-        int rowCount = magazzinoDAO.removeProdotto(1, prodotto);
+        ProdottoDAO pDao = ProdottoDAO.getInstance();
+        Prodotto p = pDao.findByName("tavolo");
+        Magazzino m = magazzinoDAO.findByAddress("via Beethoven 23");
+        int rowCount = magazzinoDAO.removeProdotto(m.getIdMagazzino(), p);
         Assert.assertEquals(1, rowCount);
     }
-*/
+
 
 
 }

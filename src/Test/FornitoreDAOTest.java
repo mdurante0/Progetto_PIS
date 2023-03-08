@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class FornitoreDAOTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         fornitoreDAO.add(new Fornitore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         fornitoreDAO.removeById("Valentino");
     }
