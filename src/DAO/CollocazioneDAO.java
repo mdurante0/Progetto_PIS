@@ -29,13 +29,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     @Override
-    public Collocazione findById(int corsia, int scaffale, int idMagazzino) {
+    public Collocazione findById(int idMagazzino) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idcollocazione, scaffale, corsia, magazzino_idmagazzino FROM progetto_pis.collocazione " +
-                "WHERE corsia = '" + corsia +
-                "' && scaffale = '" + scaffale +
-                "' && magazzino_idmagazzino = '"+ idMagazzino +"';";
+                "WHERE magazzino_idmagazzino = '"+ idMagazzino +"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 

@@ -64,10 +64,8 @@ public class ProdottoDAO implements IProdottoDAO {
 
     public Prodotto findByName(String name) {
 
-        String sql = "SELECT * " +
-                "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
-                "ON a.idarticolo = p.articolo_idarticolo" +
-                "WHERE nome = '" + name + "';";
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a ON a.idarticolo = p.articolo_idarticolo\n" +
+                "\t WHERE nome = '"+ name +"';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
