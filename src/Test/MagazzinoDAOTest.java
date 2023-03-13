@@ -10,10 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class MagazzinoDAOTest {
 
- /*   @Before
+    @Before
     public void setUp() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino m = new Magazzino( 4, 2, "via Paoli 23", null);
@@ -28,7 +29,7 @@ public class MagazzinoDAOTest {
         // problema: non si possono eliminare magazzini vuoti
         // possibile soluzione: rimuovere l'inner join da tutti i find e creare un metodo getProdotti in MagazzinoDAO
         magazzinoDAO.removeById(m.getIdMagazzino());
-    }*/
+    }
 
     @Test
     public void findAllTest() {
@@ -68,6 +69,14 @@ public class MagazzinoDAOTest {
 
         System.out.println(magazzini.get(0).getProdotti().get(0).getName());
         System.out.println(magazzini.get(0).getProdotti().get(1).getName());
+    }
+    @Test
+    public void getProdottiInMagazzinoByNameTest() {
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        Magazzino m = magazzinoDAO.getProdottiInMagazzinoByName("aaa");
+        Assert.assertEquals(  "tavolo", m.getProdotti().get(0).getName());
+        Assert.assertEquals(  "sedia", m.getProdotti().get(1).getName());
+
     }
 
 

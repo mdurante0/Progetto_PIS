@@ -243,5 +243,45 @@ public class MagazzinoDAO implements IMagazzinoDAO {
         return null;
     }
 
+  @Override
+    public Magazzino getProdottiInMagazzinoByName(String indirizzo) {
+
+        String sql = "SELECT idmagazzino, quantita_corsie, quantita_scaffali, prodotto_articolo_idarticolo, quantita_prodotto FROM progetto_pis.magazzino AS m INNER JOIN progetto_pis.magazzino_has_prodotto AS mp ON m.idmagazzino = mp.magazzino_idmagazzino where m.indirizzo='" + indirizzo + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            while (rs.next()) {
+                magazzino = new Magazzino();
+                magazzino.setIdMagazzino(rs.getInt("idmagazzino"));
+                magazzino.setQuantitaCorsie(rs.getInt("quantita_corsie"));
+                magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                Prodotto prodotto;
+                do{
+                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita_prodotto"));
+                    magazzino.add(prodotto);
+
+                } while(rs.next());
+
+                return magazzino;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+
 
 }

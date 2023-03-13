@@ -17,4 +17,5 @@ public interface IMagazzinoDAO {
     int addProdotto(int idMagazzino, IProdotto iProdotto, int quantita, Collocazione collocazione);
     int removeProdotto(int idMagazzino, IProdotto iProdotto);
     ArrayList<Magazzino> getProdottiInMagazzino();
+    public Magazzino getProdottiInMagazzinoByName(String indirizzo);
 }
