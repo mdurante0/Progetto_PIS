@@ -31,7 +31,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
         String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
-                "ON a.idarticolo = p.articolo_idarticolo" +
+                "ON a.idarticolo = p.articolo_idarticolo " +
                 "WHERE articolo_idarticolo = '" + idProdotto + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

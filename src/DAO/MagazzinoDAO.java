@@ -221,12 +221,12 @@ public class MagazzinoDAO implements IMagazzinoDAO {
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 Prodotto prodotto;
-                while (rs.next()){
+                do{
                     prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
                     magazzino.add(prodotto);
 
-                }
+                } while(rs.next());
 
                 magazzini.add(magazzino);
             }
