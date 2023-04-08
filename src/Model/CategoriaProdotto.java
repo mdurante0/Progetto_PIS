@@ -20,6 +20,18 @@ public class CategoriaProdotto implements ICategoria {
         this.sottocategorie = new ArrayList<>();
         this.prodotti = new ArrayList<>();
     }
+    public CategoriaProdotto(String nome) {
+        this.nome = nome;
+        this.sottocategorie = new ArrayList<>();
+        this.prodotti = new ArrayList<>();
+    }
+    public CategoriaProdotto(String nome, int idCategoriaProdottoParent) {
+        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
+        this.nome = nome;
+        this.sottocategorie = new ArrayList<>();
+        this.prodotti = new ArrayList<>();
+    }
+
 
     public CategoriaProdotto(String nome, ArrayList<CategoriaProdotto> sottocategorie, ArrayList<IProdotto> prodotti) {
         this.nome = nome;

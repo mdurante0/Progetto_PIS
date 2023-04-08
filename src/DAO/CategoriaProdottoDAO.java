@@ -159,8 +159,8 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     @Override
     public int add(CategoriaProdotto categoriaProdotto) {
 
-        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome, categoria_prodotto_idcategoria_prodotto) " +
-                "VALUES ('" + categoriaProdotto.getNome() + "','" + categoriaProdotto.getIdCategoriaProdottoParent() + ");";
+        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome) " +
+                "VALUES ('" + categoriaProdotto.getNome() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
