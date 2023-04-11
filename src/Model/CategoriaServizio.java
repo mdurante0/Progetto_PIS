@@ -16,6 +16,10 @@ public class CategoriaServizio implements ICategoria {
         this.nome = nome;
         this.servizi = servizi;
     }
+    public CategoriaServizio(String nome) {
+        this.nome = nome;
+
+    }
 
     public void clear() {
         servizi.clear();

@@ -9,5 +9,6 @@ public interface ICategoriaServizioDAO {
     ArrayList<CategoriaServizio> findAll();
     int add(CategoriaServizio categoriaServizio);
     int removeById(String nome);
+    CategoriaServizio findByName(String name);
     int update(CategoriaServizio categoriaServizio);
 }
