@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class MagazzinoDAOTest {
 
@@ -25,9 +24,6 @@ public class MagazzinoDAOTest {
     public void tearDown() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
-        // m viene settato a null perchè se il magazzino non contiene alcun prodotto l'inner join non funziona
-        // problema: non si possono eliminare magazzini vuoti
-        // possibile soluzione: rimuovere l'inner join da tutti i find e creare un metodo getProdotti in MagazzinoDAO
         magazzinoDAO.removeById(m.getIdMagazzino());
     }
 
@@ -66,9 +62,6 @@ public class MagazzinoDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         ArrayList<Magazzino> magazzini = magazzinoDAO.getProdottiInMagazzino();
         Assert.assertEquals(1, magazzini.size());
-
-        System.out.println(magazzini.get(0).getProdotti().get(0).getName());
-        System.out.println(magazzini.get(0).getProdotti().get(1).getName());
     }
     @Test
     public void getProdottiInMagazzinoByNameTest() {

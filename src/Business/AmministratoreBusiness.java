@@ -31,7 +31,7 @@ public class AmministratoreBusiness {
         boolean articoloExists = aDao.articoloExists(a.getName());
         if (articoloExists){
             result.setResult(ArticoloResult.Result.ITEM_ALREADY_EXISTS);
-            result.setMessage("L'articolo inserito è già esistente! Riprova");
+            result.setMessage("L'articolo da inserire è già esistente! Riprova");
             return result;
         }
 
@@ -71,6 +71,90 @@ public class AmministratoreBusiness {
 
         //l'inserimento è andato a buon fine
         result.setResult(ArticoloResult.Result.ADD_OK);
+        result.setMessage("Articolo inserito correttamente!");
+        return result;
+    }
+
+    public ArticoloResult updateArticolo(Articolo a, FactoryProvider.FactoryType type){
+
+        ArticoloDAO aDao = ArticoloDAO.getInstance();
+        ArticoloResult result = new ArticoloResult();
+
+        //Verifica esistenza articolo
+        boolean articoloExists = aDao.articoloExists(a.getName());
+        if (!articoloExists){
+            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("L'articolo da modificare non esiste! Riprova");
+            return result;
+        } else {
+            a = aDao.findByName(a.getName());
+        }
+
+        //modifica in base al tipo di articolo
+        int updated;
+        switch (type){
+            case PRODOTTO: {
+                Prodotto p = (Prodotto) a;
+                ProdottoDAO pDao = ProdottoDAO.getInstance();
+                updated = pDao.update(p);
+                break;
+            }
+            case PRODOTTO_COMPOSITO: {
+                ProdottoComposito pc = (ProdottoComposito) a;
+                ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
+                updated = pcDao.update(pc);
+                break;
+            }
+            case SERVIZIO: {
+                Servizio s = (Servizio) a;
+                ServizioDAO sDao = ServizioDAO.getInstance();
+                updated = sDao.update(s);
+                break;
+            }
+            default: { //errore nel tipo di articolo
+                result.setResult(ArticoloResult.Result.WRONG_TYPE);
+                result.setMessage("Errore nella specificazione dell'articolo! Riprova!");
+                return result;
+            }
+        }
+
+        if(updated == 0){ //articolo non modificato
+            result.setResult(ArticoloResult.Result.ITEM_ERROR);
+            result.setMessage("Errore nella modifica dell'articolo! Riprova!");
+            return result;
+        }
+
+        //la modifica è andata a buon fine
+        result.setResult(ArticoloResult.Result.UPDATE_OK);
+        result.setMessage("Articolo modificato correttamente!");
+        return result;
+    }
+
+    public ArticoloResult removeArticolo(Articolo a){
+
+        ArticoloDAO aDao = ArticoloDAO.getInstance();
+        ArticoloResult result = new ArticoloResult();
+
+        //Verifica esistenza articolo
+        boolean articoloExists = aDao.articoloExists(a.getName());
+        if (!articoloExists){
+            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("L'articolo da eliminare non esiste! Riprova");
+            return result;
+        } else {
+            a = aDao.findByName(a.getName());
+        }
+
+        int removed = aDao.removeById(a.getIdArticolo());
+
+        if(removed == 0){ //articolo non rimosso
+            result.setResult(ArticoloResult.Result.ITEM_ERROR);
+            result.setMessage("Errore nella cancellazione dell'articolo! Riprova!");
+            return result;
+        }
+
+        //la cancellazione è andata a buon fine
+        result.setResult(ArticoloResult.Result.DELETE_OK);
         result.setMessage("Articolo inserito correttamente!");
         return result;
     }
