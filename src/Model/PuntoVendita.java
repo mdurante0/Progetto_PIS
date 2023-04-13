@@ -12,11 +12,13 @@ public class PuntoVendita {
 
     public PuntoVendita(){}
 
-    public PuntoVendita(String citta, String indirizzo, String telefono, String nome) {
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino, int idManager) {
         this.citta = citta;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.nome = nome;
+        this.idMagazzino = idMagazzino;
+        this.idManager = idManager;
     }
 
     public int getIdPuntoVendita() {

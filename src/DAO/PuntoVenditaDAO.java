@@ -164,12 +164,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
 
     @Override
     public int add(PuntoVendita puntoVendita) {
-        String sql = "INSERT INTO progetto_pis.puntoVendita (manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono) VALUES ('"+
-                puntoVendita.getIdManager() + "',"+
-                puntoVendita.getIdMagazzino()+ "',"+
-                puntoVendita.getCitta()+ "',"+
-                puntoVendita.getIndirizzo()+ "',"+
-                puntoVendita.getTelefono() + "');";
+        String sql = "INSERT INTO progetto_pis.punto_vendita (manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+ puntoVendita.getIdManager()+"', '" + puntoVendita.getIdMagazzino() + "', '"+ puntoVendita.getCitta()+ "', '" +puntoVendita.getIndirizzo()+ "', '"+puntoVendita.getTelefono() +"', '"+puntoVendita.getNome() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
