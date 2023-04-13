@@ -29,11 +29,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     @Override
-    public Collocazione findById(int idMagazzino) {
+    public Collocazione findById(int idCollocazione) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idcollocazione, scaffale, corsia, magazzino_idmagazzino FROM progetto_pis.collocazione " +
-                "WHERE magazzino_idmagazzino = '"+ idMagazzino +"';";
+                "WHERE idcollocazione = '"+ idCollocazione +"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
@@ -63,6 +63,37 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     public ArrayList<Collocazione> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione ;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<Collocazione> collocazioni = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                collocazione = new Collocazione();
+                collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
+                collocazione.setScaffale(rs.getInt("scaffale"));
+                collocazione.setCorsia(rs.getInt("corsia"));
+                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                collocazioni.add(collocazione);
+            }
+            return collocazioni;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Collocazione> findAllByMagazzino(int idMagazzino) {
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione WHERE magazzino_idmagazzino = '"+ idMagazzino +"';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
