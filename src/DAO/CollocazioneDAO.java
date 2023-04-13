@@ -131,7 +131,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale, magazzino_idmagazzino) VALUES ('"+
                 collocazione.getCorsia() + "','" +
                 collocazione.getScaffale() + "','" +
-                collocazione.getIdMagazzino() + ");";
+                collocazione.getIdMagazzino() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
 
         return  executor.executeOperation(writeOp).getRowsAffected();

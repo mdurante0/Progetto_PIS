@@ -12,6 +12,11 @@ public class Collocazione {
         this.corsia = corsia;
         this.scaffale = scaffale;
     }
+    public Collocazione(int corsia, int scaffale, int idMagazzino) {
+        this.corsia = corsia;
+        this.scaffale = scaffale;
+        this.idMagazzino = idMagazzino;
+    }
     public Collocazione(){}
 
     public int getIdCollocazione() {
