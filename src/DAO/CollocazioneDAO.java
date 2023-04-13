@@ -44,6 +44,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setCorsia(rs.getInt("corsia"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
+                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
 
                 return collocazione;
             }
