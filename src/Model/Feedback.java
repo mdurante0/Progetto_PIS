@@ -17,7 +17,7 @@ public class Feedback {
 
     public Feedback(){}
 
-    public Feedback(Punteggio gradimento, String commento, boolean letto, boolean risposto, String risposta, Date data, int idArticolo) {
+    public Feedback(Punteggio gradimento, String commento, boolean letto, boolean risposto, String risposta, Date data, int idArticolo, int idUtente) {
         this.gradimento = gradimento;
         this.commento = commento;
         this.letto = letto;
@@ -25,6 +25,7 @@ public class Feedback {
         this.risposta = risposta;
         this.data = data;
         this.idArticolo = idArticolo;
+        this.idUtente = idUtente;
     }
 
     public int getIdFeedback() {
