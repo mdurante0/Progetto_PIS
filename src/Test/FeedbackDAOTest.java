@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,9 +27,9 @@ public class FeedbackDAOTest {
 
         articoloDAO.add(new Articolo(700.55F, null, "Armadio", "armadio in quercia pregiata", null, null, 8));
 
-        managerDAO.add(new Manager("Antonio","Bianchi","ab77","123","ab77@gmail.com","MN", (float) 7500.55, 3));
+        managerDAO.add(new Manager("Antonio", "Bianchi", "ab77", "123", "ab77@gmail.com", "MN", (float) 7500.55, 3));
 
-        Magazzino m = new Magazzino( 4, 2, "via Paoli 23", null);
+        Magazzino m = new Magazzino(4, 2, "via Paoli 23", null);
         magazzinoDAO.add(m);
 
         puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77").getIdUtente()));
@@ -38,7 +40,7 @@ public class FeedbackDAOTest {
         String residenza = "via mozart 21";
         String professione = "avvocato";
         String telefono = "0231561237";
-        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVenditaDAO.findByName("aaa").getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono ));
+        clienteDAO.add(new Cliente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "CL", puntoVenditaDAO.findByName("aaa").getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono));
         Date data = new Date();
 
 
@@ -63,27 +65,28 @@ public class FeedbackDAOTest {
 
     }
 
-   /* @Test
+    @Test
     public void findAllTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
         ArrayList<Feedback> feedbacks = feedbackDAO.findAll();
-        Assert.assertEquals(1, feedbacks.size());
-    }*/
+        Assert.assertEquals(2, feedbacks.size());
+    }
 
-    /*@Test
+    @Test
     public void findByIdTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
-        Feedback feedback = feedbackDAO.findById(2);
+        Feedback feedback = feedbackDAO.findById(1);
         Assert.assertEquals(1, feedback.getIdArticolo());
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void findByArticoloTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         ArrayList<Feedback> feedbacks = feedbackDAO.findByArticolo(articoloDAO.findByName("Armadio").getIdArticolo());
         Assert.assertEquals(1, feedbacks.size());
-    }*/
+    }
+
     @Test
     public void findByUserTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
@@ -92,20 +95,22 @@ public class FeedbackDAOTest {
         Assert.assertEquals(1, feedbacks.size());
     }
 
-  /*  @Test
+    @Test
     public void updateTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
-        Feedback feedback = feedbackDAO.findById(2);
+        Feedback feedback = feedbackDAO.findById(1);
 
-        feedback.setGradimento(Feedback.Punteggio.ECCELLENTE);
-        feedback.setCommento("molto soddisfatto");
-        feedback.setRisposta("grazie");
-        feedback.setLetto(true);
-        feedback.setRisposto(true);
-        feedbackDAO.update(feedback);
-        Assert.assertEquals("molto soddisfatto", feedback.getCommento());
-        Assert.assertEquals(3, feedback.getRisposta());
+        Date date = new Date();
 
+            feedback.setGradimento(Feedback.Punteggio.ECCELLENTE);
+            feedback.setCommento("molto soddisfatto");
+            feedback.setRisposta("grazie");
+            feedback.setLetto(true);
+            feedback.setRisposto(true);
+            feedback.setData(date);
+            feedbackDAO.update(feedback);
+            Assert.assertEquals("molto soddisfatto", feedback.getCommento());
+            Assert.assertEquals("grazie", feedback.getRisposta());
 
-    }*/
+    }
 }

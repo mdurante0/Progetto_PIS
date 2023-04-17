@@ -49,7 +49,7 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(rs.getDate("data"));
-                feedback.setGradimento(rs.getObject("gradimento", Feedback.Punteggio.class));
+                feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
 
@@ -84,7 +84,7 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(rs.getDate("data"));
-                feedback.setGradimento(rs.getObject("gradimento", Feedback.Punteggio.class));
+                feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 feedbacks.add(feedback);
@@ -120,7 +120,7 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(rs.getDate("data"));
-                feedback.setGradimento(rs.getObject("gradimento", Feedback.Punteggio.class));
+                feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 feedbacks.add(feedback);
@@ -155,7 +155,7 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(rs.getDate("data"));
-                feedback.setGradimento(rs.getObject("gradimento", Feedback.Punteggio.class));
+                feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 feedbacks.add(feedback);
