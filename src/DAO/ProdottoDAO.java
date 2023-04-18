@@ -29,7 +29,7 @@ public class ProdottoDAO implements IProdottoDAO {
     @Override
     public Prodotto findById(int idProdotto) {
 
-        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo " +
+        String sql = "SELECT articolo_idarticolo, produttore_idproduttore, categoria_prodotto_idcategoria_prodotto, nome, descrizione, costo " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo " +
                 "WHERE articolo_idarticolo = '" + idProdotto + "';";
@@ -44,6 +44,7 @@ public class ProdottoDAO implements IProdottoDAO {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
@@ -111,7 +112,7 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("utente_acquirente_utente_idutente"));
+                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
@@ -148,7 +149,7 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("utente_acquirente_utente_idutente"));
+                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
