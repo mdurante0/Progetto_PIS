@@ -54,6 +54,16 @@ public class Prodotto extends Articolo implements IProdotto {
         this.collocazione = collocazione;
         this.produttore = produttore;
     }
+    public Prodotto(Float prezzo, String nome, String descrizione, int idCategoria, int idCollocazione, int idProduttore, int quantita) {
+        this.setPrezzo(prezzo);
+        this.setName(nome);
+        this.setDescrizione(descrizione);
+        this.idCategoria = idCategoria;
+        this.idCollocazione = idCollocazione;
+        this.idProduttore = idProduttore;
+        this.setQuantita(quantita);
+    }
+
 
     @Override
     public Float getPrezzo() {
