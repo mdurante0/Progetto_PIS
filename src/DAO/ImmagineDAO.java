@@ -8,7 +8,9 @@ import DbInterface.command.WriteOperation;
 import Model.Immagine;
 
 import javax.swing.*;
-import java.sql.Blob;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class ImmagineDAO implements IImmagineDAO {
 
     @Override
     public Immagine findById(int id) {
-        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo " +
                 "FROM progetto_pis.immagine " +
                 "WHERE articolo_idarticolo = '" + id + "';";
 
@@ -45,7 +47,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 immagine = new Immagine();
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
 
                 return immagine;
             }
@@ -63,7 +65,7 @@ public class ImmagineDAO implements IImmagineDAO {
 
     @Override
     public ArrayList<Immagine> findAll() {
-        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo " +
                 "FROM progetto_pis.immagine ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -74,7 +76,7 @@ public class ImmagineDAO implements IImmagineDAO {
         try {
             while (rs.next()) {
                 immagine = new Immagine();
-                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
 
@@ -95,7 +97,7 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
     public ArrayList<Immagine> findByArticolo(int idArticolo) {
-        String sql = "SELECT idimmagine, immagine, articolo_idarticolo" +
+        String sql = "SELECT idimmagine, immagine, articolo_idarticolo " +
                 "FROM progetto_pis.immagine " +
                 "WHERE articolo_idarticolo = '" + idArticolo + "';";
 
@@ -107,7 +109,7 @@ public class ImmagineDAO implements IImmagineDAO {
         try {
             while (rs.next()) {
                 immagine = new Immagine();
-                immagine.setPic((ImageIcon) rs.getBlob("immagine"));
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
 
@@ -126,11 +128,33 @@ public class ImmagineDAO implements IImmagineDAO {
         return null;
     }
 
+    //metodo vecchio
     @Override
     public int add(Immagine immagine) {
 
         String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
-                (Blob) immagine.getPic() + "','" +
+                immagine.getPic() + "','" +
+                immagine.getIdArticolo() +"');";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
+
+    //vedi se così funziona
+    public int add(File file, Immagine immagine) {
+
+        FileInputStream inputStream;
+        try {
+            inputStream = new FileInputStream(file);
+            immagine.setPic(new ImageIcon(inputStream.readAllBytes()));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
+                inputStream + "','" +
                 immagine.getIdArticolo() +"');";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -156,10 +180,35 @@ public class ImmagineDAO implements IImmagineDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+
+    //metodo vecchio
     @Override
     public int update(Immagine immagine) {
         String sql = "UPDATE progetto_pis.immagine " +
                 "SET immagine = '" + immagine.getPic() +
+                "', articolo_idarticolo = '" + immagine.getIdArticolo() +
+                "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
+
+    //vedi se così funziona
+    public int update(File file, Immagine immagine) {
+
+        FileInputStream inputStream;
+        try {
+            inputStream = new FileInputStream(file);
+            immagine.setPic(new ImageIcon(inputStream.readAllBytes()));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String sql = "UPDATE progetto_pis.immagine " +
+                "SET immagine = '" + inputStream +
                 "', articolo_idarticolo = '" + immagine.getIdArticolo() +
                 "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
 
