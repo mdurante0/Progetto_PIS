@@ -1,8 +1,8 @@
 package Business.Results;
 
-public class PuntoVenditaResult {
+public class CategoriaResult {
 
-    public enum Result { ADD_OK, SALEPOINT_ALREADY_EXISTS, DEPOSIT_ERROR, SALEPOINT_ERROR, SALEPOINT_DOESNT_EXIST, DELETE_OK, UPDATE_SALEPOINT_OK, DEPOSIT_DOESNT_EXIST, UPDATE_DEPOSIT_OK }
+    public enum Result { ADD_OK, CATEGORY_ALREADY_EXISTS, CATEGORY_ERROR }
 
     private Result result;
     private String message;
