@@ -35,7 +35,7 @@ public class ImmagineDAO implements IImmagineDAO {
     public Immagine findById(int id) {
         String sql = "SELECT idimmagine, immagine, articolo_idarticolo " +
                 "FROM progetto_pis.immagine " +
-                "WHERE articolo_idarticolo = '" + id + "';";
+                "WHERE idimmagine = '" + id + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -129,7 +129,7 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
     //metodo vecchio
-    @Override
+   /* @Override
     public int add(Immagine immagine) {
 
         String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
@@ -139,7 +139,7 @@ public class ImmagineDAO implements IImmagineDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
+*/
 
     //vedi se così funziona
     public int add(File file, Immagine immagine) {
@@ -182,7 +182,7 @@ public class ImmagineDAO implements IImmagineDAO {
 
 
     //metodo vecchio
-    @Override
+  /*  @Override
     public int update(Immagine immagine) {
         String sql = "UPDATE progetto_pis.immagine " +
                 "SET immagine = '" + immagine.getPic() +
@@ -193,7 +193,7 @@ public class ImmagineDAO implements IImmagineDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
+*/
 
     //vedi se così funziona
     public int update(File file, Immagine immagine) {
@@ -210,7 +210,7 @@ public class ImmagineDAO implements IImmagineDAO {
         String sql = "UPDATE progetto_pis.immagine " +
                 "SET immagine = '" + inputStream +
                 "', articolo_idarticolo = '" + immagine.getIdArticolo() +
-                "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
+                "' WHERE idimmagine = '" + immagine.getIdImmagine() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

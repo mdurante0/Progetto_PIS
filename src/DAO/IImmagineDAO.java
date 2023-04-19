@@ -2,12 +2,15 @@ package DAO;
 
 import Model.Immagine;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public interface IImmagineDAO {
     Immagine findById(int id);
     ArrayList<Immagine> findAll();
-    int add(Immagine immagine);
+    int add(File file, Immagine immagine);
     int removeById(int id);
-    int update(Immagine immagine);
+    ArrayList<Immagine> findByArticolo(int idArticolo);
+   int removeByArticolo(int idArticolo);
+    int update(File file, Immagine immagine);
 }
