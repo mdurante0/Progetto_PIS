@@ -27,7 +27,7 @@ public class ProdottoDAOTest {
         collocazioneDAO.add(collocazione);
         categoriaProdottoDAO.add(new CategoriaProdotto("aaa"));
 
-        prodottoDAO.add(new Prodotto(55.35F, "cassa", "sono una cassa", categoriaProdottoDAO.findByName("aaa").getIdCategoriaProdotto(), collocazione.getIdCollocazione() , produttoreDAO.findById("Valentino").getIdProduttore(), 8));
+        prodottoDAO.add(new Prodotto(55.35F, "cassa", "sono una cassa", categoriaProdottoDAO.findByName("aaa").getIdCategoria(), collocazione.getIdCollocazione() , produttoreDAO.findByName("Valentino").getIdProduttore(), 8));
     }
 
     @After
@@ -82,7 +82,7 @@ public class ProdottoDAOTest {
 
 
         float prezzo = 8.5F;
-        Prodotto prodotto = new Prodotto(prezzo, null, "cassa", "cassa in legno massello", categoriaProdottoDAO.findByName("aaa"), collocazione , produttoreDAO.findById("Valentino"), 9,null);
+        Prodotto prodotto = new Prodotto(prezzo, null, "cassa", "cassa in legno massello", categoriaProdottoDAO.findByName("aaa"), collocazione , produttoreDAO.findByName("Valentino"), 9,null);
         prodotto.setIdArticolo(prodottoDAO.findByName(prodotto.getName()).getIdArticolo());
         prodottoDAO.update(prodotto);
         prodotto = prodottoDAO.findByName("cassa");

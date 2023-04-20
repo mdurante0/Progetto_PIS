@@ -32,16 +32,23 @@ public class ProduttoreDAOTest {
 
     @Test
     public void findByIdTest() {
-        IProduttoreDAO managerDAO = ProduttoreDAO.getInstance();
-        Produttore produttore = managerDAO.findById("Valentino");
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        Produttore produttore = produttoreDAO.findById(produttoreDAO.findByName("Valentino").getIdProduttore());
+        Assert.assertEquals("Valentino", produttore.getNome());
+    }
+
+    @Test
+    public void findByNameTest() {
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        Produttore produttore = produttoreDAO.findByName("Valentino");
         Assert.assertEquals("Valentino", produttore.getNome());
     }
 
 
     @Test
     public void removeByIdTest() {
-        IProduttoreDAO managerDAO = ProduttoreDAO.getInstance();
-        int rowCount = managerDAO.removeById("Valentino");
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        int rowCount = produttoreDAO.removeById("Valentino");
         Assert.assertEquals(1, rowCount);
     }
 
@@ -49,9 +56,9 @@ public class ProduttoreDAOTest {
     public void updateTest() {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         Produttore produttore = new Produttore("Valentino","vr46@gmail.it","trento","italy","0995331239","boh");
-        produttore.setIdProduttore(produttoreDAO.findById(produttore.getNome()).getIdProduttore());
+        produttore.setIdProduttore(produttoreDAO.findById(produttore.getIdProduttore()).getIdProduttore());
         produttoreDAO.update(produttore);
-        produttore = produttoreDAO.findById("Valentino");
+        produttore = produttoreDAO.findByName("Valentino");
         Assert.assertEquals("vr46@gmail.it", produttore.getMail());
     }
 }

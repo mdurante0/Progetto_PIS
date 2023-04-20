@@ -21,6 +21,15 @@ public class CategoriaServizio implements ICategoria {
 
     }
 
+    @Override
+    public int getIdCategoria() {
+        return idCategoriaServizio;
+    }
+
+    public void setIdCategoriaServizio(int idCategoriaServizio) {
+        this.idCategoriaServizio = idCategoriaServizio;
+    }
+
     public void clear() {
         servizi.clear();
     }
@@ -31,10 +40,6 @@ public class CategoriaServizio implements ICategoria {
 
     public boolean remove(Servizio servizio) {
         return servizi.remove(servizio);
-    }
-
-    public void setIdCategoriaServizio(int idCategoriaServizio) {
-        this.idCategoriaServizio = idCategoriaServizio;
     }
 
     public List<Servizio> getServizi() {
@@ -53,9 +58,7 @@ public class CategoriaServizio implements ICategoria {
         this.nome = nome;
     }
 
-    public int getIdCategoriaServizio() {
-        return idCategoriaServizio;
-    }
+
 
     @Override
     public String toString() {

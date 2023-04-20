@@ -1,8 +1,8 @@
 package Business.Results;
 
-public class CategoriaResult {
+public class ProduttoreResult {
 
-    public enum Result { ADD_OK, CATEGORY_ALREADY_EXISTS, CATEGORY_DOESNT_EXIST, UPDATE_OK, DELETE_OK, CATEGORY_ERROR }
+    public enum Result { ADD_OK, PRODUCER_ALREADY_EXISTS, PRODUCER_DOESNT_EXIST, UPDATE_OK, DELETE_OK, PRODUCER_ERROR }
 
     private Result result;
     private String message;

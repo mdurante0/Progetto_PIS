@@ -28,7 +28,40 @@ public class ProduttoreDAO implements IProduttoreDAO {
     }
 
     @Override
-    public Produttore findById(String name) {
+    public Produttore findById(int id) {
+        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore WHERE idproduttore = '" + id + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                produttore = new Produttore();
+                produttore.setIdProduttore(rs.getInt("idproduttore"));
+                produttore.setNome(rs.getString("nome"));
+                produttore.setMail(rs.getString("email"));
+                produttore.setTelefono(rs.getString("telefono"));
+                produttore.setCitta(rs.getString("citta"));
+                produttore.setNazione(rs.getString("nazione"));
+                produttore.setDescrizione(rs.getString("descrizione"));
+                return produttore;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Produttore findByName(String name) {
         String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

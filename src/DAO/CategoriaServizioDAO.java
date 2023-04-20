@@ -148,7 +148,7 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
 
         String sql = "UPDATE progetto_pis.categoria_servizio " +
                 "SET nome = '" + categoriaServizio.getNome() +
-                "' WHERE idcategoria_servizio = '" + categoriaServizio.getIdCategoriaServizio() + "';";
+                "' WHERE idcategoria_servizio = '" + categoriaServizio.getIdCategoria() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

@@ -28,7 +28,40 @@ public class FornitoreDAO implements IFornitoreDAO {
     }
 
     @Override
-    public Fornitore findById(String name) {
+    public Fornitore findById(int id) {
+        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore WHERE idfornitore = '" + id + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                fornitore = new Fornitore();
+                fornitore.setIdFornitore(rs.getInt("idfornitore"));
+                fornitore.setNome(rs.getString("nome"));
+                fornitore.setMail(rs.getString("email"));
+                fornitore.setTelefono(rs.getString("telefono"));
+                fornitore.setCitta(rs.getString("citta"));
+                fornitore.setNazione(rs.getString("nazione"));
+                fornitore.setDescrizione(rs.getString("descrizione"));
+                return fornitore;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Fornitore findByName(String name) {
         String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

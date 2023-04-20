@@ -2,8 +2,6 @@ package Test;
 
 import DAO.CategoriaProdottoDAO;
 import DAO.ICategoriaProdottoDAO;
-import DAO.ProduttoreDAO;
-import Model.CategoriaProdotto;
 import Model.CategoriaProdotto;
 import org.junit.After;
 import org.junit.Assert;
@@ -36,7 +34,7 @@ public class CategoriaProdottoDAOTest {
     @Test
     public void findByIdTest() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
-        CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findById(categoriaProdottoDAO.findByName("aaa").getIdCategoriaProdotto());
+        CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findById(categoriaProdottoDAO.findByName("aaa").getIdCategoria());
         Assert.assertEquals("aaa", categoriaProdotto.getNome());
     }
 
@@ -51,9 +49,9 @@ public class CategoriaProdottoDAOTest {
     public void findAllByParentTest() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
-        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoriaProdotto());
+        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         categoriaProdottoDAO.update(categoriaProdotto);
-        ArrayList<CategoriaProdotto> categorie = categoriaProdottoDAO.findAllByParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoriaProdotto());
+        ArrayList<CategoriaProdotto> categorie = categoriaProdottoDAO.findAllByParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         Assert.assertEquals(2, categorie.size());
     }
 
@@ -63,7 +61,7 @@ public class CategoriaProdottoDAOTest {
     public void updateTest() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
-        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoriaProdotto());
+        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         categoriaProdottoDAO.update(categoriaProdotto);
         categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
         Assert.assertEquals("aaa", categoriaProdotto.getNome());

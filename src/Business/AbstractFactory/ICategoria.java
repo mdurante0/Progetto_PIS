@@ -1,5 +1,6 @@
 package Business.AbstractFactory;
 
 public interface ICategoria {
- String getNome();
+    String getNome();
+    int getIdCategoria();
 }

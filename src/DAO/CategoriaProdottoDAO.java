@@ -186,7 +186,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         String sql = "UPDATE progetto_pis.categoria_prodotto " +
                 "SET nome = '" + categoria.getNome() +
                 "', categoria_prodotto_idcategoria_prodotto = '" + categoria.getIdCategoriaProdottoParent() +
-                "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoriaProdotto() + "';";
+                "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

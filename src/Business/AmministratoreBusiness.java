@@ -2,9 +2,7 @@ package Business;
 
 import Business.AbstractFactory.FactoryProvider;
 import Business.AbstractFactory.ICategoria;
-import Business.Results.ArticoloResult;
-import Business.Results.CategoriaResult;
-import Business.Results.PuntoVenditaResult;
+import Business.Results.*;
 import DAO.*;
 import Model.*;
 import Model.composite.Prodotto;
@@ -223,7 +221,7 @@ public class AmministratoreBusiness {
             return result;
         }
 
-        //aggiorno il punto vendita
+        //aggiorno il magazzino
         if(mDao.update(m) == 0){ //magazzino non aggiornato
             result.setResult(PuntoVenditaResult.Result.DEPOSIT_ERROR);
             result.setMessage("Magazzino non aggiornato! Riprova!");
@@ -294,6 +292,224 @@ public class AmministratoreBusiness {
         //l'inserimento è andato a buon fine
         result.setResult(CategoriaResult.Result.ADD_OK);
         result.setMessage("Punto vendita inserito correttamente!");
+        return result;
+    }
+
+    public CategoriaResult updateCategoria(ICategoria categoria){
+
+        CategoriaResult result = new CategoriaResult();
+
+        //verifico l'esistenza della categoria
+        CategoriaProdottoDAO cpDao = CategoriaProdottoDAO.getInstance();
+        CategoriaServizioDAO csDao = CategoriaServizioDAO.getInstance();
+        if(cpDao.findById(categoria.getIdCategoria()) == null  && csDao.findById(categoria.getIdCategoria()) == null){
+            result.setResult(CategoriaResult.Result.CATEGORY_DOESNT_EXIST);
+            result.setMessage("La categoria inserita è già esistente! Riprova!");
+            return result;
+        }
+
+        //aggiorno la categoria
+        if (categoria instanceof CategoriaProdotto) {
+            if (cpDao.update((CategoriaProdotto) categoria) == 0) { //categoria non aggiornata
+                result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+                result.setMessage("Categoria non aggiornata! Riprova!");
+                return result;
+            }
+        } else {
+            if(csDao.update((CategoriaServizio) categoria) == 0) { //categoria non aggiornata
+                result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+                result.setMessage("Categoria non aggiornata! Riprova!");
+                return result;
+            }
+        }
+
+        //l'aggiornamento è andato a buon fine
+        result.setResult(CategoriaResult.Result.UPDATE_OK);
+        result.setMessage("Categoria aggiornata correttamente!");
+        return result;
+    }
+
+    public CategoriaResult removeCategoria(ICategoria categoria){
+
+        CategoriaResult result = new CategoriaResult();
+
+        //verifico l'esistenza della categoria
+        CategoriaProdottoDAO cpDao = CategoriaProdottoDAO.getInstance();
+        CategoriaServizioDAO csDao = CategoriaServizioDAO.getInstance();
+        if(cpDao.findById(categoria.getIdCategoria()) == null  && csDao.findById(categoria.getIdCategoria()) == null){
+            result.setResult(CategoriaResult.Result.CATEGORY_DOESNT_EXIST);
+            result.setMessage("La categoria inserita è già esistente! Riprova!");
+            return result;
+        }
+
+        //rimozione della categoria
+        if (categoria instanceof CategoriaProdotto) {
+            if (cpDao.removeById(categoria.getNome()) == 0) { //categoria non rimossa
+                result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+                result.setMessage("Categoria non rimossa! Riprova!");
+                return result;
+            }
+        } else {
+            if(csDao.removeById(categoria.getNome()) == 0) { //categoria non rimossa
+                result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+                result.setMessage("Categoria non rimossa! Riprova!");
+                return result;
+            }
+        }
+
+        //la cancellazione è andata a buon fine
+        result.setResult(CategoriaResult.Result.DELETE_OK);
+        result.setMessage("Categoria rimossa correttamente!");
+        return result;
+    }
+
+    public ProduttoreResult addProduttore(Produttore produttore){
+
+        ProduttoreResult result = new ProduttoreResult();
+
+        //verifico l'esistenza del produttore
+        ProduttoreDAO pDao = ProduttoreDAO.getInstance();
+        if(pDao.findByName(produttore.getNome()) != null){
+            result.setResult(ProduttoreResult.Result.PRODUCER_ALREADY_EXISTS);
+            result.setMessage("Il produttore da inserire è già esistente! Riprova!");
+            return result;
+        }
+
+        //Aggiungo il nuovo produttore
+        if(pDao.add(produttore) == 0) { //produttore non inserito
+            result.setResult(ProduttoreResult.Result.PRODUCER_ERROR);
+            result.setMessage("Produttore non inserito! Riprova!");
+            return result;
+        }
+
+        //l'inserimento è andato a buon fine
+        result.setResult(ProduttoreResult.Result.ADD_OK);
+        result.setMessage("Produttore inserito correttamente!");
+        return result;
+    }
+
+    public ProduttoreResult updateProduttore(Produttore produttore){
+
+        ProduttoreResult result = new ProduttoreResult();
+
+        //verifico l'esistenza del produttore
+        ProduttoreDAO pDao = ProduttoreDAO.getInstance();
+        if(pDao.findById(produttore.getIdProduttore()) == null){
+            result.setResult(ProduttoreResult.Result.PRODUCER_DOESNT_EXIST);
+            result.setMessage("Il produttore da aggiornare non esiste! Riprova!");
+            return result;
+        }
+
+        //Aggiorno il produttore
+        if(pDao.update(produttore) == 0) { //produttore non aggiornato
+            result.setResult(ProduttoreResult.Result.PRODUCER_ERROR);
+            result.setMessage("Produttore non aggiornato! Riprova!");
+            return result;
+        }
+
+        //l'aggiornamento è andato a buon fine
+        result.setResult(ProduttoreResult.Result.UPDATE_OK);
+        result.setMessage("Produttore aggiornato correttamente!");
+        return result;
+    }
+
+    public ProduttoreResult removeProduttore(Produttore produttore){
+
+        ProduttoreResult result = new ProduttoreResult();
+
+        //verifico l'esistenza del produttore
+        ProduttoreDAO pDao = ProduttoreDAO.getInstance();
+        if(pDao.findByName(produttore.getNome()) == null){
+            result.setResult(ProduttoreResult.Result.PRODUCER_DOESNT_EXIST);
+            result.setMessage("Il produttore da rimuovere non esiste! Riprova!");
+            return result;
+        }
+
+        //Rimuovo il produttore
+        if(pDao.removeById(produttore.getNome()) == 0) { //produttore non rimosso
+            result.setResult(ProduttoreResult.Result.PRODUCER_ERROR);
+            result.setMessage("Produttore non rimosso! Riprova!");
+            return result;
+        }
+
+        //la rimozione è andata a buon fine
+        result.setResult(ProduttoreResult.Result.DELETE_OK);
+        result.setMessage("Produttore rimosso correttamente!");
+        return result;
+    }
+
+    public FornitoreResult addFornitore(Fornitore fornitore){
+
+        FornitoreResult result = new FornitoreResult();
+
+        //verifico l'esistenza del fornitore
+        FornitoreDAO fDao = FornitoreDAO.getInstance();
+        if(fDao.findByName(fornitore.getNome()) != null){
+            result.setResult(FornitoreResult.Result.SUPPLIER_ALREADY_EXISTS);
+            result.setMessage("Il fornitore da inserire è già esistente! Riprova!");
+            return result;
+        }
+
+        //Aggiungo il nuovo fornitore
+        if(fDao.add(fornitore) == 0) { //fornitore non inserito
+            result.setResult(FornitoreResult.Result.SUPPLIER_ERROR);
+            result.setMessage("Fornitore non inserito! Riprova!");
+            return result;
+        }
+
+        //l'inserimento è andato a buon fine
+        result.setResult(FornitoreResult.Result.ADD_OK);
+        result.setMessage("Fornitore inserito correttamente!");
+        return result;
+    }
+
+    public FornitoreResult updateFornitore(Fornitore fornitore){
+
+        FornitoreResult result = new FornitoreResult();
+
+        //verifico l'esistenza del fornitore
+        FornitoreDAO fDao = FornitoreDAO.getInstance();
+        if(fDao.findById(fornitore.getIdFornitore()) == null){
+            result.setResult(FornitoreResult.Result.SUPPLIER_DOESNT_EXIST);
+            result.setMessage("Il fornitore da aggiornare non esiste! Riprova!");
+            return result;
+        }
+
+        //Aggiorno il fornitore
+        if(fDao.update(fornitore) == 0) { //fornitore non aggiornato
+            result.setResult(FornitoreResult.Result.SUPPLIER_ERROR);
+            result.setMessage("Fornitore non aggiornato! Riprova!");
+            return result;
+        }
+
+        //l'aggiornamento è andato a buon fine
+        result.setResult(FornitoreResult.Result.UPDATE_OK);
+        result.setMessage("Fornitore aggiornato correttamente!");
+        return result;
+    }
+
+    public FornitoreResult removeFornitore(Fornitore fornitore){
+
+        FornitoreResult result = new FornitoreResult();
+
+        //verifico l'esistenza del fornitore
+        FornitoreDAO fDao = FornitoreDAO.getInstance();
+        if(fDao.findByName(fornitore.getNome()) == null){
+            result.setResult(FornitoreResult.Result.SUPPLIER_DOESNT_EXIST);
+            result.setMessage("Il fornitore da rimuovere non esiste! Riprova!");
+            return result;
+        }
+
+        //Rimuovo il fornitore
+        if(fDao.removeById(fornitore.getNome()) == 0) { //fornitore non rimosso
+            result.setResult(FornitoreResult.Result.SUPPLIER_ERROR);
+            result.setMessage("Fornittore non rimosso! Riprova!");
+            return result;
+        }
+
+        //la rimozione è andata a buon fine
+        result.setResult(FornitoreResult.Result.DELETE_OK);
+        result.setMessage("Fornitore rimosso correttamente!");
         return result;
     }
 }

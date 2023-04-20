@@ -39,7 +39,8 @@ public class CategoriaProdotto implements ICategoria {
         this.prodotti = prodotti;
     }
 
-    public int getIdCategoriaProdotto() {
+    @Override
+    public int getIdCategoria() {
         return idCategoriaProdotto;
     }
 

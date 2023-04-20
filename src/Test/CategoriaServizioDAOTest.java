@@ -1,9 +1,7 @@
 package Test;
 
-import DAO.CategoriaProdottoDAO;
 import DAO.CategoriaServizioDAO;
 import DAO.ICategoriaServizioDAO;
-import Model.CategoriaServizio;
 import Model.CategoriaServizio;
 import org.junit.After;
 import org.junit.Assert;
@@ -36,7 +34,7 @@ public class CategoriaServizioDAOTest {
     @Test
     public void findByIdTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        CategoriaServizio categoriaServizio = categoriaServizioDAO.findById(categoriaServizioDAO.findByName("aaa").getIdCategoriaServizio());
+        CategoriaServizio categoriaServizio = categoriaServizioDAO.findById(categoriaServizioDAO.findByName("aaa").getIdCategoria());
         Assert.assertEquals("aaa", categoriaServizio.getNome());
     }
 
@@ -52,7 +50,7 @@ public class CategoriaServizioDAOTest {
     public void updateTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("aaa");
-        categoriaServizio.setIdCategoriaServizio(categoriaServizioDAO.findByName("aaa").getIdCategoriaServizio());
+        categoriaServizio.setIdCategoriaServizio(categoriaServizioDAO.findByName("aaa").getIdCategoria());
         categoriaServizioDAO.update(categoriaServizio);
         categoriaServizio = categoriaServizioDAO.findByName("aaa");
         Assert.assertEquals("aaa", categoriaServizio.getNome());

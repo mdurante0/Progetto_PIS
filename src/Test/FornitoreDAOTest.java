@@ -33,7 +33,14 @@ public class FornitoreDAOTest {
     @Test
     public void findByIdTest() {
         IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
-        Fornitore fornitore = fornitoreDAO.findById("Valentino");
+        Fornitore fornitore = fornitoreDAO.findById(fornitoreDAO.findByName("Valentino").getIdFornitore());
+        Assert.assertEquals("Valentino", fornitore.getNome());
+    }
+
+    @Test
+    public void findByNameTest() {
+        IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
+        Fornitore fornitore = fornitoreDAO.findByName("Valentino");
         Assert.assertEquals("Valentino", fornitore.getNome());
     }
 
@@ -49,9 +56,9 @@ public class FornitoreDAOTest {
     public void updateTest() {
         IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         Fornitore fornitore = new Fornitore("Valentino","vr46@gmail.it","trento","italy","0995331239","boh");
-        fornitore.setIdFornitore(fornitoreDAO.findById(fornitore.getNome()).getIdFornitore());
+        fornitore.setIdFornitore(fornitoreDAO.findByName(fornitore.getNome()).getIdFornitore());
         fornitoreDAO.update(fornitore);
-        fornitore = fornitoreDAO.findById("Valentino");
+        fornitore = fornitoreDAO.findByName("Valentino");
         Assert.assertEquals("vr46@gmail.it", fornitore.getMail());
     }
 }
