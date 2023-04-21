@@ -1,6 +1,5 @@
 package Business;
 
-import Business.AbstractFactory.FactoryProvider;
 import Business.AbstractFactory.ICategoria;
 import Business.Results.*;
 import DAO.*;
@@ -19,6 +18,111 @@ public class AmministratoreBusiness {
         return instance;
     }
 
+    public ArticoloResult addArticolo(Articolo a){
+
+        ArticoloDAO aDao = ArticoloDAO.getInstance();
+        ArticoloResult result = new ArticoloResult();
+
+        //Verifica esistenza articolo
+        boolean articoloExists = aDao.articoloExists(a.getName());
+        if (articoloExists){
+            result.setResult(ArticoloResult.Result.ITEM_ALREADY_EXISTS);
+            result.setMessage("L'articolo da inserire è già esistente! Riprova");
+            return result;
+        }
+
+        //inserimento in base al tipo di articolo
+        int inserito = 0;
+
+        if(aDao.isProdotto(a.getName())) {
+            Prodotto p = (Prodotto) a;
+            ProdottoDAO pDao = ProdottoDAO.getInstance();
+            inserito = pDao.add(p);
+        }
+
+        else if(aDao.isServizio(a.getName())){
+            Servizio s = (Servizio) a;
+            ServizioDAO sDao = ServizioDAO.getInstance();
+            inserito = sDao.add(s);
+        }
+
+        else if(aDao.isProdottoComposito(a.getName())) {
+            ProdottoComposito pc = (ProdottoComposito) a;
+            ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
+            inserito = pcDao.add(pc);
+        }
+
+        else { //errore nel tipo di articolo
+            result.setResult(ArticoloResult.Result.WRONG_TYPE);
+            result.setMessage("Errore nella specificazione dell'articolo! Riprova!");
+            return result;
+        }
+
+        if(inserito == 0){ //articolo non inserito
+            result.setResult(ArticoloResult.Result.ITEM_ERROR);
+            result.setMessage("Errore nell'inserimento dell'articolo! Riprova!");
+            return result;
+        }
+
+        //l'inserimento è andato a buon fine
+        result.setResult(ArticoloResult.Result.ADD_OK);
+        result.setMessage("Articolo inserito correttamente!");
+        return result;
+    }
+
+    public ArticoloResult updateArticolo(Articolo a){
+
+        ArticoloDAO aDao = ArticoloDAO.getInstance();
+        ArticoloResult result = new ArticoloResult();
+
+        //Verifica esistenza articolo
+        boolean articoloExists = aDao.articoloExists(a.getName());
+        if (!articoloExists){
+            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("L'articolo da aggiornare non esiste! Riprova");
+            return result;
+        }
+
+        //aggiornamento in base al tipo di articolo
+        int aggiornato = 0;
+
+        if(aDao.isProdotto(a.getName())) {
+            Prodotto p = (Prodotto) a;
+            ProdottoDAO pDao = ProdottoDAO.getInstance();
+            aggiornato = pDao.update(p);
+        }
+
+        else if(aDao.isServizio(a.getName())){
+            Servizio s = (Servizio) a;
+            ServizioDAO sDao = ServizioDAO.getInstance();
+            aggiornato = sDao.update(s);
+        }
+
+        else if(aDao.isProdottoComposito(a.getName())) {
+            ProdottoComposito pc = (ProdottoComposito) a;
+            ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
+            aggiornato = pcDao.update(pc);
+        }
+
+        else { //errore nel tipo di articolo
+            result.setResult(ArticoloResult.Result.WRONG_TYPE);
+            result.setMessage("Errore nella specificazione dell'articolo! Riprova!");
+            return result;
+        }
+
+        if(aggiornato == 0){ //articolo non aggiornato
+            result.setResult(ArticoloResult.Result.ITEM_ERROR);
+            result.setMessage("Errore nell'aggiornamento dell'articolo! Riprova!");
+            return result;
+        }
+
+        //l'aggiornamento è andato a buon fine
+        result.setResult(ArticoloResult.Result.UPDATE_OK);
+        result.setMessage("Articolo aggiornato correttamente!");
+        return result;
+    }
+
+ /*
     public ArticoloResult addArticolo(Articolo a, FactoryProvider.FactoryType type){
 
         ArticoloDAO aDao = ArticoloDAO.getInstance();
@@ -62,7 +166,7 @@ public class AmministratoreBusiness {
 
         if(inserito == 0){ //articolo non inserito
             result.setResult(ArticoloResult.Result.ITEM_ERROR);
-            result.setMessage("Errore nell'inseerimento dell'articolo! Riprova!");
+            result.setMessage("Errore nell'inserimento dell'articolo! Riprova!");
             return result;
         }
 
@@ -123,6 +227,8 @@ public class AmministratoreBusiness {
         result.setMessage("Articolo aggioranto correttamente!");
         return result;
     }
+
+ */
 
     public ArticoloResult removeArticolo(Articolo a){
 
@@ -503,7 +609,7 @@ public class AmministratoreBusiness {
         //Rimuovo il fornitore
         if(fDao.removeById(fornitore.getNome()) == 0) { //fornitore non rimosso
             result.setResult(FornitoreResult.Result.SUPPLIER_ERROR);
-            result.setMessage("Fornittore non rimosso! Riprova!");
+            result.setMessage("Fornitore non rimosso! Riprova!");
             return result;
         }
 
