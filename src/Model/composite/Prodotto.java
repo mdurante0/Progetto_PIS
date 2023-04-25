@@ -37,14 +37,9 @@ public class Prodotto extends Articolo implements IProdotto {
     }
     @Override
     public String getName() {return super.getName(); }
-    @Override
-    public int getQuantita(){return super.getQuantita();}
-    @Override
-    public void setQuantita(int quantita){super.setQuantita(quantita);}
     public Collocazione getCollocazione() {
         return collocazione;
     }
-
     public void setCollocazione(Collocazione collocazione) {
         this.collocazione = collocazione;
     }

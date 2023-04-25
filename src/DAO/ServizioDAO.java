@@ -43,11 +43,11 @@ public class ServizioDAO implements IServizioDAO {
             if (rs.getRow()==1) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
 
                 return servizio;
             }
@@ -79,11 +79,11 @@ public class ServizioDAO implements IServizioDAO {
             if (rs.getRow()==1) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
 
                 return servizio;
             }
@@ -117,11 +117,11 @@ public class ServizioDAO implements IServizioDAO {
             while (rs.next()) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
 
                 servizi.add(servizio);
             }
@@ -156,11 +156,11 @@ public class ServizioDAO implements IServizioDAO {
             while (rs.next()) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.setIdFornitore(rs.getInt("fornitore_idfornitore"));
+                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
 
                 servizi.add(servizio);
             }
@@ -198,8 +198,8 @@ public class ServizioDAO implements IServizioDAO {
             sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
                     "VALUES ('" +
                     servizio.getIdArticolo() + "','" +
-                    servizio.getIdCategoria() + "','" +
-                    servizio.getIdFornitore() + "');";
+                    servizio.getCategoria().getIdCategoria() + "','" +
+                    servizio.getFornitore().getIdFornitore() + "');";
 
             IDbOperation writeOp = new WriteOperation(sql);
 
@@ -232,8 +232,8 @@ public class ServizioDAO implements IServizioDAO {
         articoloDAO.update(servizio);
 
         String sql = "UPDATE progetto_pis.servizio " +
-                "SET fornitore_idfornitore= '" + servizio.getIdFornitore() +
-                "', categoria_servizio_idcategoria_servizio = '" + servizio.getIdCategoria() +
+                "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
+                "', categoria_servizio_idcategoria_servizio = '" + servizio.getCategoria().getIdCategoria() +
                 "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

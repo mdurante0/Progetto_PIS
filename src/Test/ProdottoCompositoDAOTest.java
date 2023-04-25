@@ -79,7 +79,7 @@ public class ProdottoCompositoDAOTest {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
         ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");
 
-        prodottoComposito.getSottoprodotti().get(0).setQuantita(3);
+        prodottoComposito.getSottoprodotti().get(0).setQuantita(3); //metto 3 poltrone invece di 2
         prodottoCompositoDAO.update(prodottoComposito);
 
         prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");

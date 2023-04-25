@@ -285,7 +285,8 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
             sql = "UPDATE progetto_pis.prodotto_has_prodotto " +
                     "SET  quantita = '" + sottoprodotto.getQuantita() +
-                    "' WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
+                    "' WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() +
+                    "' && prodotto_articolo_idarticolo1 = " + sottoprodotto.getIdArticolo() + ";";
 
             writeOp = new WriteOperation(sql);
             rowCount += executor.executeOperation(writeOp).getRowsAffected();

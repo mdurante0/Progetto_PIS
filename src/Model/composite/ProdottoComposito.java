@@ -47,6 +47,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public void removeAll(List<IProdotto> prodotti) {
         sottoprodotti.removeAll(prodotti);
     }
+    @Override
     public void setName(String name) {
         super.setName(name);
     }
