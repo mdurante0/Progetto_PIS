@@ -44,7 +44,8 @@ public class CategoriaProdotto implements ICategoria {
         return idCategoriaProdotto;
     }
 
-    public void setIdCategoriaProdotto(int idCategoriaProdotto) {
+    @Override
+    public void setIdCategoria(int idCategoriaProdotto) {
         this.idCategoriaProdotto = idCategoriaProdotto;
     }
 

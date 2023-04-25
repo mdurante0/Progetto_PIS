@@ -5,6 +5,8 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Articolo;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
@@ -43,8 +45,8 @@ public class ProdottoDAO implements IProdottoDAO {
             if (rs.getRow()==1) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
-                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
@@ -76,11 +78,11 @@ public class ProdottoDAO implements IProdottoDAO {
             if (rs.getRow()==1) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
                 return prodotto;
             }
@@ -112,11 +114,11 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
                 prodotti.add(prodotto);
             }
@@ -149,11 +151,11 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.setIdProduttore(rs.getInt("produttore_idproduttore"));
+                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
                 prodotti.add(prodotto);
             }
@@ -172,10 +174,10 @@ public class ProdottoDAO implements IProdottoDAO {
     }
 
     @Override
-    public int add(Prodotto prodotto) {
+    public int add(IProdotto prodotto) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.add(prodotto);
+        articoloDAO.add((Articolo) prodotto);
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT max(idarticolo) FROM progetto_pis.articolo;";
@@ -185,12 +187,12 @@ public class ProdottoDAO implements IProdottoDAO {
         int rowCount = 0;
         try {
             rs.next();
-            prodotto.setIdArticolo(rs.getInt("max(idarticolo)"));
+            ((Articolo) prodotto).setIdArticolo(rs.getInt("max(idarticolo)"));
             sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto, produttore_idproduttore) " +
                     "VALUES ('" +
                     prodotto.getIdArticolo() + "','" +
-                    prodotto.getIdCategoria() + "','" +
-                    prodotto.getIdProduttore() + "');";
+                    ((Articolo) prodotto).getCategoria().getIdCategoria() + "','" +
+                    prodotto.getProduttore().getIdProduttore() + "');";
             IDbOperation writeOp = new WriteOperation(sql);
 
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
@@ -216,14 +218,14 @@ public class ProdottoDAO implements IProdottoDAO {
 
 
     @Override
-    public int update(Prodotto prodotto) {
+    public int update(IProdotto prodotto) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.update(prodotto);
+        articoloDAO.update((Articolo) prodotto);
 
         String sql = "UPDATE progetto_pis.prodotto " +
-                "SET produttore_idproduttore = '" + prodotto.getIdProduttore() +
-                "', categoria_prodotto_idcategoria_prodotto = '" + prodotto.getIdCategoria() +
+                "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
+                "', categoria_prodotto_idcategoria_prodotto = '" + ((Articolo) prodotto).getCategoria().getIdCategoria() +
                 "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

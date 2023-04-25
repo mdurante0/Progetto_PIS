@@ -42,7 +42,7 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
             rs.next();
             if (rs.getRow()==1) {
                 categoriaServizio = new CategoriaServizio();
-                categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
+                categoriaServizio.setIdCategoria(rs.getInt("idcategoria_servizio"));
                 categoriaServizio.setNome(rs.getString("nome"));
 
                 return categoriaServizio;
@@ -73,7 +73,7 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
             rs.next();
             if (rs.getRow()==1) {
                 categoriaServizio = new CategoriaServizio();
-                categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
+                categoriaServizio.setIdCategoria(rs.getInt("idcategoria_servizio"));
                 categoriaServizio.setNome(rs.getString("nome"));
 
                 return categoriaServizio;
@@ -104,7 +104,7 @@ public class CategoriaServizioDAO implements ICategoriaServizioDAO {
         try {
             while (rs.next()) {
                 categoriaServizio = new CategoriaServizio();
-                categoriaServizio.setIdCategoriaServizio(rs.getInt("idcategoria_servizio"));
+                categoriaServizio.setIdCategoria(rs.getInt("idcategoria_servizio"));
                 categoriaServizio.setNome(rs.getString("nome"));
 
                 categorieServizio.add(categoriaServizio);

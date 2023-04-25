@@ -26,7 +26,8 @@ public class CategoriaServizio implements ICategoria {
         return idCategoriaServizio;
     }
 
-    public void setIdCategoriaServizio(int idCategoriaServizio) {
+    @Override
+    public void setIdCategoria(int idCategoriaServizio) {
         this.idCategoriaServizio = idCategoriaServizio;
     }
 

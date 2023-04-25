@@ -41,7 +41,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             rs.next();
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
-                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
@@ -73,7 +73,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             rs.next();
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
-                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
@@ -104,7 +104,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         try {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
-                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
@@ -137,7 +137,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         try {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
-                categoriaProdotto.setIdCategoriaProdotto(rs.getInt("idcategoria_prodotto"));
+                categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
                 categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 

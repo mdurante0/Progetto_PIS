@@ -50,7 +50,7 @@ public class CategoriaServizioDAOTest {
     public void updateTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("aaa");
-        categoriaServizio.setIdCategoriaServizio(categoriaServizioDAO.findByName("aaa").getIdCategoria());
+        categoriaServizio.setIdCategoria(categoriaServizioDAO.findByName("aaa").getIdCategoria());
         categoriaServizioDAO.update(categoriaServizio);
         categoriaServizio = categoriaServizioDAO.findByName("aaa");
         Assert.assertEquals("aaa", categoriaServizio.getNome());

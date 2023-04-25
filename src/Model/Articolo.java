@@ -10,9 +10,9 @@ public class Articolo implements IArticolo {
 
     private int idArticolo;
     private Float prezzo;
+    private int quantita;
     private String name;
     private String descrizione;
-    private int quantita;
     private List<Feedback> commenti;
     private ICategoria categoria;
     private List<Immagine> immagini;
@@ -30,6 +30,32 @@ public class Articolo implements IArticolo {
     public Articolo() {
         this.commenti = new ArrayList<>();
         this.immagini = new ArrayList<>();
+    }
+
+    public Articolo(String nome, String descrizione, Float prezzo, int quantita){
+        this.name = nome;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.quantita = quantita;
+        this.commenti = new ArrayList<>();
+        this.immagini = new ArrayList<>();
+    }
+
+    public Articolo(String name, String descrizione, ICategoria categoria) {
+        this.name = name;
+        this.descrizione = descrizione;
+        this.categoria = categoria;
+        this.commenti = new ArrayList<>();
+        this.immagini = new ArrayList<>();
+    }
+
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
     }
 
     public Float getPrezzo() {
@@ -72,14 +98,6 @@ public class Articolo implements IArticolo {
         this.descrizione = descrizione;
     }
 
-    public int getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
-    }
-
     public ICategoria getCategoria() {
         return categoria;
     }
@@ -118,4 +136,7 @@ public class Articolo implements IArticolo {
                 ", categoria=" + categoria.getNome() +
                 '}';
     }
+
+
+
 }

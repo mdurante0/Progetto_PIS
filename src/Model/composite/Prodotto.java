@@ -9,11 +9,38 @@ public class Prodotto extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
     private Produttore produttore;
-    private int idProduttore;
-    private int idMagazzino;
-    private int idCollocazione;
-    private int idCategoria;
+    private Magazzino magazzino;
 
+    public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, Magazzino magazzino, List<Immagine> immagini, int quantita) {
+        super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
+        this.collocazione = collocazione;
+        this.produttore = produttore;
+        this.magazzino = magazzino;
+    }
+
+    public Prodotto(String nome,String descrizione, Float prezzo, Produttore produttore, CategoriaProdotto categoriaProdotto, int quantita){
+        super(nome, descrizione, prezzo, quantita);
+        this.produttore = produttore;
+        super.setCategoria(categoriaProdotto);
+    }
+
+    public Prodotto(){
+        super();
+        super.setCategoria(new CategoriaProdotto());
+        this.collocazione = new Collocazione();
+        this.produttore = new Produttore();
+        this.magazzino = new Magazzino();
+    }
+    @Override
+    public Float getPrezzo() {
+        return super.getPrezzo();
+    }
+    @Override
+    public String getName() {return super.getName(); }
+    @Override
+    public int getQuantita(){return super.getQuantita();}
+    @Override
+    public void setQuantita(int quantita){super.setQuantita(quantita);}
     public Collocazione getCollocazione() {
         return collocazione;
     }
@@ -22,6 +49,7 @@ public class Prodotto extends Articolo implements IProdotto {
         this.collocazione = collocazione;
     }
 
+    @Override
     public Produttore getProduttore() {
         return produttore;
     }
@@ -30,65 +58,15 @@ public class Prodotto extends Articolo implements IProdotto {
         this.produttore = produttore;
     }
 
-    public int getIdMagazzino() {
-        return idMagazzino;
+    public Magazzino getMagazzino() {
+        return this.magazzino;
     }
 
-    public void setIdMagazzino(int idMagazzino) {
-        this.idMagazzino = idMagazzino;
+    public void setMagazzino(Magazzino Magazzino) {
+        this.magazzino = magazzino;
     }
-
-    public int getIdProduttore() {
-        return idProduttore;
-    }
-
-    public void setIdProduttore(int idProduttore) {
-        this.idProduttore = idProduttore;
-    }
-
-    public Prodotto(){
-        super();
-    }
-    public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, int quantita, List<Immagine> immagini) {
-        super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
-        this.collocazione = collocazione;
-        this.produttore = produttore;
-    }
-    public Prodotto(Float prezzo, String nome, String descrizione, int idCategoria, int idCollocazione, int idProduttore, int quantita) {
-        this.setPrezzo(prezzo);
-        this.setName(nome);
-        this.setDescrizione(descrizione);
-        this.idCategoria = idCategoria;
-        this.idCollocazione = idCollocazione;
-        this.idProduttore = idProduttore;
-        this.setQuantita(quantita);
-    }
-
-
-    @Override
-    public Float getPrezzo() {
-        return super.getPrezzo();
-    }
-    @Override
-    public String getName() {return super.getName(); }
 
     public void setName(String name) { super.setName(name); }
-
-    public int getIdCollocazione() {
-        return idCollocazione;
-    }
-
-    public void setIdCollocazione(int idCollocazione){
-        this.idCollocazione = idCollocazione;
-    }
-
-    public int getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(int idCategoria) {
-        this.idCategoria = idCategoria;
-    }
 
     @Override
     public String toString() {
@@ -99,6 +77,7 @@ public class Prodotto extends Articolo implements IProdotto {
                 ", produttore=" + produttore.getNome() +
                 '}';
     }
+
 
 
 }

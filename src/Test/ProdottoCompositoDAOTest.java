@@ -2,10 +2,9 @@ package Test;
 
 import DAO.*;
 import Model.CategoriaProdotto;
-import Model.composite.ProdottoComposito;
-import Model.Collocazione;
 import Model.Produttore;
 import Model.composite.Prodotto;
+import Model.composite.ProdottoComposito;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,42 +15,43 @@ import java.util.ArrayList;
 public class ProdottoCompositoDAOTest {
     @Before
     public void setUp() {
-        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
-        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
-        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        Produttore produttore = new Produttore("PoltroneSofa","poltronesofa@gmail.com","trento","italy","0995331239","artigiani della qualita");
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        int quantita = 8;
+        produttoreDAO.add(produttore);
+        produttore = produttoreDAO.findByName("PoltroneSofa");
 
-        produttoreDAO.add(new Produttore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
+        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("Soggiorno");
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        categoriaProdottoDAO.add(categoriaProdotto);
+        categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
 
-        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("aaa").getIdMagazzino()).getIdMagazzino());
-        collocazioneDAO.add(collocazione);
-        categoriaProdottoDAO.add(new CategoriaProdotto("aaa"));
+        Prodotto p1 = new Prodotto("Poltrona", "poltrona massaggiante",30.99F,produttore,categoriaProdotto,2);
+        Prodotto p2 = new Prodotto("Sofa", "divano reclinabile",55.30F, produttore, categoriaProdotto,1);
 
-        prodottoDAO.add(new Prodotto(55.35F, "cassa", "sono una cassa", categoriaProdottoDAO.findByName("aaa").getIdCategoria(), collocazione.getIdCollocazione() , produttoreDAO.findByName("Valentino").getIdProduttore(), quantita));
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        prodottoDAO.add(p1);
+        prodottoDAO.add(p2);
+
+        ProdottoComposito prodottoComposito = new ProdottoComposito("Poltrone e Sofa", "due poltrone massaggianti e un divano reclinabile", produttore, categoriaProdotto);
+        prodottoComposito.add(p1);
+        prodottoComposito.add(p2);
 
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
-
-        prodottoCompositoDAO.add(new ProdottoComposito(prodottoDAO.findByName("sedia").getIdArticolo(), prodottoDAO.findByName("cassa").getIdArticolo(), quantita));
+        prodottoCompositoDAO.add(prodottoComposito);
     }
+
     @After
     public void tearDown()  {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
-
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
+        articoloDAO.removeById(articoloDAO.findByName("Poltrona").getIdArticolo());
+        articoloDAO.removeById(articoloDAO.findByName("Sofa").getIdArticolo());
+        articoloDAO.removeById(articoloDAO.findByName("Poltrone e Sofa").getIdArticolo());
 
-
-        articoloDAO.removeById(prodottoDAO.findByName("cassa").getIdArticolo());
-        produttoreDAO.removeById("Valentino");
-        categoriaProdottoDAO.removeById("aaa");
-
-        IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
-        prodottoCompositoDAO.removeById(prodottoCompositoDAO.findByName("cassa").getIdArticolo());
-
+        produttoreDAO.removeById("PoltroneSofa");
+        categoriaProdottoDAO.removeById("Soggiorno");
     }
 
     @Test
@@ -64,27 +64,26 @@ public class ProdottoCompositoDAOTest {
     @Test
     public void findByIdTest() {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
-        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findById(prodottoCompositoDAO.findByName("cassa").getIdArticolo1());
-        Assert.assertEquals("sedia", prodottoComposito.getName());
+        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findById(prodottoCompositoDAO.findByName("Poltrone e Sofa").getIdArticolo());
+        Assert.assertEquals("Poltrone e Sofa", prodottoComposito.getName());
     }
     @Test
     public void findByNameTest() {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
-        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("cassa");
-        Assert.assertEquals(2,prodottoComposito.getIdArticolo1() );
+        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");
+        Assert.assertEquals("Poltrone e Sofa",prodottoComposito.getName());
     }
-
-
-
-
 
     @Test
     public void updateTest() {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
-        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("cassa");
-       prodottoComposito.setQuantita(4);
+        ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");
+
+        prodottoComposito.getSottoprodotti().get(0).setQuantita(3);
         prodottoCompositoDAO.update(prodottoComposito);
-        prodottoComposito = prodottoCompositoDAO.findByName("cassa");
-        Assert.assertEquals("cassa", prodottoComposito.getName());
+
+        prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");
+        Assert.assertEquals(3, prodottoComposito.getSottoprodotti().get(0).getQuantita());
     }
+
 }

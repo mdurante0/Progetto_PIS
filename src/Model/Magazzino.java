@@ -25,6 +25,13 @@ public class Magazzino {
         this.prodotti = prodotti;
     }
 
+    public Magazzino(int quantitaCorsie, int quantitaScaffali, String indirizzo) {
+        this.quantitaCorsie = quantitaCorsie;
+        this.quantitaScaffali = quantitaScaffali;
+        this.indirizzo = indirizzo;
+        this.prodotti = new ArrayList<>();
+    }
+
     public void setIdMagazzino(int idMagazzino) {
         this.idMagazzino = idMagazzino;
     }

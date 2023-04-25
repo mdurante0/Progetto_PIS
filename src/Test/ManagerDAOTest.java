@@ -14,7 +14,7 @@ public class ManagerDAOTest {
     @Before
     public void setUp() throws Exception {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
-        managerDAO.add(new Manager("Valentino","Rossi","vr46","123","valentino@gmail.com","MN", (float) 7500.55, 3));
+        managerDAO.add(new Manager("Valentino","Rossi","vr46","123","valentino@gmail.com","MN",7500.55F, 3));
     }
 
     @After
@@ -48,7 +48,7 @@ public class ManagerDAOTest {
     @Test
     public void updateTest() {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
-        Manager manager = new Manager("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN", (float) 7500.55, 3 );
+        Manager manager = new Manager("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN",7500.55F, 3 );
         manager.setIdUtente(managerDAO.findById(manager.getUsername()).getIdUtente());
         managerDAO.update(manager);
         manager = managerDAO.findById("vr46");

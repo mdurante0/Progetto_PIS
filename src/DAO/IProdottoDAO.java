@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ public interface IProdottoDAO {
     Prodotto findByName(String name);
     ArrayList<Prodotto> findAll();
     ArrayList<Prodotto> findAllByCategoria(int idCategoria);
-    int add(Prodotto prodotto);
+    int add(IProdotto prodotto);
     int removeById(int idProdotto);
-    int update(Prodotto prodotto);
+    int update(IProdotto prodotto);
 }
