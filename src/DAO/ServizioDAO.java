@@ -29,10 +29,10 @@ public class ServizioDAO implements IServizioDAO {
     @Override
     public Servizio findById(int idServizio) {
 
-        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo, categoria_servizio_idcartegoria_servizio " +
+        String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo, categoria_servizio_idcategoria_servizio " +
                 "FROM progetto_pis.servizio AS s INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = s.articolo_idarticolo" +
-                "WHERE articolo_idarticolo = '" + idServizio + "';";
+                " WHERE articolo_idarticolo = '" + idServizio + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -68,7 +68,7 @@ public class ServizioDAO implements IServizioDAO {
         String sql = "SELECT articolo_idarticolo, fornitore_idfornitore, nome, descrizione, costo, categoria_servizio_idcategoria_servizio " +
                 "FROM progetto_pis.servizio AS s INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = s.articolo_idarticolo" +
-                "WHERE nome = '" + name + "';";
+                " WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -195,7 +195,7 @@ public class ServizioDAO implements IServizioDAO {
             rs.next();
             servizio.setIdArticolo(rs.getInt("max(idarticolo)"));
 
-            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
+            sql = "INSERT INTO progetto_pis.servizio (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
                     "VALUES ('" +
                     servizio.getIdArticolo() + "','" +
                     servizio.getCategoria().getIdCategoria() + "','" +
