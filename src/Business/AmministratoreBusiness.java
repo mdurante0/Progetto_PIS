@@ -224,7 +224,7 @@ public class AmministratoreBusiness {
 
         //la modifica è andata a buon fine
         result.setResult(ArticoloResult.Result.UPDATE_OK);
-        result.setMessage("Articolo aggioranto correttamente!");
+        result.setMessage("Articolo aggiornato correttamente!");
         return result;
     }
 

@@ -268,7 +268,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     }
 
     @Override
-    public int update(ProdottoComposito prodottoComposito) { //da rivedere
+    public int update(ProdottoComposito prodottoComposito) {
 
         ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         prodottoDAO.update(prodottoComposito);
