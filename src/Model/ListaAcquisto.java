@@ -18,7 +18,8 @@ public class ListaAcquisto {
         this.articoli = new ArrayList<>();
     }
 
-    public ListaAcquisto(boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
+    public ListaAcquisto(int idUtente, boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
+        this.idUtente = idUtente;
         this.pagata = pagata;
         this.nome = nome;
         this.articoli = articoli;
@@ -51,6 +52,12 @@ public class ListaAcquisto {
 
     public void setPagata(boolean pagata) {
         this.pagata = pagata;
+    }
+    public int getPagata() {
+        if(this.pagata)
+            return 1;
+        else
+            return 0;
     }
 
     public String getNome() {
@@ -96,7 +103,7 @@ public class ListaAcquisto {
         this.costoFinale = costoFinale;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "ListaAcquisto{" +
                 "pagata=" + pagata +
@@ -104,5 +111,5 @@ public class ListaAcquisto {
                 ", prodotti=" + articoli +
                 ", dataCreazione=" + dataCreazione +
                 '}';
-    }
+    }*/
 }

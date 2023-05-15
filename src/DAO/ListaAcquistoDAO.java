@@ -73,6 +73,50 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         }
         return null;
     }
+    @Override
+    public ListaAcquisto findByNome(String nome) {
+        String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
+                "articolo_idarticolo, quantita " +
+                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
+                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
+                " WHERE nome = '" + nome + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
+                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
+                listaAcquisto.setPagata(rs.getBoolean("pagata"));
+                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+                Articolo articolo;
+                while (rs.next()){
+                    articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(articolo);
+
+                }
+
+                return listaAcquisto;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
 
 
     @Override
@@ -182,8 +226,6 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
-                "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
-                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
                 "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -230,7 +272,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 "(utente_acquirente_utente_idutente, nome, pagata, costo_finale) VALUES ('"+
                 listaAcquisto.getIdUtente() + "','" +
                 listaAcquisto.getNome() + "','" +
-                listaAcquisto.isPagata() + "','" +
+                listaAcquisto.getPagata() + "','" +
                 listaAcquisto.getCostoFinale()+"');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
