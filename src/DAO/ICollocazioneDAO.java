@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public interface ICollocazioneDAO {
     Collocazione findById(int idCollocazione);
+    Collocazione findByMagazzinoAndProdotto(int idMagazzino, int idProdotto);
     ArrayList<Collocazione> findAll();
     ArrayList<Collocazione> findAllByMagazzino(int idMagazzino);
     int add(Collocazione collocazione);
-    int removeById(int id);
+    int removeById(int idCollocazione);
     int update(Collocazione collocazione);
 }

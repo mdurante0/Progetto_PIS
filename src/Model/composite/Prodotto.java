@@ -65,7 +65,7 @@ public class Prodotto extends Articolo implements IProdotto {
 
     @Override
     public String toString() {
-        return "Prenotazione{" +
+        return "Prodotto{" +
                 ", nome=" + super.getName() +
                 ", prezzo=" + super.getPrezzo() +
                 ", categoria=" + super.getCategoria().getNome() +

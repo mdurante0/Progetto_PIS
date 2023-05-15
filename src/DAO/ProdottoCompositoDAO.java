@@ -201,18 +201,8 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
         int rowCount = 0;
         try {
-
             rs.next();
-
             prodottoComposito.setIdArticolo(rs.getInt("max(idarticolo)"));
-
-            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, produttore_idproduttore, categoria_prodotto_idcategoria_prodotto) VALUES ('" +
-                    prodottoComposito.getIdArticolo() + "','" +
-                    prodottoComposito.getProduttore().getIdProduttore() + "','" +
-                    prodottoComposito.getCategoria().getIdCategoria() + ");";
-
-            IDbOperation writeOp = new WriteOperation(sql);
-            executor.executeOperation(writeOp);
 
             Iterator<IProdotto> sottoprodottiIterator = prodottoComposito.getSottoprodotti().iterator();
             while (sottoprodottiIterator.hasNext()) {
@@ -224,7 +214,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
                         "(prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1, quantita) " +
                         "VALUES ('" + prodottoComposito.getIdArticolo() + "','" + idSottoprodotto + "','" + sottoprodotto.getQuantita() + "');";
 
-                writeOp = new WriteOperation(sql);
+                IDbOperation writeOp = new WriteOperation(sql);
                 rowCount += executor.executeOperation(writeOp).getRowsAffected();
             }
         } catch (SQLException e) {

@@ -1,8 +1,7 @@
 package Test;
 
 import DAO.*;
-import Model.Collocazione;
-import Model.Magazzino;
+import Model.*;
 import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,15 +14,63 @@ public class MagazzinoDAOTest {
 
     @Before
     public void setUp() {
+
+        Produttore produttore = new Produttore("PoltroneSofa","poltronesofa@gmail.com","trento","italy","0995331239","artigiani della qualita");
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        produttoreDAO.add(produttore);
+        produttore = produttoreDAO.findByName("PoltroneSofa");
+
+        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("Soggiorno");
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        categoriaProdottoDAO.add(categoriaProdotto);
+        categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
+
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        Prodotto p1 = new Prodotto("Poltrona", "poltrona massaggiante",30.99F,produttore,categoriaProdotto,2);
+        Prodotto p2 = new Prodotto("Sofa", "divano reclinabile",55.30F, produttore, categoriaProdotto,1);
+        prodottoDAO.add(p1);
+        prodottoDAO.add(p2);
+
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino m = new Magazzino( 4, 2, "via Paoli 23", null);
+        Magazzino m = new Magazzino( 4, 5, "via Paoli 23");
         magazzinoDAO.add(m);
+
+        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+        Collocazione c1 = new Collocazione(1,1, m.getIdMagazzino());
+        Collocazione c2 = new Collocazione(1,2, m.getIdMagazzino());
+        collocazioneDAO.add(c1);
+        collocazioneDAO.add(c2);
+
+        p1.setCollocazione(c1);
+        p2.setCollocazione(c2);
+
+        magazzinoDAO.addProdotto(m.getIdMagazzino(), p1);
+        magazzinoDAO.addProdotto(m.getIdMagazzino(), p2);
+
     }
 
     @After
     public void tearDown() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+
         Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+        Articolo a1 = articoloDAO.findByName("Poltrona");
+        Articolo a2 = articoloDAO.findByName("Sofa");
+        Produttore p = produttoreDAO.findByName("PoltroneSofa");
+        Collocazione c1 = collocazioneDAO.findByMagazzinoAndProdotto(m.getIdMagazzino(), a1.getIdArticolo());
+        Collocazione c2 = collocazioneDAO.findByMagazzinoAndProdotto(m.getIdMagazzino(), a2.getIdArticolo());
+        CategoriaProdotto cp = categoriaProdottoDAO.findByName("Soggiorno");
+
+        produttoreDAO.removeById(p.getNome());
+        categoriaProdottoDAO.removeById(cp.getNome());
+        collocazioneDAO.removeById(c1.getIdCollocazione());
+        collocazioneDAO.removeById(c2.getIdCollocazione());
+        articoloDAO.removeById(a1.getIdArticolo());
+        articoloDAO.removeById(a2.getIdArticolo());
         magazzinoDAO.removeById(m.getIdMagazzino());
     }
 
@@ -31,14 +78,14 @@ public class MagazzinoDAOTest {
     public void findAllTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         ArrayList<Magazzino> magazzini = magazzinoDAO.findAll();
-        Assert.assertEquals(2, magazzini.size());
+        Assert.assertEquals(4, magazzini.size());
     }
 
     @Test
     public void findByIdTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino magazzino = magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
-        Assert.assertEquals(1, magazzino.getIdMagazzino());
+        Assert.assertEquals("via Paoli 23", magazzino.getIndirizzo());
     }
 
     @Test
@@ -51,52 +98,80 @@ public class MagazzinoDAOTest {
     @Test
     public void updateTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = new Magazzino(7, 5, "via Paoli 23", null);
+        Magazzino magazzino = new Magazzino(7, 5, "via Paoli 23");
         magazzino.setIdMagazzino(magazzinoDAO.findByAddress(magazzino.getIndirizzo()).getIdMagazzino());
         magazzinoDAO.update(magazzino);
         magazzino = magazzinoDAO.findById(magazzino.getIdMagazzino());
-        Assert.assertEquals("via Paoli 23", magazzino.getIndirizzo());
+        Assert.assertEquals(7, magazzino.getQuantitaCorsie());
     }
     @Test
-    public void getProdottiInMagazzinoTest() {
+    public void getProdottiInMagazzinoByAddressTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        ArrayList<Magazzino> magazzini = magazzinoDAO.getProdottiInMagazzino();
-        Assert.assertEquals(1, magazzini.size());
+        Magazzino m = magazzinoDAO.getProdottiInMagazzinoByAddress("via Paoli 23");
+        Assert.assertEquals("Poltrona", m.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa", m.getProdotti().get(1).getName());
     }
+
     @Test
-    public void getProdottiInMagazzinoByNameTest() {
+    public void getProdottiInMagazzinoByIdTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino m = magazzinoDAO.getProdottiInMagazzinoByName("aaa");
-        Assert.assertEquals(  "tavolo", m.getProdotti().get(0).getName());
-        Assert.assertEquals(  "sedia", m.getProdotti().get(1).getName());
-
+        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+        m = magazzinoDAO.getProdottiInMagazzinoById(m.getIdMagazzino());
+        Assert.assertEquals("Poltrona", m.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa", m.getProdotti().get(1).getName());
     }
-
-
 
     @Test
     public void addProdottoTest(){
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         IProdottoDAO pDao = ProdottoDAO.getInstance();
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        Prodotto p = pDao.findByName("tavolo");
-        Magazzino m = magazzinoDAO.findByAddress("aaa");
-        Collocazione c = collocazioneDAO.findById(m.getIdMagazzino());
+        CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
+        Produttore produttore = produttoreDAO.findByName("PoltroneSofa");
 
-        int rowCount = magazzinoDAO.addProdotto(m.getIdMagazzino(), p, 8, c);
+        Prodotto p = new Prodotto("Tavolo", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
+        pDao.add(p);
+
+        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+        Collocazione c = new Collocazione(1,3, m.getIdMagazzino());
+        collocazioneDAO.add(c);
+        p.setCollocazione(c);
+
+        int rowCount = magazzinoDAO.addProdotto(m.getIdMagazzino(), p);
+        articoloDAO.removeById(p.getIdArticolo());
 
         Assert.assertEquals(1, rowCount);
     }
 
    @Test
     public void removeProdottoTest(){
-        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        ProdottoDAO pDao = ProdottoDAO.getInstance();
-        Prodotto p = pDao.findByName("tavolo");
-        Magazzino m = magazzinoDAO.findByAddress("aaa");
-        int rowCount = magazzinoDAO.removeProdotto(m.getIdMagazzino(), p);
-        Assert.assertEquals(1, rowCount);
+       IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+       IProdottoDAO pDao = ProdottoDAO.getInstance();
+       ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+       IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+       ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+       IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+
+       CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
+       Produttore produttore = produttoreDAO.findByName("PoltroneSofa");
+
+       Prodotto p = new Prodotto("Tavolo", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
+       pDao.add(p);
+
+       Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+       Collocazione c = new Collocazione(1,3, m.getIdMagazzino());
+       collocazioneDAO.add(c);
+       p.setCollocazione(c);
+
+       magazzinoDAO.addProdotto(m.getIdMagazzino(), p);
+       int rowCount = magazzinoDAO.removeProdotto(m.getIdMagazzino(), p);
+       articoloDAO.removeById(p.getIdArticolo());
+
+       Assert.assertEquals(1, rowCount);
     }
 
 

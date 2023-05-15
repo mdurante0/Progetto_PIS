@@ -61,6 +61,37 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     @Override
+    public Collocazione findByMagazzinoAndProdotto(int idMagazzino, int idProdotto) {
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT * FROM progetto_pis.collocazione AS c INNER JOIN progetto_pis.magazzino_has_prodotto AS mp ON c.idcollocazione = mp.collocazione_idcollocazione WHERE c.magazzino_idmagazzino = '"+ idMagazzino +"' AND mp.prodotto_articolo_idarticolo = '" + idProdotto + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                collocazione = new Collocazione();
+                collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
+                collocazione.setCorsia(rs.getInt("corsia"));
+                collocazione.setScaffale(rs.getInt("scaffale"));
+                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                return collocazione;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Collocazione> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione ;";
@@ -134,8 +165,27 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.getScaffale() + "','" +
                 collocazione.getIdMagazzino() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
+        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
-        return  executor.executeOperation(writeOp).getRowsAffected();
+        sql = "SELECT max(idcollocazione) FROM progetto_pis.collocazione;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            collocazione.setIdCollocazione(rs.getInt("max(idcollocazione)"));
+
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+
+        return  rowCount;
     }
 
     @Override

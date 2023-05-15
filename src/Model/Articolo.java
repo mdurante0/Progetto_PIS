@@ -130,11 +130,10 @@ public class Articolo implements IArticolo {
     @Override
     public String toString() {
         return "Articolo{" +
-                ", prezzo=" + prezzo +
-                ", nome='" + name + '\'' +
-                ", descrizione='" + descrizione + '\'' +
-                ", categoria=" + categoria.getNome() +
-                '}';
+                "prezzo=" + prezzo +
+                ", nome=" + name +
+                ", descrizione=" + descrizione +
+                "}";
     }
 
 
