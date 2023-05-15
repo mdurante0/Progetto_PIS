@@ -34,7 +34,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_articolo AS la" +
-                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto" +
+                " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto " +
                 "WHERE idlista_acquisto = '" + idLista + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -171,7 +171,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 "articolo_idarticolo, quantita " +
                 "FROM progetto_pis.lista_acquisto AS l INNER JOIN progetto_pis.lista_acquisto_has_acquisto AS la" +
                 " ON l.idlista_acquisto = la.lista_acquisto_idlista_acquisto " +
-                "INNER JOIN  progetto_pis.utente_acquirente AS c ON l.utente_acquirente_utente_idutente" +
+                "INNER JOIN  progetto_pis.utente_acquirente AS c ON l.utente_acquirente_utente_idutente " +
                 "WHERE pagata = '0' AND punto_vendita_idpunto_vendita = '" + idPuntoVendita + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
