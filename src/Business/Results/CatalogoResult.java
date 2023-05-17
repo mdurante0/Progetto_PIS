@@ -1,22 +1,33 @@
 package Business.Results;
 
-import Model.Articolo;
+import Model.Servizio;
+import Model.composite.IProdotto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogoResult {
-    public enum Result { CATALOGO_CARICATO, ERRORE_CATALOGO, ERRORE_MAGAZZINO }
+    public enum Result { CATALOGO_CARICATO, ERRORE_MAGAZZINO, ERRORE_SERVIZI }
 
     private Result result;
     private String message;
-    private ArrayList<Articolo> lista;
+    private List<IProdotto> listaProdotti = new ArrayList<>();
+    private List<Servizio> listaServizi = new ArrayList<>();
 
-    public ArrayList<Articolo> getLista() {
-        return lista;
+    public List<IProdotto> getListaProdotti() {
+        return listaProdotti;
     }
 
-    public void setLista(ArrayList<Articolo> lista) {
-        this.lista = lista;
+    public void setListaProdotti(List<IProdotto> listaProdotti) {
+        this.listaProdotti = listaProdotti;
+    }
+
+    public List<Servizio> getListaServizi() {
+        return listaServizi;
+    }
+
+    public void setListaServizi(List<Servizio> listaServizi) {
+        this.listaServizi = listaServizi;
     }
 
     public Result getResult() {
