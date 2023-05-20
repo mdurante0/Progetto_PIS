@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ListaAcquistoDAOTest {
-    @Test
+    @Before
     public void setUp() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
@@ -45,7 +45,7 @@ public class ListaAcquistoDAOTest {
 
     }
 
-/*    @After
+    @After
     public void tearDown()  {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
@@ -55,7 +55,7 @@ public class ListaAcquistoDAOTest {
         clienteDAO.removeById("vr46");
         articoloDAO.removeById(articoloDAO.findByName("Armadio").getIdArticolo());
         articoloDAO.removeById(articoloDAO.findByName("mensola").getIdArticolo());
-    }*/
+    }
     @Test
     public void findAllTest() {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
@@ -78,7 +78,7 @@ public class ListaAcquistoDAOTest {
         Assert.assertEquals("mylist", listaAcquisto.getNome());
     }
 
-  /*  @Test
+   /* @Test
     public void updateTest() {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
 
