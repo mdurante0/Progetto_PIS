@@ -41,12 +41,27 @@ public class Articolo implements IArticolo {
         this.immagini = new ArrayList<>();
     }
 
+    public Articolo(String name, String descrizione, Float prezzo, ICategoria categoria) {
+        this.name = name;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.categoria = categoria;
+        this.commenti = new ArrayList<>();
+        this.immagini = new ArrayList<>();
+    }
+
+    public Articolo(String name, String descrizione, Float prezzo, int quantita, ICategoria categoria) {
+        this.name = name;
+        this.descrizione = descrizione;
+        this.prezzo = prezzo;
+        this.quantita = quantita;
+        this.categoria = categoria;
+    }
+
     public Articolo(String name, String descrizione, ICategoria categoria) {
         this.name = name;
         this.descrizione = descrizione;
         this.categoria = categoria;
-        this.commenti = new ArrayList<>();
-        this.immagini = new ArrayList<>();
     }
 
 

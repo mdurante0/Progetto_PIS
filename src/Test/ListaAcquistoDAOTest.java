@@ -1,15 +1,14 @@
 package Test;
 
-import Business.FactoryMethod.NotificationFactory;
 import DAO.*;
 import Model.*;
+import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ListaAcquistoDAOTest {
     @Before
@@ -17,44 +16,76 @@ public class ListaAcquistoDAOTest {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
-        PuntoVendita puntoVendita = puntoVenditaDAO.findById(1);
-        NotificationFactory.TipoNotifica canalePreferito = NotificationFactory.TipoNotifica.EMAIL;
+        Magazzino magazzino = new Magazzino(7,5,"via mozart 25");
+        magazzinoDAO.add(magazzino);
 
-        boolean abilitazione = true;
-        int eta = 18;
-        String residenza = "via mozart 21";
-        String professione = "avvocato";
-        String telefono = "0231561237";
+        Manager manager = new Manager("Giovanni", "Paoli", "gpaoli", "456", "gpaoli@myshop.com","MN",10);
+        managerDAO.add(manager);
 
-        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono ));
+        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", magazzino.getIdMagazzino(), manager.getIdUtente());
+        puntoVenditaDAO.add(puntoVendita);
+        puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
 
+        CategoriaServizio categoriaServizio = new CategoriaServizio("Montaggi");
+        categoriaServizioDAO.add(categoriaServizio);
+        categoriaServizio = categoriaServizioDAO.findByName("Montaggi");
 
+        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("Camera da letto");
+        categoriaProdottoDAO.add(categoriaProdotto);
+        categoriaProdotto = categoriaProdottoDAO.findByName("Camera da letto");
 
-        articoloDAO.add(new Articolo(7.5F, null, "Armadio", "armadio in legno massello", null, null, 8));
-        articoloDAO.add(new Articolo(80.7F, null, "mensola", "mensola in acciaio inox", null, null, 8));
-        Articolo articolo1 = articoloDAO.findByName("Armadio");
-        Articolo articolo2 = articoloDAO.findByName("mensola");
+        Fornitore fornitore = new Fornitore("FacciamoMontaggi","facciamomontaggi@gmail.com","Milano","Italia","1234567890","Montiamo mobili, armadi e comodini","www.facciamomontaggi.com");
+        fornitoreDAO.add(fornitore);
+        fornitore = fornitoreDAO.findByName("FacciamoMontaggi");
+
+        Produttore produttore = new Produttore("FacciamoArmadi", "facciamoarmadi@gmail.com","Milano","Italia","1234567890", "Facciamo armadi in legno", "www.facciamoarmadi.com");
+        produttoreDAO.add(produttore);
+        produttore = produttoreDAO.findByName("FacciamoArmadi");
+
+        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), true, 18, "via mozart 21", "avvocato", "0231561237" );
+        clienteDAO.add(c);
+
+        Prodotto p = new Prodotto("Armadio", "armadio a due ante", 50F, produttore, categoriaProdotto, 5);
+        Servizio s = new Servizio("Montaggio", "Montaggio di un armadio a due ante", 10F, categoriaServizio, fornitore);
+
+        prodottoDAO.add(p);
+        servizioDAO.add(s);
+
         ArrayList<Articolo> articoli = new ArrayList<>();
-        articoli.add(articolo1);
-        articoli.add(articolo2);
-        boolean pagata = false;
-        listaAcquistoDAO.add(new ListaAcquisto(clienteDAO.findById("vr46").getIdUtente(), pagata, "mylist", articoli, new Date()));
+        articoli.add(p);
+        articoli.add(s);
 
+        ListaAcquisto lista = new ListaAcquisto(c.getIdUtente(), false, "mylist", articoli);
+        listaAcquistoDAO.add(lista);
 
     }
 
     @After
     public void tearDown()  {
-        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IServizioDAO servizioDAO = ServizioDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+        IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
         listaAcquistoDAO.removeByUser(clienteDAO.findById("vr46").getIdUtente());
+        prodottoDAO.removeById(prodottoDAO.findByName("Armadio").getIdArticolo());
+        servizioDAO.removeById(servizioDAO.findByName("Montaggio").getIdArticolo());
+        puntoVenditaDAO.removeById(puntoVenditaDAO.findByName("MyPuntoVendita").getIdPuntoVendita());
+        magazzinoDAO.removeById(magazzinoDAO.findByAddress("via mozart 25").getIdMagazzino());
         clienteDAO.removeById("vr46");
-        articoloDAO.removeById(articoloDAO.findByName("Armadio").getIdArticolo());
-        articoloDAO.removeById(articoloDAO.findByName("mensola").getIdArticolo());
+        managerDAO.removeById("gpaoli");
+        produttoreDAO.removeById("FacciamoArmadi");
+        fornitoreDAO.removeById("FacciamoMontaggi");
+
     }
     @Test
     public void findAllTest() {
@@ -73,8 +104,7 @@ public class ListaAcquistoDAOTest {
     @Test
     public void findByIdTest() {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
-        IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        ListaAcquisto listaAcquisto = listaAcquistoDAO.findById(listaAcquistoDAO.findByNome("mylist").getIdLista());
+        ListaAcquisto listaAcquisto = listaAcquistoDAO.findById(listaAcquistoDAO.findByName("mylist").getIdLista());
         Assert.assertEquals("mylist", listaAcquisto.getNome());
     }
 

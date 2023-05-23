@@ -130,13 +130,14 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public int add(Fornitore fornitore) {
-        String sql = "INSERT INTO progetto_pis.fornitore (nome, email, telefono, citta, nazione, descrizione) VALUES ('"+
+        String sql = "INSERT INTO progetto_pis.fornitore (nome, email, telefono, citta, nazione, descrizione, sito) VALUES ('"+
                 fornitore.getNome() + "','" +
                 fornitore.getMail() + "','" +
                 fornitore.getTelefono()+ "','" +
                 fornitore.getCitta()+ "','" +
                 fornitore.getNazione()+ "','" +
-                fornitore.getDescrizione() +"');";
+                fornitore.getDescrizione()+ "','" +
+                fornitore.getSito() +"');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

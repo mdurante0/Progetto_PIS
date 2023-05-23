@@ -31,6 +31,11 @@ public class Prodotto extends Articolo implements IProdotto {
         this.produttore = new Produttore();
         this.magazzino = new Magazzino();
     }
+
+    public Prodotto(String nome, String descrizione, Float prezzo, int quantita, ICategoria categoria) {
+        super(nome,descrizione,prezzo,quantita,categoria);
+    }
+
     @Override
     public Float getPrezzo() {
         return super.getPrezzo();

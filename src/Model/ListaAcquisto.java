@@ -9,7 +9,7 @@ public class ListaAcquisto {
     private int idLista;
     private boolean pagata;
     private String nome;
-    private List<Articolo> articoli;
+    private List<Articolo> articoli = new ArrayList<>();
     private Date dataCreazione;
     private int idUtente;
     private float costoFinale;
@@ -24,6 +24,13 @@ public class ListaAcquisto {
         this.nome = nome;
         this.articoli = articoli;
         this.dataCreazione = dataCreazione;
+    }
+
+    public ListaAcquisto(int idUtente, boolean pagata, String nome, ArrayList<Articolo> articoli) {
+        this.idUtente = idUtente;
+        this.pagata = pagata;
+        this.nome = nome;
+        this.articoli = articoli;
     }
 
     public boolean add(Articolo articolo) {

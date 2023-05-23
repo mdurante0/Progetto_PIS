@@ -1,5 +1,7 @@
 package Model;
 
+import Business.AbstractFactory.ICategoria;
+
 import java.util.List;
 
 public class Servizio extends Articolo {
@@ -13,6 +15,11 @@ public class Servizio extends Articolo {
         super();
         super.setCategoria(new CategoriaServizio());
         this.fornitore = new Fornitore();
+    }
+
+    public Servizio(String nome, String descrizione, Float prezzo, ICategoria categoria, Fornitore fornitore) {
+        super(nome,descrizione,prezzo,categoria);
+        this.fornitore = fornitore;
     }
 
     public Fornitore getFornitore() {

@@ -9,8 +9,19 @@ public class Fornitore {
     private String nazione;
     private String telefono;
     private String descrizione;
+    private String sito;
 
-    public  Fornitore(){}
+    public Fornitore(){}
+
+    public Fornitore(String nome, String mail, String citta, String nazione, String telefono, String descrizione, String sito) {
+        this.nome = nome;
+        this.mail = mail;
+        this.citta = citta;
+        this.nazione = nazione;
+        this.telefono = telefono;
+        this.descrizione = descrizione;
+        this.sito = sito;
+    }
 
     public Fornitore(String nome, String mail, String citta, String nazione, String telefono, String descrizione) {
         this.nome = nome;
@@ -75,6 +86,14 @@ public class Fornitore {
 
     public void setNazione(String nazione) {
         this.nazione = nazione;
+    }
+
+    public String getSito() {
+        return sito;
+    }
+
+    public void setSito(String sito) {
+        this.sito = sito;
     }
 
     @Override

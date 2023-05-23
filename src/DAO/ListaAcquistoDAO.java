@@ -29,6 +29,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return instance;
     }
 
+    /*
     @Override
     public ListaAcquisto findById(int idLista) {
         String sql = "SELECT * FROM progetto_pis.lista_acquisto INNER JOIN progetto_pis.lista_acquisto_has_articolo " +
@@ -58,8 +59,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                     Articolo articolo = articoloDAO.findById(idArticolo);
                     articolo.setQuantita(quantita);
                     listaAcquisto.add(articolo);
-                    if(!rs.next())
-                        break;
+
                 } while(rs.next());
 
                 return listaAcquisto;
@@ -75,6 +75,54 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         }
         return null;
     }
+
+    */
+    @Override
+    public ListaAcquisto findById(int idLista) {
+
+        String sql = "SELECT * FROM progetto_pis.lista_acquisto WHERE idlista_acquisto = '" + idLista + "';";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
+                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
+                listaAcquisto.setPagata(rs.getBoolean("pagata"));
+                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+
+                sql = "SELECT * FROM progetto_pis.lista_acquisto_has_articolo WHERE lista_acquisto_idlista_acquisto = '" + idLista + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+
+                while(rs.next()){
+                    Articolo articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(articolo);
+                }
+
+                return listaAcquisto;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /*
     @Override
     public ListaAcquisto findByNome(String nome) {
         String sql = "SELECT idlista_acquisto, utente_acquirente_utente_idutente, nome, pagata, costo_finale, " +
@@ -120,10 +168,55 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
         return null;
     }
 
+     */
+    @Override
+    public ListaAcquisto findByName(String nome) {
+
+        String sql = "SELECT * FROM progetto_pis.lista_acquisto WHERE nome = '" + nome + "';";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                listaAcquisto = new ListaAcquisto();
+                listaAcquisto.setIdLista(rs.getInt("idlista_acquisto"));
+                listaAcquisto.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+                listaAcquisto.setNome(rs.getString("nome"));
+                listaAcquisto.setPagata(rs.getBoolean("pagata"));
+                listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
+
+                ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+
+                sql = "SELECT * FROM progetto_pis.lista_acquisto_has_articolo WHERE lista_acquisto_idlista_acquisto = '" + listaAcquisto.getIdLista() + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+
+                while(rs.next()){
+                    Articolo articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs.getInt("quantita"));
+                    listaAcquisto.add(articolo);
+                }
+
+                return listaAcquisto;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
 
     @Override
     public ArrayList<ListaAcquisto> findAll() {
-        String sql =  "SELECT * FROM progetto_pis.lista_acquisto INNER JOIN progetto_pis.lista_acquisto_has_articolo ";
+        String sql =  "SELECT * FROM progetto_pis.lista_acquisto INNER JOIN progetto_pis.lista_acquisto_has_articolo;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);

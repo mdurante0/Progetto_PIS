@@ -21,6 +21,14 @@ public class PuntoVendita {
         this.idManager = idManager;
     }
 
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino) {
+        this.citta = citta;
+        this.indirizzo = indirizzo;
+        this.telefono = telefono;
+        this.nome = nome;
+        this.idMagazzino = idMagazzino;
+    }
+
     public int getIdPuntoVendita() {
         return idPuntoVendita;
     }

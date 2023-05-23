@@ -52,12 +52,22 @@ public class Cliente extends Utente {
         this.professione = professione;
         this.telefono = telefono;
     }
-    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int puntoVenditaDiRegistrazione, NotificationFactory.TipoNotifica canalePreferito, boolean abilitazione, int eta, String residenza,
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int idPuntoVendita, NotificationFactory.TipoNotifica canalePreferito, boolean abilitazione, int eta, String residenza,
                    String professione, String telefono) {
 
         super(name, surname, username, pwd, email, tipo);
-        idPuntoVendita = puntoVenditaDiRegistrazione;
+        this.idPuntoVendita = idPuntoVendita;
         this.canalePreferito = canalePreferito;
+        this.abilitazione = abilitazione;
+        this.eta = eta;
+        this.residenza = residenza;
+        this.professione = professione;
+        this.telefono = telefono;
+    }
+
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int idPuntoVendita, boolean abilitazione, int eta, String residenza, String professione, String telefono) {
+        super(name, surname, username, pwd, email, tipo);
+        this.idPuntoVendita = idPuntoVendita;
         this.abilitazione = abilitazione;
         this.eta = eta;
         this.residenza = residenza;

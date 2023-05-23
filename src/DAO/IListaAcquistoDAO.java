@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface IListaAcquistoDAO {
     ListaAcquisto findById(int id);
-    ListaAcquisto findByNome(String nome);
+    ListaAcquisto findByName(String nome);
     ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente);
     ArrayList<ListaAcquisto> findAll();
     int add(ListaAcquisto listaAcquisto);
