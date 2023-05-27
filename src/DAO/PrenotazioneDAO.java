@@ -10,7 +10,10 @@ import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class PrenotazioneDAO implements IPrenotazioneDAO {
@@ -87,7 +90,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         try {
             while (rs.next()) {
                 prenotazione = new Prenotazione();
-                prenotazione.setIdPrenotazione(rs.getInt("idlista_acquisto"));
+                prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
 
@@ -166,9 +169,16 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     @Override
     public int add(Prenotazione prenotazione) {
+        Date data = prenotazione.getDataPrenotazione();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        int rowCount = 0;
+        try{
+        String s = formato.format(data);
+        Date d = formato.parse(s);
+        formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente, data_prenotazione) VALUES ('"+
-                prenotazione.getIdUtente() + "','" + prenotazione.getDataPrenotazione() + "');";
+                prenotazione.getIdUtente() + "','" +  formato.format(d) + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -179,8 +189,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        int rowCount = 0;
-        try {
             rs.next();
             prenotazione.setIdPrenotazione(rs.getInt("max(idprenotazione)"));
 
@@ -206,6 +214,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
+        }catch  (ParseException e) {
+            System.out.println("Formato data non valido.");
         }
         return rowCount;
     }

@@ -17,9 +17,10 @@ public class Prenotazione {
         this.prodotti = new ArrayList<>();
     }
 
-    public Prenotazione(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione) {
+    public Prenotazione(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione, int idUtente) {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
+        this.idUtente = idUtente;
     }
 
     public int getIdPrenotazione() {
