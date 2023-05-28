@@ -19,6 +19,12 @@ public class ListaAcquistoDAOTest {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IServizioDAO servizioDAO = ServizioDAO.getInstance();
 
         Magazzino magazzino = new Magazzino(7,5,"via mozart 25");
         magazzinoDAO.add(magazzino);

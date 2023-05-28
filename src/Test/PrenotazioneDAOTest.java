@@ -98,19 +98,90 @@ public class PrenotazioneDAOTest {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
         ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente());
         Assert.assertEquals(1, prenotazioni.size());
+        Assert.assertEquals(2, prenotazioni.get(0).getProdotti().size());
     }
-/*
     @Test
     public void findByIdTest() {
         IPrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Prenotazione prenotazione = prenotazioneDAO.findById(1);
-        Assert.assertEquals(1, prenotazione.getIdUtente());
-    }*/
-   /* @Test
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        Assert.assertEquals(2, prenotazione.getProdotti().size());
+    }
+@Test
+    public void add_removeProdottoTest(){
+        IPrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        IClienteDAO clienteDAO = ClienteDAO.getInstance();
+
+        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
+
+        Prodotto prodotto = new Prodotto(55.35F, null, "dondolo", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),magazzinoDAO.findByAddress("via Paoli 23"), null , 9);
+
+        prodottoDAO.add(prodotto);
+
+        prodotto = prodottoDAO.findByName("dondolo");
+
+        prenotazioneDAO.addProdotto(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
+
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+
+        Assert.assertEquals(3, prenotazione.getProdotti().size());
+
+        prenotazioneDAO.removeProdotto(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
+
+        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+
+        Assert.assertEquals(2, prenotazione.getProdotti().size());
+
+      articoloDAO.removeById(prodottoDAO.findByName("dondolo").getIdArticolo());
+
+
+    }
+    @Test
     public void updateTest() {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+        IPrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        IClienteDAO clienteDAO = ClienteDAO.getInstance();
+
+        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
+
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+
+        Date d = new Date();
+
+        prenotazione.setDataPrenotazione(d);
+
+        Prodotto prodotto2 = prodottoDAO.findByName("mattonelle");
+        Prodotto prodotto1 = prodottoDAO.findByName("cassa");
+
+        prodotto1.setQuantita(20);
+        prodotto2.setQuantita(30);
+
+        ArrayList<Prodotto> prodotti = new ArrayList<>();
+
+        prodotti.add(prodotto1);
+        prodotti.add(prodotto2);
+
+        prenotazione.setProdotti(prodotti);
 
 
-    }*/
+        prenotazioneDAO.update(prenotazione);
+
+        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+
+        Assert.assertEquals(20, prenotazione.getProdotti().get(0).getQuantita());
+        Assert.assertEquals(30, prenotazione.getProdotti().get(1).getQuantita());
+
+
+
+    }
 }

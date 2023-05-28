@@ -66,6 +66,12 @@ public class Prenotazione {
     public void clear(){
         prodotti.clear();
     }
+    public void setQuantita(int [] quantita){
+        for (int i = 0; i < prodotti.size(); i++){
+            prodotti.get(i).setQuantita(quantita[i]);
+        }
+
+    }
 
     @Override
     public String toString() {
