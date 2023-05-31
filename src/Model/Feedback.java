@@ -11,7 +11,7 @@ public class Feedback {
     private boolean letto;
     private boolean risposto;
     private String risposta;
-    private Date data;
+    private Date data = new Date();
     private int idArticolo;
     private int idUtente;
 

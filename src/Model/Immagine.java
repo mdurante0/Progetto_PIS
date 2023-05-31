@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Immagine {
     private int idImmagine;
-    private ImageIcon pic;
+    private ImageIcon pic = new ImageIcon();
     private int idArticolo;
 
     public Immagine(ImageIcon pic, int idArticolo) {

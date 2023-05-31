@@ -19,9 +19,13 @@ public class Prodotto extends Articolo implements IProdotto {
     }
 
     public Prodotto(String nome,String descrizione, Float prezzo, Produttore produttore, CategoriaProdotto categoriaProdotto, int quantita){
-        super(nome, descrizione, prezzo, quantita);
+        super(nome, descrizione, prezzo, quantita, categoriaProdotto);
         this.produttore = produttore;
-        super.setCategoria(categoriaProdotto);
+    }
+
+    public Prodotto(String nome,String descrizione, Float prezzo, int quantita){
+        super(nome, descrizione, prezzo, quantita);
+
     }
 
     public Prodotto(){
@@ -62,7 +66,7 @@ public class Prodotto extends Articolo implements IProdotto {
         return this.magazzino;
     }
 
-    public void setMagazzino(Magazzino Magazzino) {
+    public void setMagazzino(Magazzino magazzino) {
         this.magazzino = magazzino;
     }
 

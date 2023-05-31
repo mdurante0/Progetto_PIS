@@ -42,7 +42,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
-                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 return categoriaProdotto;
@@ -74,7 +74,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             if (rs.getRow()==1) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
-                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 return categoriaProdotto;
@@ -105,7 +105,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
-                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 categorie.add(categoriaProdotto);
@@ -138,7 +138,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
             while (rs.next()) {
                 categoriaProdotto = new CategoriaProdotto();
                 categoriaProdotto.setIdCategoria(rs.getInt("idcategoria_prodotto"));
-                categoriaProdotto.setIdCategoriaProdottoParent(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 categoriaProdotto.setNome(rs.getString("nome"));
 
                 categorie.add(categoriaProdotto);
@@ -159,7 +159,13 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     @Override
     public int add(CategoriaProdotto categoriaProdotto) {
 
-        String sql = "INSERT INTO progetto_pis.categoria_prodotto (nome) " +
+        String sql;
+        if (categoriaProdotto.getCategoriaProdottoParent() != null)
+            sql = "INSERT INTO progetto_pis.categoria_prodotto (nome, categoria_prodotto_idcategoria_prodotto) VALUES ('" +
+                    categoriaProdotto.getNome()  + "','" +
+                    categoriaProdotto.getCategoriaProdottoParent().getIdCategoria() + "');";
+        else
+            sql = "INSERT INTO progetto_pis.categoria_prodotto (nome) " +
                 "VALUES ('" + categoriaProdotto.getNome() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -182,11 +188,17 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
 
     @Override
     public int update(CategoriaProdotto categoria) {
+        String sql;
+        if (categoriaProdotto.getCategoriaProdottoParent() != null)
+            sql = "UPDATE progetto_pis.categoria_prodotto " +
+                    "SET nome = '" + categoria.getNome() +
+                    "', categoria_prodotto_idcategoria_prodotto = '" + categoria.getCategoriaProdottoParent().getIdCategoria() +
+                    "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
+        else
+            sql = "UPDATE progetto_pis.categoria_prodotto " +
+                    "SET nome = '" + categoria.getNome() +
+                    "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
 
-        String sql = "UPDATE progetto_pis.categoria_prodotto " +
-                "SET nome = '" + categoria.getNome() +
-                "', categoria_prodotto_idcategoria_prodotto = '" + categoria.getIdCategoriaProdottoParent() +
-                "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

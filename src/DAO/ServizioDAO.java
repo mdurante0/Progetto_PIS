@@ -195,11 +195,17 @@ public class ServizioDAO implements IServizioDAO {
             rs.next();
             servizio.setIdArticolo(rs.getInt("max(idarticolo)"));
 
-            sql = "INSERT INTO progetto_pis.servizio (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
-                    "VALUES ('" +
-                    servizio.getIdArticolo() + "','" +
-                    servizio.getCategoria().getIdCategoria() + "','" +
-                    servizio.getFornitore().getIdFornitore() + "');";
+            if(servizio.getCategoria() != null)
+                sql = "INSERT INTO progetto_pis.servizio (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
+                        "VALUES ('" +
+                        servizio.getIdArticolo() + "','" +
+                        servizio.getCategoria().getIdCategoria() + "','" +
+                        servizio.getFornitore().getIdFornitore() + "');";
+            else
+                sql = "INSERT INTO progetto_pis.servizio (articolo_idarticolo, fornitore_idfornitore) " +
+                        "VALUES ('" +
+                        servizio.getIdArticolo() + "','" +
+                        servizio.getFornitore().getIdFornitore() + "');";
 
             IDbOperation writeOp = new WriteOperation(sql);
 
@@ -231,10 +237,17 @@ public class ServizioDAO implements IServizioDAO {
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         articoloDAO.update(servizio);
 
-        String sql = "UPDATE progetto_pis.servizio " +
-                "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
-                "', categoria_servizio_idcategoria_servizio = '" + servizio.getCategoria().getIdCategoria() +
-                "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
+        String sql;
+
+        if(servizio.getCategoria() != null)
+            sql = "UPDATE progetto_pis.servizio " +
+                    "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
+                    "', categoria_servizio_idcategoria_servizio = '" + servizio.getCategoria().getIdCategoria() +
+                    "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
+        else
+            sql = "UPDATE progetto_pis.servizio " +
+                    "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
+                    "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

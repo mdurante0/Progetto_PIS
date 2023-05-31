@@ -3,15 +3,11 @@ package Test;
 import Business.FactoryMethod.NotificationFactory;
 import DAO.*;
 import Model.*;
-import Model.Feedback;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,7 +28,7 @@ public class FeedbackDAOTest {
         Magazzino m = new Magazzino(4, 2, "via Paoli 23", null);
         magazzinoDAO.add(m);
 
-        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77").getIdUtente()));
+        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77")));
 
         NotificationFactory.TipoNotifica canalePreferito = NotificationFactory.TipoNotifica.EMAIL;
         boolean abilitazione = true;

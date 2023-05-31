@@ -10,12 +10,12 @@ public class ListaAcquisto {
     private boolean pagata;
     private String nome;
     private List<Articolo> articoli = new ArrayList<>();
-    private Date dataCreazione;
+    private Date dataCreazione = new Date();
     private int idUtente;
     private float costoFinale;
 
     public ListaAcquisto(){
-        this.articoli = new ArrayList<>();
+
     }
 
     public ListaAcquisto(int idUtente, boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
@@ -100,23 +100,23 @@ public class ListaAcquisto {
     }
 
     public float getCostoFinale() {
-        float c=0F;
+        this.costoFinale=0F;
         for (Articolo a : articoli)
-            c+= a.getPrezzo();
-        return c;
+            costoFinale += a.getPrezzo();
+        return costoFinale;
     }
 
     public void setCostoFinale(float costoFinale) {
         this.costoFinale = costoFinale;
     }
 
-   /* @Override
+   @Override
     public String toString() {
         return "ListaAcquisto{" +
                 "pagata=" + pagata +
-                ", nome='" + nome + '\'' +
+                ", nome='" + nome +
                 ", prodotti=" + articoli +
                 ", dataCreazione=" + dataCreazione +
                 '}';
-    }*/
+    }
 }

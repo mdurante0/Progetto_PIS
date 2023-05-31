@@ -2,7 +2,6 @@ package Test;
 
 import DAO.*;
 import Model.CategoriaServizio;
-import Model.Collocazione;
 import Model.Fornitore;
 import Model.Servizio;
 import org.junit.After;
@@ -23,7 +22,7 @@ public class ServizioDAOTest {
 
         categoriaServizioDAO.add(new CategoriaServizio("aaa"));
 
-        servizioDAO.add(new Servizio(55.35F, null, "Trasporto", "Servizio sicuro e affidabile", categoriaServizioDAO.findByName("aaa"), fornitoreDAO.findByName("Valentino"),null, 8));
+        servizioDAO.add(new Servizio(55.35F, null, "Trasporto", "Servizio sicuro e affidabile", categoriaServizioDAO.findByName("aaa"), fornitoreDAO.findByName("Valentino"),null));
     }
 
     @After

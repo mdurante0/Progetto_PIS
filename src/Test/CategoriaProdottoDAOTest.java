@@ -49,7 +49,7 @@ public class CategoriaProdottoDAOTest {
     public void findAllByParentTest() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
-        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
+        categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         categoriaProdottoDAO.update(categoriaProdotto);
         ArrayList<CategoriaProdotto> categorie = categoriaProdottoDAO.findAllByParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         Assert.assertEquals(2, categorie.size());
@@ -61,7 +61,7 @@ public class CategoriaProdottoDAOTest {
     public void updateTest() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
-        categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
+        categoriaProdotto.getCategoriaProdottoParent().setIdCategoria(categoriaProdottoDAO.findByName("arredamento").getIdCategoria());
         categoriaProdottoDAO.update(categoriaProdotto);
         categoriaProdotto = categoriaProdottoDAO.findByName("aaa");
         Assert.assertEquals("aaa", categoriaProdotto.getNome());

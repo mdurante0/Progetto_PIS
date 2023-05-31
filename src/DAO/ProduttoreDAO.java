@@ -29,7 +29,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public Produttore findById(int id) {
-        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore WHERE idproduttore = '" + id + "';";
+        String sql = "SELECT * FROM progetto_pis.produttore WHERE idproduttore = '" + id + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -46,6 +46,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
                 produttore.setCitta(rs.getString("citta"));
                 produttore.setNazione(rs.getString("nazione"));
                 produttore.setDescrizione(rs.getString("descrizione"));
+                produttore.setSito(rs.getString("sito"));
                 return produttore;
             }
         } catch (SQLException e) {
@@ -62,7 +63,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public Produttore findByName(String name) {
-        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore WHERE nome = '" + name + "';";
+        String sql = "SELECT * FROM progetto_pis.produttore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -79,6 +80,8 @@ public class ProduttoreDAO implements IProduttoreDAO {
                 produttore.setCitta(rs.getString("citta"));
                 produttore.setNazione(rs.getString("nazione"));
                 produttore.setDescrizione(rs.getString("descrizione"));
+                produttore.setSito(rs.getString("sito"));
+
                 return produttore;
             }
         } catch (SQLException e) {
@@ -95,7 +98,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public ArrayList<Produttore> findAll() {
-        String sql = "SELECT idproduttore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.produttore ;";
+        String sql = "SELECT * FROM progetto_pis.produttore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -112,6 +115,8 @@ public class ProduttoreDAO implements IProduttoreDAO {
                 produttore.setCitta(rs.getString("citta"));
                 produttore.setNazione(rs.getString("nazione"));
                 produttore.setDescrizione(rs.getString("descrizione"));
+                produttore.setSito(rs.getString("sito"));
+
                 produttori.add(produttore);
             }
             return produttori;
@@ -130,13 +135,14 @@ public class ProduttoreDAO implements IProduttoreDAO {
 
     @Override
     public int add(Produttore produttore) {
-        String sql = "INSERT INTO progetto_pis.produttore (nome, email, telefono, citta, nazione, descrizione) VALUES ('"+
+        String sql = "INSERT INTO progetto_pis.produttore (nome, email, telefono, citta, nazione, descrizione, sito) VALUES ('"+
                 produttore.getNome() + "','" +
                 produttore.getMail() + "','" +
                 produttore.getTelefono()+ "','" +
                 produttore.getCitta()+ "','" +
                 produttore.getNazione()+ "','" +
-                produttore.getDescrizione() +"');";
+                produttore.getDescrizione() + "','" +
+                produttore.getSito() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -161,6 +167,7 @@ public class ProduttoreDAO implements IProduttoreDAO {
                 "', citta = '" + produttore.getCitta() +
                 "', nazione = '" + produttore.getNazione() +
                 "', descrizione = '" + produttore.getDescrizione() +
+                "', sito = '" + produttore.getSito() +
                 "' WHERE idproduttore = '" + produttore.getIdProduttore() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

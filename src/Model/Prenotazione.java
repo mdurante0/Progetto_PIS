@@ -9,12 +9,11 @@ import java.util.List;
 public class Prenotazione {
 
     private int idPrenotazione;
-    private List<Model.composite.Prodotto> prodotti;
-    private Date dataPrenotazione;
+    private List<Model.composite.Prodotto> prodotti = new ArrayList<>();
+    private Date dataPrenotazione = new Date();
     private int idUtente;
 
     public Prenotazione(){
-        this.prodotti = new ArrayList<>();
     }
 
     public Prenotazione(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione, int idUtente) {

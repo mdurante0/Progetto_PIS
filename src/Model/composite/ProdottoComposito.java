@@ -12,12 +12,11 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     private List<IProdotto> sottoprodotti = new ArrayList<>();
     private int idMagazzino;
 
-    private Produttore produttore;
+    private Produttore produttore = new Produttore();
 
     public ProdottoComposito() {
         super();
         super.setCategoria(new CategoriaProdotto());
-        this.produttore = new Produttore();
     }
 
     public ProdottoComposito(String name, String descrizione, Produttore produttore, CategoriaProdotto categoriaProdotto) {

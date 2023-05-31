@@ -39,7 +39,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdManager(rs.getInt("manager_utente_idutente"));
+                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
@@ -72,7 +72,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdManager(rs.getInt("manager_utente_idutente"));
+                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
@@ -104,7 +104,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             while (rs.next()) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdManager(rs.getInt("manager_utente_idutente"));
+                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
@@ -139,7 +139,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             while (rs.next()) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdManager(rs.getInt("manager_utente_idutente"));
+                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
@@ -164,7 +164,22 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
 
     @Override
     public int add(PuntoVendita puntoVendita) {
-        String sql = "INSERT INTO progetto_pis.punto_vendita (manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+ puntoVendita.getIdManager()+"', '" + puntoVendita.getIdMagazzino() + "', '"+ puntoVendita.getCitta()+ "', '" +puntoVendita.getIndirizzo()+ "', '"+puntoVendita.getTelefono() +"', '"+puntoVendita.getNome() + "');";
+        String sql;
+        if(puntoVendita.getManager() != null)
+            sql = "INSERT INTO progetto_pis.punto_vendita (manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+
+                    puntoVendita.getManager().getIdUtente() + "', '" +
+                    puntoVendita.getIdMagazzino() + "', '" +
+                    puntoVendita.getCitta() + "', '" +
+                    puntoVendita.getIndirizzo() + "', '" +
+                    puntoVendita.getTelefono() + "', '" +
+                    puntoVendita.getNome() + "');";
+        else
+            sql = "INSERT INTO progetto_pis.punto_vendita (magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+
+                    puntoVendita.getIdMagazzino() + "', '" +
+                    puntoVendita.getCitta() + "', '" +
+                    puntoVendita.getIndirizzo() + "', '" +
+                    puntoVendita.getTelefono() + "', '" +
+                    puntoVendita.getNome() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -194,13 +209,22 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
 
     @Override
     public int update(PuntoVendita puntoVendita) {
-        String sql = "UPDATE progetto_pis.punto_vendita " +
-                "SET manager_utente_idutente = '" + puntoVendita.getIdManager() +
-                "', magazzino_idmagazzino ='" + puntoVendita.getIdMagazzino() +
-                "', citta ='" + puntoVendita.getCitta() +
-                "', indirizzo ='" + puntoVendita.getIndirizzo() +
-                "', telefono ='" + puntoVendita.getTelefono() +
-                "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+        String sql;
+        if(puntoVendita.getManager() != null)
+            sql = "UPDATE progetto_pis.punto_vendita " +
+                    "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
+                    "', magazzino_idmagazzino ='" + puntoVendita.getIdMagazzino() +
+                    "', citta ='" + puntoVendita.getCitta() +
+                    "', indirizzo ='" + puntoVendita.getIndirizzo() +
+                    "', telefono ='" + puntoVendita.getTelefono() +
+                    "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+        else
+            sql = "UPDATE progetto_pis.punto_vendita " +
+                    "SET magazzino_idmagazzino ='" + puntoVendita.getIdMagazzino() +
+                    "', citta ='" + puntoVendita.getCitta() +
+                    "', indirizzo ='" + puntoVendita.getIndirizzo() +
+                    "', telefono ='" + puntoVendita.getTelefono() +
+                    "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

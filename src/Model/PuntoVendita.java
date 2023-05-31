@@ -3,22 +3,23 @@ package Model;
 public class PuntoVendita {
 
     private int idPuntoVendita;
-    private int idManager;
+    private Manager manager = new Manager();
     private int idMagazzino;
     private String citta;
     private String indirizzo;
     private String telefono;
     private String nome;
 
-    public PuntoVendita(){}
+    public PuntoVendita(){
+    }
 
-    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino, int idManager) {
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino, Manager manager) {
         this.citta = citta;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.nome = nome;
         this.idMagazzino = idMagazzino;
-        this.idManager = idManager;
+        this.manager = manager;
     }
 
     public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino) {
@@ -37,12 +38,12 @@ public class PuntoVendita {
         this.idPuntoVendita = idPuntoVendita;
     }
 
-    public int getIdManager() {
-        return idManager;
+    public Manager getManager() {
+        return manager;
     }
 
-    public void setIdManager(int idManager) {
-        this.idManager = idManager;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
     public int getIdMagazzino() {

@@ -11,25 +11,19 @@ public class CategoriaProdotto implements ICategoria {
 
     private int idCategoriaProdotto;
     private String nome;
-
-    private int idCategoriaProdottoParent;
-    private List<CategoriaProdotto> sottocategorie;
-    private List<IProdotto> prodotti;
+    private CategoriaProdotto categoriaProdottoParent;
+    private List<CategoriaProdotto> sottocategorie = new ArrayList<>();
+    private List<IProdotto> prodotti = new ArrayList<>();
 
     public CategoriaProdotto() {
-        this.sottocategorie = new ArrayList<>();
-        this.prodotti = new ArrayList<>();
     }
     public CategoriaProdotto(String nome) {
         this.nome = nome;
-        this.sottocategorie = new ArrayList<>();
-        this.prodotti = new ArrayList<>();
+
     }
-    public CategoriaProdotto(String nome, int idCategoriaProdottoParent) {
-        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
+    public CategoriaProdotto(String nome, CategoriaProdotto categoriaProdottoParent) {
+        this.categoriaProdottoParent = categoriaProdottoParent;
         this.nome = nome;
-        this.sottocategorie = new ArrayList<>();
-        this.prodotti = new ArrayList<>();
     }
 
 
@@ -89,12 +83,12 @@ public class CategoriaProdotto implements ICategoria {
         this.nome = nome;
     }
 
-    public int getIdCategoriaProdottoParent() {
-        return idCategoriaProdottoParent;
+    public CategoriaProdotto getCategoriaProdottoParent() {
+        return categoriaProdottoParent;
     }
 
-    public void setIdCategoriaProdottoParent(int idCategoriaProdottoParent) {
-        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
+    public void setCategoriaProdottoParent(CategoriaProdotto categoriaProdottoParent) {
+        this.categoriaProdottoParent = categoriaProdottoParent;
     }
 
     @Override

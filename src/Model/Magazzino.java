@@ -11,11 +11,10 @@ public class Magazzino {
     private int quantitaCorsie;
     private int quantitaScaffali;
     private String indirizzo;
-    private List<IProdotto> prodotti;
+    private List<IProdotto> prodotti = new ArrayList<>();
     private int idPuntoVendita;
 
     public Magazzino(){
-        this.prodotti = new ArrayList<>();
     }
 
     public Magazzino(int quantitaCorsie, int quantitaScaffali, String indirizzo, List<IProdotto> prodotti) {
@@ -29,7 +28,6 @@ public class Magazzino {
         this.quantitaCorsie = quantitaCorsie;
         this.quantitaScaffali = quantitaScaffali;
         this.indirizzo = indirizzo;
-        this.prodotti = new ArrayList<>();
     }
 
     public void setIdMagazzino(int idMagazzino) {

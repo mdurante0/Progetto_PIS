@@ -29,7 +29,7 @@ public class PrenotazioneDAOTest {
         Manager manager = new Manager("Giovanni", "Paoli", "gpaoli", "456", "gpaoli@myshop.com","MN",10);
         managerDAO.add(manager);
 
-        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", m.getIdMagazzino(), manager.getIdUtente());
+        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", m.getIdMagazzino(), manager);
         puntoVenditaDAO.add(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
 

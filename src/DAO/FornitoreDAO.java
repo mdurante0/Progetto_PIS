@@ -29,7 +29,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public Fornitore findById(int id) {
-        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore WHERE idfornitore = '" + id + "';";
+        String sql = "SELECT * FROM progetto_pis.fornitore WHERE idfornitore = '" + id + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -46,6 +46,7 @@ public class FornitoreDAO implements IFornitoreDAO {
                 fornitore.setCitta(rs.getString("citta"));
                 fornitore.setNazione(rs.getString("nazione"));
                 fornitore.setDescrizione(rs.getString("descrizione"));
+                fornitore.setSito(rs.getString("sito"));
                 return fornitore;
             }
         } catch (SQLException e) {
@@ -62,7 +63,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public Fornitore findByName(String name) {
-        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore WHERE nome = '" + name + "';";
+        String sql = "SELECT * FROM progetto_pis.fornitore WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -79,6 +80,8 @@ public class FornitoreDAO implements IFornitoreDAO {
                 fornitore.setCitta(rs.getString("citta"));
                 fornitore.setNazione(rs.getString("nazione"));
                 fornitore.setDescrizione(rs.getString("descrizione"));
+                fornitore.setSito(rs.getString("sito"));
+
                 return fornitore;
             }
         } catch (SQLException e) {
@@ -95,7 +98,7 @@ public class FornitoreDAO implements IFornitoreDAO {
 
     @Override
     public ArrayList<Fornitore> findAll() {
-        String sql = "SELECT idfornitore, nome, email, telefono, citta, nazione, descrizione FROM progetto_pis.fornitore ;";
+        String sql = "SELECT * FROM progetto_pis.fornitore ;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -112,6 +115,8 @@ public class FornitoreDAO implements IFornitoreDAO {
                 fornitore.setCitta(rs.getString("citta"));
                 fornitore.setNazione(rs.getString("nazione"));
                 fornitore.setDescrizione(rs.getString("descrizione"));
+                fornitore.setSito(rs.getString("sito"));
+
                 fornitori.add(fornitore);
             }
             return fornitori;
@@ -137,7 +142,7 @@ public class FornitoreDAO implements IFornitoreDAO {
                 fornitore.getCitta()+ "','" +
                 fornitore.getNazione()+ "','" +
                 fornitore.getDescrizione()+ "','" +
-                fornitore.getSito() +"');";
+                fornitore.getSito() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -162,6 +167,7 @@ public class FornitoreDAO implements IFornitoreDAO {
                 "', citta = '" + fornitore.getCitta() +
                 "', nazione = '" + fornitore.getNazione() +
                 "', descrizione = '" + fornitore.getDescrizione() +
+                "', sito = '" + fornitore.getSito() +
                 "' WHERE idfornitore = '" + fornitore.getIdFornitore() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

@@ -187,14 +187,38 @@ public class ProdottoDAO implements IProdottoDAO {
         int rowCount = 0;
         try {
             rs.next();
-            ((Articolo) prodotto).setIdArticolo(rs.getInt("max(idarticolo)"));
-            sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto, produttore_idproduttore) " +
+            prodotto.setIdArticolo(rs.getInt("max(idarticolo)"));
+
+            //ne categoria ne produttore sono null
+            if (prodotto.getCategoria() != null && prodotto.getProduttore() != null)
+                sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto, produttore_idproduttore) " +
                     "VALUES ('" +
                     prodotto.getIdArticolo() + "','" +
-                    ((Articolo) prodotto).getCategoria().getIdCategoria() + "','" +
+                    prodotto.getCategoria().getIdCategoria() + "','" +
                     prodotto.getProduttore().getIdProduttore() + "');";
-            IDbOperation writeOp = new WriteOperation(sql);
 
+            //produttore è null
+            else if (prodotto.getCategoria() != null && prodotto.getProduttore() == null)
+                sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto) " +
+                        "VALUES ('" +
+                        prodotto.getIdArticolo() + "','" +
+                        prodotto.getCategoria().getIdCategoria() + "');";
+
+            //categoria è null
+            else if(prodotto.getCategoria() == null && prodotto.getProduttore() != null)
+                sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, produttore_idproduttore) " +
+                        "VALUES ('" +
+                        prodotto.getIdArticolo() + "','" +
+                        prodotto.getProduttore().getIdProduttore() + "');";
+
+            //sia categoria che produttore sono null
+            else
+                sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo) " +
+                        "VALUES ('" +
+                        prodotto.getIdArticolo() + "');";
+
+
+            IDbOperation writeOp = new WriteOperation(sql);
             rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
         } catch (SQLException e) {
@@ -221,12 +245,32 @@ public class ProdottoDAO implements IProdottoDAO {
     public int update(IProdotto prodotto) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.update((Articolo) prodotto);
+        int rowCount = articoloDAO.update((Articolo) prodotto);
 
-        String sql = "UPDATE progetto_pis.prodotto " +
-                "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
-                "', categoria_prodotto_idcategoria_prodotto = '" + ((Articolo) prodotto).getCategoria().getIdCategoria() +
-                "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+        String sql;
+
+        //ne categoria ne produttore sono null
+        if (prodotto.getCategoria() != null && prodotto.getProduttore() != null)
+            sql = "UPDATE progetto_pis.prodotto " +
+                    "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
+                    "', categoria_prodotto_idcategoria_prodotto = '" + prodotto.getCategoria().getIdCategoria() +
+                    "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+
+            //produttore è null
+        else if (prodotto.getCategoria() != null && prodotto.getProduttore() == null)
+            sql = "UPDATE progetto_pis.prodotto " +
+                    "SET categoria_prodotto_idcategoria_prodotto = '" + prodotto.getCategoria().getIdCategoria() +
+                    "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+
+            //categoria è null
+        else if(prodotto.getCategoria() == null &&prodotto.getProduttore() != null)
+            sql = "UPDATE progetto_pis.prodotto " +
+                    "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
+                    "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+
+            //sia categoria che produttore sono null
+        else
+            return rowCount;
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

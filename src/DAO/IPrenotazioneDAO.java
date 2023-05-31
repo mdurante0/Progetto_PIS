@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Prenotazione;
+import Model.composite.Prodotto;
 
 import java.util.ArrayList;
 
@@ -11,5 +12,7 @@ public interface IPrenotazioneDAO {
     int add(Prenotazione prenotazione);
     int removeById(int id);
     int removeByUser(int idUser);
+    int addProdotto(int idPrenotazione, Prodotto prodotto);
+    int removeProdotto(int idPrenotazione, Prodotto prodotto);
     int update(Prenotazione prenotazione);
 }

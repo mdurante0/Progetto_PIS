@@ -7,8 +7,8 @@ import java.util.List;
 public class Servizio extends Articolo {
     private Fornitore fornitore;
 
-    public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, CategoriaServizio categoria, Fornitore fornitore, List<Immagine> immagini, int quantita) {
-        super(prezzo, commenti, nome, descrizione, categoria, immagini, quantita);
+    public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, CategoriaServizio categoria, Fornitore fornitore, List<Immagine> immagini) {
+        super(prezzo, commenti, nome, descrizione, categoria, immagini);
         this.fornitore = fornitore;
     }
     public Servizio(){
@@ -19,6 +19,11 @@ public class Servizio extends Articolo {
 
     public Servizio(String nome, String descrizione, Float prezzo, ICategoria categoria, Fornitore fornitore) {
         super(nome,descrizione,prezzo,categoria);
+        this.fornitore = fornitore;
+    }
+
+    public Servizio(String nome, String descrizione, Float prezzo, Fornitore fornitore) {
+        super(nome,descrizione,prezzo);
         this.fornitore = fornitore;
     }
 

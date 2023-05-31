@@ -7,7 +7,7 @@ import java.util.List;
 public class CategoriaServizio implements ICategoria {
     private int idCategoriaServizio;
     private String nome;
-    private List<Servizio> servizi;
+    private List<Servizio> servizi = new ArrayList<>();
 
     public CategoriaServizio(){
         this.servizi = new ArrayList<>();

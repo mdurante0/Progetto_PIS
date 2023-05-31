@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Cliente extends Utente {
 
-    private List<ListaAcquisto> listeAcquisto;
-    private List<Prenotazione> prenotazioni;
+    private List<ListaAcquisto> listeAcquisto = new ArrayList<>();
+    private List<Prenotazione> prenotazioni = new ArrayList<>();
     private PuntoVendita puntoVenditaDiRegistrazione;
     private int idPuntoVendita;
     private NotificationFactory.TipoNotifica canalePreferito;

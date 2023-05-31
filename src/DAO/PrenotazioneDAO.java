@@ -220,6 +220,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return rowCount;
     }
 
+    @Override
     public int addProdotto(int idPrenotazione, Prodotto prodottoPrenotato) {
 
         String sql = "INSERT INTO progetto_pis.prenotazione_has_prodotto " +
@@ -243,6 +244,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    @Override
     public int removeByUser(int idUtenteAcquirente) {
 
         String sql = "DELETE FROM progetto_pis.prenotazione " +
@@ -253,6 +255,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    @Override
     public int removeProdotto(int idPrenotazione, Prodotto prodottoPrenotato){
 
         String sql = "DELETE FROM progetto_pis.prenotazione_has_prodotto " +
