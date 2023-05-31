@@ -13,8 +13,16 @@ import java.util.ArrayList;
 public class ListaAcquistoDAOTest {
     @Before
     public void setUp() {
-        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+/*
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
+        ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
+        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        */
+        IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IServizioDAO servizioDAO = ServizioDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
