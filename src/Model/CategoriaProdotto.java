@@ -11,7 +11,7 @@ public class CategoriaProdotto implements ICategoria {
 
     private int idCategoriaProdotto;
     private String nome;
-    private CategoriaProdotto categoriaProdottoParent;
+    private int idCategoriaProdottoParent;
     private List<CategoriaProdotto> sottocategorie = new ArrayList<>();
     private List<IProdotto> prodotti = new ArrayList<>();
 
@@ -21,8 +21,8 @@ public class CategoriaProdotto implements ICategoria {
         this.nome = nome;
 
     }
-    public CategoriaProdotto(String nome, CategoriaProdotto categoriaProdottoParent) {
-        this.categoriaProdottoParent = categoriaProdottoParent;
+    public CategoriaProdotto(String nome, int idCategoriaProdottoParent) {
+        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
         this.nome = nome;
     }
 
@@ -83,18 +83,18 @@ public class CategoriaProdotto implements ICategoria {
         this.nome = nome;
     }
 
-    public CategoriaProdotto getCategoriaProdottoParent() {
-        return categoriaProdottoParent;
+    public int getIdCategoriaProdottoParent() {
+        return idCategoriaProdottoParent;
     }
 
-    public void setCategoriaProdottoParent(CategoriaProdotto categoriaProdottoParent) {
-        this.categoriaProdottoParent = categoriaProdottoParent;
+    public void setIdCategoriaProdottoParent(int idCategoriaProdottoParent) {
+        this.idCategoriaProdottoParent = idCategoriaProdottoParent;
     }
 
     @Override
     public String toString() {
         return "CategoriaProdotto{" +
-                "nome='" + nome + '\'' +
+                "nome='" + nome +
                 ", sottocategorie=" + sottocategorie +
                 '}';
     }
