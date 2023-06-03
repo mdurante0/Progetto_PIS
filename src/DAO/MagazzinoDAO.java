@@ -48,6 +48,17 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
                 magazzino.setIndirizzo(rs.getString("indirizzo"));
 
+                sql = "SELECT * FROM progetto_pis.magazzino_has_prodotto WHERE magazzino_idmagazzino = '" + idMagazzino + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                while(rs.next()){
+                    Prodotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita_prodotto"));
+                    magazzino.add(prodotto);
+                }
                 return magazzino;
             }
         } catch (SQLException e) {
@@ -78,6 +89,18 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 magazzino.setQuantitaCorsie(rs.getInt("quantita_corsie"));
                 magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
                 magazzino.setIndirizzo(rs.getString("indirizzo"));
+
+                sql = "SELECT * FROM progetto_pis.magazzino_has_prodotto WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                while(rs.next()){
+                    Prodotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita_prodotto"));
+                    magazzino.add(prodotto);
+                }
 
                 return magazzino;
             }
@@ -110,6 +133,18 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 magazzino.setQuantitaCorsie(rs.getInt("quantita_corsie"));
                 magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
                 magazzino.setIndirizzo(rs.getString("indirizzo"));
+
+                sql = "SELECT * FROM progetto_pis.magazzino_has_prodotto WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() + "';";
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
+
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                while(rs2.next()){
+                    Prodotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs2.getInt("quantita_prodotto"));
+                    magazzino.add(prodotto);
+                }
 
                 magazzini.add(magazzino);
             }
@@ -219,90 +254,4 @@ public class MagazzinoDAO implements IMagazzinoDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
-  @Override
-    public Magazzino getProdottiInMagazzinoByAddress(String indirizzo) {
-
-        String sql = "SELECT * FROM progetto_pis.magazzino AS m INNER JOIN progetto_pis.magazzino_has_prodotto AS mp  ON m.idmagazzino = mp.magazzino_idmagazzino WHERE m.indirizzo='" + indirizzo + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
-
-        try {
-            if (rs.next()) {
-                magazzino = new Magazzino();
-                magazzino.setIdMagazzino(rs.getInt("idmagazzino"));
-                magazzino.setQuantitaCorsie(rs.getInt("quantita_corsie"));
-                magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
-                magazzino.setIndirizzo(rs.getString("indirizzo"));
-
-                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                Prodotto prodotto;
-                do{
-                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
-                    prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
-                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
-                    magazzino.add(prodotto);
-
-                } while(rs.next());
-
-                return magazzino;
-            }
-        } catch (SQLException e) {
-            // handle any errors
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-            // handle any errors
-            System.out.println("Resultset: " + e.getMessage());
-        }
-        return null;
-    }
-
-    @Override
-    public Magazzino getProdottiInMagazzinoById(int idMagazzino) {
-
-        String sql = "SELECT * FROM progetto_pis.magazzino AS m INNER JOIN progetto_pis.magazzino_has_prodotto AS mp  ON m.idmagazzino = mp.magazzino_idmagazzino WHERE m.idmagazzino='" + idMagazzino + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation readOp = new ReadOperation(sql);
-        rs = executor.executeOperation(readOp).getResultSet();
-
-        try {
-            if (rs.next()) {
-                magazzino = new Magazzino();
-                magazzino.setIdMagazzino(rs.getInt("idmagazzino"));
-                magazzino.setQuantitaCorsie(rs.getInt("quantita_corsie"));
-                magazzino.setQuantitaScaffali(rs.getInt("quantita_scaffali"));
-                magazzino.setIndirizzo(rs.getString("indirizzo"));
-
-                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                Prodotto prodotto;
-                do{
-                    prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
-                    prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
-                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
-                    magazzino.add(prodotto);
-
-                } while(rs.next());
-
-                return magazzino;
-            }
-        } catch (SQLException e) {
-            // handle any errors
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } catch (NullPointerException e) {
-            // handle any errors
-            System.out.println("Resultset: " + e.getMessage());
-        }
-        return null;
-    }
-
-
 }

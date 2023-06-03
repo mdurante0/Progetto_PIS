@@ -138,14 +138,14 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
                 sql = "SELECT * FROM progetto_pis.lista_acquisto_has_articolo WHERE lista_acquisto_idlista_acquisto = '" + listaAcquisto.getIdLista() + "';";
-                executor = new DbOperationExecutor();
-                readOp = new ReadOperation(sql);
-                rs = executor.executeOperation(readOp).getResultSet();
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
 
                 ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-                while(rs.next()){
-                    Articolo articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
-                    articolo.setQuantita(rs.getInt("quantita"));
+                while(rs2.next()){
+                    Articolo articolo = articoloDAO.findById(rs2.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs2.getInt("quantita"));
                     listaAcquisto.add(articolo);
                 }
 
@@ -187,14 +187,14 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
                 sql = "SELECT * FROM progetto_pis.lista_acquisto_has_articolo WHERE lista_acquisto_idlista_acquisto = '" + listaAcquisto.getIdLista() + "';";
-                executor = new DbOperationExecutor();
-                readOp = new ReadOperation(sql);
-                rs = executor.executeOperation(readOp).getResultSet();
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
 
                 ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-                while(rs.next()){
-                    Articolo articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
-                    articolo.setQuantita(rs.getInt("quantita"));
+                while(rs2.next()){
+                    Articolo articolo = articoloDAO.findById(rs2.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs2.getInt("quantita"));
                     listaAcquisto.add(articolo);
                 }
 
@@ -216,8 +216,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     @Override
     public ArrayList<ListaAcquisto> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT * FROM progetto_pis.lista_acquisto INNER JOIN progetto_pis.lista_acquisto_has_articolo " +
-                "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
+        String sql = "SELECT * FROM progetto_pis.lista_acquisto WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -234,14 +233,14 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
                 listaAcquisto.setCostoFinale(rs.getFloat("costo_finale"));
 
                 sql = "SELECT * FROM progetto_pis.lista_acquisto_has_articolo WHERE lista_acquisto_idlista_acquisto = '" + listaAcquisto.getIdLista() + "';";
-                executor = new DbOperationExecutor();
-                readOp = new ReadOperation(sql);
-                rs = executor.executeOperation(readOp).getResultSet();
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
 
                 ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-                while(rs.next()){
-                    Articolo articolo = articoloDAO.findById(rs.getInt("articolo_idarticolo"));
-                    articolo.setQuantita(rs.getInt("quantita"));
+                while(rs2.next()){
+                    Articolo articolo = articoloDAO.findById(rs2.getInt("articolo_idarticolo"));
+                    articolo.setQuantita(rs2.getInt("quantita"));
                     listaAcquisto.add(articolo);
                 }
 
@@ -289,8 +288,18 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
             while (articoloIterator.hasNext()) {
 
                 articolo = articoloIterator.next();
-                sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo (lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) " +
-                    "VALUES ('" + listaAcquisto.getIdLista() + "','" + articolo.getIdArticolo() + "','" + articolo.getQuantita() + "');";
+                if(articolo.getQuantita() > 0)
+                    sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
+                            "(lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) VALUES ('" +
+                            listaAcquisto.getIdLista() + "','" +
+                            articolo.getIdArticolo() + "','" +
+                            articolo.getQuantita() + "');";
+                else
+                    sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
+                            "(lista_acquisto_idlista_acquisto, articolo_idarticolo) VALUES ('" +
+                            listaAcquisto.getIdLista() + "','" +
+                            articolo.getIdArticolo() + "');";
+
                 writeOp = new WriteOperation(sql);
                 rowCount += executor.executeOperation(writeOp).getRowsAffected();
             }
@@ -309,12 +318,18 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
     @Override
     public int addArticolo(int idListaAcquisto, Articolo articolo){
-
-        String sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
+        String sql;
+        if(articolo.getQuantita() > 0)
+            sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
                 "(lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) VALUES ('" +
                 idListaAcquisto + "','" +
                 articolo.getIdArticolo() + "','" +
                 articolo.getQuantita() + "');";
+        else
+            sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
+                    "(lista_acquisto_idlista_acquisto, articolo_idarticolo) VALUES ('" +
+                    idListaAcquisto + "','" +
+                    articolo.getIdArticolo() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

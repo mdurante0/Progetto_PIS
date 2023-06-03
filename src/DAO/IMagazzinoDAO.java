@@ -14,6 +14,4 @@ public interface IMagazzinoDAO {
     int update(Magazzino magazzino);
     int addProdotto(int idMagazzino, IProdotto iProdotto);
     int removeProdotto(int idMagazzino, IProdotto iProdotto);
-    Magazzino getProdottiInMagazzinoByAddress(String indirizzo);
-    Magazzino getProdottiInMagazzinoById(int idMagazzino);
 }

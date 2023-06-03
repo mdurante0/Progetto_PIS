@@ -86,6 +86,8 @@ public class MagazzinoDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino magazzino = magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
         Assert.assertEquals("via Paoli 23", magazzino.getIndirizzo());
+        Assert.assertEquals("Poltrona", magazzino.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa", magazzino.getProdotti().get(1).getName());
     }
 
     @Test
@@ -93,6 +95,8 @@ public class MagazzinoDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
         Assert.assertEquals(4, magazzino.getQuantitaCorsie());
+        Assert.assertEquals("Poltrona", magazzino.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa", magazzino.getProdotti().get(1).getName());
     }
 
     @Test
@@ -103,22 +107,6 @@ public class MagazzinoDAOTest {
         magazzinoDAO.update(magazzino);
         magazzino = magazzinoDAO.findById(magazzino.getIdMagazzino());
         Assert.assertEquals(7, magazzino.getQuantitaCorsie());
-    }
-    @Test
-    public void getProdottiInMagazzinoByAddressTest() {
-        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino m = magazzinoDAO.getProdottiInMagazzinoByAddress("via Paoli 23");
-        Assert.assertEquals("Poltrona", m.getProdotti().get(0).getName());
-        Assert.assertEquals("Sofa", m.getProdotti().get(1).getName());
-    }
-
-    @Test
-    public void getProdottiInMagazzinoByIdTest() {
-        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
-        m = magazzinoDAO.getProdottiInMagazzinoById(m.getIdMagazzino());
-        Assert.assertEquals("Poltrona", m.getProdotti().get(0).getName());
-        Assert.assertEquals("Sofa", m.getProdotti().get(1).getName());
     }
 
     @Test

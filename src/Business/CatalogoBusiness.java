@@ -30,7 +30,7 @@ public class CatalogoBusiness {
 
         //Recupero il magazzino collegato al punto vendita richiesto
         PuntoVendita puntoVendita = puntoVenditaDAO.findById(idPuntoVendita);
-        Magazzino magazzino = magazzinoDAO.getProdottiInMagazzinoById(puntoVendita.getIdMagazzino());
+        Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getIdMagazzino());
 
         if(magazzino == null){ //Il magazzino è vuoto
             result.setResult(CatalogoResult.Result.ERRORE_MAGAZZINO);
@@ -61,7 +61,7 @@ public class CatalogoBusiness {
 
         //Recupero il magazzino collegato al punto vendita richiesto
         PuntoVendita puntoVendita = puntoVenditaDAO.findById(idPuntoVendita);
-        Magazzino magazzino = magazzinoDAO.getProdottiInMagazzinoById(puntoVendita.getIdMagazzino());
+        Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getIdMagazzino());
 
         if(magazzino == null){ //Il magazzino è vuoto
             result.setResult(CatalogoResult.Result.ERRORE_MAGAZZINO);
