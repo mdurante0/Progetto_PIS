@@ -1,6 +1,7 @@
 package Model.composite;
 
 import Business.AbstractFactory.ICategoria;
+import Model.CategoriaProdotto;
 import Model.Produttore;
 
 public interface IProdotto {
@@ -10,6 +11,7 @@ public interface IProdotto {
     int getIdArticolo();
     int getQuantita();
     ICategoria getCategoria();
+    void setCategoria(CategoriaProdotto categoriaProdotto);
     Produttore getProduttore();
     void setQuantita(int quantita);
 }

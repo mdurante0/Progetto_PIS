@@ -96,27 +96,21 @@ public class UtenteBusiness {
         String pwd = u.getPwd();
         final int MINIMUM_LENGTH = 8;
         boolean length = pwd.length() >= MINIMUM_LENGTH;
-        if(length){
+        if(!length){
             result.setResult(RegisterResult.Result.WEAK_PASSWORD);
             result.setMessage("La password inserita deve contenere almeno 8 caratteri! Riprova");
             return result;
         }
-        boolean containsUpper = pwd.matches(".*[A-Z].*");
+        boolean containsUpper = pwd.matches(".*\\p{Upper}.*");
         if (!containsUpper) {
             result.setResult(RegisterResult.Result.WEAK_PASSWORD);
             result.setMessage("La password deve contenere almento una lettera maiuscola! Riprova");
             return result;
         }
-        boolean containsDigits = pwd.matches(".*[0-9].*");
+        boolean containsDigits = pwd.matches(".*\\d.*");
         if (!containsDigits) {
             result.setResult(RegisterResult.Result.WEAK_PASSWORD);
             result.setMessage("La password deve contenere almeno un numero! Riprova");
-            return result;
-        }
-        boolean containsSimbols = pwd.matches(".*\\p{Punct}.*");
-        if (!containsSimbols) {
-            result.setResult(RegisterResult.Result.WEAK_PASSWORD);
-            result.setMessage("La password deve contenere almeno un simbolo! Riprova");
             return result;
         }
 
