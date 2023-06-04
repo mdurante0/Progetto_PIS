@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Articolo;
+import Model.Cliente;
 
 import java.util.ArrayList;
 
@@ -11,12 +12,9 @@ public interface IArticoloDAO {
     int removeById(int idArticolo);
     int update(Articolo articolo);
     Articolo findByName(String name);
-
     boolean articoloExists(String nome);
-
     boolean isProdotto(String nome);
-
     boolean isProdottoComposito(String nome);
-
     boolean isServizio(String nome);
+    boolean isAcquistato(int idArticolo, Cliente c);
 }

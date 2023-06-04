@@ -7,7 +7,6 @@ import Business.Results.ClienteResult;
 import Business.Results.MailResult;
 import DAO.ClienteDAO;
 import DAO.MagazzinoDAO;
-import DAO.ProdottoDAO;
 import DAO.UtenteDAO;
 import Model.Cliente;
 import Model.Magazzino;
@@ -81,8 +80,6 @@ public class ManagerBusiness {
         }
 
     public ArticoloResult updateProdottoInMagazzino(IProdotto p, int idMagazzino){
-
-        ProdottoDAO pDao = ProdottoDAO.getInstance();
         MagazzinoDAO mDao = MagazzinoDAO.getInstance();
         ArticoloResult result = new ArticoloResult();
 
@@ -126,6 +123,8 @@ public class ManagerBusiness {
             return result;
         }
 
+        //Controllo che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
+
         //invio l'email
         int invio = MailHelper.getInstance(new MailHelperAPI(), c.getEmail(), oggetto, messaggio).send();
         if(invio == 1) { //email non inviata
@@ -140,7 +139,7 @@ public class ManagerBusiness {
         return result;
     }
 
-    public MailResult invioEmail(Cliente c, String oggetto, String messaggio, String percorsoFile){
+    public MailResult invioEmail( Cliente c, String oggetto, String messaggio, String percorsoFile){
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
         MailResult result = new MailResult();
 
@@ -150,6 +149,8 @@ public class ManagerBusiness {
             result.setMessage("Il cliente non esiste! Riprova!");
             return result;
         }
+
+        //Controllo che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
 
         //Verifico l'esistenza dell'allegato
         File file = new File(percorsoFile);

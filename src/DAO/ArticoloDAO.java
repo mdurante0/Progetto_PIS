@@ -6,6 +6,7 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Articolo;
+import Model.Cliente;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -124,6 +125,29 @@ public class ArticoloDAO implements IArticoloDAO {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean isAcquistato(int idArticolo, Cliente c){
+        String sql = "SELECT count(*) FROM progetto_pis.articolo INNER JOIN progetto_pis.lista_acquisto_has_articolo " +
+                "ON idarticolo = articolo_idarticolo INNER JOIN progetto_pis.lista_acquisto ON lista_acquisto_idlista_acquisto = idlista_acquisto " +
+                "WHERE idarticolo = '" + idArticolo + "' AND utente_acquirente_utente_idutente = '" + c.getIdUtente() + "' AND pagata = '1';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                int count = rs.getInt("count(*)");
+                return count >= 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
