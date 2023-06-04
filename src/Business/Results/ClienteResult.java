@@ -1,7 +1,7 @@
 package Business.Results;
 
-public class AbilitazioneResult {
-    public enum Result { ABILITAZIONE_OK, USER_DOESNT_EXIST, ABILITAZIONE_ERROR }
+public class ClienteResult {
+    public enum Result { ABILITAZIONE_OK, USER_DOESNT_EXIST, ABILITAZIONE_ERROR, RIMOZIONE_OK, RIMOZIONE_ERROR }
 
     private Result result;
     private String message;

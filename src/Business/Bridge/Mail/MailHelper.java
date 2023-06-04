@@ -4,8 +4,8 @@ public class MailHelper extends Mail {
 
     private static MailHelper instance;
 
-    private static String FROM = "myshopdurantescelsi@gmail.com";
-    private static String PASSWORD = "gjrkxarpiovtrpwn";
+    private static final String FROM = "myshopdurantescelsi@gmail.com";
+    private static final String PASSWORD = "gjrkxarpiovtrpwn";
 
     private String to;
     private String sub;
@@ -24,12 +24,12 @@ public class MailHelper extends Mail {
         return instance;
     }
 
-    public void send(){
-        mailAPI.send(FROM, PASSWORD, to,sub,msg);
+    public int send(){
+        return mailAPI.send(FROM, PASSWORD, to,sub,msg);
     }
 
-    public void send(String pathFile){
-        mailAPI.send(FROM, PASSWORD, to,sub,msg,pathFile);
+    public int send(String pathFile){
+        return mailAPI.send(FROM, PASSWORD, to,sub,msg,pathFile);
     }
 
 }

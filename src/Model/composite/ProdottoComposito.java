@@ -1,5 +1,6 @@
 package Model.composite;
 
+import Business.AbstractFactory.ICategoria;
 import Model.Articolo;
 import Model.CategoriaProdotto;
 import Model.Produttore;
@@ -62,6 +63,8 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public void setIdMagazzino(int idMagazzino) {
         this.idMagazzino = idMagazzino;
     }
+    public ICategoria getCategoria(){return super.getCategoria();}
+    public void setCategoria(CategoriaProdotto categoria){super.setCategoria(categoria);}
 
     @Override
     public Float getPrezzo() {

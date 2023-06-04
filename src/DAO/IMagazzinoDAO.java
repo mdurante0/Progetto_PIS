@@ -12,6 +12,8 @@ public interface IMagazzinoDAO {
     int add(Magazzino magazzino);
     int removeById(int id);
     int update(Magazzino magazzino);
+    int updateProdotto(Magazzino magazzino, IProdotto iProdotto);
+    boolean prodottoExists(int idMagazzino, int idProdotto);
     int addProdotto(int idMagazzino, IProdotto iProdotto);
     int removeProdotto(int idMagazzino, IProdotto iProdotto);
 }

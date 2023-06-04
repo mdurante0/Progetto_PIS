@@ -2,6 +2,7 @@ package Test;
 
 import DAO.*;
 import Model.*;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
@@ -100,13 +101,28 @@ public class MagazzinoDAOTest {
     }
 
     @Test
+    public void prodottoExistsTest(){
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        Prodotto prodotto = prodottoDAO.findByName("Poltrona");
+
+        Assert.assertTrue(magazzinoDAO.prodottoExists(magazzino.getIdMagazzino(),prodotto.getIdArticolo()));
+    }
+
+    @Test
     public void updateTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = new Magazzino(7, 5, "via Paoli 23");
-        magazzino.setIdMagazzino(magazzinoDAO.findByAddress(magazzino.getIndirizzo()).getIdMagazzino());
+
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        magazzino.setQuantitaCorsie(7);
+        magazzino.getProdotti().get(0).setQuantita(10);
+
         magazzinoDAO.update(magazzino);
         magazzino = magazzinoDAO.findById(magazzino.getIdMagazzino());
         Assert.assertEquals(7, magazzino.getQuantitaCorsie());
+        Assert.assertEquals(10, magazzino.getProdotti().get(0).getQuantita());
     }
 
     @Test
@@ -133,6 +149,19 @@ public class MagazzinoDAOTest {
         articoloDAO.removeById(p.getIdArticolo());
 
         Assert.assertEquals(1, rowCount);
+    }
+
+    @Test
+    public void updateProdottoTest(){
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        IProdotto prodotto = magazzino.getProdotti().get(0);
+        prodotto.setQuantita(15);
+
+        magazzinoDAO.updateProdotto(magazzino, prodotto);
+        magazzino = magazzinoDAO.findById(magazzino.getIdMagazzino());
+        Assert.assertEquals(15, magazzino.getProdotti().get(0).getQuantita());
     }
 
    @Test

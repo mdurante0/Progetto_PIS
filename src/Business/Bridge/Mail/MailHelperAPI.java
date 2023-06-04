@@ -11,7 +11,7 @@ import java.util.Properties;
 public class MailHelperAPI implements MailAPI{
 
     @Override
-    public void send(String from, String password, String to,String sub,String msg, String pathFile){
+    public int send(String from, String password, String to,String sub,String msg, String pathFile){
         //Get properties object
         Properties props = new Properties();
 
@@ -58,14 +58,16 @@ public class MailHelperAPI implements MailAPI{
             //send message
             Transport.send(message);
             System.out.println("message sent successfully");
+            return 0;
         } catch (MessagingException | IOException e) {
             e.printStackTrace();
             System.out.println("message not sent");
+            return 1;
         }
 
     }
 
-    public void send(String from, String password, String to,String sub,String msg){
+    public int send(String from, String password, String to,String sub,String msg){
         //Get properties object
         Properties props = new Properties();
 
@@ -107,9 +109,11 @@ public class MailHelperAPI implements MailAPI{
             //send message
             Transport.send(message);
             System.out.println("message sent successfully");
+            return 0;
         } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("message not sent");
+            return 1;
         }
 
     }

@@ -7,6 +7,6 @@ public abstract class Mail {
         this.mailAPI = mailAPI;
     }
 
-    public abstract void send();
-    public abstract void send(String pathFile);
+    public abstract int send();
+    public abstract int send(String pathFile);
 }

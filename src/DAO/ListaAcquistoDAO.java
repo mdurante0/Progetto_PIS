@@ -7,6 +7,8 @@ import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Articolo;
 import Model.ListaAcquisto;
+import Model.Servizio;
+import Model.composite.Prodotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -319,17 +321,18 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     @Override
     public int addArticolo(int idListaAcquisto, Articolo articolo){
         String sql;
-        if(articolo.getQuantita() > 0)
+        if(articolo instanceof Prodotto prodotto)
             sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
                 "(lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) VALUES ('" +
                 idListaAcquisto + "','" +
-                articolo.getIdArticolo() + "','" +
-                articolo.getQuantita() + "');";
-        else
+                prodotto.getIdArticolo() + "','" +
+                prodotto.getQuantita() + "');";
+        else if(articolo instanceof Servizio servizio)
             sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
                     "(lista_acquisto_idlista_acquisto, articolo_idarticolo) VALUES ('" +
                     idListaAcquisto + "','" +
-                    articolo.getIdArticolo() + "');";
+                    servizio.getIdArticolo() + "');";
+        else return -1;
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
