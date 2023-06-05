@@ -107,6 +107,30 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
+    public boolean isGestibile(Cliente c, int idManager){
+        String sql = "SELECT count(*) FROM progetto_pis.utente_acquirente AS c INNER JOIN progetto_pis.utente AS u ON c.utente_idUtente = u.idutente " +
+                "INNER JOIN progetto_pis.punto_vendita AS p ON c.punto_vendita_idpunto_vendita = p.idpunto_vendita " +
+                "INNER JOIN progetto_pis.manager AS m ON m.utente_idutente = p.manager_utente_idutente " +
+                "WHERE m.utente_idutente = '" + idManager + "' AND c.utente_idutente = '" + c.getIdUtente() + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow() == 1) {
+                int count = rs.getInt("count(*)");
+                return count == 1;
+            }
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public int add(Cliente cliente) {
 
         UtenteDAO utenteDAO = UtenteDAO.getInstance();

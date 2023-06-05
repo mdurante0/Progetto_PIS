@@ -1,7 +1,7 @@
 package Business.Results;
 
 public class MailResult {
-    public enum Result { INVIO_OK, USER_DOESNT_EXIST, INVIO_ERROR, ALLEGATO_ERROR }
+    public enum Result { INVIO_OK, USER_DOESNT_EXIST, USER_ERROR, INVIO_ERROR, ALLEGATO_ERROR }
 
     private Result result;
     private String message;

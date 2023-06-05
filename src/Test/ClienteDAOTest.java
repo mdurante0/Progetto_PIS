@@ -1,49 +1,58 @@
 package Test;
 
 import Business.FactoryMethod.NotificationFactory;
-import DAO.ClienteDAO;
-import DAO.IClienteDAO;
-import DAO.IPuntoVenditaDAO;
-import DAO.PuntoVenditaDAO;
-import Model.*;
+import DAO.*;
+import Model.Cliente;
+import Model.Magazzino;
+import Model.Manager;
+import Model.PuntoVendita;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.After;
 import org.junit.Test;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClienteDAOTest {
     @Before
     public void setUp() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
+        IPuntoVenditaDAO  puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
-        IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        PuntoVendita puntoVendita = puntoVenditaDAO.findById(1);
+        Magazzino magazzino = new Magazzino( 4, 2, "via Paoli 23", new ArrayList<>());
+        magazzinoDAO.add(magazzino);
+        magazzino = magazzinoDAO.findByAddress("via Paoli 23");
 
+        Manager manager = new Manager("Antonio","Bianchi","ab77","123","ab77@gmail.com","MN",7500.55F, 3);
+        managerDAO.add(manager);
 
-        NotificationFactory.TipoNotifica canalePreferito = NotificationFactory.TipoNotifica.EMAIL;
+        PuntoVendita puntoVendita = new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzino.getIdMagazzino(), manager);
+        puntoVenditaDAO.add(puntoVendita);
+        puntoVendita = puntoVenditaDAO.findByName("aaa");
 
-        boolean abilitazione = true;
-        int eta = 18;
-        String residenza = "via mozart 21";
-        String professione = "avvocato";
-        String telefono = "0231561237";
-
-        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono ));
+        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), NotificationFactory.TipoNotifica.EMAIL, true, 18, "via mozart 21", "avvocato", "0231561237" ));
     }
 
     @After
     public void tearDown() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
+        IPuntoVenditaDAO  puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+
         clienteDAO.removeById("vr46");
+        managerDAO.removeById("ab77");
+        puntoVenditaDAO.removeById(puntoVenditaDAO.findByName("aaa").getIdPuntoVendita());
+        magazzinoDAO.removeById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
     }
 
     @Test
     public void findAllTest() {
         IClienteDAO clienteDao = ClienteDAO.getInstance();
         ArrayList<Cliente> clienti = clienteDao.findAll();
-        Assert.assertEquals(2, clienti.size());
+        Assert.assertEquals(1, clienti.size());
     }
 
     @Test
@@ -53,38 +62,24 @@ public class ClienteDAOTest {
         Assert.assertEquals("Valentino", cliente.getName());
     }
 
+    @Test
+    public void isGestibileTest(){
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
+        IClienteDAO clienteDAO = ClienteDAO.getInstance();
+
+        Manager manager = managerDAO.findById("ab77");
+        Cliente cliente = clienteDAO.findById("vr46");
+        Assert.assertTrue(clienteDAO.isGestibile(cliente, manager.getIdUtente()));
+    }
 
     @Test
     public void updateTest() {
         IClienteDAO clienteDao = ClienteDAO.getInstance();
-
-        Articolo articolo = new Articolo();
-        ListaAcquisto list = new ListaAcquisto();
-        list.add(articolo);
-        List<ListaAcquisto> listaAcquisto = new ArrayList<>();
-        listaAcquisto.add(list);
-
-        Prenotazione p = new Prenotazione();
-        List<Prenotazione> prenotazione = new ArrayList<>();
-        prenotazione.add(p);
-
-        PuntoVendita puntoVendita = new PuntoVendita();
-
-        NotificationFactory.TipoNotifica canalePreferito = NotificationFactory.TipoNotifica.EMAIL;
-
-        boolean abilitazione = true;
-
-        int eta = 18;
-        String residenza = "viale delle rose 17";
-        String professione = "avvocato";
-        String telefono = "0231561237";
-
-
-        Cliente cliente = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","Cl",  puntoVendita.getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono );
-        cliente.setIdUtente(clienteDao.findById(cliente.getUsername()).getIdUtente());
+        Cliente cliente = clienteDao.findById("vr46");
+        cliente.setResidenza("Viale delle rose 17");
         clienteDao.update(cliente);
         cliente = clienteDao.findById("vr46");
-        Assert.assertEquals("valentino@gmail.com", cliente.getEmail());
+        Assert.assertEquals("Viale delle rose 17", cliente.getResidenza());
     }
 
 

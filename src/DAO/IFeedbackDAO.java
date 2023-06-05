@@ -13,5 +13,6 @@ public interface IFeedbackDAO {
     int removeByUser(int idUtenteAcquirente);
     int removeByArticolo(int idArticolo);
     int removeById(int id);
+    int setRisposta(int idFeedback, String risposta);
     int update(Feedback feedback);
 }

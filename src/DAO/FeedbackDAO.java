@@ -232,6 +232,15 @@ public class FeedbackDAO implements IFeedbackDAO {
     }
 
     @Override
+    public int setRisposta(int idFeedback, String risposta){
+        String sql = "UPDATE progetto_pis.feedback SET risposta = '" + risposta + "' WHERE idfeedback = '" + idFeedback + "';";
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
+    @Override
     public int update(Feedback feedback) {
         Date data = feedback.getData();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
