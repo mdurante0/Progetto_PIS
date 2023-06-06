@@ -4,6 +4,7 @@ import View.Listener.LoginListener;
 
 import javax.swing.*;
 import java.awt.*;
+import View.Listener.LoginListener;
 
 public class LoginPanel extends JFrame {
 
