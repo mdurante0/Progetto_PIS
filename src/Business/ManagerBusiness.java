@@ -2,17 +2,16 @@ package Business;
 
 import Business.Bridge.Mail.MailHelper;
 import Business.Bridge.Mail.MailHelperAPI;
-import Business.Results.ArticoloResult;
-import Business.Results.ClienteResult;
-import Business.Results.FeedbackResult;
-import Business.Results.MailResult;
+import Business.Results.*;
 import DAO.*;
 import Model.Cliente;
 import Model.Feedback;
 import Model.Magazzino;
+import Model.Prenotazione;
 import Model.composite.IProdotto;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ManagerBusiness {
 
@@ -230,6 +229,24 @@ public class ManagerBusiness {
         //Risposta inserita correttamente
         result.setResult(FeedbackResult.Result.UPDATE_OK);
         result.setMessage("Risposta inserita correttamente!");
+        return result;
+    }
+
+    public PrenotazioneResult caricaPrenotazioni(){
+        PrenotazioneResult result = new PrenotazioneResult();
+        PrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
+
+        ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findAll();
+        if(prenotazioni.isEmpty()){ //Non ci sono prenotazioni
+            result.setResult(PrenotazioneResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("Nessuna prenotazione trovata!");
+            return result;
+        }
+
+        //prenotazioni caricate correttamente
+        result.setPrenotazioni(prenotazioni);
+        result.setResult(PrenotazioneResult.Result.PRENOTAZIONI_CARICATE);
+        result.setMessage("Prenotazioni caricate correttamente!");
         return result;
     }
 }

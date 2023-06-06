@@ -5,7 +5,7 @@ import Model.ListaAcquisto;
 import java.util.ArrayList;
 
 public class ListaAcquistoResult {
-    public enum Result { ADD_OK, ADD_ERROR, USER_DOESNT_EXIST, ITEM_DOESNT_EXIST, PRENOTAZIONE_ERROR, RIMOZIONE_OK, RIMOZIONE_ERROR }
+    public enum Result { ADD_OK, ADD_ERROR, LISTE_CARICATE, USER_DOESNT_EXIST, ITEM_DOESNT_EXIST, PRENOTAZIONE_ERROR, REMOVE_OK, REMOVE_ERROR}
     private ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
     private Result result;
     private String message;
