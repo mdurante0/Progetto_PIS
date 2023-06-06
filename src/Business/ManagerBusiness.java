@@ -209,9 +209,6 @@ public class ManagerBusiness {
     public FeedbackResult rispondi(Feedback feedback, String risposta){
         FeedbackResult result = new FeedbackResult();
         FeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        ClienteDAO clienteDAO = ClienteDAO.getInstance();
-        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
         //Verifico l'esistenza del feedback
         feedback = feedbackDAO.findById(feedback.getIdFeedback());

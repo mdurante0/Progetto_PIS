@@ -32,7 +32,7 @@ public class CatalogoBusiness {
         PuntoVendita puntoVendita = puntoVenditaDAO.findById(idPuntoVendita);
         Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getIdMagazzino());
 
-        if(magazzino == null){ //Il magazzino è vuoto
+        if(magazzino == null){ //Magazzino non trovato
             result.setResult(CatalogoResult.Result.ERRORE_MAGAZZINO);
             result.setMessage("Catalogo non caricato! Prodotti non trovati!");
             return result;
@@ -41,7 +41,7 @@ public class CatalogoBusiness {
 
         ArrayList<Servizio> servizi = servizioDAO.findAll();
 
-        if(servizi == null){ //Non ci sono servizi
+        if(servizi.isEmpty()){ //Non ci sono servizi
             result.setResult(CatalogoResult.Result.ERRORE_SERVIZI);
             result.setMessage("Catalogo non caricato! Servizi non trovati!");
             return result;
@@ -83,7 +83,7 @@ public class CatalogoBusiness {
 
         ArrayList<Servizio> servizi = servizioDAO.findAll();
 
-        if(servizi == null){ //Non ci sono servizi
+        if(servizi.isEmpty()){ //Non ci sono servizi
             result.setResult(CatalogoResult.Result.ERRORE_SERVIZI);
             result.setMessage("Catalogo non caricato! Servizi non trovati!");
             return result;
