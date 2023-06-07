@@ -32,7 +32,7 @@ public class RegistrationPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(11,2));
+        contentPanel.setLayout(new GridLayout(21,2));
         JLabel firstNameLabel = new JLabel("  Nome:");
         JLabel lastNameLabel = new JLabel("  Cognome:");
         JLabel emailLabel = new JLabel("  Email:");
@@ -105,6 +105,8 @@ public class RegistrationPanel extends JPanel {
         contentPanel.add(telefonoField);
         contentPanel.add(puntoVenditaLabel);
         contentPanel.add(puntoVenditaField);
+        contentPanel.add(new JLabel());
+        contentPanel.add(new JLabel());
         contentPanel.add(backButton);
         contentPanel.add(registerButton);
 

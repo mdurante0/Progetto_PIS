@@ -1,8 +1,11 @@
 package Test;
 
-import Business.FactoryMethod.NotificationFactory;
-import DAO.*;
-import Model.*;
+import DAO.ArticoloDAO;
+import DAO.IArticoloDAO;
+import DAO.IImmagineDAO;
+import DAO.ImmagineDAO;
+import Model.Articolo;
+import Model.Immagine;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,12 +13,7 @@ import org.junit.Test;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ImmagineDAOTest {
     @Before
@@ -26,14 +24,8 @@ public class ImmagineDAOTest {
         File file = new File("C:\\Users\\lenovo\\Documents\\ING_INF_III\\Tesi\\LOGO.PNG");
         ImageIcon pic = new ImageIcon();
 
-            articoloDAO.add(new Articolo(700.55F, null, "Armadio", "Armadio in quercia pregiata", null, null, 8));
-
-            immagineDAO.add( file , new Immagine(pic, articoloDAO.findByName("Armadio").getIdArticolo()));
-
-
-
-
-
+        articoloDAO.add(new Articolo(700.55F, null, "Armadio", "Armadio in quercia pregiata", null, null, 8));
+        immagineDAO.add( file , new Immagine(pic, articoloDAO.findByName("Armadio").getIdArticolo()));
     }
 
     @After

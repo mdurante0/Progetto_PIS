@@ -22,7 +22,7 @@ public class LoginPanel extends JPanel {
     public LoginPanel(MainFrame frame) {
         this.frame = frame;
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
         titlePanel.setLayout(new FlowLayout());
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
         fieldsPanel.setLayout(new GridLayout(16,1));
