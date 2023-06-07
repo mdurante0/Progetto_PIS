@@ -1,60 +1,70 @@
 package View;
 
 import View.Listener.LoginListener;
+import View.Listener.RegisterListener;
 
 import javax.swing.*;
 import java.awt.*;
-import View.Listener.LoginListener;
 
-public class LoginPanel extends JFrame {
-
-    private JPanel utenteLoggato = new JPanel();
-    private JPanel north = new JPanel();
-    private JPanel west = new JPanel();
+public class LoginPanel extends JPanel {
+    private MainFrame frame;
+    private JPanel titlePanel = new JPanel();
+    private JPanel usernamePanel = new JPanel();
+    private JPanel passwordPanel = new JPanel();
+    private JPanel fieldsPanel = new JPanel();
+    private JPanel loginButtonPanel = new JPanel();
     private JPanel center = new JPanel();
-    private JPanel s = new JPanel();
+    private JPanel registratiPanel = new JPanel();
+    private JButton sfogliaCatalogoButton = new JButton("Sfoglia Catalogo");
+    private JButton registrazioneButton = new JButton("Registrati");
+    private JButton loginButton = new JButton("Login");
 
-    private JButton sfogliaCatalogo= new JButton("Sfoglia Catalogo");
-    private JButton registrazione = new JButton("Registrati!");
-    private JButton login = new JButton("Login");
+    public LoginPanel(MainFrame frame) {
+        this.frame = frame;
 
-    public LoginPanel() {
-        super("MyShop");
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        titlePanel.setLayout(new FlowLayout());
+        center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+        fieldsPanel.setLayout(new GridLayout(16,1));
+        usernamePanel.setLayout(new FlowLayout());
+        passwordPanel.setLayout(new FlowLayout());
+        registratiPanel.setLayout(new FlowLayout());
 
-        this.setSize(1080,720);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel myShopLabel = new JLabel("Benvenuto in MyShop!");
+        Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
+        myShopLabel.setFont(titleFont);
+        titlePanel.add(myShopLabel);
 
-        Container c = this.getContentPane();
-        c.setLayout(new BorderLayout());
-        north.setLayout(new FlowLayout());
-        center.setBounds(0,0,25,25);
-        center.setLayout(new FlowLayout());
-        west.setLayout(new BoxLayout(west, BoxLayout.Y_AXIS));
-        center.setBackground(Color.YELLOW);
+        JTextField usernameField = new JTextField(20);
+        JLabel usernameLabel = new JLabel("Username: ");
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(usernameField);
 
-        north.add(new JLabel("Benvenuto in MyShop!"));
-        west.add(sfogliaCatalogo);
-        west.add(registrazione);
+        JPasswordField passwordField = new JPasswordField(20);
+        JLabel passwordLabel = new JLabel("Password: ");
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordField);
 
+        LoginListener loginListener = new LoginListener(usernameField, passwordField,this.frame);
+        loginButton.addActionListener(loginListener);
+        loginButtonPanel.add(loginButton);
 
-        // aggiungere action listener per sfogliare il catalogo e la registrazione
+        registratiPanel.add(sfogliaCatalogoButton);
+        registratiPanel.add(new JLabel(" "));
 
-        JTextField username = new JTextField(20);
-        JPasswordField password = new JPasswordField(20);
+        registrazioneButton.addActionListener(new RegisterListener(this.frame));
+        registratiPanel.add(registrazioneButton);
 
-        login.setActionCommand(LoginListener.LOGIN_BTN);
-        center.add(new JLabel("username"));
-        center.add(username);
-        center.add(new JLabel("password"));
-        center.add(password);
-        center.add(login);
-        login.setActionCommand(LoginListener.LOGIN_BTN);
+        fieldsPanel.add(usernamePanel);
+        fieldsPanel.add(passwordPanel);
+        fieldsPanel.add(loginButtonPanel);
+        fieldsPanel.add(new JLabel(""));
+        fieldsPanel.add(registratiPanel);
 
+        center.add(fieldsPanel);
 
-
-        c.add(west, BorderLayout.WEST);
-        c.add(north, BorderLayout.NORTH);
-        c.add(center, BorderLayout.CENTER);
+        this.add(titlePanel, BorderLayout.PAGE_START);
+        this.add(center, BorderLayout.CENTER);
         this.setVisible(true);
     }
 

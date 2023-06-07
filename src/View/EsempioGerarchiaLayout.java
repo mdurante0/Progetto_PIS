@@ -1,9 +1,5 @@
 package View;
 
-import Business.SessionManager;
-import Model.Cliente;
-import Model.Utente;
-import View.Decorator.ClienteMenuDecorator;
 import View.Decorator.GuestMenu;
 import View.Listener.LoginListener;
 
@@ -37,7 +33,7 @@ public class EsempioGerarchiaLayout extends JFrame {
         JTextField username = new JTextField(20);
         JPasswordField password = new JPasswordField(20);
         JButton login = new JButton("Login");
-        login.setActionCommand(LoginListener.LOGIN_BTN);
+        //login.setActionCommand(LoginListener.LOGIN_BTN);
         nord.add(username);
         nord.add(password);
         nord.add(login);
@@ -55,9 +51,10 @@ public class EsempioGerarchiaLayout extends JFrame {
                                     }
                                 });*/
 
-        LoginListener loginListener = new LoginListener(username, password);
-        LoginListener loginListener2 = new LoginListener(this);
-        loginListener.setFrame(this);
+        LoginListener loginListener = null;
+        //loginListener= new LoginListener(username, password);
+        //LoginListener loginListener2 = new LoginListener(this);
+        //loginListener.setFrame(this);
         login.addActionListener(loginListener);
         //login.addActionListener(loginListener);
 
@@ -79,7 +76,7 @@ public class EsempioGerarchiaLayout extends JFrame {
 
         JMenuItem apri = new JMenuItem("Apri...");
         apri.addActionListener(loginListener);
-        apri.setActionCommand(LoginListener.APRIFILE_MENU);
+        //apri.setActionCommand(LoginListener.APRIFILE_MENU);
         menuFile.add(apri);
 
         JMenu menuRecenti = new JMenu("Recenti");
@@ -120,25 +117,6 @@ public class EsempioGerarchiaLayout extends JFrame {
 
     }
 
-    public void aggiornaMenuPulsanti() {
-        west.removeAll();
-
-        //..
-        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-
-        if(u instanceof Cliente) {
-            //decoriamo il menu usando il ClienteMenuDecorator
-            View.Decorator.Menu guestMenu = new GuestMenu(this);
-            View.Decorator.Menu clienteMenu = new ClienteMenuDecorator(guestMenu);
-            for(JButton btn : clienteMenu.getPulsanti())
-                west.add(btn);
-        }
-        //else if u instanceof Manager....
-        //catena di decorator
-
-        repaint();
-        validate();
-    }
 
     public void mostraCatalogo() {
         centro.removeAll();
