@@ -120,7 +120,7 @@ public class EsempioGerarchiaLayout extends JFrame {
 
     public void mostraCatalogo() {
         centro.removeAll();
-        centro.add(new CatalogoPanel());
+        //centro.add(new CatalogoPanel());
         repaint();
         validate();
     }

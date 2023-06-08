@@ -18,7 +18,7 @@ public class MainFrame extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container c = this.getContentPane();
-        mostraPannelloAttuale(new LoginPanel(this));
+        mostraPannelloAttuale(new CatalogoPanel(this));
         this.setVisible(true);
     }
 

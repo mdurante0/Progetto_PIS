@@ -3,6 +3,7 @@ package Test;
 import DAO.*;
 import Model.CategoriaProdotto;
 import Model.Collocazione;
+import Model.Magazzino;
 import Model.Produttore;
 import Model.composite.Prodotto;
 import org.junit.After;
@@ -23,11 +24,13 @@ public class ProdottoDAOTest {
 
         produttoreDAO.add(new Produttore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
 
-        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("aaa").getIdMagazzino()).getIdMagazzino());
+         magazzinoDAO.add (new Magazzino( 4, 5, "via Paoli 23"));
+
+        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
         collocazioneDAO.add(collocazione);
         categoriaProdottoDAO.add(new CategoriaProdotto("aaa"));
 
-        prodottoDAO.add(new Prodotto(55.35F, null, "cassa", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),null, null , 8));
+        prodottoDAO.add(new Prodotto(55.35F, null, "cassa", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),magazzinoDAO.findByAddress("via Paoli 23"), null , 8));
     }
 
     @After
@@ -35,11 +38,13 @@ public class ProdottoDAOTest {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
-
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
 
 
         articoloDAO.removeById(prodottoDAO.findByName("cassa").getIdArticolo());
+        magazzinoDAO.removeById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
         produttoreDAO.removeById("Valentino");
         categoriaProdottoDAO.removeById("aaa");
     }
@@ -77,7 +82,7 @@ public class ProdottoDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
 
-        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("aaa").getIdMagazzino()).getIdMagazzino());
+        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino()).getIdMagazzino());
         collocazione.setIdCollocazione(1);
 
 

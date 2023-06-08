@@ -46,7 +46,7 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 5: return riga.getSelezionato();
             case 6:
                 //URL url = getClass().getResource("/download.jpeg");
-                InputStream stream = getClass().getResourceAsStream("/download.jpeg");
+                InputStream stream = getClass().getResourceAsStream("/LOGO.PNG");
                 try {
                     ImageIcon icon = new ImageIcon(ImageIO.read(stream));
                     return icon;
