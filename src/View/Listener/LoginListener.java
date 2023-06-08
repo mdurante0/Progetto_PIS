@@ -28,7 +28,7 @@ public class LoginListener implements ActionListener {
 
         LoginResult result = UtenteBusiness.getInstance().login(user, pwd);
         if(result.getResult() == LoginResult.Result.LOGIN_OK) {
-            frame.mostraPannelloAttuale(new CatalogoPanel());
+          //  frame.mostraPannelloAttuale(new CatalogoPanel());
             //refresh view dei pulsanti
             //frame.aggiornaMenuPulsanti();
         }
