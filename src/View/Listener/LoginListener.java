@@ -1,6 +1,5 @@
 package View.Listener;
 
-import Business.Encrypt;
 import Business.Results.LoginResult;
 import Business.UtenteBusiness;
 import View.CatalogoPanel;
@@ -27,10 +26,6 @@ public class LoginListener implements ActionListener {
         String user = username.getText();
         String pwd = new String(password.getPassword());
 
-        System.out.println("username: " + user);
-        System.out.println("password: " + Encrypt.encrypt(pwd));
-        System.out.println("------------");
-
         LoginResult result = UtenteBusiness.getInstance().login(user, pwd);
         if(result.getResult() == LoginResult.Result.LOGIN_OK) {
             frame.mostraPannelloAttuale(new CatalogoPanel());
@@ -38,7 +33,7 @@ public class LoginListener implements ActionListener {
             //frame.aggiornaMenuPulsanti();
         }
         else
-            JOptionPane.showMessageDialog(null, result.getMessage());
+            JOptionPane.showMessageDialog(this.frame, result.getMessage());
     }
 
 }

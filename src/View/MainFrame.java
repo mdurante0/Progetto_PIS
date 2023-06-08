@@ -19,16 +19,13 @@ public class MainFrame extends JFrame{
 
         Container c = this.getContentPane();
         mostraPannelloAttuale(new LoginPanel(this));
-        c.add(panelAttuale);
-
         this.setVisible(true);
     }
 
     public void mostraPannelloAttuale(JPanel panel) {
         remove(panelAttuale);
-        removeAll();
-        add(panel);
         panelAttuale = panel;
+        add(panelAttuale);
         revalidate();
         repaint();
     }

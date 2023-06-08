@@ -41,6 +41,7 @@ public class FeedbackDAO implements IFeedbackDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             rs.next();
             if (rs.getRow()==1) {
@@ -48,7 +49,7 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setIdFeedback(rs.getInt("idfeedback"));
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
-                feedback.setData(rs.getDate("data"));
+                feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
@@ -63,6 +64,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Formato data non valido.");
         }
         return null;
     }
@@ -77,13 +80,14 @@ public class FeedbackDAO implements IFeedbackDAO {
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<Feedback> feedbacks = new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             while (rs.next()) {
                 feedback = new Feedback();
                 feedback.setIdFeedback(rs.getInt("idfeedback"));
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
-                feedback.setData(rs.getDate("data"));
+                feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
@@ -98,6 +102,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Formato data non valido.");
         }
         return null;
     }
@@ -112,14 +118,14 @@ public class FeedbackDAO implements IFeedbackDAO {
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<Feedback> feedbacks = new ArrayList<>();
-
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             while (rs.next()) {
                 feedback = new Feedback();
                 feedback.setIdFeedback(rs.getInt("idfeedback"));
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
-                feedback.setData(rs.getDate("data"));
+                feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
@@ -134,6 +140,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Formato data non valido.");
         }
         return null;
     }
@@ -148,13 +156,14 @@ public class FeedbackDAO implements IFeedbackDAO {
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<Feedback> feedbacks = new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             while (rs.next()) {
                 feedback = new Feedback();
                 feedback.setIdFeedback(rs.getInt("idfeedback"));
                 feedback.setCommento(rs.getString("commento"));
                 feedback.setRisposta(rs.getString("risposta"));
-                feedback.setData(rs.getDate("data"));
+                feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
                 feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
@@ -169,6 +178,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Formato data non valido.");
         }
         return null;
     }
@@ -178,11 +189,10 @@ public class FeedbackDAO implements IFeedbackDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         Date data = feedback.getData();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String s = formato.format(data);
         try {
             Date d = formato.parse(s);
-            formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
             String sql = "INSERT INTO progetto_pis.feedback (commento, gradimento, " +
                     "articolo_idarticolo, utente_acquirente_utente_idutente, " +

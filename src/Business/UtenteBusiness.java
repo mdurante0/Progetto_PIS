@@ -140,7 +140,7 @@ public class UtenteBusiness {
             return result;
         }
         result.setResult(RegisterResult.Result.REGISTER_OK);
-        result.setMessage("Registrazione effettuata con successo! Benvenuto in MyShop!");
+        result.setMessage("Registrazione effettuata con successo! Ora puoi effettuare il login!");
         return result;
     }
 }
