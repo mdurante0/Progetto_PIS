@@ -1,7 +1,6 @@
 package View;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MainFrame extends JFrame{
 
@@ -17,7 +16,6 @@ public class MainFrame extends JFrame{
         this.setSize(1280,720);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Container c = this.getContentPane();
         mostraPannelloAttuale(new CatalogoPanel(this));
         this.setVisible(true);
     }

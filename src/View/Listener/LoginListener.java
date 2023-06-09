@@ -2,7 +2,6 @@ package View.Listener;
 
 import Business.Results.LoginResult;
 import Business.UtenteBusiness;
-import View.CatalogoPanel;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -28,7 +27,7 @@ public class LoginListener implements ActionListener {
 
         LoginResult result = UtenteBusiness.getInstance().login(user, pwd);
         if(result.getResult() == LoginResult.Result.LOGIN_OK) {
-          //  frame.mostraPannelloAttuale(new CatalogoPanel());
+            //frame.mostraPannelloAttuale(new CatalogoPanel(this.frame));
             //refresh view dei pulsanti
             //frame.aggiornaMenuPulsanti();
         }

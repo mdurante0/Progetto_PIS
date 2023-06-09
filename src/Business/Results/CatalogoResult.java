@@ -11,14 +11,14 @@ public class CatalogoResult {
 
     private Result result;
     private String message;
-    private List<IProdotto> listaProdotti = new ArrayList<>();
-    private List<Servizio> listaServizi = new ArrayList<>();
+    private ArrayList<IProdotto> listaProdotti = new ArrayList<>();
+    private ArrayList<Servizio> listaServizi = new ArrayList<>();
 
-    public List<IProdotto> getListaProdotti() {
+    public ArrayList<IProdotto> getListaProdotti() {
         return listaProdotti;
     }
 
-    public void setListaProdotti(List<IProdotto> listaProdotti) {
+    public void setListaProdotti(ArrayList<IProdotto> listaProdotti) {
         this.listaProdotti = listaProdotti;
     }
 
@@ -26,7 +26,7 @@ public class CatalogoResult {
         return listaServizi;
     }
 
-    public void setListaServizi(List<Servizio> listaServizi) {
+    public void setListaServizi(ArrayList<Servizio> listaServizi) {
         this.listaServizi = listaServizi;
     }
 

@@ -6,6 +6,8 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Articolo;
+import Model.CategoriaProdotto;
+import Model.Produttore;
 import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 
@@ -45,11 +47,20 @@ public class ProdottoDAO implements IProdottoDAO {
             if (rs.getRow()==1) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
-                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
+
+                int idProduttore = rs.getInt("produttore_idproduttore");
+                Produttore produttore = ProduttoreDAO.getInstance().findById(idProduttore);
+                if(produttore != null){
+                    prodotto.setProduttore(produttore);
+                }
+                int idCategoria = rs.getInt("categoria_prodotto_idcategoria_prodotto");
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(idCategoria);
+                if(categoriaProdotto != null){
+                    prodotto.setCategoria(categoriaProdotto);
+                }
 
                 return prodotto;
             }
@@ -78,12 +89,20 @@ public class ProdottoDAO implements IProdottoDAO {
             if (rs.getRow()==1) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
+                int idProduttore = rs.getInt("produttore_idproduttore");
+                Produttore produttore = ProduttoreDAO.getInstance().findById(idProduttore);
+                if(produttore != null){
+                    prodotto.setProduttore(produttore);
+                }
+                int idCategoria = rs.getInt("categoria_prodotto_idcategoria_prodotto");
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(idCategoria);
+                if(categoriaProdotto != null){
+                    prodotto.setCategoria(categoriaProdotto);
+                }
                 return prodotto;
             }
         } catch (SQLException e) {
@@ -114,12 +133,20 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
+                int idProduttore = rs.getInt("produttore_idproduttore");
+                Produttore produttore = ProduttoreDAO.getInstance().findById(idProduttore);
+                if(produttore != null){
+                    prodotto.setProduttore(produttore);
+                }
+                int idCategoria = rs.getInt("categoria_prodotto_idcategoria_prodotto");
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(idCategoria);
+                if(categoriaProdotto != null){
+                    prodotto.setCategoria(categoriaProdotto);
+                }
                 prodotti.add(prodotto);
             }
             return prodotti;
@@ -151,12 +178,20 @@ public class ProdottoDAO implements IProdottoDAO {
             while (rs.next()) {
                 prodotto = new Prodotto();
                 prodotto.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                prodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 prodotto.setName(rs.getString("nome"));
                 prodotto.setDescrizione(rs.getString("descrizione"));
                 prodotto.setPrezzo(rs.getFloat("costo"));
-                prodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
 
+                int idProduttore = rs.getInt("produttore_idproduttore");
+                Produttore produttore = ProduttoreDAO.getInstance().findById(idProduttore);
+                if(produttore != null){
+                    prodotto.setProduttore(produttore);
+                }
+
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(idCategoria);
+                if(categoriaProdotto != null){
+                    prodotto.setCategoria(categoriaProdotto);
+                }
                 prodotti.add(prodotto);
             }
             return prodotti;

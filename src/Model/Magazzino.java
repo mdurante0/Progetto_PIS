@@ -3,7 +3,6 @@ package Model;
 import Model.composite.IProdotto;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Magazzino {
 
@@ -11,13 +10,13 @@ public class Magazzino {
     private int quantitaCorsie;
     private int quantitaScaffali;
     private String indirizzo;
-    private List<IProdotto> prodotti = new ArrayList<>();
+    private ArrayList<IProdotto> prodotti = new ArrayList<>();
     private int idPuntoVendita;
 
     public Magazzino(){
     }
 
-    public Magazzino(int quantitaCorsie, int quantitaScaffali, String indirizzo, List<IProdotto> prodotti) {
+    public Magazzino(int quantitaCorsie, int quantitaScaffali, String indirizzo, ArrayList<IProdotto> prodotti) {
         this.quantitaCorsie = quantitaCorsie;
         this.quantitaScaffali = quantitaScaffali;
         this.indirizzo = indirizzo;
@@ -42,11 +41,11 @@ public class Magazzino {
         this.indirizzo = indirizzo;
     }
 
-    public List<IProdotto> getProdotti() {
+    public ArrayList<IProdotto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<IProdotto> prodotti) {
+    public void setProdotti(ArrayList<IProdotto> prodotti) {
         this.prodotti = prodotti;
     }
 

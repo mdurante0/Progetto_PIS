@@ -35,17 +35,26 @@ public class FornitorePanel extends JPanel {
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         JLabel sitoLabel = new JLabel("  Sito:");
 
+        Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
+        firstNameLabel.setFont(bodyFont);
+        emailLabel.setFont(bodyFont);
+        telefonoLabel.setFont(bodyFont);
+        nazioneLabel.setFont(bodyFont);
+        cittaLabel.setFont(bodyFont);
+        descrizioneLabel.setFont(bodyFont);
+        sitoLabel.setFont(bodyFont);
+
         nome = new JTextField(20);
         emailField = new JTextField(20);
         telefono = new JTextField(20);
         nazione = new JTextField(20);
         citta = new JTextField(20);
         descrizione = new JTextField(20);
-        sito = new JTextField(40);
+        sito = new JTextField(20);
 
 
         JButton aggiungiProduttore = new JButton("Aggiungi");
-        JButton modificaProduttore = new JButton("Modifica");
+        JButton modificaProduttore = new JButton("Torna indietro");
 
         // aggiungere gli action listener
 

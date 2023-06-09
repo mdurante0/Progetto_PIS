@@ -21,7 +21,7 @@ public class CatalogoBusiness {
         return instance;
     }
 
-    public CatalogoResult caricaCatalogo(int idPuntoVendita){
+    public CatalogoResult caricaCatalogo(String nomePuntoVendita){
         CatalogoResult result = new CatalogoResult();
 
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
@@ -29,7 +29,7 @@ public class CatalogoBusiness {
         ServizioDAO servizioDAO = ServizioDAO.getInstance();
 
         //Recupero il magazzino collegato al punto vendita richiesto
-        PuntoVendita puntoVendita = puntoVenditaDAO.findById(idPuntoVendita);
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(nomePuntoVendita);
         Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getIdMagazzino());
 
         if(magazzino == null){ //Magazzino non trovato
@@ -53,14 +53,14 @@ public class CatalogoBusiness {
         return result;
     }
 
-    public CatalogoResult caricaCatalogoProdotti(int idPuntoVendita){
+    public CatalogoResult caricaCatalogoProdotti(String nomePuntoVendita){
         CatalogoResult result = new CatalogoResult();
 
         PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
         //Recupero il magazzino collegato al punto vendita richiesto
-        PuntoVendita puntoVendita = puntoVenditaDAO.findById(idPuntoVendita);
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(nomePuntoVendita);
         Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getIdMagazzino());
 
         if(magazzino.getProdotti().isEmpty()){ //Il magazzino è vuoto

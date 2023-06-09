@@ -49,6 +49,20 @@ public class RegistrationPanel extends JPanel {
         JLabel telefonoLabel = new JLabel("  Telefono:");
         JLabel puntoVenditaLabel = new JLabel("  Punto vendita:");
 
+
+        Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
+        firstNameLabel.setFont(bodyFont);
+        lastNameLabel.setFont(bodyFont);
+        emailLabel.setFont(bodyFont);
+        usernameLabel.setFont(bodyFont);
+        passwordLabel.setFont(bodyFont);
+        confermaPasswordLabel.setFont(bodyFont);
+        professionLabel.setFont(bodyFont);
+        ageLabel.setFont(bodyFont);
+        residenzaLabel.setFont(bodyFont);
+        telefonoLabel.setFont(bodyFont);
+        puntoVenditaLabel.setFont(bodyFont);
+
         firstNameField = new JTextField(20);
         lastNameField = new JTextField(20);
         emailField = new JTextField(20);

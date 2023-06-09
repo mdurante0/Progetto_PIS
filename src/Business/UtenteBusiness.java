@@ -24,6 +24,12 @@ public class UtenteBusiness {
         UtenteDAO uDao = UtenteDAO.getInstance();
         LoginResult result = new LoginResult();
 
+        if(!username.matches("\\p{Alnum}+")){
+            result.setResult(LoginResult.Result.LOGIN_ERROR);
+            result.setMessage("Sono ammessi solo caratteri alfanumerici! Riprova");
+            return result;
+        }
+
         // 1. controllare se l'utente esiste
         boolean userExists = uDao.userExists(username);
         if (!userExists) {
@@ -83,6 +89,12 @@ public class UtenteBusiness {
 
         UtenteDAO uDao = UtenteDAO.getInstance();
         RegisterResult result = new RegisterResult();
+
+        if(!u.getUsername().matches("\\p{Alnum}+")){
+            result.setResult(RegisterResult.Result.REGISTER_ERROR);
+            result.setMessage("Sono ammessi solo caratteri alfanumerici! Riprova");
+            return result;
+        }
 
         // 1. controllare se l'utente esiste già
         boolean userExists = uDao.userExists(u.getUsername());

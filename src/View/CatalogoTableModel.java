@@ -1,5 +1,7 @@
 package View;
 
+import Business.ImmagineBusiness;
+import Business.Results.ImmagineResult;
 import View.ViewModel.RigaCatalogo;
 
 import javax.imageio.ImageIO;
@@ -45,15 +47,18 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 4: return riga.getPrezzo();
             case 5: return riga.getSelezionato();
             case 6:
-                //URL url = getClass().getResource("/download.jpeg");
-                InputStream stream = getClass().getResourceAsStream("/LOGO.PNG");
-                try {
-                    ImageIcon icon = new ImageIcon(ImageIO.read(stream));
-                    return icon;
-                } catch (IOException e) {
-                    //throw new RuntimeException(e);
-                    e.printStackTrace();
-                    return new ImageIcon();
+                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiProdotto(riga.getNomeProdotto());
+                if(result.getResult() == ImmagineResult.Result.IMMAGINI_CARICATE)
+                    return new ImageIcon(result.getListaImmagini().get(0).getPic().getImage().getScaledInstance(70,70,0));
+                else {
+                    try {
+                        InputStream stream = getClass().getResourceAsStream("/LOGO.PNG");
+                        assert stream != null;
+                        return new ImageIcon(ImageIO.read(stream).getScaledInstance(70,70,0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return new ImageIcon();
+                    }
                 }
         }
 
@@ -72,14 +77,11 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 4: riga.setPrezzo(Float.parseFloat(value.toString()));
             case 5: riga.setSelezionato(Boolean.parseBoolean(value.toString()));
         }
-
-        System.out.println('.');
-
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex >= 4;
+        return columnIndex == 5;
     }
 
     @Override

@@ -2,7 +2,7 @@ package Business.Results;
 
 public class LoginResult {
 
-    public enum Result { LOGIN_OK, WRONG_PASSWORD, USER_DOESNT_EXIST, USER_BLOCKED }
+    public enum Result { LOGIN_OK, WRONG_PASSWORD, USER_DOESNT_EXIST, LOGIN_ERROR, USER_BLOCKED }
 
     private Result result;
     private String message;
