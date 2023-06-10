@@ -1,5 +1,6 @@
 package View;
 
+import View.Listener.GoToCatalogoListener;
 import View.Listener.LoginListener;
 import View.Listener.GoToRegistrationListener;
 
@@ -49,6 +50,7 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(loginListener);
         loginButtonPanel.add(loginButton);
 
+        sfogliaCatalogoButton.addActionListener(new GoToCatalogoListener(this.frame)); //da cambiare dopo aver implementato il decorator
         registratiPanel.add(sfogliaCatalogoButton);
         registratiPanel.add(new JLabel(" "));
 

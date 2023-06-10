@@ -19,7 +19,7 @@ public class ImmagineBusiness {
         return instance;
     }
 
-    public ImmagineResult caricaImmaginiProdotto(String nomeArticolo){
+    public ImmagineResult caricaImmaginiArticolo(String nomeArticolo){
         ImmagineResult result = new ImmagineResult();
         ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();

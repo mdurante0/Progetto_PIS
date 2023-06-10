@@ -1,0 +1,20 @@
+package View.Listener;
+
+import View.DettagliPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class NextImageListener implements ActionListener {
+    private DettagliPanel panel;
+
+    public NextImageListener(DettagliPanel panel){
+        this.panel = panel;
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.panel.nextImage();
+    }
+}

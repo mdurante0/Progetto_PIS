@@ -73,6 +73,18 @@ public class RegistrationPanel extends JPanel {
         residenzaField = new JTextField(20);
         telefonoField = new JTextField(20);
 
+        firstNameField.setFont(bodyFont);
+        lastNameField.setFont(bodyFont);
+        emailField.setFont(bodyFont);
+        usernameField.setFont(bodyFont);
+        passwordField.setFont(bodyFont);
+        confermaPasswordField.setFont(bodyFont);
+        professionField.setFont(bodyFont);
+        ageField.setFont(bodyFont);
+        residenzaField.setFont(bodyFont);
+        telefonoField.setFont(bodyFont);
+
+
         ArrayList<PuntoVendita> pVList = PuntoVenditaDAO.getInstance().findAll();
         Iterator<PuntoVendita> iterator = pVList.iterator();
         String[] nomiPV = new String[pVList.size()];
@@ -80,6 +92,8 @@ public class RegistrationPanel extends JPanel {
             nomiPV[i] = iterator.next().getNome();
         }
         puntoVenditaBox = new JComboBox<>(nomiPV);
+        puntoVenditaBox.setFocusable(false);
+        puntoVenditaBox.setFont(bodyFont);
 
         JButton registerButton = new JButton("Registrati");
         JButton backButton = new JButton("Torna al login");

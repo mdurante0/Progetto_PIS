@@ -16,7 +16,7 @@ public class MainFrame extends JFrame{
         this.setSize(1280,720);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mostraPannelloAttuale(new CatalogoPanel(this));
+        mostraPannelloAttuale(new LoginPanel(this));
         this.setVisible(true);
     }
 

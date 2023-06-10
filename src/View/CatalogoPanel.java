@@ -5,6 +5,7 @@ import Business.Results.CatalogoResult;
 import Model.Articolo;
 import Model.composite.IProdotto;
 import View.Listener.GoToDettagliListener;
+import View.Listener.GoToLoginListener;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;
@@ -66,11 +67,12 @@ public class CatalogoPanel extends JPanel {
 
         JPanel pulsantiAzioneTabella = new JPanel();
         pulsantiAzioneTabella.setLayout(new FlowLayout());
-        JButton mettiNelCarrello = new JButton("Torna indietro");
+        JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToLoginListener(this.frame)); //da cambiare dopo aver implementato il decorator
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(mettiNelCarrello, BorderLayout.SOUTH);
+        this.add(tornaIndietroButton, BorderLayout.SOUTH);
 
         setVisible(true);
 

@@ -7,6 +7,7 @@ import View.ViewModel.RigaCatalogo;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -47,9 +48,9 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 4: return riga.getPrezzo();
             case 5: return riga.getDettagliButton();
             case 6:
-                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiProdotto(riga.getNomeProdotto());
+                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiArticolo(riga.getNomeProdotto());
                 if(result.getResult() == ImmagineResult.Result.IMMAGINI_CARICATE)
-                    return new ImageIcon(result.getListaImmagini().get(0).getPic().getImage().getScaledInstance(70,70,0));
+                    return new ImageIcon(result.getListaImmagini().get(0).getPic().getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
                 else {
                     try {
                         InputStream stream = getClass().getResourceAsStream("/LOGO.PNG");
