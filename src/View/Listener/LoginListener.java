@@ -16,7 +16,6 @@ public class LoginListener implements ActionListener {
     public LoginListener(JTextField username, JPasswordField password, MainFrame frame) {
         this.username = username;
         this.password = password;
-        this.frame = frame;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ListaAcquistoDAOTest {
         fornitoreDAO.add(fornitore);
         fornitore = fornitoreDAO.findByName("FacciamoMontaggi");
 
-        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), true, 18, "via mozart 21", "avvocato", "0231561237" );
+        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, true, 18, "via mozart 21", "avvocato", "0231561237" );
         clienteDAO.add(c);
 
         Prodotto p = new Prodotto("Armadio", "armadio a due ante", 50F, 5);

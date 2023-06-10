@@ -2,7 +2,7 @@ package View;
 
 import DAO.PuntoVenditaDAO;
 import Model.PuntoVendita;
-import View.Listener.BackToLoginListener;
+import View.Listener.GoToLoginListener;
 import View.Listener.RegistrationListener;
 
 import javax.swing.*;
@@ -30,7 +30,6 @@ public class RegistrationPanel extends JPanel {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
-
         JLabel titleLabel = new JLabel("Registrazione");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
@@ -86,7 +85,7 @@ public class RegistrationPanel extends JPanel {
         JButton backButton = new JButton("Torna al login");
 
         registerButton.addActionListener(new RegistrationListener(this.frame, firstNameField, lastNameField, emailField, usernameField, passwordField, confermaPasswordField, professionField, ageField, residenzaField, telefonoField, puntoVenditaBox));
-        backButton.addActionListener(new BackToLoginListener(this.frame));
+        backButton.addActionListener(new GoToLoginListener(this.frame));
 
         contentPanel.add(firstNameLabel);
         contentPanel.add(firstNameField);

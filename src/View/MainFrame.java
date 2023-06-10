@@ -6,8 +6,8 @@ public class MainFrame extends JFrame{
 
     private JPanel panelAttuale = new JPanel();
 
-    public MainFrame(){
-        super("MyShop!");
+    public MainFrame(String title){
+        super(title);
         initialize();
     }
 

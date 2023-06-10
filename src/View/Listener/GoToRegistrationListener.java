@@ -6,11 +6,11 @@ import View.RegistrationPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegisterListener implements ActionListener {
+public class GoToRegistrationListener implements ActionListener {
 
     private MainFrame frame;
 
-    public RegisterListener(MainFrame frame){
+    public GoToRegistrationListener(MainFrame frame){
         this.frame = frame;
     }
 

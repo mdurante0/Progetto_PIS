@@ -6,7 +6,7 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Cliente;
-
+import Model.PuntoVendita;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,7 +52,11 @@ public class ClienteDAO implements IClienteDAO {
                 cliente.setProfessione(rs.getString("professione"));
                 cliente.setEta(rs.getInt("eta"));
                 cliente.setAbilitazione(rs.getBoolean("abilitazione"));
-                cliente.setIdPuntoVendita(rs.getInt("punto_vendita_idpunto_vendita"));
+
+                PuntoVendita puntoVendita = PuntoVenditaDAO.getInstance().findById(rs.getInt("punto_vendita_idpunto_vendita"));
+                if(puntoVendita != null)
+                    cliente.setPuntoVenditaDiRegistrazione(puntoVendita);
+
                 return cliente;
             }
         } catch (SQLException e) {
@@ -90,7 +94,11 @@ public class ClienteDAO implements IClienteDAO {
                 cliente.setProfessione(rs.getString("professione"));
                 cliente.setEta(rs.getInt("eta"));
                 cliente.setAbilitazione(rs.getBoolean("abilitazione"));
-                cliente.setIdPuntoVendita(rs.getInt("punto_vendita_idpunto_vendita"));
+
+                PuntoVendita puntoVendita = PuntoVenditaDAO.getInstance().findById(rs.getInt("punto_vendita_idpunto_vendita"));
+                if(puntoVendita != null)
+                    cliente.setPuntoVenditaDiRegistrazione(puntoVendita);
+
                 clienti.add(cliente);
             }
             return clienti;
@@ -145,7 +153,7 @@ public class ClienteDAO implements IClienteDAO {
         try {
             rs.next();
             cliente.setIdUtente(rs.getInt("max(idutente)"));
-            sql = "INSERT INTO progetto_pis.utente_acquirente (utente_idutente, punto_vendita_idpunto_vendita, abilitazione, eta, residenza, professione, telefono) VALUES ('"+ cliente.getIdUtente()+"','" +  cliente.getIdPuntoVendita() + "','"+ cliente.getAbilitazione() +"','"+ cliente.getEta() +"','" +  cliente.getResidenza() + "','"+  cliente.getProfessione() +"','" + cliente.getTelefono() + "');";
+            sql = "INSERT INTO progetto_pis.utente_acquirente (utente_idutente, punto_vendita_idpunto_vendita, abilitazione, eta, residenza, professione, telefono) VALUES ('"+ cliente.getIdUtente()+"','" +  cliente.getPuntoVenditaDiRegistrazione().getIdPuntoVendita() + "','"+ cliente.getAbilitazione() +"','"+ cliente.getEta() +"','" +  cliente.getResidenza() + "','"+  cliente.getProfessione() +"','" + cliente.getTelefono() + "');";
 
             IDbOperation writeOp = new WriteOperation(sql);
 
@@ -178,7 +186,7 @@ public class ClienteDAO implements IClienteDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "UPDATE progetto_pis.utente_acquirente " +
-                "SET punto_vendita_idpunto_vendita = '" + cliente.getIdPuntoVendita() +
+                "SET punto_vendita_idpunto_vendita = '" + cliente.getPuntoVenditaDiRegistrazione().getIdPuntoVendita() +
                 "', eta = '" + cliente.getEta() +
                 "', residenza = '" + cliente.getResidenza() +
                 "', professione = '" + cliente.getProfessione() +

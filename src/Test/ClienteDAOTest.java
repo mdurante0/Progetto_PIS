@@ -32,7 +32,7 @@ public class ClienteDAOTest {
         puntoVenditaDAO.add(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("aaa");
 
-        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), NotificationFactory.TipoNotifica.EMAIL, true, 18, "via mozart 21", "avvocato", "0231561237" ));
+        clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, NotificationFactory.TipoNotifica.EMAIL, true, 18, "via mozart 21", "avvocato", "0231561237" ));
     }
 
     @After

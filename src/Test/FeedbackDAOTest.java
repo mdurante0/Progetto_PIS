@@ -37,7 +37,7 @@ public class FeedbackDAOTest {
         String residenza = "via mozart 21";
         String professione = "avvocato";
         String telefono = "0231561237";
-        clienteDAO.add(new Cliente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "CL", puntoVenditaDAO.findByName("aaa").getIdPuntoVendita(), canalePreferito, abilitazione, eta, residenza, professione, telefono));
+        clienteDAO.add(new Cliente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "CL", puntoVenditaDAO.findByName("aaa"), canalePreferito, abilitazione, eta, residenza, professione, telefono));
         Date date = Date.from(Instant.now());
 
         feedbackDAO.add(new Feedback(Feedback.Punteggio.BUONO, "articolo molto buono", false, false, "", date, articoloDAO.findByName("Armadio").getIdArticolo(), clienteDAO.findById("vr46").getIdUtente()));

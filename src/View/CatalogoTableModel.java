@@ -45,7 +45,7 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 2: return riga.getNomeProduttore();
             case 3: return riga.getNomeCategoria();
             case 4: return riga.getPrezzo();
-            case 5: return riga.getSelezionato();
+            case 5: return riga.getDettagliButton();
             case 6:
                 ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiProdotto(riga.getNomeProdotto());
                 if(result.getResult() == ImmagineResult.Result.IMMAGINI_CARICATE)
@@ -75,13 +75,8 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 2: riga.setNomeProduttore(value.toString());
             case 3: riga.setNomeCategoria(value.toString());
             case 4: riga.setPrezzo(Float.parseFloat(value.toString()));
-            case 5: riga.setSelezionato(Boolean.parseBoolean(value.toString()));
+            case 5: riga.setDettagliButton(new JButton());
         }
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 5;
     }
 
     @Override
@@ -93,7 +88,7 @@ public class CatalogoTableModel extends AbstractTableModel {
             case 2: return "Produttore";
             case 3: return "Categoria";
             case 4: return "Prezzo (€)";
-            case 5: return "Seleziona";
+            case 5: return "Dettagli";
             case 6: return "Immagine";
         }
 
@@ -101,8 +96,8 @@ public class CatalogoTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Class getColumnClass(int columnIndex) {
-        if(columnIndex == 5) return Boolean.class;
+    public Class<?> getColumnClass(int columnIndex) {
+        if(columnIndex == 5) return JButton.class;
         if(columnIndex == 6) return ImageIcon.class;
         return Object.class;
     }

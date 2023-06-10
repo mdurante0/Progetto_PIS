@@ -1,7 +1,7 @@
 package View;
 
 import View.Listener.LoginListener;
-import View.Listener.RegisterListener;
+import View.Listener.GoToRegistrationListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +52,7 @@ public class LoginPanel extends JPanel {
         registratiPanel.add(sfogliaCatalogoButton);
         registratiPanel.add(new JLabel(" "));
 
-        registrazioneButton.addActionListener(new RegisterListener(this.frame));
+        registrazioneButton.addActionListener(new GoToRegistrationListener(this.frame));
         registratiPanel.add(registrazioneButton);
 
         fieldsPanel.add(usernamePanel);

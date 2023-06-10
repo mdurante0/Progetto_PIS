@@ -7,12 +7,13 @@ import Model.Magazzino;
 import Model.Produttore;
 import Model.composite.Prodotto;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 public class ProdottoDAOTest {
-    //@Before
+    @Before
     public void setUp() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();

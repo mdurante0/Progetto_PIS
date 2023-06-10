@@ -7,15 +7,14 @@ public class RigaCatalogo {
     private String nomeProduttore;
     private float prezzo;
     private String nomeCategoria;
+    private Object dettagliButton;
 
-    private Boolean selezionato;
-
-    public Boolean getSelezionato() {
-        return selezionato;
+    public Object getDettagliButton() {
+        return dettagliButton;
     }
 
-    public void setSelezionato(Boolean selezionato) {
-        this.selezionato = selezionato;
+    public void setDettagliButton(Object dettagliButton) {
+        this.dettagliButton = dettagliButton;
     }
 
     public int getIdProdotto() {

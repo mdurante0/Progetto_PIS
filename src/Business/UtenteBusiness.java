@@ -132,13 +132,13 @@ public class UtenteBusiness {
         //3. inserimento del nuovo utente
         int inserito = 0;
 
-        if(u.getTipo().equalsIgnoreCase("CL")) { //il nuovo utente è un cliente
+        if(u instanceof Cliente c) { //il nuovo utente è un cliente
             ClienteDAO cDao = ClienteDAO.getInstance();
-            inserito = cDao.add((Cliente) u);
+            inserito = cDao.add(c);
 
-        } else if (u.getTipo().equalsIgnoreCase("MN")){ //il nuovo utente è un manager
+        } else if (u instanceof Manager m){ //il nuovo utente è un manager
             ManagerDAO mDao = ManagerDAO.getInstance();
-            inserito = mDao.add((Manager) u);
+            inserito = mDao.add(m);
 
         }else { //tipo non previsto
             result.setResult(RegisterResult.Result.WRONG_TYPE);

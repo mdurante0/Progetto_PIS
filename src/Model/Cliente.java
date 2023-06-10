@@ -10,7 +10,6 @@ public class Cliente extends Utente {
     private List<ListaAcquisto> listeAcquisto = new ArrayList<>();
     private List<Prenotazione> prenotazioni = new ArrayList<>();
     private PuntoVendita puntoVenditaDiRegistrazione;
-    private int idPuntoVendita;
     private NotificationFactory.TipoNotifica canalePreferito;
     private boolean abilitazione;
     private int eta;
@@ -52,11 +51,11 @@ public class Cliente extends Utente {
         this.professione = professione;
         this.telefono = telefono;
     }
-    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int idPuntoVendita, NotificationFactory.TipoNotifica canalePreferito, boolean abilitazione, int eta, String residenza,
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, PuntoVendita puntoVendita, NotificationFactory.TipoNotifica canalePreferito, boolean abilitazione, int eta, String residenza,
                    String professione, String telefono) {
 
         super(name, surname, username, pwd, email, tipo);
-        this.idPuntoVendita = idPuntoVendita;
+        this.puntoVenditaDiRegistrazione = puntoVendita;
         this.canalePreferito = canalePreferito;
         this.abilitazione = abilitazione;
         this.eta = eta;
@@ -65,9 +64,9 @@ public class Cliente extends Utente {
         this.telefono = telefono;
     }
 
-    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, int idPuntoVendita, boolean abilitazione, int eta, String residenza, String professione, String telefono) {
+    public Cliente(String name, String surname, String username, String pwd, String email, String tipo, PuntoVendita puntoVendita, boolean abilitazione, int eta, String residenza, String professione, String telefono) {
         super(name, surname, username, pwd, email, tipo);
-        this.idPuntoVendita = idPuntoVendita;
+        this.puntoVenditaDiRegistrazione = puntoVendita;
         this.abilitazione = abilitazione;
         this.eta = eta;
         this.residenza = residenza;
@@ -145,14 +144,6 @@ public class Cliente extends Utente {
 
     public void setPuntoVenditaDiRegistrazione(PuntoVendita puntoVenditaDiRegistrazione) {
         this.puntoVenditaDiRegistrazione = puntoVenditaDiRegistrazione;
-    }
-
-    public int getIdPuntoVendita() {
-        return idPuntoVendita;
-    }
-
-    public void setIdPuntoVendita(int idPuntoVendita) {
-        this.idPuntoVendita = idPuntoVendita;
     }
 
     public NotificationFactory.TipoNotifica getCanalePreferito() {

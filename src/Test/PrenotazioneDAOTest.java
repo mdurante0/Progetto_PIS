@@ -33,7 +33,7 @@ public class PrenotazioneDAOTest {
         puntoVenditaDAO.add(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
 
-        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita.getIdPuntoVendita(), true, 18, "via mozart 21", "avvocato", "0231561237" );
+        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, true, 18, "via mozart 21", "avvocato", "0231561237" );
         clienteDAO.add(c);
         c = clienteDAO.findById("vr46");
 

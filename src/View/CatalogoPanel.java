@@ -2,7 +2,9 @@ package View;
 
 import Business.CatalogoBusiness;
 import Business.Results.CatalogoResult;
+import Model.Articolo;
 import Model.composite.IProdotto;
+import View.Listener.GoToDettagliListener;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;
@@ -16,7 +18,7 @@ public class CatalogoPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
 
     public CatalogoPanel(MainFrame frame) {
-
+        this.frame = frame;
         JLabel titleLabel = new JLabel("Il nostro catalogo");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
@@ -24,35 +26,23 @@ public class CatalogoPanel extends JPanel {
         contentPanel.setLayout(new BorderLayout());
         this.setLayout(new BorderLayout());
 
-        java.util.List<RigaCatalogo> righe = new ArrayList<>();
+        ArrayList<RigaCatalogo> righe = new ArrayList<>();
 
         CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdotti("MyPuntoVendita");
         ArrayList<IProdotto> prodotti = result.getListaProdotti();
         for(int i =0 ; i < result.getListaProdotti().size(); i++){
             RigaCatalogo riga = new RigaCatalogo();
             IProdotto p = prodotti.get(i);
-
+            JButton dettagliButton = new JButton("Dettagli");
             riga.setIdProdotto(p.getIdArticolo());
             riga.setNomeProdotto(p.getName());
             riga.setNomeProduttore(p.getProduttore().getNome());
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
+            riga.setDettagliButton(dettagliButton);
+            dettagliButton.addActionListener(new GoToDettagliListener(this.frame, (Articolo) p));
             righe.add(riga);
         }
-
-        //righe vuote per test
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
-        righe.add(new RigaCatalogo());
 
         CatalogoTableModel tableModel = new CatalogoTableModel(righe);
         JTable tabella = new JTable(tableModel);
@@ -64,6 +54,11 @@ public class CatalogoPanel extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(tabella);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
+        tabella.getColumn("Dettagli").setCellRenderer(buttonRenderer);
+        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+
 
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);

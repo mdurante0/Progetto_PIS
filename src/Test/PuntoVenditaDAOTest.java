@@ -4,7 +4,6 @@ import DAO.*;
 import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public class PuntoVenditaDAOTest {
         puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77")));
     }
 
-    @After
+    //@After
     public void tearDown() throws Exception {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IManagerDAO managerDAO = ManagerDAO.getInstance();

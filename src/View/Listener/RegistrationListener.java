@@ -57,10 +57,13 @@ public class RegistrationListener implements ActionListener {
         else if (puntoVenditaBox.getSelectedItem() == null)
             JOptionPane.showMessageDialog(this.frame, "Punto vendita non specificato! Riprova!");
         else {
-            cliente.setName(firstNameField.getText() + " " + lastNameField.getText());
+            cliente.setTipo("CL");
+            cliente.setName(firstNameField.getText());
+            cliente.setSurname(lastNameField.getText());
             cliente.setEmail(emailField.getText());
             cliente.setUsername(usernameField.getText());
-            cliente.setPwd(Arrays.toString(passwordField.getPassword()));
+            cliente.setPwd(String.valueOf(passwordField.getPassword()));
+            cliente.setAbilitazione(true);
             cliente.setProfessione(professionField.getText());
             cliente.setEta(Integer.parseInt(ageField.getText()));
             cliente.setResidenza(residenzaField.getText());
