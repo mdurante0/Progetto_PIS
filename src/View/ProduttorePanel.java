@@ -7,13 +7,13 @@ public class ProduttorePanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-    private JTextField nome;
+    private JTextField nomeField;
     private JTextField emailField;
-    private JTextField telefono;
-    private JTextField nazione;
-    private JTextField citta;
-    private JTextField descrizione;
-    private JTextField sito;
+    private JTextField telefonoField;
+    private JTextField nazioneField;
+    private JTextField cittaField;
+    private JTextField descrizioneField;
+    private JTextField sitoField;
 
 
     public ProduttorePanel(MainFrame frame) {
@@ -44,38 +44,48 @@ public class ProduttorePanel extends JPanel {
         descrizioneLabel.setFont(bodyFont);
         sitoLabel.setFont(bodyFont);
 
-        nome = new JTextField(20);
+        nomeField = new JTextField(20);
         emailField = new JTextField(20);
-        telefono = new JTextField(20);
-        nazione = new JTextField(20);
-        citta = new JTextField(20);
-        descrizione = new JTextField(20);
-        sito = new JTextField(20);
+        telefonoField = new JTextField(20);
+        nazioneField = new JTextField(20);
+        cittaField = new JTextField(20);
+        descrizioneField = new JTextField(20);
+        sitoField = new JTextField(20);
+
+        nomeField.setFont(bodyFont);
+        emailField.setFont(bodyFont);
+        telefonoField.setFont(bodyFont);
+        nazioneField.setFont(bodyFont);
+        cittaField.setFont(bodyFont);
+        descrizioneField.setFont(bodyFont);
+        sitoField.setFont(bodyFont);
 
 
-        JButton aggiungiProduttore = new JButton("Aggiungi");
-        JButton modificaProduttore = new JButton("Torna indietro");
+        JButton aggiungiProduttoreButton = new JButton("Aggiungi");
+        aggiungiProduttoreButton.setFont(bodyFont);
+        JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener
 
         contentPanel.add(firstNameLabel);
-        contentPanel.add(nome);
+        contentPanel.add(nomeField);
         contentPanel.add(emailLabel);
         contentPanel.add(emailField);
         contentPanel.add(telefonoLabel);
-        contentPanel.add(telefono);
+        contentPanel.add(telefonoField);
         contentPanel.add(nazioneLabel);
-        contentPanel.add(nazione);
+        contentPanel.add(nazioneField);
         contentPanel.add(cittaLabel);
-        contentPanel.add(citta);
+        contentPanel.add(cittaField);
         contentPanel.add(descrizioneLabel);
-        contentPanel.add(descrizione);
+        contentPanel.add(descrizioneField);
         contentPanel.add(sitoLabel);
-        contentPanel.add(sito);
+        contentPanel.add(sitoField);
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
-        contentPanel.add(modificaProduttore);
-        contentPanel.add(aggiungiProduttore);
+        contentPanel.add(tornaIndietroButton);
+        contentPanel.add(aggiungiProduttoreButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);

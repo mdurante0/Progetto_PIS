@@ -12,20 +12,20 @@ public class Feedback {
     private boolean risposto;
     private String risposta;
     private Date data = new Date();
-    private int idArticolo;
-    private int idUtente;
+    private Articolo articolo = new Articolo();
+    private Cliente cliente;
 
     public Feedback(){}
 
-    public Feedback(Punteggio gradimento, String commento, boolean letto, boolean risposto, String risposta, Date data, int idArticolo, int idUtente) {
+    public Feedback(Punteggio gradimento, String commento, boolean letto, boolean risposto, String risposta, Date data, Articolo articolo, Cliente cliente) {
         this.gradimento = gradimento;
         this.commento = commento;
         this.letto = letto;
         this.risposto = risposto;
         this.risposta = risposta;
         this.data = data;
-        this.idArticolo = idArticolo;
-        this.idUtente = idUtente;
+        this.articolo = articolo;
+        this.cliente = cliente;
     }
 
     public int getIdFeedback() {
@@ -84,20 +84,20 @@ public class Feedback {
         this.risposto = risposto;
     }
 
-    public int getIdArticolo() {
-        return idArticolo;
+    public Articolo getArticolo() {
+        return articolo;
     }
 
-    public void setIdArticolo(int idArticolo) {
-        this.idArticolo = idArticolo;
+    public void setArticolo(Articolo articolo) {
+        this.articolo = articolo;
     }
 
-    public int getIdUtente() {
-        return idUtente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdUtente(int idUtente) {
-        this.idUtente = idUtente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

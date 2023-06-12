@@ -2,7 +2,7 @@ package View.ViewModel;
 
 public class RigaCatalogo {
 
-    private int idProdotto;
+    private int idArticolo;
     private String nomeProdotto;
     private String nomeProduttore;
     private float prezzo;
@@ -17,12 +17,12 @@ public class RigaCatalogo {
         this.dettagliButton = dettagliButton;
     }
 
-    public int getIdProdotto() {
-        return idProdotto;
+    public int getIdArticolo() {
+        return idArticolo;
     }
 
-    public void setIdProdotto(int idProdotto) {
-        this.idProdotto = idProdotto;
+    public void setIdArticolo(int idArticolo) {
+        this.idArticolo = idArticolo;
     }
 
     public String getNomeProdotto() {

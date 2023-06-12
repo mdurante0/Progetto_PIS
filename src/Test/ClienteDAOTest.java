@@ -58,7 +58,14 @@ public class ClienteDAOTest {
     @Test
     public void findByIdTest() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente cliente = clienteDAO.findById("vr46");
+        Cliente cliente = clienteDAO.findById(clienteDAO.findByUsername("vr46").getIdUtente());
+        Assert.assertEquals("Valentino", cliente.getName());
+    }
+
+    @Test
+    public void findByUsernameTest() {
+        IClienteDAO clienteDAO = ClienteDAO.getInstance();
+        Cliente cliente = clienteDAO.findByUsername("vr46");
         Assert.assertEquals("Valentino", cliente.getName());
     }
 
@@ -68,17 +75,17 @@ public class ClienteDAOTest {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
 
         Manager manager = managerDAO.findById("ab77");
-        Cliente cliente = clienteDAO.findById("vr46");
+        Cliente cliente = clienteDAO.findByUsername("vr46");
         Assert.assertTrue(clienteDAO.isGestibile(cliente, manager.getIdUtente()));
     }
 
     @Test
     public void updateTest() {
         IClienteDAO clienteDao = ClienteDAO.getInstance();
-        Cliente cliente = clienteDao.findById("vr46");
+        Cliente cliente = clienteDao.findByUsername("vr46");
         cliente.setResidenza("Viale delle rose 17");
         clienteDao.update(cliente);
-        cliente = clienteDao.findById("vr46");
+        cliente = clienteDao.findByUsername("vr46");
         Assert.assertEquals("Viale delle rose 17", cliente.getResidenza());
     }
 

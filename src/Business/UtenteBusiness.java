@@ -55,7 +55,7 @@ public class UtenteBusiness {
         // 4. caricare oggetto utente (a seconda della tipologia)
        if(isCliente) {
            IClienteDAO cDao = ClienteDAO.getInstance();
-           Cliente c = cDao.findById(username);
+           Cliente c = cDao.findByUsername(username);
            if(c.isAbilitazione()) {
                SessionManager.getSession().put(SessionManager.LOGGED_USER, c);
                result.setMessage("Benvenuto " + c.getName() + " e buona spesa con MyShop!!");

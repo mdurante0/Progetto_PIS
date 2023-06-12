@@ -6,6 +6,7 @@ import Model.Articolo;
 import Model.composite.IProdotto;
 import View.Listener.GoToDettagliListener;
 import View.Listener.GoToLoginListener;
+import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class CatalogoPanel extends JPanel {
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
-    public CatalogoPanel(MainFrame frame) {
+    public CatalogoPanel(MainFrame frame, String nomePuntoVendita) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Il nostro catalogo");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -29,19 +30,19 @@ public class CatalogoPanel extends JPanel {
 
         ArrayList<RigaCatalogo> righe = new ArrayList<>();
 
-        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdotti("MyPuntoVendita");
+        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdotti(nomePuntoVendita);
         ArrayList<IProdotto> prodotti = result.getListaProdotti();
-        for(int i =0 ; i < result.getListaProdotti().size(); i++){
+        for(int i = 0 ; i < result.getListaProdotti().size(); i++){
             RigaCatalogo riga = new RigaCatalogo();
             IProdotto p = prodotti.get(i);
             JButton dettagliButton = new JButton("Dettagli");
-            riga.setIdProdotto(p.getIdArticolo());
+            riga.setIdArticolo(p.getIdArticolo());
             riga.setNomeProdotto(p.getName());
             riga.setNomeProduttore(p.getProduttore().getNome());
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
             riga.setDettagliButton(dettagliButton);
-            dettagliButton.addActionListener(new GoToDettagliListener(this.frame, (Articolo) p));
+            dettagliButton.addActionListener(new GoToDettagliListener(this.frame, (Articolo) p, nomePuntoVendita));
             righe.add(riga);
         }
 
@@ -60,13 +61,10 @@ public class CatalogoPanel extends JPanel {
         tabella.getColumn("Dettagli").setCellRenderer(buttonRenderer);
         tabella.addMouseListener(new JTableButtonMouseListener(tabella));
 
-
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
 
-        JPanel pulsantiAzioneTabella = new JPanel();
-        pulsantiAzioneTabella.setLayout(new FlowLayout());
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToLoginListener(this.frame)); //da cambiare dopo aver implementato il decorator
 

@@ -1,17 +1,17 @@
 package View.Listener;
 
 import Model.Articolo;
-import View.DettagliPanel;
+import View.FeedbackPanel;
 import View.MainFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToDettagliListener implements ActionListener {
+public class GoToFeedbackListener implements ActionListener {
     private MainFrame frame;
     private Articolo articolo;
     private String nomePuntoVendita;
-    public GoToDettagliListener(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public GoToFeedbackListener(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
         this.nomePuntoVendita = nomePuntoVendita;
@@ -19,6 +19,6 @@ public class GoToDettagliListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, articolo, nomePuntoVendita));
+        this.frame.mostraPannelloAttuale(new FeedbackPanel(this.frame, articolo, nomePuntoVendita));
     }
 }

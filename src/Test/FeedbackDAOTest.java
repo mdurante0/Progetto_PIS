@@ -40,7 +40,7 @@ public class FeedbackDAOTest {
         clienteDAO.add(new Cliente("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "CL", puntoVenditaDAO.findByName("aaa"), canalePreferito, abilitazione, eta, residenza, professione, telefono));
         Date date = Date.from(Instant.now());
 
-        feedbackDAO.add(new Feedback(Feedback.Punteggio.BUONO, "articolo molto buono", false, false, "", date, articoloDAO.findByName("Armadio").getIdArticolo(), clienteDAO.findById("vr46").getIdUtente()));
+        feedbackDAO.add(new Feedback(Feedback.Punteggio.BUONO, "articolo molto buono", false, false, "", date, articoloDAO.findByName("Armadio"), clienteDAO.findByUsername("vr46")));
     }
 
     @After
@@ -72,7 +72,7 @@ public class FeedbackDAOTest {
     public void findByIdTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
         Feedback feedback = feedbackDAO.findById(1);
-        Assert.assertEquals(1, feedback.getIdArticolo());
+        Assert.assertEquals(1, feedback.getArticolo().getIdArticolo());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FeedbackDAOTest {
     public void findByUserTest() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        ArrayList<Feedback> feedbacks = feedbackDAO.findByUser(clienteDAO.findById("vr46").getIdUtente());
+        ArrayList<Feedback> feedbacks = feedbackDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente());
         Assert.assertEquals(1, feedbacks.size());
     }
 

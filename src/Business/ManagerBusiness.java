@@ -36,7 +36,7 @@ public class ManagerBusiness {
                 return result;
             }
 
-            Cliente cliente = clienteDAO.findById(clienteUsername);
+            Cliente cliente = clienteDAO.findByUsername(clienteUsername);
             //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
             if(!clienteDAO.isGestibile(cliente,idManager)){
                 result.setResult(ClienteResult.Result.ABILITAZIONE_ERROR);
@@ -44,7 +44,7 @@ public class ManagerBusiness {
                 return result;
             }
 
-            cliente = clienteDAO.findById(cliente.getUsername());
+            cliente = clienteDAO.findByUsername(cliente.getUsername());
             //Aggiorno l'abilitazione del cliente
             cliente.setAbilitazione(abilitazione);
             int aggiornato = clienteDAO.update(cliente);
@@ -72,7 +72,7 @@ public class ManagerBusiness {
                 return result;
             }
 
-            Cliente cliente = clienteDAO.findById(clienteUsername);
+            Cliente cliente = clienteDAO.findByUsername(clienteUsername);
             //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
             if(!clienteDAO.isGestibile(cliente,idManager)){
                 result.setResult(ClienteResult.Result.RIMOZIONE_ERROR);
@@ -141,7 +141,7 @@ public class ManagerBusiness {
             return result;
         }
 
-        Cliente cliente = clienteDAO.findById(clienteUsername);
+        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
         //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
         if(!clienteDAO.isGestibile(cliente,idManager)){
             result.setResult(MailResult.Result.USER_ERROR);
@@ -175,7 +175,7 @@ public class ManagerBusiness {
             return result;
         }
 
-        Cliente cliente = clienteDAO.findById(clienteUsername);
+        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
         //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
         if(!clienteDAO.isGestibile(cliente,idManager)){
             result.setResult(MailResult.Result.USER_ERROR);

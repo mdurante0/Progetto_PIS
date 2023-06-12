@@ -5,6 +5,7 @@ import Model.Articolo;
 import Model.Servizio;
 import Model.composite.IProdotto;
 import View.Listener.GoToCatalogoListener;
+import View.Listener.GoToFeedbackListener;
 import View.Listener.NextImageListener;
 import View.Listener.PreviousImageListener;
 
@@ -23,7 +24,7 @@ public class DettagliPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JComboBox<Integer> quantitaBox;
 
-    public DettagliPanel(MainFrame frame, Articolo articolo) {
+    public DettagliPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -55,14 +56,6 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(new JLabel());
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
-
-        //id articolo
-        JLabel idArticoloLabel = new JLabel("  ID Articolo:");
-        idArticoloLabel.setFont(bodyFont);
-        contentPanel.add(idArticoloLabel);
-        JLabel idArticolo = new JLabel(String.valueOf(articolo.getIdArticolo()));
-        idArticolo.setFont(bodyFont);
-        contentPanel.add(idArticolo);
 
         //nome articolo
         JLabel nomeLabel = new JLabel("  Nome:");
@@ -154,23 +147,28 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
                 contentPanel.add(new JLabel());
             }
-            contentPanel.add(new JLabel());
-            contentPanel.add(new JLabel());
+
         }
 
+        contentPanel.add(new JLabel());
+        contentPanel.add(new JLabel());
 
         JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
+        nuovaListaButton.setFont(bodyFont);
         contentPanel.add(nuovaListaButton);
 
         JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
+        listaEsistenteButton.setFont(bodyFont);
         contentPanel.add(listaEsistenteButton);
 
         JButton backButton = new JButton("Torna al catalogo");
-        backButton.addActionListener(new GoToCatalogoListener(this.frame));
+        backButton.addActionListener(new GoToCatalogoListener(this.frame, nomePuntoVendita));
+        backButton.setFont(bodyFont);
 
         JButton feedbackButton = new JButton("Mostra i feedback");
+        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, nomePuntoVendita));
+        feedbackButton.setFont(bodyFont);
 
-        //southPanel.setLayout(new GridLayout(1,2));
         contentPanel.add(feedbackButton);
         contentPanel.add(backButton);
 
@@ -178,7 +176,6 @@ public class DettagliPanel extends JPanel {
         this.add(titlePanel);
         this.add(immaginiPanel);
         this.add(contentPanel);
-        //this.add(southPanel);
 
         setVisible(true);
     }

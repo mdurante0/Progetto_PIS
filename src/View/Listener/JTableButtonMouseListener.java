@@ -1,4 +1,4 @@
-package View;
+package View.Listener;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

@@ -50,7 +50,7 @@ public class LoginPanel extends JPanel {
         loginButton.addActionListener(loginListener);
         loginButtonPanel.add(loginButton);
 
-        sfogliaCatalogoButton.addActionListener(new GoToCatalogoListener(this.frame)); //da cambiare dopo aver implementato il decorator
+        sfogliaCatalogoButton.addActionListener(new GoToCatalogoListener(this.frame, "MyPuntoVendita")); //da cambiare dopo aver implementato il decorator
         registratiPanel.add(sfogliaCatalogoButton);
         registratiPanel.add(new JLabel(" "));
 

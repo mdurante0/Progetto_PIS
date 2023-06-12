@@ -42,7 +42,7 @@ public class ClienteBusiness {
 
         //Verifico che il cliente abbia precedentemente acquistato l'articolo da recensire
         Articolo a = articoloDAO.findByName(articoloName);
-        Cliente c = clienteDAO.findById(clienteUsername);
+        Cliente c = clienteDAO.findByUsername(clienteUsername);
         if(!articoloDAO.isAcquistato(a.getIdArticolo(), c)){
             result.setResult(FeedbackResult.Result.ACQUISTO_ERROR);
             result.setMessage("L'articolo che si vuole recensire non è stato acquistato!");
@@ -50,8 +50,8 @@ public class ClienteBusiness {
         }
 
         //Aggiungo il feedback
-        feedback.setIdArticolo(a.getIdArticolo());
-        feedback.setIdUtente(c.getIdUtente());
+        feedback.setArticolo(a);
+        feedback.setCliente(c);
         int inserito = feedbackDAO.add(feedback);
         if(inserito == 0){ //Feedback non inserito
             result.setResult(FeedbackResult.Result.ADD_ERROR);
@@ -78,7 +78,7 @@ public class ClienteBusiness {
         }
 
         ClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente c = clienteDAO.findById(clienteUsername);
+        Cliente c = clienteDAO.findByUsername(clienteUsername);
         prenotazione.setIdUtente(c.getIdUtente());
         int inserita = prenotazioneDAO.add(prenotazione);
         if(inserita == 0){ //Prenotazione non inserita
@@ -124,7 +124,7 @@ public class ClienteBusiness {
             return result;
         }
 
-        Cliente c = clienteDAO.findById(clienteUsername);
+        Cliente c = clienteDAO.findByUsername(clienteUsername);
         ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findByUser(c.getIdUtente());
         if(prenotazioni.isEmpty()){ //Non ci sono prenotazioni
             result.setResult(PrenotazioneResult.Result.ITEM_DOESNT_EXIST);
@@ -152,7 +152,7 @@ public class ClienteBusiness {
         }
 
         ClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente c = clienteDAO.findById(clienteUsername);
+        Cliente c = clienteDAO.findByUsername(clienteUsername);
         listaAcquisto.setIdUtente(c.getIdUtente());
         int inserita = listaAcquistoDAO.add(listaAcquisto);
         if(inserita == 0){ //Lista d'acquisto non inserita
@@ -197,7 +197,7 @@ public class ClienteBusiness {
             return result;
         }
 
-        Cliente c = clienteDAO.findById(clienteUsername);
+        Cliente c = clienteDAO.findByUsername(clienteUsername);
         ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findByUser(c.getIdUtente());
         if(liste.isEmpty()){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);

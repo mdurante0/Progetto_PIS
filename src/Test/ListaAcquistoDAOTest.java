@@ -80,7 +80,7 @@ public class ListaAcquistoDAOTest {
     public void findByUserTest() {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoDAO.findByUser(clienteDAO.findById("vr46").getIdUtente());
+        ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente());
         Assert.assertEquals(1, listeAcquisto.size());
     }
 
@@ -155,7 +155,7 @@ public class ListaAcquistoDAOTest {
     public void removeByUserTest(){
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente cliente = clienteDAO.findById("vr46");
+        Cliente cliente = clienteDAO.findByUsername("vr46");
         listaAcquistoDAO.removeByUser(cliente.getIdUtente());
         Assert.assertNull(listaAcquistoDAO.findByName("mylist"));
     }

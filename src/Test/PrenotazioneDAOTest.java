@@ -35,7 +35,7 @@ public class PrenotazioneDAOTest {
 
         Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, true, 18, "via mozart 21", "avvocato", "0231561237" );
         clienteDAO.add(c);
-        c = clienteDAO.findById("vr46");
+        c = clienteDAO.findByUsername("vr46");
 
         produttoreDAO.add(new Produttore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
 
@@ -54,7 +54,7 @@ public class PrenotazioneDAOTest {
         prodotti.add(p1);
         prodotti.add(p2);
 
-        Prenotazione prenotazione = new Prenotazione(prodotti, d, clienteDAO.findById("vr46").getIdUtente());
+        Prenotazione prenotazione = new Prenotazione(prodotti, d, clienteDAO.findByUsername("vr46").getIdUtente());
         prenotazioneDAO.add(prenotazione);
 
 
@@ -73,7 +73,7 @@ public class PrenotazioneDAOTest {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IManagerDAO managerDAO = ManagerDAO.getInstance();
 
-        prenotazioneDAO.removeByUser(clienteDAO.findById("vr46").getIdUtente());
+        prenotazioneDAO.removeByUser(clienteDAO.findByUsername("vr46").getIdUtente());
         clienteDAO.removeById("vr46");
         articoloDAO.removeById(prodottoDAO.findByName("cassa").getIdArticolo());
         articoloDAO.removeById(prodottoDAO.findByName("mattonelle").getIdArticolo());
@@ -96,7 +96,7 @@ public class PrenotazioneDAOTest {
     public void findByUserTest() {
         IPrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente());
+        ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente());
         Assert.assertEquals(1, prenotazioni.size());
         Assert.assertEquals(2, prenotazioni.get(0).getProdotti().size());
     }
@@ -104,7 +104,7 @@ public class PrenotazioneDAOTest {
     public void findByIdTest() {
         IPrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
         Assert.assertEquals(2, prenotazione.getProdotti().size());
     }
 @Test
@@ -125,15 +125,15 @@ public class PrenotazioneDAOTest {
 
         prodotto = prodottoDAO.findByName("dondolo");
 
-        prenotazioneDAO.addProdotto(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
+        prenotazioneDAO.addProdotto(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
 
-        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
 
         Assert.assertEquals(3, prenotazione.getProdotti().size());
 
-        prenotazioneDAO.removeProdotto(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
+        prenotazioneDAO.removeProdotto(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione(), prodotto);
 
-        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
 
         Assert.assertEquals(2, prenotazione.getProdotti().size());
 
@@ -154,7 +154,7 @@ public class PrenotazioneDAOTest {
 
         Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
 
-        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
 
         Date d = new Date();
 
@@ -176,7 +176,7 @@ public class PrenotazioneDAOTest {
 
         prenotazioneDAO.update(prenotazione);
 
-        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findById("vr46").getIdUtente()).get(0).getIdPrenotazione());
+        prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
 
         Assert.assertEquals(20, prenotazione.getProdotti().get(0).getQuantita());
         Assert.assertEquals(30, prenotazione.getProdotti().get(1).getQuantita());

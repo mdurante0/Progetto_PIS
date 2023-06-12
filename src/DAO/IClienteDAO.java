@@ -5,7 +5,8 @@ import Model.Cliente;
 import java.util.ArrayList;
 
 public interface IClienteDAO {
-    Cliente findById(String username);
+    Cliente findById(int idUtente);
+    Cliente findByUsername(String username);
     ArrayList<Cliente> findAll();
     boolean isGestibile(Cliente c, int idManager);
     int add(Cliente cliente);

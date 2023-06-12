@@ -5,6 +5,8 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Articolo;
+import Model.Cliente;
 import Model.Feedback;
 
 import java.sql.ResultSet;
@@ -51,8 +53,13 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
-                feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+
+                Articolo articolo = ArticoloDAO.getInstance().findById(rs.getInt("articolo_idarticolo"));
+                if(articolo != null)
+                    feedback.setArticolo(articolo);
+                Cliente cliente = ClienteDAO.getInstance().findById(rs.getInt("utente_acquirente_utente_idutente"));
+                if(cliente != null)
+                    feedback.setCliente(cliente);
 
                 return feedback;
             }
@@ -89,8 +96,14 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
-                feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+
+                Articolo articolo = ArticoloDAO.getInstance().findById(rs.getInt("articolo_idarticolo"));
+                if(articolo != null)
+                    feedback.setArticolo(articolo);
+                Cliente cliente = ClienteDAO.getInstance().findById(rs.getInt("utente_acquirente_utente_idutente"));
+                if(cliente != null)
+                    feedback.setCliente(cliente);
+
                 feedbacks.add(feedback);
             }
             return feedbacks;
@@ -127,8 +140,14 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
-                feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+
+                Articolo articolo = ArticoloDAO.getInstance().findById(rs.getInt("articolo_idarticolo"));
+                if(articolo != null)
+                    feedback.setArticolo(articolo);
+                Cliente cliente = ClienteDAO.getInstance().findById(rs.getInt("utente_acquirente_utente_idutente"));
+                if(cliente != null)
+                    feedback.setCliente(cliente);
+
                 feedbacks.add(feedback);
             }
             return feedbacks;
@@ -165,8 +184,14 @@ public class FeedbackDAO implements IFeedbackDAO {
                 feedback.setRisposta(rs.getString("risposta"));
                 feedback.setData(formato.parse(rs.getString("data")));
                 feedback.setGradimento(Feedback.Punteggio.valueOf(rs.getString("gradimento")));
-                feedback.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                feedback.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
+
+                Articolo articolo = ArticoloDAO.getInstance().findById(rs.getInt("articolo_idarticolo"));
+                if(articolo != null)
+                    feedback.setArticolo(articolo);
+                Cliente cliente = ClienteDAO.getInstance().findById(rs.getInt("utente_acquirente_utente_idutente"));
+                if(cliente != null)
+                    feedback.setCliente(cliente);
+
                 feedbacks.add(feedback);
             }
             return feedbacks;
@@ -199,8 +224,8 @@ public class FeedbackDAO implements IFeedbackDAO {
                     "risposta, data) VALUES ('"+
                     feedback.getCommento() + "','" +
                     feedback.getGradimento() + "','" +
-                    feedback.getIdArticolo() + "','" +
-                    feedback.getIdUtente() + "','" +
+                    feedback.getArticolo().getIdArticolo() + "','" +
+                    feedback.getCliente().getIdUtente() + "','" +
                     feedback.getRisposta() + "','" +
                     formato.format(d) + "');";
             IDbOperation writeOp = new WriteOperation(sql);
@@ -262,8 +287,8 @@ public class FeedbackDAO implements IFeedbackDAO {
             String sql = "UPDATE progetto_pis.feedback " +
                     "SET commento = '" + feedback.getCommento() +
                     "', gradimento = '" + feedback.getGradimento() +
-                    "', articolo_idarticolo = '" + feedback.getIdArticolo() +
-                    "', utente_acquirente_utente_idutente = '" + feedback.getIdUtente() +
+                    "', articolo_idarticolo = '" + feedback.getArticolo().getIdArticolo() +
+                    "', utente_acquirente_utente_idutente = '" + feedback.getCliente().getIdUtente() +
                     "', risposta = '" + feedback.getRisposta() +
                     "', data = '" + formato.format(d) +
                     "' WHERE idfeedback = '" + feedback.getIdFeedback() + "';";
