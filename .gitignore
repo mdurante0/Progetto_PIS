@@ -27,5 +27,5 @@ replay_pid*
 *.iml
 
 # codice personale
-./src/DbInterface/DbUser.java
-./Business/Prove.Java
+src/DbInterface/DbUser.java
+src/Business/Prove.Java
