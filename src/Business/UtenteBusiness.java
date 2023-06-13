@@ -68,7 +68,7 @@ public class UtenteBusiness {
 
        } else if(isManager) {
            IManagerDAO mDao = ManagerDAO.getInstance();
-           Manager m = mDao.findById(username);
+           Manager m = mDao.findByUsername(username);
            SessionManager.getSession().put(SessionManager.LOGGED_USER, m);
            result.setMessage("Benvenuto "+ m.getName() +" e buon lavoro con MyShop!!");
 
@@ -82,6 +82,10 @@ public class UtenteBusiness {
 
         result.setResult(LoginResult.Result.LOGIN_OK);
         return result;
+    }
+
+    public boolean logout(){
+        return SessionManager.getSession().remove(SessionManager.LOGGED_USER) != null;
     }
 
 

@@ -27,5 +27,4 @@ public class MainFrame extends JFrame{
         revalidate();
         repaint();
     }
-
 }

@@ -29,7 +29,7 @@ public class FeedbackDAOTest {
         Magazzino m = new Magazzino(4, 2, "via Paoli 23", new ArrayList<>());
         magazzinoDAO.add(m);
 
-        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77")));
+        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findByUsername("ab77")));
 
         NotificationFactory.TipoNotifica canalePreferito = NotificationFactory.TipoNotifica.EMAIL;
         boolean abilitazione = true;

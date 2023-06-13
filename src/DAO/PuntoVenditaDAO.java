@@ -5,6 +5,7 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Manager;
 import Model.PuntoVendita;
 
 import java.sql.ResultSet;
@@ -39,12 +40,16 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
                 puntoVendita.setNome(rs.getString("nome"));
+
+                Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
+                if(manager != null)
+                    puntoVendita.setManager(manager);
+
                 return puntoVendita;
             }
         } catch (SQLException e) {
@@ -72,12 +77,16 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
                 puntoVendita.setNome(rs.getString("nome"));
+
+                Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
+                if(manager != null)
+                    puntoVendita.setManager(manager);
+
                 return puntoVendita;
             }
         } catch (SQLException e) {
@@ -93,36 +102,38 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     }
 
     @Override
-    public ArrayList<PuntoVendita> findByManager(int idManager){
+    public PuntoVendita findByManager(int idManager) {
         String sql = "SELECT * FROM progetto_pis.punto_vendita WHERE manager_utente_idutente = '" + idManager + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<PuntoVendita> puntiVendita = new ArrayList<>();
         try {
-            while (rs.next()) {
+            rs.next();
+            if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
                 puntoVendita.setNome(rs.getString("nome"));
-                puntiVendita.add(puntoVendita);
+
+                Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
+                if(manager != null)
+                    puntoVendita.setManager(manager);
+
+                return puntoVendita;
             }
-            return puntiVendita;
         } catch (SQLException e) {
-            // Gestisce le differenti categorie d'errore
+            // handle any errors
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
             System.out.println("VendorError: " + e.getErrorCode());
         } catch (NullPointerException e) {
-            // Gestisce le differenti categorie d'errore
+            // handle any errors
             System.out.println("Resultset: " + e.getMessage());
         }
-
         return null;
     }
 
@@ -139,12 +150,15 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             while (rs.next()) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.getManager().setIdUtente(rs.getInt("manager_utente_idutente"));
                 puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
                 puntoVendita.setNome(rs.getString("nome"));
+
+                Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
+                if(manager != null)
+                    puntoVendita.setManager(manager);
 
                 puntiVendita.add(puntoVendita);
             }

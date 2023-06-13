@@ -16,6 +16,7 @@ public class FeedbackPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
+    private JPanel southPanel = new JPanel();
 
     public FeedbackPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
         this.frame = frame;
@@ -60,12 +61,10 @@ public class FeedbackPanel extends JPanel {
         pulsantiAzioneTabella.setLayout(new FlowLayout());
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, nomePuntoVendita));
+        southPanel.add(tornaIndietroButton);
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(tornaIndietroButton, BorderLayout.SOUTH);
-
-        setVisible(true);
-
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 }

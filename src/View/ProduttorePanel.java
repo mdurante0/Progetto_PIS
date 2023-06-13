@@ -89,10 +89,5 @@ public class ProduttorePanel extends JPanel {
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
-
-        setVisible(true);
     }
-
-
-
 }

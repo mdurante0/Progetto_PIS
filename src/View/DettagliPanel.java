@@ -176,8 +176,6 @@ public class DettagliPanel extends JPanel {
         this.add(titlePanel);
         this.add(immaginiPanel);
         this.add(contentPanel);
-
-        setVisible(true);
     }
 
     public void nextImage(){

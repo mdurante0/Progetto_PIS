@@ -79,7 +79,7 @@ public class PrenotazioneDAOTest {
         articoloDAO.removeById(prodottoDAO.findByName("mattonelle").getIdArticolo());
         produttoreDAO.removeById("Valentino");
         magazzinoDAO.removeById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
-        puntoVenditaDAO.removeByManager(managerDAO.findById("gpaoli").getIdUtente());
+        puntoVenditaDAO.removeByManager(managerDAO.findByUsername("gpaoli").getIdUtente());
         managerDAO.removeById("gpaoli");
         categoriaProdottoDAO.removeById("aaa");
 

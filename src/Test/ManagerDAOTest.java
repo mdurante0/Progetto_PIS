@@ -24,6 +24,13 @@ public class ManagerDAOTest {
     }
 
     @Test
+    public void findByIdTest() {
+        IManagerDAO managerDAO = ManagerDAO.getInstance();
+        Manager manager = managerDAO.findById(managerDAO.findByUsername("vr46").getIdUtente());
+        Assert.assertEquals("Valentino", manager.getName());
+    }
+
+    @Test
     public void findAllTest() {
         IManagerDAO managerDao = ManagerDAO.getInstance();
         ArrayList<Manager> managers = managerDao.findAll();
@@ -31,9 +38,9 @@ public class ManagerDAOTest {
     }
 
     @Test
-    public void findByIdTest() {
+    public void findByUsernameTest() {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
-        Manager manager = managerDAO.findById("vr46");
+        Manager manager = managerDAO.findByUsername("vr46");
         Assert.assertEquals("Valentino", manager.getName());
     }
 
@@ -49,9 +56,9 @@ public class ManagerDAOTest {
     public void updateTest() {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
         Manager manager = new Manager("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN",7500.55F, 3 );
-        manager.setIdUtente(managerDAO.findById(manager.getUsername()).getIdUtente());
+        manager.setIdUtente(managerDAO.findByUsername(manager.getUsername()).getIdUtente());
         managerDAO.update(manager);
-        manager = managerDAO.findById("vr46");
+        manager = managerDAO.findByUsername("vr46");
         Assert.assertEquals("valentino@vr46.com", manager.getEmail());
     }
 }

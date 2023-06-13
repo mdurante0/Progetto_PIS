@@ -74,7 +74,7 @@ public class ClienteDAOTest {
         IManagerDAO managerDAO = ManagerDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
 
-        Manager manager = managerDAO.findById("ab77");
+        Manager manager = managerDAO.findByUsername("ab77");
         Cliente cliente = clienteDAO.findByUsername("vr46");
         Assert.assertTrue(clienteDAO.isGestibile(cliente, manager.getIdUtente()));
     }

@@ -130,10 +130,5 @@ public class RegistrationPanel extends JPanel {
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
-
-        setVisible(true);
     }
-
-
-
 }

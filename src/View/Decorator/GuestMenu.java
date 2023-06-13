@@ -1,29 +1,21 @@
 package View.Decorator;
 
-import View.EsempioGerarchiaLayout;
+import View.Listener.SfogliaCatalogoListener;
+import View.MainFrame;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GuestMenu extends Menu {
 
-    private EsempioGerarchiaLayout finestra;
+    private MainFrame frame;
 
-    public GuestMenu(EsempioGerarchiaLayout finestra) {
+    public GuestMenu(MainFrame frame) {
 
-        this.finestra = finestra;
-        JButton browse = new JButton("Sfoglia catalogo");
-        browse.setActionCommand("browse");
-        // .... agganciate i listener
-        browse.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                finestra.mostraCatalogo();
-            }
-        });
+        this.frame = frame;
+        JButton sfoglia = new JButton("Sfoglia catalogo");
+        sfoglia.addActionListener(new SfogliaCatalogoListener(this.frame));
 
-        pulsanti.add(browse);
+        pulsanti.add(sfoglia);
 
     }
 }

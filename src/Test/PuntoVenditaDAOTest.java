@@ -21,7 +21,7 @@ public class PuntoVenditaDAOTest {
 
         managerDAO.add(new Manager("Antonio","Bianchi","ab77","123","ab77@gmail.com","MN", (float) 7500.55, 3));
 
-        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findById("ab77")));
+        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findByUsername("ab77")));
     }
 
     //@After
@@ -31,7 +31,7 @@ public class PuntoVenditaDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
         //puntoVenditaDAO.removeById(puntoVenditaDAO.findByName("aaa").getIdPuntoVendita());
-        puntoVenditaDAO.removeByManager(managerDAO.findById("ab77").getIdUtente());
+        puntoVenditaDAO.removeByManager(managerDAO.findByUsername("ab77").getIdUtente());
         magazzinoDAO.removeById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
         managerDAO.removeById("ab77");
 
@@ -60,8 +60,8 @@ public class PuntoVenditaDAOTest {
     public void findByManagerTest() {
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         IManagerDAO managerDAO = ManagerDAO.getInstance();
-        ArrayList<PuntoVendita> puntiVendita = puntoVenditaDAO.findByManager(managerDAO.findById("ab77").getIdUtente());
-        Assert.assertEquals(1, puntiVendita.size());
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByManager(managerDAO.findByUsername("ab77").getIdUtente());
+        Assert.assertEquals("ab77", puntoVendita.getManager().getUsername());
     }
 
     @Test

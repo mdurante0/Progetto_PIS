@@ -1,6 +1,5 @@
 package View;
 
-import View.Decorator.GuestMenu;
 import View.Listener.LoginListener;
 
 import javax.swing.*;
@@ -89,11 +88,11 @@ public class EsempioGerarchiaLayout extends JFrame {
 
         west.setLayout(new GridLayout(10,1));
 
-        View.Decorator.Menu guestMenu = new GuestMenu(this);
+/*        View.Decorator.Menu guestMenu = new GuestMenu(this);
 
         for(JButton btn : guestMenu.getPulsanti()) {
             west.add(btn);
-        }
+        }*/
 
         getContentPane().add(west, BorderLayout.WEST);
 

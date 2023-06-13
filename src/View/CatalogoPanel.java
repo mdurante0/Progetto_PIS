@@ -2,11 +2,12 @@ package View;
 
 import Business.CatalogoBusiness;
 import Business.Results.CatalogoResult;
+import Business.SessionManager;
+import Model.Amministratore;
 import Model.Articolo;
+import Model.Utente;
 import Model.composite.IProdotto;
-import View.Listener.GoToDettagliListener;
-import View.Listener.GoToLoginListener;
-import View.Listener.JTableButtonMouseListener;
+import View.Listener.*;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;
@@ -18,10 +19,11 @@ public class CatalogoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
+    private JPanel southPanel = new JPanel();
 
     public CatalogoPanel(MainFrame frame, String nomePuntoVendita) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Il nostro catalogo");
+        JLabel titleLabel = new JLabel("Catalogo di " + nomePuntoVendita);
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -66,13 +68,16 @@ public class CatalogoPanel extends JPanel {
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToLoginListener(this.frame)); //da cambiare dopo aver implementato il decorator
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+
+        if(u == null || u instanceof Amministratore)
+            tornaIndietroButton.addActionListener(new GoToMenuPuntiVenditaListener(this.frame));
+        else
+            tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+        southPanel.add(tornaIndietroButton);
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(tornaIndietroButton, BorderLayout.SOUTH);
-
-        setVisible(true);
-
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 }

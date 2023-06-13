@@ -28,7 +28,41 @@ public class ManagerDAO implements IManagerDAO {
     }
 
     @Override
-    public Manager findById(String username) {
+    public Manager findById(int idUtente) {
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT idutente, nome, cognome, email, username, durata_incarico FROM progetto_pis.utente " +
+                "AS u INNER JOIN progetto_pis.manager AS m ON u.idutente = m.utente_idutente " +
+                "WHERE u.idutente = '"+ idUtente +"';";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                manager = new Manager();
+                manager.setIdUtente(rs.getInt("idutente"));
+                manager.setName(rs.getString("nome"));
+                manager.setSurname(rs.getString("cognome"));
+                manager.setUsername(rs.getString("username"));
+                manager.setEmail(rs.getString("email"));
+                manager.setDurataIncarico(rs.getInt("durata_incarico"));
+                return manager;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Manager findByUsername(String username) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idutente, nome, cognome, email, username, durata_incarico FROM progetto_pis.utente " +
