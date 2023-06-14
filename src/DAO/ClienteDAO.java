@@ -159,6 +159,49 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
+    public ArrayList<Cliente> findAllByPuntoVendita(int idPuntoVendita) {
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT * FROM progetto_pis.utente AS u INNER JOIN progetto_pis.utente_acquirente AS c ON u.idutente = c.utente_idutente WHERE c.punto_vendita_idpunto_vendita = '" + idPuntoVendita + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<Cliente> clienti = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                cliente = new Cliente();
+                cliente.setIdUtente(rs.getInt("idutente"));
+                cliente.setName(rs.getString("nome"));
+                cliente.setSurname(rs.getString("cognome"));
+                cliente.setUsername(rs.getString("username"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setPwd(rs.getString("password"));
+                cliente.setTipo(rs.getString("tipo"));
+                cliente.setResidenza(rs.getString("residenza"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setProfessione(rs.getString("professione"));
+                cliente.setEta(rs.getInt("eta"));
+                cliente.setAbilitazione(rs.getBoolean("abilitazione"));
+
+                PuntoVendita puntoVendita = PuntoVenditaDAO.getInstance().findById(rs.getInt("punto_vendita_idpunto_vendita"));
+                if(puntoVendita != null)
+                    cliente.setPuntoVenditaDiRegistrazione(puntoVendita);
+
+                clienti.add(cliente);
+            }
+            return clienti;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public boolean isGestibile(Cliente c, int idManager){
         String sql = "SELECT count(*) FROM progetto_pis.utente_acquirente AS c INNER JOIN progetto_pis.utente AS u ON c.utente_idUtente = u.idutente " +
                 "INNER JOIN progetto_pis.punto_vendita AS p ON c.punto_vendita_idpunto_vendita = p.idpunto_vendita " +

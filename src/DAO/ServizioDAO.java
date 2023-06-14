@@ -5,6 +5,8 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.CategoriaServizio;
+import Model.Fornitore;
 import Model.Servizio;
 
 import java.sql.ResultSet;
@@ -43,11 +45,16 @@ public class ServizioDAO implements IServizioDAO {
             if (rs.getRow()==1) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+
+                Fornitore fornitore = FornitoreDAO.getInstance().findById(rs.getInt("fornitore_idfornitore"));
+                if(fornitore != null)
+                    servizio.setFornitore(fornitore);
+                CategoriaServizio categoriaServizio = CategoriaServizioDAO.getInstance().findById(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                if(categoriaServizio != null)
+                    servizio.setCategoria(categoriaServizio);
 
                 return servizio;
             }
@@ -79,11 +86,16 @@ public class ServizioDAO implements IServizioDAO {
             if (rs.getRow()==1) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+
+                Fornitore fornitore = FornitoreDAO.getInstance().findById(rs.getInt("fornitore_idfornitore"));
+                if(fornitore != null)
+                    servizio.setFornitore(fornitore);
+                CategoriaServizio categoriaServizio = CategoriaServizioDAO.getInstance().findById(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                if(categoriaServizio != null)
+                    servizio.setCategoria(categoriaServizio);
 
                 return servizio;
             }
@@ -117,11 +129,16 @@ public class ServizioDAO implements IServizioDAO {
             while (rs.next()) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+
+                Fornitore fornitore = FornitoreDAO.getInstance().findById(rs.getInt("fornitore_idfornitore"));
+                if(fornitore != null)
+                    servizio.setFornitore(fornitore);
+                CategoriaServizio categoriaServizio = CategoriaServizioDAO.getInstance().findById(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                if(categoriaServizio != null)
+                    servizio.setCategoria(categoriaServizio);
 
                 servizi.add(servizio);
             }
@@ -156,11 +173,16 @@ public class ServizioDAO implements IServizioDAO {
             while (rs.next()) {
                 servizio = new Servizio();
                 servizio.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                servizio.getFornitore().setIdFornitore(rs.getInt("fornitore_idfornitore"));
                 servizio.setName(rs.getString("nome"));
                 servizio.setDescrizione(rs.getString("descrizione"));
                 servizio.setPrezzo(rs.getFloat("costo"));
-                servizio.getCategoria().setIdCategoria(rs.getInt("categoria_servizio_idcategoria_servizio"));
+
+                Fornitore fornitore = FornitoreDAO.getInstance().findById(rs.getInt("fornitore_idfornitore"));
+                if(fornitore != null)
+                    servizio.setFornitore(fornitore);
+                CategoriaServizio categoriaServizio = CategoriaServizioDAO.getInstance().findById(rs.getInt("categoria_servizio_idcategoria_servizio"));
+                if(categoriaServizio != null)
+                    servizio.setCategoria(categoriaServizio);
 
                 servizi.add(servizio);
             }

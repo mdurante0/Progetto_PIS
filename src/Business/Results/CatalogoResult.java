@@ -4,7 +4,6 @@ import Model.Servizio;
 import Model.composite.IProdotto;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CatalogoResult {
     public enum Result { CATALOGO_CARICATO, ERRORE_MAGAZZINO, ERRORE_SERVIZI }
@@ -22,7 +21,7 @@ public class CatalogoResult {
         this.listaProdotti = listaProdotti;
     }
 
-    public List<Servizio> getListaServizi() {
+    public ArrayList<Servizio> getListaServizi() {
         return listaServizi;
     }
 

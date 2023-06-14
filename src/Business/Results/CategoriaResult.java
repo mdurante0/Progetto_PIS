@@ -1,12 +1,18 @@
 package Business.Results;
 
+import Model.CategoriaProdotto;
+import Model.CategoriaServizio;
+
+import java.util.ArrayList;
+
 public class CategoriaResult {
 
-    public enum Result { ADD_OK, CATEGORY_ALREADY_EXISTS, CATEGORY_DOESNT_EXIST, UPDATE_OK, DELETE_OK, CATEGORY_ERROR }
+    public enum Result { ADD_OK, CATEGORY_ALREADY_EXISTS, CATEGORY_DOESNT_EXIST, UPDATE_OK, DELETE_OK, CATEGORIE_CARICATE, CATEGORY_ERROR }
 
     private Result result;
     private String message;
-
+    private ArrayList<CategoriaProdotto> categorieProdotto = new ArrayList<>();
+    private ArrayList<CategoriaServizio> categorieServizio = new ArrayList<>();
     public Result getResult() {
         return result;
     }
@@ -21,5 +27,21 @@ public class CategoriaResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ArrayList<CategoriaProdotto> getCategorieProdotto() {
+        return categorieProdotto;
+    }
+
+    public void setCategorieProdotto(ArrayList<CategoriaProdotto> categorieProdotto) {
+        this.categorieProdotto = categorieProdotto;
+    }
+
+    public ArrayList<CategoriaServizio> getCategorieServizio() {
+        return categorieServizio;
+    }
+
+    public void setCategorieServizio(ArrayList<CategoriaServizio> categorieServizio) {
+        this.categorieServizio = categorieServizio;
     }
 }

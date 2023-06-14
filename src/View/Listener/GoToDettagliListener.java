@@ -16,6 +16,10 @@ public class GoToDettagliListener implements ActionListener {
         this.articolo = articolo;
         this.nomePuntoVendita = nomePuntoVendita;
     }
+    public GoToDettagliListener(MainFrame frame, Articolo articolo) {
+        this.frame = frame;
+        this.articolo = articolo;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

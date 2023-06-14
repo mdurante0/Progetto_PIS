@@ -24,7 +24,7 @@ public class MenuPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         titlePanel.setLayout(new FlowLayout());
-        centerPanel.setLayout(new GridLayout(4,3));
+        centerPanel.setLayout(new GridLayout(5,3));
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 

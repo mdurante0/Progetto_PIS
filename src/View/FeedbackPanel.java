@@ -2,8 +2,9 @@ package View;
 
 import Business.FeedbackBusiness;
 import Business.Results.FeedbackResult;
-import Model.Articolo;
-import Model.Feedback;
+import Business.SessionManager;
+import Business.Strategy.*;
+import Model.*;
 import View.Listener.GoToDettagliListener;
 import View.ViewModel.RigaFeedback;
 
@@ -31,6 +32,20 @@ public class FeedbackPanel extends JPanel {
 
         FeedbackResult result = FeedbackBusiness.getInstance().caricaFeedback(articolo.getName());
         ArrayList<Feedback> feedbacks = result.getFeedbacks();
+
+        //ordinamento commenti in base al tipo di utente
+        OrdinamentoCommenti ordinamentoCommenti = new OrdinamentoCommenti(feedbacks);
+        IOrdinamentoCommentoStrategy ordinamento;
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+        if(u instanceof Amministratore || u instanceof Manager)
+            ordinamento = new CommentiUrgentiStrategy();
+        else if (u instanceof Cliente)
+            ordinamento = new CommentiMiglioriStrategy();
+        else
+            ordinamento = new CommentiRecentiStrategy();
+
+        ordinamentoCommenti.setOrdinamentoCommentoStrategy(ordinamento);
+        ordinamentoCommenti.ordina();
         for(int i = 0 ; i < result.getFeedbacks().size(); i++){
             RigaFeedback riga = new RigaFeedback();
             Feedback f = feedbacks.get(i);

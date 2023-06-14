@@ -1,5 +1,7 @@
 package View.Decorator;
 
+import View.Listener.GoToNuovoProdottoListener;
+import View.Listener.GoToNuovoServizioListener;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -19,21 +21,26 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         pulsanti.addAll(this.menu.getPulsanti());
 
         // + le funzioni dell'amministratore
-        JButton prodotto = new JButton("Nuovo Prodotto");
-        JButton prodottoComposito = new JButton("Nuovo Prodotto Composto");
-        JButton servizio = new JButton("Nuovo Servizio");
+        JButton nuovoProdotto = new JButton("Crea un nuovo prodotto");
+        JButton nuovoProdottoComposito = new JButton("Crea un nuovo prodotto composto");
+        JButton nuovoServizio = new JButton("Crea un nuovo servizio");
+        JButton categorieProdotti = new JButton("Categorie prodotti");
+        JButton categorieServizi = new JButton("Categorie servizi");
         JButton produttore = new JButton("Produttori");
         JButton fornitore = new JButton("Fornitori");
         JButton puntoVendita = new JButton("Punti Vendita");
         JButton manager = new JButton("Manager");
 
         //action command, listener...
-
+        nuovoProdotto.addActionListener(new GoToNuovoProdottoListener(this.frame));
+        nuovoServizio.addActionListener(new GoToNuovoServizioListener(this.frame));
 
         //add pulsanti
-        pulsanti.add(prodotto);
-        pulsanti.add(prodottoComposito);
-        pulsanti.add(servizio);
+        pulsanti.add(nuovoProdotto);
+        pulsanti.add(nuovoProdottoComposito);
+        pulsanti.add(nuovoServizio);
+        pulsanti.add(categorieProdotti);
+        pulsanti.add(categorieServizi);
         pulsanti.add(produttore);
         pulsanti.add(fornitore);
         pulsanti.add(puntoVendita);

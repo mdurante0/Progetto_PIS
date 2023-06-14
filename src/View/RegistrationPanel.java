@@ -1,13 +1,13 @@
 package View;
 
-import DAO.PuntoVenditaDAO;
+import Business.PuntoVenditaBusiness;
+import Business.Results.PuntoVenditaResult;
 import Model.PuntoVendita;
 import View.Listener.GoToLoginListener;
 import View.Listener.RegistrationListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class RegistrationPanel extends JPanel {
@@ -84,16 +84,17 @@ public class RegistrationPanel extends JPanel {
         residenzaField.setFont(bodyFont);
         telefonoField.setFont(bodyFont);
 
-
-        ArrayList<PuntoVendita> pVList = PuntoVenditaDAO.getInstance().findAll();
-        Iterator<PuntoVendita> iterator = pVList.iterator();
-        String[] nomiPV = new String[pVList.size()];
-        for(int i = 0; i < pVList.size(); i++){
-            nomiPV[i] = iterator.next().getNome();
+        PuntoVenditaResult result = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
+        if(result.getPuntiVendita() != null) {
+            Iterator<PuntoVendita> iterator = result.getPuntiVendita().iterator();
+            String[] nomiPV = new String[result.getPuntiVendita().size()];
+            for (int i = 0; i < result.getPuntiVendita().size(); i++) {
+                nomiPV[i] = iterator.next().getNome();
+            }
+            puntoVenditaBox = new JComboBox<>(nomiPV);
+            puntoVenditaBox.setFocusable(false);
+            puntoVenditaBox.setFont(bodyFont);
         }
-        puntoVenditaBox = new JComboBox<>(nomiPV);
-        puntoVenditaBox.setFocusable(false);
-        puntoVenditaBox.setFont(bodyFont);
 
         JButton registerButton = new JButton("Registrati");
         JButton backButton = new JButton("Torna al login");

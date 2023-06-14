@@ -1,6 +1,7 @@
 package View.Decorator;
 
-import View.Listener.SfogliaCatalogoListener;
+import View.Listener.GoToCatalogoListener;
+import View.Listener.SfogliaCatalogoProdottiListener;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -12,10 +13,13 @@ public class GuestMenu extends Menu {
     public GuestMenu(MainFrame frame) {
 
         this.frame = frame;
-        JButton sfoglia = new JButton("Sfoglia catalogo");
-        sfoglia.addActionListener(new SfogliaCatalogoListener(this.frame));
+        JButton sfogliaCatalogoProdotti = new JButton("Sfoglia catalogo prodotti");
+        sfogliaCatalogoProdotti.addActionListener(new SfogliaCatalogoProdottiListener(this.frame));
+        JButton sfogliaCatalogoServizi = new JButton("Sfoglia catalogo servizi");
+        sfogliaCatalogoServizi.addActionListener(new GoToCatalogoListener(this.frame));
 
-        pulsanti.add(sfoglia);
+        pulsanti.add(sfogliaCatalogoProdotti);
+        pulsanti.add(sfogliaCatalogoServizi);
 
     }
 }

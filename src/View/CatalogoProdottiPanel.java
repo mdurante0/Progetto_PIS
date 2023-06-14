@@ -14,14 +14,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CatalogoPanel extends JPanel {
+public class CatalogoProdottiPanel extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public CatalogoPanel(MainFrame frame, String nomePuntoVendita) {
+    public CatalogoProdottiPanel(MainFrame frame, String nomePuntoVendita) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Catalogo di " + nomePuntoVendita);
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -40,7 +40,7 @@ public class CatalogoPanel extends JPanel {
             JButton dettagliButton = new JButton("Dettagli");
             riga.setIdArticolo(p.getIdArticolo());
             riga.setNomeProdotto(p.getName());
-            riga.setNomeProduttore(p.getProduttore().getNome());
+            riga.setNomeRifornitore(p.getProduttore().getNome());
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
             riga.setDettagliButton(dettagliButton);
@@ -74,6 +74,8 @@ public class CatalogoPanel extends JPanel {
             tornaIndietroButton.addActionListener(new GoToMenuPuntiVenditaListener(this.frame));
         else
             tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+
+        southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
 
         this.add(contentPanel, BorderLayout.CENTER);

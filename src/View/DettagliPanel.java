@@ -1,8 +1,8 @@
 package View;
 
 import Business.ImmagineBusiness;
-import Model.Articolo;
-import Model.Servizio;
+import Business.SessionManager;
+import Model.*;
 import Model.composite.IProdotto;
 import View.Listener.GoToCatalogoListener;
 import View.Listener.GoToFeedbackListener;
@@ -23,6 +23,7 @@ public class DettagliPanel extends JPanel {
     private int index;
     private JPanel contentPanel = new JPanel();
     private JComboBox<Integer> quantitaBox;
+    private JTextField quantitaField;
 
     public DettagliPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
         this.frame = frame;
@@ -54,8 +55,9 @@ public class DettagliPanel extends JPanel {
         contentPanel.setLayout(new GridLayout(11,2));
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
-
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
+
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
         //nome articolo
         JLabel nomeLabel = new JLabel("  Nome:");
@@ -88,7 +90,10 @@ public class DettagliPanel extends JPanel {
              categoriaLabel = new JLabel("  Categoria:");
              categoriaLabel.setFont(bodyFont);
              contentPanel.add(categoriaLabel);
-             categoria = new JLabel(articolo.getCategoria().getNome());
+             if(articolo.getCategoria().getNome() != null)
+                categoria = new JLabel(articolo.getCategoria().getNome());
+             else
+                 categoria = new JLabel("Categoria non assegnata");
              categoria.setFont(bodyFont);
              contentPanel.add(categoria);
         } else {
@@ -121,18 +126,27 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
                 contentPanel.add(new JLabel());
             }
-
-            JLabel selezionaQuantitaLabel = new JLabel("  Seleziona la quantità da acquistare:");
-            selezionaQuantitaLabel.setFont(bodyFont);
-            contentPanel.add(selezionaQuantitaLabel);
-            Integer[] quantita = new Integer[articolo.getQuantita()];
-            for(int i = 0; i < articolo.getQuantita(); i++){
-                quantita[i] = i+1;
+            if(u instanceof Cliente) {
+                JLabel selezionaQuantitaLabel = new JLabel("  Seleziona la quantità da acquistare:");
+                selezionaQuantitaLabel.setFont(bodyFont);
+                contentPanel.add(selezionaQuantitaLabel);
+                Integer[] quantita = new Integer[articolo.getQuantita()];
+                for (int i = 0; i < articolo.getQuantita(); i++) {
+                    quantita[i] = i + 1;
+                }
+                quantitaBox = new JComboBox<>(quantita);
+                quantitaBox.setFont(bodyFont);
+                quantitaBox.setFocusable(false);
+                contentPanel.add(quantitaBox);
             }
-            quantitaBox = new JComboBox<>(quantita);
-            quantitaBox.setFont(bodyFont);
-            quantitaBox.setFocusable(false);
-            contentPanel.add(quantitaBox);
+            else if(u instanceof Manager || u instanceof Amministratore) {
+                JLabel selezionaQuantitaLabel = new JLabel("  Inserisci la disponibilità:");
+                selezionaQuantitaLabel.setFont(bodyFont);
+                contentPanel.add(selezionaQuantitaLabel);
+                quantitaField = new JTextField(20);
+                quantitaField.setFont(bodyFont);
+                contentPanel.add(quantitaField);
+            }
 
 
         }else if (articolo instanceof Servizio servizio){
@@ -140,7 +154,7 @@ public class DettagliPanel extends JPanel {
                 fornitoreLabel = new JLabel("  Fornitore:");
                 fornitoreLabel.setFont(bodyFont);
                 contentPanel.add(fornitoreLabel);
-                fornitore = new JLabel("  Telefono:");
+                fornitore = new JLabel(servizio.getFornitore().getNome());
                 fornitore.setFont(bodyFont);
                 contentPanel.add(fornitore);
             } else {
@@ -153,13 +167,33 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
 
-        JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
-        nuovaListaButton.setFont(bodyFont);
-        contentPanel.add(nuovaListaButton);
 
-        JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
-        listaEsistenteButton.setFont(bodyFont);
-        contentPanel.add(listaEsistenteButton);
+        if(u instanceof Cliente) {
+            JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
+            nuovaListaButton.setFont(bodyFont);
+            contentPanel.add(nuovaListaButton);
+
+            JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
+            listaEsistenteButton.setFont(bodyFont);
+            contentPanel.add(listaEsistenteButton);
+        }
+        else if(u instanceof Manager && articolo instanceof IProdotto){
+            JButton modificaDisponibilita = new JButton("Modifica disponibilita");
+            modificaDisponibilita.setFont(bodyFont);
+            contentPanel.add(new JLabel());
+            contentPanel.add(modificaDisponibilita);
+        } else if (u instanceof Amministratore) {
+            JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
+            JButton modificaArticolo = new JButton("Modifica articolo");
+            rimuoviArticolo.setFont(bodyFont);
+            modificaArticolo.setFont(bodyFont);
+            contentPanel.add(modificaArticolo);
+            contentPanel.add(rimuoviArticolo);
+        }
+        else {
+            contentPanel.add(new JLabel());
+            contentPanel.add(new JLabel());
+        }
 
         JButton backButton = new JButton("Torna al catalogo");
         backButton.addActionListener(new GoToCatalogoListener(this.frame, nomePuntoVendita));

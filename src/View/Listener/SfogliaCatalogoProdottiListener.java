@@ -7,18 +7,18 @@ import Model.Amministratore;
 import Model.Cliente;
 import Model.Manager;
 import Model.Utente;
-import View.CatalogoPanel;
+import View.CatalogoProdottiPanel;
 import View.MainFrame;
 import View.MenuPuntiVenditaPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SfogliaCatalogoListener implements ActionListener {
+public class SfogliaCatalogoProdottiListener implements ActionListener {
 
     private MainFrame frame;
 
-    public SfogliaCatalogoListener(MainFrame frame){
+    public SfogliaCatalogoProdottiListener(MainFrame frame){
         this.frame = frame;
     }
 
@@ -41,11 +41,11 @@ public class SfogliaCatalogoListener implements ActionListener {
                 frame.mostraPannelloAttuale(new MenuPuntiVenditaPanel(this.frame));
 
             //Altrimenti lo faccio accedere al punto vendita che gli è stato assegnato
-            else frame.mostraPannelloAttuale(new CatalogoPanel(this.frame, result.getPuntiVendita().get(0).getNome()));
+            else frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, result.getPuntiVendita().get(0).getNome()));
 
         //Infine se è un cliente lo faccio accedere al suo punto vendita di registrazione
         } else if (u instanceof Cliente c) {
-            frame.mostraPannelloAttuale(new CatalogoPanel(this.frame, c.getPuntoVenditaDiRegistrazione().getNome()));
+            frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, c.getPuntoVenditaDiRegistrazione().getNome()));
 
         }
     }

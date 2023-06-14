@@ -6,7 +6,6 @@ import Model.Cliente;
 import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class ClienteDAOTest {
         clienteDAO.add(new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, NotificationFactory.TipoNotifica.EMAIL, true, 18, "via mozart 21", "avvocato", "0231561237" ));
     }
 
-    @After
+    //@After
     public void tearDown() {
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
         IPuntoVenditaDAO  puntoVenditaDAO = PuntoVenditaDAO.getInstance();
@@ -52,6 +51,16 @@ public class ClienteDAOTest {
     public void findAllTest() {
         IClienteDAO clienteDao = ClienteDAO.getInstance();
         ArrayList<Cliente> clienti = clienteDao.findAll();
+        Assert.assertEquals(1, clienti.size());
+    }
+
+    @Test
+    public void findAllByPuntoVenditaTest(){
+        IClienteDAO clienteDao = ClienteDAO.getInstance();
+        IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName("aaa");
+
+        ArrayList<Cliente> clienti = clienteDao.findAllByPuntoVendita(puntoVendita.getIdPuntoVendita());
         Assert.assertEquals(1, clienti.size());
     }
 

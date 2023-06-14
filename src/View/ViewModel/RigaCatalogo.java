@@ -4,7 +4,7 @@ public class RigaCatalogo {
 
     private int idArticolo;
     private String nomeProdotto;
-    private String nomeProduttore;
+    private String nomeRifornitore;
     private float prezzo;
     private String nomeCategoria;
     private Object dettagliButton;
@@ -33,12 +33,12 @@ public class RigaCatalogo {
         this.nomeProdotto = nomeProdotto;
     }
 
-    public String getNomeProduttore() {
-        return nomeProduttore;
+    public String getNomeRifornitore() {
+        return nomeRifornitore;
     }
 
-    public void setNomeProduttore(String nomeProduttore) {
-        this.nomeProduttore = nomeProduttore;
+    public void setNomeRifornitore(String nomeRifornitore) {
+        this.nomeRifornitore = nomeRifornitore;
     }
 
     public float getPrezzo() {

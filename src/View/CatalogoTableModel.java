@@ -57,7 +57,7 @@ public class CatalogoTableModel extends AbstractTableModel {
                     }
                 }
             case 1: return riga.getNomeProdotto();
-            case 2: return riga.getNomeProduttore();
+            case 2: return riga.getNomeRifornitore();
             case 3: return riga.getNomeCategoria();
             case 4: return riga.getPrezzo();
             case 5: return riga.getDettagliButton();
@@ -72,7 +72,7 @@ public class CatalogoTableModel extends AbstractTableModel {
 
         switch(columnIndex) {
             case 0: riga.setNomeProdotto(value.toString());
-            case 1: riga.setNomeProduttore(value.toString());
+            case 1: riga.setNomeRifornitore(value.toString());
             case 2: riga.setNomeCategoria(value.toString());
             case 3: riga.setPrezzo(Float.parseFloat(value.toString()));
             case 4: riga.setDettagliButton(new JButton());
@@ -86,7 +86,7 @@ public class CatalogoTableModel extends AbstractTableModel {
         switch(columnIndex) {
             case 0: return "Immagine";
             case 1: return "Nome";
-            case 2: return "Produttore";
+            case 2: return "Produttore o Fornitore";
             case 3: return "Categoria";
             case 4: return "Prezzo (€)";
             case 5: return "Dettagli";
