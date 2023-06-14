@@ -37,7 +37,7 @@ public class DettagliPanel extends JPanel {
         titlePanel.add(titleLabel);
 
         ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiArticolo(articolo.getName());
-        if(result.getListaImmagini() != null) {
+        if(!result.getListaImmagini().isEmpty()) {
             immaginiPanel.setLayout(new FlowLayout());
             articolo.setImmagini(result.getListaImmagini());
 
