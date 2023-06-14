@@ -214,33 +214,36 @@ public class DettagliPanel extends JPanel {
 
 
         this.add(titlePanel);
-        
+
         this.add(contentPanel);
     }
 
     public void nextImage(){
-        if(index < articolo.getImmagini().size() - 1){
-            immaginiPanel.remove(imagePanel);
-            index++;
-            imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
-            immaginiPanel.add(imagePanel);
-            immaginiPanel.remove(nextImageButton);
-            immaginiPanel.add(nextImageButton);
-            repaint();
-            revalidate();
+        if(articolo.getImmagini() != null) {
+            if (index < articolo.getImmagini().size() - 1) {
+                immaginiPanel.remove(imagePanel);
+                index++;
+                imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
+                immaginiPanel.add(imagePanel);
+                immaginiPanel.remove(nextImageButton);
+                immaginiPanel.add(nextImageButton);
+                repaint();
+                revalidate();
+            }
         }
-
     }
     public void previousImage() {
-        if (index > 0) {
-            immaginiPanel.remove(imagePanel);
-            index--;
-            imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
-            immaginiPanel.add(imagePanel);
-            immaginiPanel.remove(nextImageButton);
-            immaginiPanel.add(nextImageButton);
-            repaint();
-            revalidate();
+        if(articolo.getImmagini() != null) {
+            if (index > 0) {
+                immaginiPanel.remove(imagePanel);
+                index--;
+                imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
+                immaginiPanel.add(imagePanel);
+                immaginiPanel.remove(nextImageButton);
+                immaginiPanel.add(nextImageButton);
+                repaint();
+                revalidate();
+            }
         }
     }
 }
