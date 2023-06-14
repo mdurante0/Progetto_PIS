@@ -1,6 +1,7 @@
 package View;
 
 import Business.ImmagineBusiness;
+import Business.Results.ImmagineResult;
 import Business.SessionManager;
 import Model.*;
 import Model.composite.IProdotto;
@@ -35,22 +36,27 @@ public class DettagliPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        immaginiPanel.setLayout(new FlowLayout());
-        articolo.setImmagini(ImmagineBusiness.getInstance().caricaImmaginiArticolo(articolo.getName()).getListaImmagini());
+        ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiArticolo(articolo.getName());
+        if(result.getListaImmagini() != null) {
+            immaginiPanel.setLayout(new FlowLayout());
+            articolo.setImmagini(result.getListaImmagini());
 
-        previousImageButton = new JButton("<-");
+            previousImageButton = new JButton("<-");
 
-        immaginiPanel.add(previousImageButton);
+            immaginiPanel.add(previousImageButton);
 
-        int index = 0;
-        imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
-        immaginiPanel.add(imagePanel);
+            int index = 0;
+            imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
+            immaginiPanel.add(imagePanel);
 
-        nextImageButton = new JButton("->");
-        immaginiPanel.add(nextImageButton);
+            nextImageButton = new JButton("->");
+            immaginiPanel.add(nextImageButton);
 
-        previousImageButton.addActionListener(new PreviousImageListener(this));
-        nextImageButton.addActionListener(new NextImageListener(this));
+            previousImageButton.addActionListener(new PreviousImageListener(this));
+            nextImageButton.addActionListener(new NextImageListener(this));
+
+            this.add(immaginiPanel);
+        }
 
         contentPanel.setLayout(new GridLayout(11,2));
         contentPanel.add(new JLabel());
@@ -208,7 +214,7 @@ public class DettagliPanel extends JPanel {
 
 
         this.add(titlePanel);
-        this.add(immaginiPanel);
+        
         this.add(contentPanel);
     }
 
