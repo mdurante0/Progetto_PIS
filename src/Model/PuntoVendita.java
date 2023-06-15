@@ -4,7 +4,7 @@ public class PuntoVendita {
 
     private int idPuntoVendita;
     private Manager manager = new Manager();
-    private int idMagazzino;
+    private Magazzino magazzino;
     private String citta;
     private String indirizzo;
     private String telefono;
@@ -13,21 +13,21 @@ public class PuntoVendita {
     public PuntoVendita(){
     }
 
-    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino, Manager manager) {
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, Magazzino magazzino, Manager manager) {
         this.citta = citta;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.nome = nome;
-        this.idMagazzino = idMagazzino;
+        this.magazzino = magazzino;
         this.manager = manager;
     }
 
-    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, int idMagazzino) {
+    public PuntoVendita(String citta, String indirizzo, String telefono, String nome, Magazzino magazzino) {
         this.citta = citta;
         this.indirizzo = indirizzo;
         this.telefono = telefono;
         this.nome = nome;
-        this.idMagazzino = idMagazzino;
+        this.magazzino = magazzino;
     }
 
     public int getIdPuntoVendita() {
@@ -46,12 +46,12 @@ public class PuntoVendita {
         this.manager = manager;
     }
 
-    public int getIdMagazzino() {
-        return idMagazzino;
+    public Magazzino getMagazzino() {
+        return magazzino;
     }
 
-    public void setIdMagazzino(int idMagazzino) {
-        this.idMagazzino = idMagazzino;
+    public void setMagazzino(Magazzino magazzino) {
+        this.magazzino = magazzino;
     }
 
     public String getCitta() {

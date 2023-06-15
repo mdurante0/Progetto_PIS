@@ -5,6 +5,7 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
 
@@ -40,7 +41,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
@@ -49,6 +49,10 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
                 if(manager != null)
                     puntoVendita.setManager(manager);
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null)
+                    puntoVendita.setMagazzino(magazzino);
 
                 return puntoVendita;
             }
@@ -77,7 +81,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
@@ -86,6 +89,10 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
                 if(manager != null)
                     puntoVendita.setManager(manager);
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null)
+                    puntoVendita.setMagazzino(magazzino);
 
                 return puntoVendita;
             }
@@ -113,7 +120,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             if (rs.getRow()==1) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
@@ -122,6 +128,10 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
                 if(manager != null)
                     puntoVendita.setManager(manager);
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null)
+                    puntoVendita.setMagazzino(magazzino);
 
                 return puntoVendita;
             }
@@ -150,7 +160,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
             while (rs.next()) {
                 puntoVendita = new PuntoVendita();
                 puntoVendita.setIdPuntoVendita(rs.getInt("idpunto_vendita"));
-                puntoVendita.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 puntoVendita.setCitta(rs.getString("citta"));
                 puntoVendita.setIndirizzo(rs.getString("indirizzo"));
                 puntoVendita.setTelefono(rs.getString("telefono"));
@@ -159,6 +168,10 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                 Manager manager = ManagerDAO.getInstance().findById(rs.getInt("manager_utente_idutente"));
                 if(manager != null)
                     puntoVendita.setManager(manager);
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null)
+                    puntoVendita.setMagazzino(magazzino);
 
                 puntiVendita.add(puntoVendita);
             }
@@ -179,17 +192,38 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     @Override
     public int add(PuntoVendita puntoVendita) {
         String sql;
-        if(puntoVendita.getManager() != null)
+
+        //ne manager ne magazzino sono null
+        if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() != null)
             sql = "INSERT INTO progetto_pis.punto_vendita (manager_utente_idutente, magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+
                     puntoVendita.getManager().getIdUtente() + "', '" +
-                    puntoVendita.getIdMagazzino() + "', '" +
+                    puntoVendita.getMagazzino().getIdMagazzino() + "', '" +
                     puntoVendita.getCitta() + "', '" +
                     puntoVendita.getIndirizzo() + "', '" +
                     puntoVendita.getTelefono() + "', '" +
                     puntoVendita.getNome() + "');";
-        else
+
+        //manager è null
+        else if(puntoVendita.getManager() == null && puntoVendita.getMagazzino() != null)
             sql = "INSERT INTO progetto_pis.punto_vendita (magazzino_idmagazzino, citta, indirizzo, telefono, nome) VALUES ('"+
-                    puntoVendita.getIdMagazzino() + "', '" +
+                    puntoVendita.getMagazzino().getIdMagazzino() + "', '" +
+                    puntoVendita.getCitta() + "', '" +
+                    puntoVendita.getIndirizzo() + "', '" +
+                    puntoVendita.getTelefono() + "', '" +
+                    puntoVendita.getNome() + "');";
+
+        //magazzino è null
+        else if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() == null)
+            sql = "INSERT INTO progetto_pis.punto_vendita (manager_utente_idutente, citta, indirizzo, telefono, nome) VALUES ('"+
+                    puntoVendita.getManager().getIdUtente() + "', '" +
+                    puntoVendita.getCitta() + "', '" +
+                    puntoVendita.getIndirizzo() + "', '" +
+                    puntoVendita.getTelefono() + "', '" +
+                    puntoVendita.getNome() + "');";
+
+        //sia magazzino che manager sono null
+        else
+            sql = "INSERT INTO progetto_pis.punto_vendita (citta, indirizzo, telefono, nome) VALUES ('"+
                     puntoVendita.getCitta() + "', '" +
                     puntoVendita.getIndirizzo() + "', '" +
                     puntoVendita.getTelefono() + "', '" +
@@ -224,18 +258,39 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
     @Override
     public int update(PuntoVendita puntoVendita) {
         String sql;
-        if(puntoVendita.getManager() != null)
+
+        //ne manager ne magazzino sono null
+        if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() != null)
             sql = "UPDATE progetto_pis.punto_vendita " +
                     "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
-                    "', magazzino_idmagazzino ='" + puntoVendita.getIdMagazzino() +
+                    "', magazzino_idmagazzino ='" + puntoVendita.getMagazzino() +
                     "', citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+
+        //manager è null
+        else if(puntoVendita.getManager() == null && puntoVendita.getMagazzino() != null)
+            sql = "UPDATE progetto_pis.punto_vendita " +
+                    "SET magazzino_idmagazzino ='" + puntoVendita.getMagazzino().getIdMagazzino() +
+                    "', citta ='" + puntoVendita.getCitta() +
+                    "', indirizzo ='" + puntoVendita.getIndirizzo() +
+                    "', telefono ='" + puntoVendita.getTelefono() +
+                    "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+
+        //magazzino è null
+        else if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() == null)
+            sql = "UPDATE progetto_pis.punto_vendita " +
+                    "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
+                    "', citta ='" + puntoVendita.getCitta() +
+                    "', indirizzo ='" + puntoVendita.getIndirizzo() +
+                    "', telefono ='" + puntoVendita.getTelefono() +
+                    "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
+
+            //sia magazzino che manager sono null
         else
             sql = "UPDATE progetto_pis.punto_vendita " +
-                    "SET magazzino_idmagazzino ='" + puntoVendita.getIdMagazzino() +
-                    "', citta ='" + puntoVendita.getCitta() +
+                    "SET citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
