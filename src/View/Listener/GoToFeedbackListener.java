@@ -1,7 +1,7 @@
 package View.Listener;
 
 import Model.Articolo;
-import View.FeedbackPanel;
+import View.FeedbackPanelByPuntoVendita;
 import View.MainFrame;
 
 import java.awt.event.ActionEvent;
@@ -19,6 +19,6 @@ public class GoToFeedbackListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new FeedbackPanel(this.frame, articolo, nomePuntoVendita));
+        this.frame.mostraPannelloAttuale(new FeedbackPanelByPuntoVendita(this.frame, articolo, nomePuntoVendita));
     }
 }

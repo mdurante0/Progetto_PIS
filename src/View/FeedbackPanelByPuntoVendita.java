@@ -12,14 +12,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class FeedbackPanel extends JPanel {
+public class FeedbackPanelByPuntoVendita extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public FeedbackPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public FeedbackPanelByPuntoVendita(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Commenti: " + articolo.getName());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);

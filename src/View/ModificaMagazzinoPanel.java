@@ -1,27 +1,21 @@
 package View;
 
-import Business.MagazzinoBusiness;
-import Business.ManagerBusiness;
-import Business.Results.MagazzinoResult;
-import Business.Results.ManagerResult;
 import Model.Magazzino;
-import Model.Manager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
 
-public class CreaMagazzinoPanel extends JPanel {
+public class ModificaMagazzinoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-
+    private JTextField nomeField;
     private JTextField indirizzoField;
     private JTextField quantitaCorsieField;
     private JTextField quantitaScaffaliField;
 
 
-    public CreaMagazzinoPanel(MainFrame frame) {
+    public ModificaMagazzinoPanel(MainFrame frame, Magazzino m) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -42,9 +36,9 @@ public class CreaMagazzinoPanel extends JPanel {
         quantitaCorsieLabel.setFont(bodyFont);
         quantitaScaffaliLabel.setFont(bodyFont);
 
-        indirizzoField = new JTextField(20);
-        quantitaCorsieField = new JTextField(20);
-        quantitaScaffaliField = new JTextField(20);
+        indirizzoField = new JTextField(m.getIndirizzo(),20);
+        quantitaCorsieField = new JTextField(String.valueOf(m.getQuantitaCorsie()),20);
+        quantitaScaffaliField = new JTextField(String.valueOf(m.getQuantitaScaffali()),20);
 
         indirizzoField.setFont(bodyFont);
         quantitaCorsieField.setFont(bodyFont);
