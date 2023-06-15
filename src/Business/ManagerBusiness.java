@@ -36,4 +36,79 @@ public class ManagerBusiness {
 
         return result;
     }
+
+    public ManagerResult addManager(Manager manager){
+
+        ManagerResult result = new ManagerResult();
+
+        //verifico l'esistenza del manager
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+        if(managerDAO.findByUsername(manager.getUsername()) != null){
+            result.setResult(ManagerResult.Result.USER_ALREADY_EXISTS);
+            result.setMessage("Il manager da inserire è già esistente! Riprova!");
+            return result;
+        }
+
+        //Aggiungo il nuovo manager
+        if(managerDAO.add(manager) == 0) { //manager non inserito
+            result.setResult(ManagerResult.Result.MANAGER_ERROR);
+            result.setMessage("Manager non inserito! Riprova!");
+            return result;
+        }
+
+        //l'inserimento è andato a buon fine
+        result.setResult(ManagerResult.Result.ADD_OK);
+        result.setMessage("Manager inserito correttamente!");
+        return result;
+    }
+
+    public ManagerResult updateManager(Manager manager){
+
+        ManagerResult result = new ManagerResult();
+
+        //verifico l'esistenza del manager
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+        if(managerDAO.findById(manager.getIdUtente()) == null){
+            result.setResult(ManagerResult.Result.USER_DOESNT_EXIST);
+            result.setMessage("Il manager da aggiornare non esiste! Riprova!");
+            return result;
+        }
+
+        //Aggiorno il manager
+        if(managerDAO.update(manager) == 0) { //manager non aggiornato
+            result.setResult(ManagerResult.Result.MANAGER_ERROR);
+            result.setMessage("Manager non aggiornato! Riprova!");
+            return result;
+        }
+
+        //l'aggiornamento è andato a buon fine
+        result.setResult(ManagerResult.Result.UPDATE_OK);
+        result.setMessage("Manager aggiornato correttamente!");
+        return result;
+    }
+
+    public ManagerResult removeManager(Manager manager){
+
+        ManagerResult result = new ManagerResult();
+
+        //verifico l'esistenza del manager
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+        if(managerDAO.findByUsername(manager.getUsername()) == null){
+            result.setResult(ManagerResult.Result.USER_DOESNT_EXIST);
+            result.setMessage("Il manager da rimuovere non esiste! Riprova!");
+            return result;
+        }
+
+        //Rimuovo il manager
+        if(managerDAO.removeById(manager.getUsername()) == 0) { //manager non rimosso
+            result.setResult(ManagerResult.Result.RIMOZIONE_ERROR);
+            result.setMessage("Manager non rimosso! Riprova!");
+            return result;
+        }
+
+        //la rimozione è andata a buon fine
+        result.setResult(ManagerResult.Result.RIMOZIONE_OK);
+        result.setMessage("Manager rimosso correttamente!");
+        return result;
+    }
 }

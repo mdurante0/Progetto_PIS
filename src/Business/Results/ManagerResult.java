@@ -5,7 +5,7 @@ import Model.Manager;
 import java.util.ArrayList;
 
 public class ManagerResult {
-    public enum Result { USER_DOESNT_EXIST, RIMOZIONE_OK, RIMOZIONE_ERROR, MANAGER_ERROR, MANAGER_CARICATI}
+    public enum Result { USER_DOESNT_EXIST, RIMOZIONE_OK, RIMOZIONE_ERROR, MANAGER_ERROR, USER_ALREADY_EXISTS, ADD_OK, UPDATE_OK, MANAGER_CARICATI}
 
     private Result result;
     private String message;

@@ -1,9 +1,7 @@
 package Business;
 
 import Business.Results.PuntoVenditaResult;
-import DAO.MagazzinoDAO;
 import DAO.PuntoVenditaDAO;
-import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
 
@@ -60,7 +58,7 @@ public class PuntoVenditaBusiness {
         return result;
     }
 
-    public PuntoVenditaResult addSalePoint(PuntoVendita p, Magazzino m){
+    public PuntoVenditaResult addSalePoint(PuntoVendita p){
 
         PuntoVenditaResult result = new PuntoVenditaResult();
 
@@ -72,14 +70,8 @@ public class PuntoVenditaBusiness {
             return result;
         }
 
-        //inserisco il nuovo punto vendita e il nuovo magazzino
-        MagazzinoDAO mDao = MagazzinoDAO.getInstance();
-        if(mDao.add(m) == 0) { //magazzino non inserito
-            result.setResult(PuntoVenditaResult.Result.DEPOSIT_ERROR);
-            result.setMessage("Punto vendita non inserito! Verifica il magazzino! Riprova!");
-            return result;
-
-        } else if(pDao.add(p) == 0){ //punto vendita non inserito
+        //inserisco il nuovo punto vendita
+        if(pDao.add(p) == 0){ //punto vendita non inserito
             result.setResult(PuntoVenditaResult.Result.SALEPOINT_ERROR);
             result.setMessage("Punto vendita non inserito! Riprova!");
             return result;
@@ -116,31 +108,6 @@ public class PuntoVenditaBusiness {
         return result;
     }
 
-    public PuntoVenditaResult updateDeposit(Magazzino m){
-
-        PuntoVenditaResult result = new PuntoVenditaResult();
-
-        //verifico l'esistenza del magazzino
-        MagazzinoDAO mDao = MagazzinoDAO.getInstance();
-        if(mDao.findById(m.getIdMagazzino()) != null){
-            result.setResult(PuntoVenditaResult.Result.DEPOSIT_DOESNT_EXIST);
-            result.setMessage("Il magazzino da aggiornare non esiste! Riprova!");
-            return result;
-        }
-
-        //aggiorno il magazzino
-        if(mDao.update(m) == 0){ //magazzino non aggiornato
-            result.setResult(PuntoVenditaResult.Result.DEPOSIT_ERROR);
-            result.setMessage("Magazzino non aggiornato! Riprova!");
-            return result;
-        }
-
-        //l'aggiornamento è andato a buon fine
-        result.setResult(PuntoVenditaResult.Result.UPDATE_DEPOSIT_OK);
-        result.setMessage("Magazzino aggiornato correttamente!");
-        return result;
-    }
-
     public PuntoVenditaResult removeSalePoint(PuntoVendita p){
 
         PuntoVenditaDAO pDao = PuntoVenditaDAO.getInstance();
@@ -154,7 +121,7 @@ public class PuntoVenditaBusiness {
             return result;
         }
 
-        //rimozione del punto vendita (e del rispettivo magazzino tramite cascade)
+        //rimozione del punto vendita
         int removed = pDao.removeById(p.getIdPuntoVendita());
         if(removed == 0){ //punto vendita non rimosso
             result.setResult(PuntoVenditaResult.Result.SALEPOINT_ERROR);
