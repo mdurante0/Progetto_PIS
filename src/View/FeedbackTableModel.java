@@ -56,7 +56,7 @@ public class FeedbackTableModel extends AbstractTableModel {
             case 0: riga.setData(new Date());
             case 1: riga.setUsernameCliente(value.toString());
             case 2: riga.setCommento(value.toString());
-            case 3: riga.setPunteggio(Feedback.Punteggio.valueOf(value.toString())); //da rivedere
+            case 3: riga.setPunteggio(Feedback.Punteggio.valueOf(value.toString()));
             case 4: riga.setRisposta(value.toString());
         }
     }
@@ -77,7 +77,6 @@ public class FeedbackTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 0) return String.class;
         if(columnIndex == 3) return Feedback.Punteggio.class;
         return Object.class;
     }

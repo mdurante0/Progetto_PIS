@@ -21,7 +21,7 @@ public class PuntoVenditaDAOTest {
 
         managerDAO.add(new Manager("Antonio","Bianchi","ab77","123","ab77@gmail.com","MN", (float) 7500.55, 3));
 
-        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino(), managerDAO.findByUsername("ab77")));
+        puntoVenditaDAO.add(new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzinoDAO.findByAddress("via Paoli 23"), managerDAO.findByUsername("ab77")));
     }
 
     //@After

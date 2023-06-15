@@ -71,11 +71,11 @@ public class CatalogoTableModel extends AbstractTableModel {
         RigaCatalogo riga = righe.get(rowIndex);
 
         switch(columnIndex) {
-            case 0: riga.setNomeProdotto(value.toString());
-            case 1: riga.setNomeRifornitore(value.toString());
-            case 2: riga.setNomeCategoria(value.toString());
-            case 3: riga.setPrezzo(Float.parseFloat(value.toString()));
-            case 4: riga.setDettagliButton(new JButton());
+            case 1: riga.setNomeProdotto(value.toString());
+            case 2: riga.setNomeRifornitore(value.toString());
+            case 3: riga.setNomeCategoria(value.toString());
+            case 4: riga.setPrezzo(Float.parseFloat(value.toString()));
+            case 5: riga.setDettagliButton(new JButton());
 
         }
     }

@@ -24,7 +24,7 @@ public class ListaAcquistoDAOTest {
         Magazzino magazzino = new Magazzino(7,5,"via mozart 25");
         magazzinoDAO.add(magazzino);
 
-        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", magazzino.getIdMagazzino(), null);
+        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", magazzino, null);
         puntoVenditaDAO.add(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
 

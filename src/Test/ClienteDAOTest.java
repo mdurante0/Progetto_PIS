@@ -27,7 +27,7 @@ public class ClienteDAOTest {
         Manager manager = new Manager("Antonio","Bianchi","ab77","123","ab77@gmail.com","MN",7500.55F, 3);
         managerDAO.add(manager);
 
-        PuntoVendita puntoVendita = new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzino.getIdMagazzino(), manager);
+        PuntoVendita puntoVendita = new PuntoVendita("Genova", "via palma", "1111111111", "aaa", magazzino, manager);
         puntoVenditaDAO.add(puntoVendita);
         puntoVendita = puntoVenditaDAO.findByName("aaa");
 

@@ -46,6 +46,7 @@ public class FeedbackPanel extends JPanel {
 
         ordinamentoCommenti.setOrdinamentoCommentoStrategy(ordinamento);
         ordinamentoCommenti.ordina();
+
         for(int i = 0 ; i < result.getFeedbacks().size(); i++){
             RigaFeedback riga = new RigaFeedback();
             Feedback f = feedbacks.get(i);
