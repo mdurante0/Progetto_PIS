@@ -1,22 +1,17 @@
 package View;
 
+import Model.Fornitore;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class FornitorePanel extends JPanel {
+public class ModificaFornitorePanel extends  JPanel{
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-    private JTextField nomeField;
-    private JTextField emailField;
-    private JTextField telefonoField;
-    private JTextField nazioneField;
-    private JTextField cittaField;
-    private JTextField descrizioneField;
-    private JTextField sitoField;
 
 
-    public FornitorePanel(MainFrame frame) {
+    public ModificaFornitorePanel(MainFrame frame, Fornitore fornitore) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -25,6 +20,14 @@ public class FornitorePanel extends JPanel {
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
+        JTextField nomeField;
+        JTextField emailField;
+        JTextField telefonoField;
+        JTextField nazioneField;
+        JTextField cittaField;
+        JTextField descrizioneField;
+        JTextField sitoField;
+
 
         contentPanel.setLayout(new GridLayout(15,2));
         JLabel firstNameLabel = new JLabel("  Nome:");
@@ -44,13 +47,16 @@ public class FornitorePanel extends JPanel {
         descrizioneLabel.setFont(bodyFont);
         sitoLabel.setFont(bodyFont);
 
-        nomeField = new JTextField(20);
-        emailField = new JTextField(20);
-        telefonoField = new JTextField(20);
-        nazioneField = new JTextField(20);
-        cittaField = new JTextField(20);
-        descrizioneField = new JTextField(20);
-        sitoField = new JTextField(20);
+
+
+        nomeField = new JTextField(fornitore.getNome(),20);
+
+        emailField = new JTextField(fornitore.getMail(),20);
+        telefonoField = new JTextField(fornitore.getTelefono(),20);
+        nazioneField = new JTextField(fornitore.getNazione(),20);
+        cittaField = new JTextField(fornitore.getCitta(),20);
+        descrizioneField = new JTextField(fornitore.getDescrizione(),20);
+        sitoField = new JTextField(fornitore.getSito(),20);
 
 
         nomeField.setFont(bodyFont);
@@ -62,8 +68,8 @@ public class FornitorePanel extends JPanel {
         sitoField.setFont(bodyFont);
 
 
-        JButton aggiungiFornitoreButton = new JButton("Aggiungi");
-        aggiungiFornitoreButton.setFont(bodyFont);
+        JButton modificaFornitoreButton = new JButton("Modifica");
+        modificaFornitoreButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.setFont(bodyFont);
 
@@ -86,12 +92,10 @@ public class FornitorePanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(tornaIndietroButton);
-        contentPanel.add(aggiungiFornitoreButton);
+        contentPanel.add(modificaFornitoreButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
     }
-
-
 
 }
