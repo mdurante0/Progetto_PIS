@@ -7,12 +7,15 @@ import Business.Results.CategoriaResult;
 import Business.Results.ProduttoreResult;
 import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
+import Model.Immagine;
 import Model.Produttore;
 import Model.PuntoVendita;
 import View.Listener.GoToMenuListener;
+import View.Listener.ImmaginiListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class NuovoProdottoPanel extends JPanel {
@@ -26,6 +29,10 @@ public class NuovoProdottoPanel extends JPanel {
     private JComboBox<String> produttoreBox;
     private JComboBox<String> categoriaProdottoBox;
     private JComboBox<String> puntoVenditaBox;
+    private JTextField corsiaField;
+    private JTextField scaffaleField;
+    private ArrayList<Immagine> immagini = new ArrayList<>();
+    private JLabel immaginiCounterLabel;
 
     public NuovoProdottoPanel(MainFrame frame) {
         this.frame = frame;
@@ -36,11 +43,12 @@ public class NuovoProdottoPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(9, 2));
+        contentPanel.setLayout(new GridLayout(12, 1));
         JLabel nomeProdottoLabel = new JLabel("  Nome:");
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         JLabel prezzoLabel = new JLabel("  Prezzo (€):");
         JLabel quantitaLabel = new JLabel("  Quantità:");
+
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
         nomeProdottoLabel.setFont(bodyFont);
@@ -83,7 +91,23 @@ public class NuovoProdottoPanel extends JPanel {
             puntoVenditaBox.setFont(bodyFont);
             contentPanel.add(puntoVenditaLabel);
             contentPanel.add(puntoVenditaBox);
+
+            JLabel corsiaLabel = new JLabel("  Corsia:");
+            corsiaLabel.setFont(bodyFont);
+            corsiaField = new JTextField(20);
+            corsiaField.setFont(bodyFont);
+            contentPanel.add(corsiaLabel);
+            contentPanel.add(corsiaField);
+
+            JLabel scaffaleLabel = new JLabel("  Scaffale:");
+            scaffaleLabel.setFont(bodyFont);
+            scaffaleField = new JTextField(20);
+            scaffaleField.setFont(bodyFont);
+            contentPanel.add(scaffaleLabel);
+            contentPanel.add(scaffaleField);
         }
+
+
 
         ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttori();
         if (produttoreResult.getProduttori() != null){
@@ -121,19 +145,43 @@ public class NuovoProdottoPanel extends JPanel {
             contentPanel.add(categoriaProdottoBox);
         }
 
+        JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
+        immaginiLabel.setFont(bodyFont);
+        JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");
+        aggiungiImmagineButton.setFont(bodyFont);
+        aggiungiImmagineButton.setActionCommand(ImmaginiListener.AGGIUNGI);
+        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this, immagini));
+
+        JButton rimuoviImmagineButton = new JButton("Rimuovi l'ultima immagine");
+        rimuoviImmagineButton.setFont(bodyFont);
+        rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
+        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this, immagini));
+
+        immaginiCounterLabel = new JLabel("  Immagini inserite: " + immagini.size());
+        immaginiCounterLabel.setFont(bodyFont);
+
         JButton aggiungiButton = new JButton("Aggiunti prodotto");
         aggiungiButton.setFont(bodyFont);
+        //aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, immagini));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
         backButton.addActionListener(new GoToMenuListener(this.frame));
 
-        contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());
+        contentPanel.add(immaginiLabel);
+        contentPanel.add(aggiungiImmagineButton);
+        contentPanel.add(immaginiCounterLabel);
+        contentPanel.add(rimuoviImmagineButton);
         contentPanel.add(backButton);
         contentPanel.add(aggiungiButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
+    }
+
+    public void AggiornaCounter(){
+        immaginiCounterLabel.setText("  Immagini inserite: " + immagini.size());
+        repaint();
+        revalidate();
     }
 }

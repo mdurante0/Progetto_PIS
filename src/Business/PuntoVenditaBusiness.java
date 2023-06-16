@@ -53,7 +53,27 @@ public class PuntoVenditaBusiness {
         }else result.getPuntiVendita().add(puntoVendita); //Punto vendita caricato
 
         result.setResult(PuntoVenditaResult.Result.SALEPOINT_CARICATI);
-        result.setMessage("Punti vendita caricati correttamente");
+        result.setMessage("Punto vendita caricato correttamente");
+
+        return result;
+    }
+
+    public PuntoVenditaResult caricaPuntoVenditaByNome(String nomePuntoVendita){
+        PuntoVenditaResult result = new PuntoVenditaResult();
+
+        PuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
+
+        PuntoVendita puntoVendita = puntoVenditaDAO.findByName(nomePuntoVendita);
+
+        if(puntoVendita == null){ //Il nome indicato non è stato assegnato ad alcun punto vendita
+            result.setResult(PuntoVenditaResult.Result.SALEPOINT_ERROR);
+            result.setMessage("Punto vendita non trovato!");
+            return result;
+
+        }else result.getPuntiVendita().add(puntoVendita); //Punto vendita caricato
+
+        result.setResult(PuntoVenditaResult.Result.SALEPOINT_CARICATI);
+        result.setMessage("Punto vendita caricato correttamente");
 
         return result;
     }

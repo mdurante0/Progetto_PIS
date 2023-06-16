@@ -1,8 +1,9 @@
 package View.Listener;
 
+import Business.PuntoVenditaBusiness;
+import Business.Results.PuntoVenditaResult;
 import Business.Results.RegisterResult;
 import Business.UtenteBusiness;
-import DAO.PuntoVenditaDAO;
 import Model.Cliente;
 import View.LoginPanel;
 import View.MainFrame;
@@ -68,13 +69,15 @@ public class RegistrationListener implements ActionListener {
             cliente.setEta(Integer.parseInt(ageField.getText()));
             cliente.setResidenza(residenzaField.getText());
             cliente.setTelefono(telefonoField.getText());
-            cliente.setPuntoVenditaDiRegistrazione(PuntoVenditaDAO.getInstance().findByName(puntoVenditaBox.getSelectedItem().toString()));
+            PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
+            if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI))
+                cliente.setPuntoVenditaDiRegistrazione(puntoVenditaResult.getPuntiVendita().get(0));
 
-            RegisterResult result = UtenteBusiness.getInstance().register(cliente);
-            if(result.getResult() == RegisterResult.Result.REGISTER_OK){
+            RegisterResult registerResult = UtenteBusiness.getInstance().register(cliente);
+            if(registerResult.getResult() == RegisterResult.Result.REGISTER_OK){
                 this.frame.mostraPannelloAttuale(new LoginPanel(this.frame));
             }
-            JOptionPane.showMessageDialog(this.frame, result.getMessage());
+            JOptionPane.showMessageDialog(this.frame, registerResult.getMessage());
         }
     }
 }

@@ -5,10 +5,7 @@ import Business.Results.ImmagineResult;
 import Business.SessionManager;
 import Model.*;
 import Model.composite.IProdotto;
-import View.Listener.GoToCatalogoListener;
-import View.Listener.GoToFeedbackListener;
-import View.Listener.NextImageListener;
-import View.Listener.PreviousImageListener;
+import View.Listener.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +33,7 @@ public class DettagliPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiArticolo(articolo.getName());
+        ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(articolo.getName());
         if(!result.getListaImmagini().isEmpty()) {
             immaginiPanel.setLayout(new FlowLayout());
             articolo.setImmagini(result.getListaImmagini());
@@ -145,7 +142,7 @@ public class DettagliPanel extends JPanel {
                 quantitaBox.setFocusable(false);
                 contentPanel.add(quantitaBox);
             }
-            else if(u instanceof Manager || u instanceof Amministratore) {
+            else if(u instanceof Manager) {
                 JLabel selezionaQuantitaLabel = new JLabel("  Inserisci la disponibilità:");
                 selezionaQuantitaLabel.setFont(bodyFont);
                 contentPanel.add(selezionaQuantitaLabel);
@@ -176,21 +173,26 @@ public class DettagliPanel extends JPanel {
 
         if(u instanceof Cliente) {
             JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
+            //action listener
             nuovaListaButton.setFont(bodyFont);
             contentPanel.add(nuovaListaButton);
 
             JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
+            //action listener
             listaEsistenteButton.setFont(bodyFont);
             contentPanel.add(listaEsistenteButton);
         }
         else if(u instanceof Manager && articolo instanceof IProdotto){
             JButton modificaDisponibilita = new JButton("Modifica disponibilita");
+            //action listener
             modificaDisponibilita.setFont(bodyFont);
             contentPanel.add(new JLabel());
             contentPanel.add(modificaDisponibilita);
         } else if (u instanceof Amministratore) {
             JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
+            rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, nomePuntoVendita));
             JButton modificaArticolo = new JButton("Modifica articolo");
+            //action listener
             rimuoviArticolo.setFont(bodyFont);
             modificaArticolo.setFont(bodyFont);
             contentPanel.add(modificaArticolo);
@@ -221,12 +223,8 @@ public class DettagliPanel extends JPanel {
     public void nextImage(){
         if(articolo.getImmagini() != null) {
             if (index < articolo.getImmagini().size() - 1) {
-                immaginiPanel.remove(imagePanel);
                 index++;
-                imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
-                immaginiPanel.add(imagePanel);
-                immaginiPanel.remove(nextImageButton);
-                immaginiPanel.add(nextImageButton);
+                imagePanel.setImage(articolo.getImmagini().get(index).getPic().getImage());
                 repaint();
                 revalidate();
             }
@@ -235,12 +233,8 @@ public class DettagliPanel extends JPanel {
     public void previousImage() {
         if(articolo.getImmagini() != null) {
             if (index > 0) {
-                immaginiPanel.remove(imagePanel);
                 index--;
-                imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
-                immaginiPanel.add(imagePanel);
-                immaginiPanel.remove(nextImageButton);
-                immaginiPanel.add(nextImageButton);
+                imagePanel.setImage(articolo.getImmagini().get(index).getPic().getImage());
                 repaint();
                 revalidate();
             }

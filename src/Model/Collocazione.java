@@ -6,16 +6,16 @@ public class Collocazione {
     private int corsia;
     private int scaffale;
     private int idProdotto;
-    private int idMagazzino;
+    private Magazzino magazzino;
 
     public Collocazione(int corsia, int scaffale) {
         this.corsia = corsia;
         this.scaffale = scaffale;
     }
-    public Collocazione(int corsia, int scaffale, int idMagazzino) {
+    public Collocazione(int corsia, int scaffale, Magazzino magazzino) {
         this.corsia = corsia;
         this.scaffale = scaffale;
-        this.idMagazzino = idMagazzino;
+        this.magazzino = magazzino;
     }
     public Collocazione(){}
 
@@ -51,12 +51,12 @@ public class Collocazione {
         this.idProdotto = idProdotto;
     }
 
-    public int getIdMagazzino() {
-        return idMagazzino;
+    public Magazzino getMagazzino() {
+        return magazzino;
     }
 
-    public void setIdMagazzino(int idMagazzino) {
-        this.idMagazzino = idMagazzino;
+    public void setMagazzino(Magazzino magazzino) {
+        this.magazzino = magazzino;
     }
 
     @Override

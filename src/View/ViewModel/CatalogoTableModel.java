@@ -2,7 +2,6 @@ package View.ViewModel;
 
 import Business.ImmagineBusiness;
 import Business.Results.ImmagineResult;
-import View.ViewModel.RigaCatalogo;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,7 +42,7 @@ public class CatalogoTableModel extends AbstractTableModel {
         switch(columnIndex) {
 
             case 0:
-                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiArticolo(riga.getNomeProdotto());
+                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(riga.getNomeProdotto());
                 if(result.getResult() == ImmagineResult.Result.IMMAGINI_CARICATE)
                     return new ImageIcon(result.getListaImmagini().get(0).getPic().getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
                 else {

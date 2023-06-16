@@ -19,7 +19,7 @@ public class ImmagineBusiness {
         return instance;
     }
 
-    public ImmagineResult caricaImmaginiArticolo(String nomeArticolo){
+    public ImmagineResult caricaImmaginiByArticolo(String nomeArticolo){
         ImmagineResult result = new ImmagineResult();
         ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
@@ -43,5 +43,20 @@ public class ImmagineBusiness {
         result.setResult(ImmagineResult.Result.IMMAGINI_CARICATE);
         result.setMessage("Immagini caricate correttamente");
         return result;
+    }
+
+    public ImmagineResult addImmagine(Immagine immagine){
+        ImmagineResult immagineResult = new ImmagineResult();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+
+        if(immagineDAO.add(immagine) == 0){ //immagine non inserita
+            immagineResult.setResult(ImmagineResult.Result.ADD_ERROR);
+            immagineResult.setMessage("Errore nell'inserimento dell'immagine! Riprova!");
+            return immagineResult;
+        }
+
+        immagineResult.setResult(ImmagineResult.Result.ADD_OK);
+        immagineResult.setMessage("Immagine aggiunta correttamente!");
+        return immagineResult;
     }
 }

@@ -62,7 +62,7 @@ public class MagazzinoBusiness {
         return result;
     }
 
-    public MagazzinoResult updateDeposit(Magazzino m){
+    public MagazzinoResult updateMagazzino(Magazzino m){
 
         MagazzinoResult result = new MagazzinoResult();
 

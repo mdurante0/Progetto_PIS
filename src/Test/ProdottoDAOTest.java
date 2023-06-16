@@ -25,7 +25,7 @@ public class ProdottoDAOTest {
 
         magazzinoDAO.add (new Magazzino( 4, 5, "via Paoli 23"));
 
-        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
+        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findByAddress("via Paoli 23"));
         collocazioneDAO.add(collocazione);
         categoriaProdottoDAO.add(new CategoriaProdotto("aaa"));
 

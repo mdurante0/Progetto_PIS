@@ -40,7 +40,7 @@ public class PrenotazioneDAOTest {
         produttoreDAO.add(new Produttore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
 
 
-        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino()).getIdMagazzino());
+        Collocazione collocazione = new Collocazione(4,4,magazzinoDAO.findByAddress("via Paoli 23"));
         collocazioneDAO.add(collocazione);
         categoriaProdottoDAO.add(new CategoriaProdotto("aaa"));
 
@@ -117,7 +117,7 @@ public class PrenotazioneDAOTest {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
 
-        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
+        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23"));
 
         Prodotto prodotto = new Prodotto(55.35F, null, "dondolo", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),magazzinoDAO.findByAddress("via Paoli 23"), null , 9);
 
@@ -152,7 +152,7 @@ public class PrenotazioneDAOTest {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
 
-        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
+        Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23"));
 
         Prenotazione prenotazione = prenotazioneDAO.findById(prenotazioneDAO.findByUser(clienteDAO.findByUsername("vr46").getIdUtente()).get(0).getIdPrenotazione());
 

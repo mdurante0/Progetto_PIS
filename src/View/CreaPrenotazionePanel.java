@@ -15,8 +15,8 @@ public class CreaPrenotazionePanel extends JPanel {
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
 
-    private JComboBox<String> prodottiField;
-    private JComboBox<Integer> quantitaField;
+    private JComboBox<String> prodottiBox;
+    private JComboBox<Integer> quantitaBox;
 
 
     public CreaPrenotazionePanel(MainFrame frame, PuntoVendita puntoVendita) {
@@ -31,7 +31,7 @@ public class CreaPrenotazionePanel extends JPanel {
 
         contentPanel.setLayout(new GridLayout(6,2));
         JLabel prodottiLabel = new JLabel("  Seleziona Prodotto:");
-        JLabel quantitaLabel = new JLabel("  Commento:");
+        JLabel quantitaLabel = new JLabel("  Quantità:");
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
 
         prodottiLabel.setFont(bodyFont);
@@ -45,9 +45,9 @@ public class CreaPrenotazionePanel extends JPanel {
             nomiProdotti[i] = prodotti.get(i).getName();
         }
 
-        prodottiField = new JComboBox<>(nomiProdotti);
-        prodottiField.setFont(bodyFont);
-
+        prodottiBox = new JComboBox<>(nomiProdotti);
+        prodottiBox.setFocusable(false);
+        prodottiBox.setFont(bodyFont);
 
         int massimaQuantita = 99;
         Integer[] quantita = new Integer[massimaQuantita];
@@ -55,13 +55,11 @@ public class CreaPrenotazionePanel extends JPanel {
             quantita[i] = i + 1;
         }
 
-        quantitaField = new JComboBox<>(quantita);
-        quantitaField.setFont(bodyFont);
+        quantitaBox = new JComboBox<>(quantita);
+        quantitaBox.setFocusable(false);
+        quantitaBox.setFont(bodyFont);
 
-
-
-
-        JButton creaFeedback = new JButton("Aggiungi alla lista");
+        JButton creaFeedback = new JButton("Aggiungi alla prenotazione");
         creaFeedback.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.setFont(bodyFont);
@@ -69,10 +67,10 @@ public class CreaPrenotazionePanel extends JPanel {
         // aggiungere gli action listener
 
         contentPanel.add(prodottiLabel);
-        contentPanel.add(prodottiField);
+        contentPanel.add(prodottiBox);
 
         contentPanel.add(quantitaLabel);
-        contentPanel.add(quantitaField);
+        contentPanel.add(quantitaBox);
 
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());

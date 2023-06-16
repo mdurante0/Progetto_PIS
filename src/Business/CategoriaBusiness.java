@@ -59,6 +59,47 @@ public class CategoriaBusiness {
 
         return result;
     }
+
+    public CategoriaResult caricaCategoriaProdottoByName(String nomeCategoriaProdotto){
+        CategoriaResult result = new CategoriaResult();
+
+        CategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
+
+        CategoriaProdotto categoria = categoriaProdottoDAO.findByName(nomeCategoriaProdotto);
+
+        if(categoria == null){ //Non ci sono categorie con questo nome
+            result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+            result.setMessage("Categoria prodotto non trovata!");
+            return result;
+
+        }else result.getCategorieProdotto().add(categoria); //Categoria caricata
+
+        result.setResult(CategoriaResult.Result.CATEGORIE_CARICATE);
+        result.setMessage("Categoria caricata correttamente");
+
+        return result;
+    }
+
+    public CategoriaResult caricaCategoriaServizioByName(String nomeCategoriaServizio){
+        CategoriaResult result = new CategoriaResult();
+
+        CategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
+
+        CategoriaServizio categoria = categoriaServizioDAO.findByName(nomeCategoriaServizio);
+
+        if(categoria == null){ //Non ci sono categorie con questo nome
+            result.setResult(CategoriaResult.Result.CATEGORY_ERROR);
+            result.setMessage("Categoria servizio non trovata!");
+            return result;
+
+        }else result.getCategorieServizio().add(categoria); //Categoria caricata
+
+        result.setResult(CategoriaResult.Result.CATEGORIE_CARICATE);
+        result.setMessage("Categoria caricata correttamente");
+
+        return result;
+    }
+
     public CategoriaResult addCategoria(ICategoria categoria){
 
         CategoriaResult result = new CategoriaResult();

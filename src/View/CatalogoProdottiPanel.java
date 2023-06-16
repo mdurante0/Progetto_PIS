@@ -7,7 +7,11 @@ import Model.Amministratore;
 import Model.Articolo;
 import Model.Utente;
 import Model.composite.IProdotto;
-import View.Listener.*;
+import View.Listener.GoToDettagliListener;
+import View.Listener.GoToMenuListener;
+import View.Listener.GoToMenuPuntiVenditaListener;
+import View.Listener.JTableButtonMouseListener;
+import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.RigaCatalogo;
 

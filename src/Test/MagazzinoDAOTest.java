@@ -37,8 +37,8 @@ public class MagazzinoDAOTest {
         magazzinoDAO.add(m);
 
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
-        Collocazione c1 = new Collocazione(1,1, m.getIdMagazzino());
-        Collocazione c2 = new Collocazione(1,2, m.getIdMagazzino());
+        Collocazione c1 = new Collocazione(1,1, m);
+        Collocazione c2 = new Collocazione(1,2, m);
         collocazioneDAO.add(c1);
         collocazioneDAO.add(c2);
 
@@ -141,7 +141,7 @@ public class MagazzinoDAOTest {
         pDao.add(p);
 
         Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
-        Collocazione c = new Collocazione(1,3, m.getIdMagazzino());
+        Collocazione c = new Collocazione(1,3, m);
         collocazioneDAO.add(c);
         p.setCollocazione(c);
 
@@ -180,7 +180,7 @@ public class MagazzinoDAOTest {
        pDao.add(p);
 
        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
-       Collocazione c = new Collocazione(1,3, m.getIdMagazzino());
+       Collocazione c = new Collocazione(1,3, m);
        collocazioneDAO.add(c);
        p.setCollocazione(c);
 

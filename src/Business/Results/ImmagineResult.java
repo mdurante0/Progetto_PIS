@@ -5,7 +5,7 @@ import Model.Immagine;
 import java.util.ArrayList;
 
 public class ImmagineResult {
-    public enum Result { IMMAGINI_CARICATE, ERRORE_IMMAGINE, ITEM_DOESNT_EXIST, IMAGE_DOESNT_EXIST }
+    public enum Result { ADD_OK, REMOVE_OK, UPDATE_OK, ADD_ERROR, REMOVE_ERROR, UPDATE_ERROR, IMMAGINI_CARICATE, ERRORE_IMMAGINE, ITEM_DOESNT_EXIST, IMAGE_DOESNT_EXIST  }
 
     private Result result;
     private String message;

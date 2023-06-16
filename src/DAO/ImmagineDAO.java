@@ -161,6 +161,16 @@ public class ImmagineDAO implements IImmagineDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
+    public int add(Immagine immagine) {
+
+        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
+                immagine.getPic() + "','" +
+                immagine.getIdArticolo() +"');";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
+    }
+
     @Override
     public int removeById(int id) {
         String sql = "DELETE FROM progetto_pis.immagine " +

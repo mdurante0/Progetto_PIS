@@ -5,7 +5,6 @@ import DAO.ICollocazioneDAO;
 import DAO.IMagazzinoDAO;
 import DAO.MagazzinoDAO;
 import Model.Collocazione;
-import Model.Collocazione;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class CollocazioneDAOTest {
     public void setUp() {
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        collocazioneDAO.add(new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("aaa").getIdMagazzino()).getIdMagazzino()));
+        collocazioneDAO.add(new Collocazione(4,4,magazzinoDAO.findById(magazzinoDAO.findByAddress("aaa").getIdMagazzino())));
     }
 
     @After
@@ -58,7 +57,7 @@ public class CollocazioneDAOTest {
         Collocazione collocazione = collocazioneDAO.findById(2);
         collocazione.setCorsia(4);
         collocazione.setScaffale(3);
-        collocazione.setIdMagazzino(1);
+        collocazione.setMagazzino(MagazzinoDAO.getInstance().findById(1));
         collocazioneDAO.update(collocazione);
         Assert.assertEquals(4, collocazione.getCorsia());
         Assert.assertEquals(3, collocazione.getScaffale());

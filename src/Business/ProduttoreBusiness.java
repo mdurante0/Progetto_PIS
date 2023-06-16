@@ -36,6 +36,27 @@ public class ProduttoreBusiness {
 
         return result;
     }
+
+    public ProduttoreResult caricaProduttoreByNome(String nomeProduttore){
+        ProduttoreResult result = new ProduttoreResult();
+
+        ProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
+
+        Produttore produttore = produttoreDAO.findByName(nomeProduttore);
+
+        if(produttore == null){ //Il nome indicato non è stato assegnato ad alcun produttore
+            result.setResult(ProduttoreResult.Result.PRODUCER_ERROR);
+            result.setMessage("Produttore non trovato!");
+            return result;
+
+        }else result.getProduttori().add(produttore); //Produttore caricato
+
+        result.setResult(ProduttoreResult.Result.PRODUTTORI_CARICATI);
+        result.setMessage("Produttore caricato correttamente");
+
+        return result;
+    }
+
     public ProduttoreResult addProduttore(Produttore produttore){
 
         ProduttoreResult result = new ProduttoreResult();

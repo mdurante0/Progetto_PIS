@@ -44,7 +44,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setCorsia(rs.getInt("corsia"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
-                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null){
+                    collocazione.setMagazzino(magazzino);
+                }
 
                 return collocazione;
             }
@@ -75,7 +79,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setCorsia(rs.getInt("corsia"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
-                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null){
+                    collocazione.setMagazzino(magazzino);
+                }
 
                 return collocazione;
             }
@@ -105,7 +113,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
-                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null){
+                    collocazione.setMagazzino(magazzino);
+                }
 
                 collocazioni.add(collocazione);
             }
@@ -136,7 +148,11 @@ public class CollocazioneDAO implements ICollocazioneDAO {
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
-                collocazione.setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null){
+                    collocazione.setMagazzino(magazzino);
+                }
 
                 collocazioni.add(collocazione);
             }
@@ -163,7 +179,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale, magazzino_idmagazzino) VALUES ('"+
                 collocazione.getCorsia() + "','" +
                 collocazione.getScaffale() + "','" +
-                collocazione.getIdMagazzino() + "');";
+                collocazione.getMagazzino() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
         int rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
@@ -208,7 +224,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "UPDATE progetto_pis.collocazione " +
                 "SET corsia = '" + collocazione.getCorsia() +
                 "', scaffale = '"+ collocazione.getScaffale() +
-                "', magazzino_idmagazzino = '"+ collocazione.getIdMagazzino() +
+                "', magazzino_idmagazzino = '"+ collocazione.getMagazzino() +
                 "' WHERE idcollocazione = '" + collocazione.getIdCollocazione() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -219,7 +235,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     public boolean checkCollocazione(Collocazione collocazione){
 
         MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = magazzinoDAO.findById(collocazione.getIdMagazzino());
+        Magazzino magazzino = magazzinoDAO.findById(collocazione.getMagazzino().getIdMagazzino());
 
         return magazzino.getQuantitaCorsie() >= collocazione.getCorsia() &&
                 magazzino.getQuantitaScaffali() >= collocazione.getScaffale();
@@ -233,7 +249,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "SELECT count(*) AS count FROM progetto_pis.collocazione AS c " +
                 "WHERE c.corsia='"+ collocazione.getCorsia() +
                 "' && c.scaffale = '" + collocazione.getScaffale() +
-                "' && c.magazzino_idmagazzino = '" + collocazione.getIdMagazzino() + "';";
+                "' && c.magazzino_idmagazzino = '" + collocazione.getMagazzino() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
