@@ -5,8 +5,8 @@ public class RigaMagazzino {
     private int quantitaCorsie;
     private int quantitaScaffali;
     private String indirizzo;
-    private Object ModificaButton;
-    private Object EliminaButton;
+    private Object modificaButton;
+    private Object eliminaButton;
 
     public int getQuantitaCorsie() {
         return quantitaCorsie;
@@ -33,18 +33,18 @@ public class RigaMagazzino {
     }
 
     public Object getModificaButton() {
-        return ModificaButton;
+        return modificaButton;
     }
 
     public void setModificaButton(Object modificaButton) {
-        ModificaButton = modificaButton;
+        this.modificaButton = modificaButton;
     }
 
     public Object getEliminaButton() {
-        return EliminaButton;
+        return eliminaButton;
     }
 
     public void setEliminaButton(Object eliminaButton) {
-        EliminaButton = eliminaButton;
+        this.eliminaButton = eliminaButton;
     }
 }

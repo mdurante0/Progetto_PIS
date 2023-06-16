@@ -1,4 +1,4 @@
-package View;
+package View.ViewModel;
 
 import Model.Feedback;
 import View.ViewModel.RigaFeedback;

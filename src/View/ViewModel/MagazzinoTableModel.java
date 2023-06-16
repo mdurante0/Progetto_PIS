@@ -1,4 +1,4 @@
-package View;
+package View.ViewModel;
 
 import Business.ImmagineBusiness;
 import Business.Results.ImmagineResult;
