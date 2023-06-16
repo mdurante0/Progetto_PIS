@@ -9,6 +9,7 @@ import View.Listener.GoToDettagliListener;
 import View.Listener.GoToLoginListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
+import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;

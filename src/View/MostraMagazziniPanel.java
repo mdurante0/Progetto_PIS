@@ -5,6 +5,7 @@ import Business.Results.MagazzinoResult;
 import Model.Magazzino;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
+import View.ViewModel.MagazzinoTableModel;
 import View.ViewModel.RigaMagazzino;
 import javax.swing.*;
 import java.awt.*;

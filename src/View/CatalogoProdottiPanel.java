@@ -8,6 +8,7 @@ import Model.Articolo;
 import Model.Utente;
 import Model.composite.IProdotto;
 import View.Listener.*;
+import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;

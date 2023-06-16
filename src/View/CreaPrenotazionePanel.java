@@ -47,7 +47,7 @@ public class CreaPrenotazionePanel extends JPanel {
 
         prodottiField = new JComboBox<>(nomiProdotti);
         prodottiField.setFont(bodyFont);
-        quantitaField.setFont(bodyFont);
+
 
         int massimaQuantita = 99;
         Integer[] quantita = new Integer[massimaQuantita];
@@ -56,7 +56,6 @@ public class CreaPrenotazionePanel extends JPanel {
         }
 
         quantitaField = new JComboBox<>(quantita);
-        quantitaField.setFont(bodyFont);
         quantitaField.setFont(bodyFont);
 
 

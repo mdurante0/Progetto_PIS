@@ -6,6 +6,7 @@ import Business.SessionManager;
 import Business.Strategy.*;
 import Model.*;
 import View.Listener.GoToDettagliListener;
+import View.ViewModel.FeedbackTableModel;
 import View.ViewModel.RigaFeedback;
 
 import javax.swing.*;
