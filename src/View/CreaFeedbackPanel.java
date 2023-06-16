@@ -27,7 +27,6 @@ public class CreaFeedbackPanel extends JPanel {
         contentPanel.setLayout(new GridLayout(6,2));
         JLabel gradimentoLabel = new JLabel("  Gradimento:");
         JLabel commentoLabel = new JLabel("  Commento:");
-        JLabel dataLabel = new JLabel("  Data:");
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
         Font bodyFont1 = new Font(Font.DIALOG, Font.ITALIC, 15);
 

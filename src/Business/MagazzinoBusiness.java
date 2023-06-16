@@ -3,6 +3,7 @@ package Business;
 import Business.Results.MagazzinoResult;
 import DAO.MagazzinoDAO;
 import Model.Magazzino;
+import Model.PuntoVendita;
 
 import java.util.ArrayList;
 
@@ -110,6 +111,25 @@ public class MagazzinoBusiness {
         //la cancellazione è andata a buon fine
         result.setResult(MagazzinoResult.Result.DELETE_OK);
         result.setMessage("Magazzino rimosso correttamente!");
+        return result;
+    }
+    public MagazzinoResult caricaMagazzinoByPuntoVendita(PuntoVendita puntoVendita){
+        MagazzinoResult result = new MagazzinoResult();
+
+        MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+
+        Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getMagazzino().getIdMagazzino());
+
+        if(magazzino == null){ //Non ci sono magazzini
+            result.setResult(MagazzinoResult.Result.MAGAZZINO_ERROR);
+            result.setMessage("Nessun magazzino trovato!");
+            return result;
+
+        }else result.getMagazzini().add(magazzino); //Magazzino caricato
+
+        result.setResult(MagazzinoResult.Result.MAGAZZINI_CARICATI);
+        result.setMessage("Magazzino caricati correttamente");
+
         return result;
     }
 
