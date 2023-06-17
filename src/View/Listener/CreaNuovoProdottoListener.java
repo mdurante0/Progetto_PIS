@@ -26,6 +26,7 @@ public class CreaNuovoProdottoListener implements ActionListener {
     private JTextField corsiaField;
     private JTextField scaffaleField;
     private ArrayList<File> files;
+    private Prodotto prodotto;
 
     public CreaNuovoProdottoListener(MainFrame frame, JTextField nomeProdottoField, JTextField descrizioneField, JTextField prezzoField, JTextField quantitaField, JComboBox<String> produttoreBox, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files) {
         this.frame = frame;
@@ -54,7 +55,7 @@ public class CreaNuovoProdottoListener implements ActionListener {
         }
 
         ArticoloResult articoloResult;
-        Prodotto prodotto = (Prodotto) FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).crea();
+        prodotto = (Prodotto) FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).crea();
         prodotto.setName(nomeProdottoField.getText());
         prodotto.setDescrizione(descrizioneField.getText());
         prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));

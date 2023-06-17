@@ -217,7 +217,7 @@ public class ServizioDAO implements IServizioDAO {
             rs.next();
             servizio.setIdArticolo(rs.getInt("max(idarticolo)"));
 
-            if(servizio.getCategoria() != null)
+            if(servizio.getCategoria().getNome() != null)
                 sql = "INSERT INTO progetto_pis.servizio (articolo_idarticolo, categoria_servizio_idcategoria_servizio, fornitore_idfornitore) " +
                         "VALUES ('" +
                         servizio.getIdArticolo() + "','" +

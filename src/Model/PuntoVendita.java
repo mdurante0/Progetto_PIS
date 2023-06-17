@@ -4,7 +4,7 @@ public class PuntoVendita {
 
     private int idPuntoVendita;
     private Manager manager = new Manager();
-    private Magazzino magazzino;
+    private Magazzino magazzino = new Magazzino();
     private String citta;
     private String indirizzo;
     private String telefono;

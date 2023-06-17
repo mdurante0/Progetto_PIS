@@ -6,10 +6,14 @@ import Business.Results.CategoriaResult;
 import Business.Results.FornitoreResult;
 import Model.CategoriaServizio;
 import Model.Fornitore;
+import View.Listener.CreaNuovoServizioListener;
 import View.Listener.GoToMenuListener;
+import View.Listener.ImmaginiListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class NuovoServizioPanel extends JPanel {
@@ -22,6 +26,9 @@ public class NuovoServizioPanel extends JPanel {
     private JComboBox<String> fornitoreBox;
     private JComboBox<String> categoriaServizioBox;
 
+    private ArrayList<File> files = new ArrayList<>();
+    private JLabel immaginiCounterLabel;
+
     public NuovoServizioPanel(MainFrame frame) {
         this.frame = frame;
 
@@ -31,7 +38,7 @@ public class NuovoServizioPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(9, 2));
+        contentPanel.setLayout(new GridLayout(12, 2));
         JLabel nomeProdottoLabel = new JLabel("  Nome:");
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         JLabel prezzoLabel = new JLabel("  Prezzo (€):");
@@ -92,13 +99,35 @@ public class NuovoServizioPanel extends JPanel {
             contentPanel.add(categoriaServizioBox);
         }
 
+        JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
+        immaginiLabel.setFont(bodyFont);
+
+        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
+        immaginiCounterLabel.setFont(bodyFont);
+
+        JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");
+        aggiungiImmagineButton.setFont(bodyFont);
+        aggiungiImmagineButton.setActionCommand(ImmaginiListener.AGGIUNGI);
+        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
+
+        JButton rimuoviImmagineButton = new JButton("Rimuovi l'ultima immagine");
+        rimuoviImmagineButton.setFont(bodyFont);
+        rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
+        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
+
         JButton aggiungiButton = new JButton("Aggiunti servizio");
         aggiungiButton.setFont(bodyFont);
-        
+        aggiungiButton.addActionListener(new CreaNuovoServizioListener(this.frame, nomeServizioField, descrizioneField, prezzoField, fornitoreBox, categoriaServizioBox, files));
+
+
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
         backButton.addActionListener(new GoToMenuListener(this.frame));
 
+        contentPanel.add(immaginiLabel);
+        contentPanel.add(aggiungiImmagineButton);
+        contentPanel.add(immaginiCounterLabel);
+        contentPanel.add(rimuoviImmagineButton);
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(backButton);
