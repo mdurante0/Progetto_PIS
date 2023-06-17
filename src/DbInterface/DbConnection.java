@@ -1,5 +1,7 @@
 package DbInterface;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.*;
 
 public class DbConnection implements IDbConnection {
@@ -60,7 +62,19 @@ public class DbConnection implements IDbConnection {
         return rowCount;
     }
 
-
+    @Override
+    public int addFoto(File file, String sql) {
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setBlob(1, inputStream);
+            rowCount = statement.executeUpdate();
+            statement.close();   // Chiudo lo Statement
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return rowCount;
+    }
 
     @Override
     public void close() {

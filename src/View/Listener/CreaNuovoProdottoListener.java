@@ -1,0 +1,98 @@
+package View.Listener;
+
+import Business.AbstractFactory.FactoryProvider;
+import Business.*;
+import Business.Results.*;
+import Model.Collocazione;
+import Model.Immagine;
+import Model.composite.Prodotto;
+import View.MainFrame;
+import View.MenuPanel;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+
+public class CreaNuovoProdottoListener implements ActionListener {
+    private MainFrame frame;
+    private JTextField nomeProdottoField;
+    private JTextField descrizioneField;
+    private JTextField prezzoField;
+    private JTextField quantitaField;
+    private JComboBox<String> produttoreBox;
+    private JComboBox<String> categoriaProdottoBox;
+    private JComboBox<String> puntoVenditaBox;
+    private JTextField corsiaField;
+    private JTextField scaffaleField;
+    private ArrayList<File> files;
+
+    public CreaNuovoProdottoListener(MainFrame frame, JTextField nomeProdottoField, JTextField descrizioneField, JTextField prezzoField, JTextField quantitaField, JComboBox<String> produttoreBox, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files) {
+        this.frame = frame;
+        this.nomeProdottoField = nomeProdottoField;
+        this.descrizioneField = descrizioneField;
+        this.prezzoField = prezzoField;
+        this.quantitaField = quantitaField;
+        this.produttoreBox = produttoreBox;
+        this.categoriaProdottoBox = categoriaProdottoBox;
+        this.puntoVenditaBox = puntoVenditaBox;
+        this.corsiaField = corsiaField;
+        this.scaffaleField = scaffaleField;
+        this.files = files;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ArticoloResult articoloResult;
+        Prodotto prodotto = (Prodotto) FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).crea();
+        prodotto.setName(nomeProdottoField.getText());
+        prodotto.setDescrizione(descrizioneField.getText());
+        prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
+        prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+
+        if(!produttoreBox.getSelectedItem().toString().isBlank()){
+            ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttoreBox.getSelectedItem().toString());
+            if (produttoreResult.getResult().equals(ProduttoreResult.Result.PRODUTTORI_CARICATI))
+                prodotto.setProduttore(produttoreResult.getProduttori().get(0));
+            else JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
+        }
+
+        if(!categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
+            CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
+            if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
+                prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
+            else JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+        }
+
+        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
+        if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
+            MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
+            prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
+            if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
+                Collocazione collocazione = new Collocazione(Integer.parseInt(corsiaField.getText()), Integer.parseInt(scaffaleField.getText()), magazzinoResult.getMagazzini().get(0));
+                CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(collocazione);
+                if (collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
+                    prodotto.setCollocazione(collocazione);
+                    articoloResult = ArticoloBusiness.getInstance().addArticolo(prodotto);
+                    if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)){
+                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto,magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+                        if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
+                            ImmagineResult immagineResult;
+                            for (int i = 0; i < files.size(); i++) {
+                                Immagine immagine = new Immagine(new ImageIcon(files.get(i).getAbsolutePath()), prodotto.getIdArticolo());
+                                immagine.setIdArticolo(prodotto.getIdArticolo());
+                                immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
+                                if(!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
+                                    break;
+                            }
+                            //controlli vari
+                            this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
+                        }
+                    }
+                    JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
+            } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
+        } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
+    }
+}

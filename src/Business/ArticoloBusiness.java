@@ -36,19 +36,19 @@ public class ArticoloBusiness {
         //inserimento in base al tipo di articolo
         int inserito;
 
-        if(aDao.isProdotto(a.getName())) {
+        if(a instanceof Prodotto p) {
             ProdottoDAO pDao = ProdottoDAO.getInstance();
-            inserito = pDao.add((Prodotto) a);
+            inserito = pDao.add(p);
         }
 
-        else if(aDao.isServizio(a.getName())){
+        else if(a instanceof Servizio s){
             ServizioDAO sDao = ServizioDAO.getInstance();
-            inserito = sDao.add((Servizio) a);
+            inserito = sDao.add(s);
         }
 
-        else if(aDao.isProdottoComposito(a.getName())) {
+        else if(a instanceof ProdottoComposito pc) {
             ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
-            inserito = pcDao.add((ProdottoComposito) a);
+            inserito = pcDao.add(pc);
         }
 
         else { //errore nel tipo di articolo
@@ -76,8 +76,8 @@ public class ArticoloBusiness {
         ArticoloResult result = new ArticoloResult();
 
         //Verifica esistenza articolo
-        p = pDao.findByName(p.getName());
-        boolean prodottoExists = p != null;
+        IProdotto prodotto = pDao.findByName(p.getName());
+        boolean prodottoExists = prodotto != null;
         if (!prodottoExists){
             result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("L'articolo da inserire nel magazzino non esiste! Riprova");

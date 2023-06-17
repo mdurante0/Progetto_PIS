@@ -5,6 +5,7 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.Collocazione;
 import Model.Magazzino;
 import Model.composite.IProdotto;
 import Model.composite.Prodotto;
@@ -59,7 +60,9 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 while(rs.next()){
                     Prodotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
+                    //prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
+                    prodotto.setCollocazione(new Collocazione());
+                    prodotto.getCollocazione().setIdCollocazione(rs.getInt("collocazione_idcollocazione"));
                     magazzino.add(prodotto);
                 }
                 return magazzino;

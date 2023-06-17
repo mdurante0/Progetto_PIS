@@ -47,7 +47,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 immagine = new Immagine();
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
-                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine")));
 
                 return immagine;
             }
@@ -109,7 +109,7 @@ public class ImmagineDAO implements IImmagineDAO {
         try {
             while (rs.next()) {
                 immagine = new Immagine();
-                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine")));
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
 
@@ -128,8 +128,7 @@ public class ImmagineDAO implements IImmagineDAO {
         return null;
     }
 
-    //metodo vecchio
-   /* @Override
+    @Override
     public int add(Immagine immagine) {
 
         String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
@@ -139,35 +138,13 @@ public class ImmagineDAO implements IImmagineDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-*/
 
-    //vedi se così funziona
-    public int add(File file, Immagine immagine) {
+    @Override
+    public int add(File file, int idArticolo) {
+        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES (?,'" + idArticolo + "');";
 
-        FileInputStream inputStream;
-        try {
-            inputStream = new FileInputStream(file);
-            immagine.setPic(new ImageIcon(inputStream.readAllBytes()));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
-                inputStream + "','" +
-                immagine.getIdArticolo() +"');";
         DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
-
-    public int add(Immagine immagine) {
-
-        String sql = "INSERT INTO progetto_pis.immagine (immagine, articolo_idarticolo) VALUES ('"+
-                immagine.getPic() + "','" +
-                immagine.getIdArticolo() +"');";
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
+        IDbOperation writeOp = new WriteOperation(file, sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 

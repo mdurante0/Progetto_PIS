@@ -6,6 +6,7 @@ import DAO.ImmagineDAO;
 import Model.Articolo;
 import Model.Immagine;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ImmagineBusiness {
@@ -45,11 +46,11 @@ public class ImmagineBusiness {
         return result;
     }
 
-    public ImmagineResult addImmagine(Immagine immagine){
+    public ImmagineResult  addImmagine(File file, int idArticolo){
         ImmagineResult immagineResult = new ImmagineResult();
         ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
 
-        if(immagineDAO.add(immagine) == 0){ //immagine non inserita
+        if(immagineDAO.add(file, idArticolo) == 0){ //immagine non inserita
             immagineResult.setResult(ImmagineResult.Result.ADD_ERROR);
             immagineResult.setMessage("Errore nell'inserimento dell'immagine! Riprova!");
             return immagineResult;
@@ -58,5 +59,22 @@ public class ImmagineBusiness {
         immagineResult.setResult(ImmagineResult.Result.ADD_OK);
         immagineResult.setMessage("Immagine aggiunta correttamente!");
         return immagineResult;
+    }
+
+    public ImmagineResult removeImmagine(Immagine immagine){
+
+        ImmagineResult result = new ImmagineResult();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+
+        if(immagineDAO.removeById(immagine.getIdImmagine()) == 0) { //immagine non rimossa
+            result.setResult(ImmagineResult.Result.REMOVE_ERROR);
+            result.setMessage("Immagine non rimossa! Riprova!");
+            return result;
+        }
+
+        //la rimozione è andata a buon fine
+        result.setResult(ImmagineResult.Result.REMOVE_OK);
+        result.setMessage("Immagine rimossa correttamente!");
+        return result;
     }
 }

@@ -7,14 +7,15 @@ import Business.Results.CategoriaResult;
 import Business.Results.ProduttoreResult;
 import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
-import Model.Immagine;
 import Model.Produttore;
 import Model.PuntoVendita;
+import View.Listener.CreaNuovoProdottoListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,7 +32,7 @@ public class NuovoProdottoPanel extends JPanel {
     private JComboBox<String> puntoVenditaBox;
     private JTextField corsiaField;
     private JTextField scaffaleField;
-    private ArrayList<Immagine> immagini = new ArrayList<>();
+    private ArrayList<File> files = new ArrayList<>();
     private JLabel immaginiCounterLabel;
 
     public NuovoProdottoPanel(MainFrame frame) {
@@ -43,7 +44,7 @@ public class NuovoProdottoPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(12, 1));
+        contentPanel.setLayout(new GridLayout(13, 1));
         JLabel nomeProdottoLabel = new JLabel("  Nome:");
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         JLabel prezzoLabel = new JLabel("  Prezzo (€):");
@@ -150,19 +151,19 @@ public class NuovoProdottoPanel extends JPanel {
         JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");
         aggiungiImmagineButton.setFont(bodyFont);
         aggiungiImmagineButton.setActionCommand(ImmaginiListener.AGGIUNGI);
-        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this, immagini));
+        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this, files));
 
         JButton rimuoviImmagineButton = new JButton("Rimuovi l'ultima immagine");
         rimuoviImmagineButton.setFont(bodyFont);
         rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
-        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this, immagini));
+        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this, files));
 
-        immaginiCounterLabel = new JLabel("  Immagini inserite: " + immagini.size());
+        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
         immaginiCounterLabel.setFont(bodyFont);
 
         JButton aggiungiButton = new JButton("Aggiunti prodotto");
         aggiungiButton.setFont(bodyFont);
-        //aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, immagini));
+        aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
@@ -172,6 +173,8 @@ public class NuovoProdottoPanel extends JPanel {
         contentPanel.add(aggiungiImmagineButton);
         contentPanel.add(immaginiCounterLabel);
         contentPanel.add(rimuoviImmagineButton);
+        contentPanel.add(new JLabel());
+        contentPanel.add(new JLabel());
         contentPanel.add(backButton);
         contentPanel.add(aggiungiButton);
 
@@ -180,7 +183,7 @@ public class NuovoProdottoPanel extends JPanel {
     }
 
     public void AggiornaCounter(){
-        immaginiCounterLabel.setText("  Immagini inserite: " + immagini.size());
+        immaginiCounterLabel.setText("  Immagini inserite: " + files.size());
         repaint();
         revalidate();
     }

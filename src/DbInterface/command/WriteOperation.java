@@ -2,12 +2,18 @@ package DbInterface.command;
 
 import DbInterface.DbConnection;
 
+import java.io.File;
+
 public class WriteOperation implements IDbOperation{
 
     private DbConnection conn = DbConnection.getInstance();
     private String sql;
-
+    private File file; //per le immagini
     public WriteOperation(String sql) {
+        this.sql = sql;
+    }
+    public WriteOperation(File file, String sql) {
+        this.file = file;
         this.sql = sql;
     }
 
@@ -17,7 +23,10 @@ public class WriteOperation implements IDbOperation{
         DbOperationResult result = new DbOperationResult();
 
         //result.setType(1);
-        result.setRowsAffected(conn.executeUpdate(sql));
+        if(file == null)
+            result.setRowsAffected(conn.executeUpdate(sql));
+        else
+            result.setRowsAffected(conn.addFoto(file,sql));
 
         //sempre
         return result;

@@ -179,7 +179,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "INSERT INTO progetto_pis.collocazione (corsia, scaffale, magazzino_idmagazzino) VALUES ('"+
                 collocazione.getCorsia() + "','" +
                 collocazione.getScaffale() + "','" +
-                collocazione.getMagazzino() + "');";
+                collocazione.getMagazzino().getIdMagazzino() + "');";
         IDbOperation writeOp = new WriteOperation(sql);
         int rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
@@ -224,7 +224,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "UPDATE progetto_pis.collocazione " +
                 "SET corsia = '" + collocazione.getCorsia() +
                 "', scaffale = '"+ collocazione.getScaffale() +
-                "', magazzino_idmagazzino = '"+ collocazione.getMagazzino() +
+                "', magazzino_idmagazzino = '"+ collocazione.getMagazzino().getIdMagazzino() +
                 "' WHERE idcollocazione = '" + collocazione.getIdCollocazione() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -237,6 +237,9 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         Magazzino magazzino = magazzinoDAO.findById(collocazione.getMagazzino().getIdMagazzino());
 
+        //se il numero di corsie presenti nel magazzino è maggiore o uguale alla corsia scelta
+        // e se il numero di scaffali presenti è maggiore o uguale allo scaffale scelto
+        //allora la collocazione scelta esiste nel magazzino, restituiamo true
         return magazzino.getQuantitaCorsie() >= collocazione.getCorsia() &&
                 magazzino.getQuantitaScaffali() >= collocazione.getScaffale();
     }
@@ -249,7 +252,7 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         String sql = "SELECT count(*) AS count FROM progetto_pis.collocazione AS c " +
                 "WHERE c.corsia='"+ collocazione.getCorsia() +
                 "' && c.scaffale = '" + collocazione.getScaffale() +
-                "' && c.magazzino_idmagazzino = '" + collocazione.getMagazzino() + "';";
+                "' && c.magazzino_idmagazzino = '" + collocazione.getMagazzino().getIdMagazzino() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);

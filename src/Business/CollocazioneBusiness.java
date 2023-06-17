@@ -50,7 +50,7 @@ public class CollocazioneBusiness {
             return result;
         }
 
-        //Aggiungo il nuovo magazzino
+        //Aggiungo la nuova collocazione
         if(collocazioneDAO.add(collocazione) == 0) { //collocazione non inserita
             result.setResult(CollocazioneResult.Result.COLLOCAZIONE_ERROR);
             result.setMessage("Collocazione non inserita! Riprova!");

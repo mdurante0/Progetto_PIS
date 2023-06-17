@@ -11,23 +11,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
 public class ImmagineDAOTest {
     @Before
     public void setUp() throws Exception {
-        IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
         //File file = new File("C:\\Users\\lenovo\\Documents\\ING_INF_III\\Tesi\\LOGO.PNG");
-        ImageIcon pic = new ImageIcon("C:\\Users\\matti\\IdeaProjects\\MyShop\\resources\\LOGO.PNG");
+        File file = new File("C:\\Users\\matti\\IdeaProjects\\MyShop\\resources\\LOGO.PNG");
+        //ImageIcon pic = new ImageIcon("C:\\Users\\matti\\IdeaProjects\\MyShop\\resources\\LOGO.PNG");
 
         articoloDAO.add(new Articolo(700.55F, null, "Armadio", "Armadio in quercia pregiata", null, null, 8));
-        immagineDAO.add(new Immagine(pic, articoloDAO.findByName("Armadio").getIdArticolo()));
-
-
+        //immagineDAO.add(new Immagine(pic, articoloDAO.findByName("Armadio").getIdArticolo()));
+        immagineDAO.add(file, articoloDAO.findByName("Armadio").getIdArticolo());
     }
 
     @After
