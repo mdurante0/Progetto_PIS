@@ -1,11 +1,8 @@
 package View;
 
 import Business.ClienteBusiness;
-import Business.PrenotazioneBusiness;
 import Business.Results.ClienteResult;
-import Business.Results.PrenotazioneResult;
 import Model.Cliente;
-import Model.Prenotazione;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.ClienteTableModel;

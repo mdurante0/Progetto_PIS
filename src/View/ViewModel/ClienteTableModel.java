@@ -2,7 +2,6 @@ package View.ViewModel;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
