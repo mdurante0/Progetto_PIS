@@ -24,8 +24,8 @@ public class ImmaginiListener implements ActionListener {
         if(e.getActionCommand().equals(AGGIUNGI)) {
             JFileChooser fileChooser = new JFileChooser();
             //fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            fileChooser.setCurrentDirectory(new File("C:\\Users\\matti\\IdeaProjects\\MyShop\\resources"));
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "gif", "png", "jpeg", "pdf", "jpg");
+            fileChooser.setCurrentDirectory(new File("resources"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE","png", "jpeg", "jpg");
             fileChooser.addChoosableFileFilter(filter);
             int result = fileChooser.showSaveDialog(panel);
             if (result == JFileChooser.APPROVE_OPTION) {
