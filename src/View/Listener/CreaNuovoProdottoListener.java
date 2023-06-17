@@ -4,7 +4,6 @@ import Business.AbstractFactory.FactoryProvider;
 import Business.*;
 import Business.Results.*;
 import Model.Collocazione;
-import Model.Immagine;
 import Model.composite.Prodotto;
 import View.MainFrame;
 import View.MenuPanel;
@@ -44,6 +43,16 @@ public class CreaNuovoProdottoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        try{
+            Integer.parseInt(quantitaField.getText());
+            Float.parseFloat(prezzoField.getText());
+            Integer.parseInt(corsiaField.getText());
+            Integer.parseInt(scaffaleField.getText());
+        } catch (NumberFormatException exception){
+            JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+            return;
+        }
+
         ArticoloResult articoloResult;
         Prodotto prodotto = (Prodotto) FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).crea();
         prodotto.setName(nomeProdottoField.getText());
@@ -51,14 +60,14 @@ public class CreaNuovoProdottoListener implements ActionListener {
         prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
         prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
 
-        if(!produttoreBox.getSelectedItem().toString().isBlank()){
+        if(produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()){
             ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttoreBox.getSelectedItem().toString());
             if (produttoreResult.getResult().equals(ProduttoreResult.Result.PRODUTTORI_CARICATI))
                 prodotto.setProduttore(produttoreResult.getProduttori().get(0));
             else JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
         }
 
-        if(!categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
+        if(categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank() ) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
@@ -80,13 +89,10 @@ public class CreaNuovoProdottoListener implements ActionListener {
                         if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
                             ImmagineResult immagineResult;
                             for (int i = 0; i < files.size(); i++) {
-                                Immagine immagine = new Immagine(new ImageIcon(files.get(i).getAbsolutePath()), prodotto.getIdArticolo());
-                                immagine.setIdArticolo(prodotto.getIdArticolo());
                                 immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
                                 if(!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
                                     break;
                             }
-                            //controlli vari
                             this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
                         }
                     }

@@ -108,8 +108,6 @@ public class NuovoProdottoPanel extends JPanel {
             contentPanel.add(scaffaleField);
         }
 
-
-
         ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttori();
         if (produttoreResult.getProduttori() != null){
             Iterator<Produttore> iterator = produttoreResult.getProduttori().iterator();
@@ -148,18 +146,19 @@ public class NuovoProdottoPanel extends JPanel {
 
         JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
         immaginiLabel.setFont(bodyFont);
+
+        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
+        immaginiCounterLabel.setFont(bodyFont);
+
         JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");
         aggiungiImmagineButton.setFont(bodyFont);
         aggiungiImmagineButton.setActionCommand(ImmaginiListener.AGGIUNGI);
-        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this, files));
+        aggiungiImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
         JButton rimuoviImmagineButton = new JButton("Rimuovi l'ultima immagine");
         rimuoviImmagineButton.setFont(bodyFont);
         rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
-        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this, files));
-
-        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
-        immaginiCounterLabel.setFont(bodyFont);
+        rimuoviImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
         JButton aggiungiButton = new JButton("Aggiunti prodotto");
         aggiungiButton.setFont(bodyFont);
@@ -180,11 +179,5 @@ public class NuovoProdottoPanel extends JPanel {
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
-    }
-
-    public void AggiornaCounter(){
-        immaginiCounterLabel.setText("  Immagini inserite: " + files.size());
-        repaint();
-        revalidate();
     }
 }
