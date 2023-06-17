@@ -2,19 +2,18 @@ package View.ViewModel;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaAcquistoTableModel extends AbstractTableModel {
+public class ListaAcquistoClienteTableModel extends AbstractTableModel {
 
-    private List<RigaListaAcquisto> righe = new ArrayList<RigaListaAcquisto>();
+    private List<RigaListaAcquistoCliente> righe = new ArrayList<RigaListaAcquistoCliente>();
 
-    public List<RigaListaAcquisto> getRighe() {
+    public List<RigaListaAcquistoCliente> getRighe() {
         return righe;
     }
 
-    public ListaAcquistoTableModel(List<RigaListaAcquisto> righe) {
+    public ListaAcquistoClienteTableModel(List<RigaListaAcquistoCliente> righe) {
         this.righe = righe;
     }
 
@@ -31,16 +30,15 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        RigaListaAcquisto riga = righe.get(rowIndex);
+        RigaListaAcquistoCliente riga = righe.get(rowIndex);
 
 
         switch(columnIndex) {
 
-            case 0: return riga.getUsernameCliente();
-            case 1: return riga.getNomeLista();
-            case 2: return riga.getPagata();
-            case 3: return riga.getVisualizzaButton();
-            case 4: return riga.getEliminaButton();
+            case 0: return riga.getNomeLista();
+            case 1: return riga.getPagata();
+            case 2: return riga.getModificaButton();
+            case 3: return riga.getEliminaButton();
 
         }
 
@@ -49,13 +47,12 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        RigaListaAcquisto riga = righe.get(rowIndex);
+        RigaListaAcquistoCliente riga = righe.get(rowIndex);
 
         switch(columnIndex) {
-            case 0: riga.setUsernameCliente(value.toString());
             case 1: riga.setNomeLista(value.toString());
-            case 2: riga.setPagata(new JButton());
-            case 3: riga.setVisualizzaButton(new JButton());
+            case 2: riga.setPagata(value.toString());
+            case 3: riga.setModificaButton(new JButton());
             case 4: riga.setEliminaButton(new JButton());
 
         }
@@ -65,11 +62,10 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
 
         switch(columnIndex) {
-            case 0: return "Cliente";
-            case 1: return "Nome Lista";
-            case 2: return "Stato Pagamento";
-            case 3: return "Visualizza";
-            case 4: return "Elimina";
+            case 0: return "Nome Lista";
+            case 1: return "Stato Pagamento";
+            case 2: return "Visualizza";
+            case 3: return "Elimina";
         }
 
         return null;
@@ -79,7 +75,6 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         if(columnIndex == 2) return JButton.class;
         if(columnIndex == 3) return JButton.class;
-        if(columnIndex == 4) return JButton.class;
 
         return Object.class;
     }
