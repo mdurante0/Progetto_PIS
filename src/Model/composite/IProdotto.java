@@ -14,4 +14,5 @@ public interface IProdotto {
     void setCategoria(CategoriaProdotto categoriaProdotto);
     Produttore getProduttore();
     void setQuantita(int quantita);
+    String getDescrizione();
 }
