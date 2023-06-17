@@ -81,6 +81,9 @@ public class MostraListeAcquistoPanel extends JPanel {
         tabella.getColumn("Elimina").setCellRenderer(buttonRenderer);
         tabella.addMouseListener(new JTableButtonMouseListener(tabella));
 
+        tabella.getColumn("Stato Pagamento").setCellRenderer(buttonRenderer);
+        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
