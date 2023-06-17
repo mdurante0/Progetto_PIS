@@ -229,6 +229,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
         return rowCount;
     }
 
+    @Override
     public int addSottoprodotto(int idProdottoComposito, Prodotto sottoprodotto) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
@@ -238,13 +239,13 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
         return executor.executeOperation(readOp).getRowsAffected();
 
     }
-
+    @Override
     public int removeSottoprodotto(int idProdottoComposito, Prodotto sottoprodotto) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "DELETE FROM progetto_pis.prodotto_has_prodotto " +
                 "WHERE prodotto_articolo_idarticolo = '" + idProdottoComposito +
-                "' AND prodotto_articolo_idarticolo1 = '" + sottoprodotto.getIdArticolo() + "');";
+                "' AND prodotto_articolo_idarticolo1 = '" + sottoprodotto.getIdArticolo() + "';";
         IDbOperation readOp = new WriteOperation(sql);
         return executor.executeOperation(readOp).getRowsAffected();
 

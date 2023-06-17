@@ -119,7 +119,7 @@ public class ProdottoDAO implements IProdottoDAO {
 
 
     @Override
-    public ArrayList<Prodotto> findAll() {
+    public ArrayList<IProdotto> findAll() {
 
         String sql = "SELECT * FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo;";
@@ -128,7 +128,7 @@ public class ProdottoDAO implements IProdottoDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        ArrayList<IProdotto> prodotti = new ArrayList<>();
         try {
             while (rs.next()) {
                 prodotto = new Prodotto();
@@ -225,7 +225,7 @@ public class ProdottoDAO implements IProdottoDAO {
             prodotto.setIdArticolo(rs.getInt("max(idarticolo)"));
 
             //ne categoria ne produttore sono null
-            if (prodotto.getCategoria() != null && prodotto.getProduttore() != null)
+            if (prodotto.getCategoria().getNome() != null && prodotto.getProduttore().getNome() != null)
                 sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto, produttore_idproduttore) " +
                     "VALUES ('" +
                     prodotto.getIdArticolo() + "','" +
@@ -233,14 +233,14 @@ public class ProdottoDAO implements IProdottoDAO {
                     prodotto.getProduttore().getIdProduttore() + "');";
 
             //produttore è null
-            else if (prodotto.getCategoria() != null && prodotto.getProduttore() == null)
+            else if (prodotto.getCategoria().getNome() != null && prodotto.getProduttore().getNome() == null)
                 sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, categoria_prodotto_idcategoria_prodotto) " +
                         "VALUES ('" +
                         prodotto.getIdArticolo() + "','" +
                         prodotto.getCategoria().getIdCategoria() + "');";
 
             //categoria è null
-            else if(prodotto.getCategoria() == null && prodotto.getProduttore() != null)
+            else if(prodotto.getCategoria().getNome() == null && prodotto.getProduttore().getNome() != null)
                 sql = "INSERT INTO progetto_pis.prodotto (articolo_idarticolo, produttore_idproduttore) " +
                         "VALUES ('" +
                         prodotto.getIdArticolo() + "','" +
@@ -285,20 +285,20 @@ public class ProdottoDAO implements IProdottoDAO {
         String sql;
 
         //ne categoria ne produttore sono null
-        if (prodotto.getCategoria() != null && prodotto.getProduttore() != null)
+        if (prodotto.getCategoria().getNome() != null && prodotto.getProduttore().getNome() != null)
             sql = "UPDATE progetto_pis.prodotto " +
                     "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
                     "', categoria_prodotto_idcategoria_prodotto = '" + prodotto.getCategoria().getIdCategoria() +
                     "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
             //produttore è null
-        else if (prodotto.getCategoria() != null && prodotto.getProduttore() == null)
+        else if (prodotto.getCategoria().getNome() != null && prodotto.getProduttore().getNome() == null)
             sql = "UPDATE progetto_pis.prodotto " +
                     "SET categoria_prodotto_idcategoria_prodotto = '" + prodotto.getCategoria().getIdCategoria() +
                     "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
             //categoria è null
-        else if(prodotto.getCategoria() == null &&prodotto.getProduttore() != null)
+        else if(prodotto.getCategoria().getNome() == null && prodotto.getProduttore().getNome() != null)
             sql = "UPDATE progetto_pis.prodotto " +
                     "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
                     "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";

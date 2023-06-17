@@ -20,14 +20,12 @@ public class MenuPanel extends JPanel {
 
     public MenuPanel(MainFrame frame){
         this.frame = frame;
-
         this.setLayout(new BorderLayout());
 
         titlePanel.setLayout(new FlowLayout());
-        centerPanel.setLayout(new GridLayout(5,3));
+        centerPanel.setLayout(new GridLayout(15,1));
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
-
         JLabel welcomeLabel = new JLabel("Benvenuto: " + u.getUsername());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         welcomeLabel.setFont(titleFont);

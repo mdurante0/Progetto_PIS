@@ -1,5 +1,6 @@
 package View.Decorator;
 
+import View.Listener.GoToNuovoProdottoCompositoListener;
 import View.Listener.GoToNuovoProdottoListener;
 import View.Listener.GoToNuovoServizioListener;
 import View.MainFrame;
@@ -33,6 +34,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
 
         //action command, listener...
         nuovoProdotto.addActionListener(new GoToNuovoProdottoListener(this.frame));
+        nuovoProdottoComposito.addActionListener(new GoToNuovoProdottoCompositoListener(this.frame));
         nuovoServizio.addActionListener(new GoToNuovoServizioListener(this.frame));
 
         //add pulsanti

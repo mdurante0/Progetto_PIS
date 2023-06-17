@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ProdottoCompositoDAOTest {
     @Before
     public void setUp() {
-        Produttore produttore = new Produttore("PoltroneSofa","poltronesofa@gmail.com","trento","italy","0995331239","artigiani della qualita");
+        Produttore produttore = new Produttore("PoltroneSofa","poltronesofa@gmail.com","trento","italy","0987654321","artigiani della qualita");
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         produttoreDAO.add(produttore);
         produttore = produttoreDAO.findByName("PoltroneSofa");
@@ -72,6 +72,27 @@ public class ProdottoCompositoDAOTest {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
         ProdottoComposito prodottoComposito = prodottoCompositoDAO.findByName("Poltrone e Sofa");
         Assert.assertEquals("Poltrone e Sofa",prodottoComposito.getName());
+    }
+
+    @Test
+    public void addSottoProdottoTest(){
+        Prodotto p = new Prodotto("Tavolino", "tavolino per salotto",30F, ProduttoreDAO.getInstance().findByName("PoltroneSofa"), CategoriaProdottoDAO.getInstance().findByName("Soggiorno"), 1);
+        ProdottoDAO.getInstance().add(p);
+        ProdottoComposito pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        ProdottoCompositoDAO.getInstance().addSottoprodotto(pc.getIdArticolo(), p);
+        pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        Assert.assertEquals("Tavolino", pc.getSottoprodotti().get(2).getName());
+        ProdottoDAO.getInstance().removeById(p.getIdArticolo());
+    }
+
+    @Test
+    public void removeSottoProdottoTest(){
+        Prodotto p = ProdottoDAO.getInstance().findByName("Sofa");
+        ProdottoComposito pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        ProdottoCompositoDAO.getInstance().removeSottoprodotto(pc.getIdArticolo(), p);
+        pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        Assert.assertEquals(1, pc.getSottoprodotti().size());
+        ProdottoCompositoDAO.getInstance().addSottoprodotto(pc.getIdArticolo(), p);
     }
 
     @Test

@@ -5,6 +5,7 @@ import Model.CategoriaProdotto;
 import Model.Collocazione;
 import Model.Magazzino;
 import Model.Produttore;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import org.junit.Assert;
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class ProdottoDAOTest {
     @Test
     public void testFindAllTest() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        ArrayList<Prodotto> prodotti = prodottoDAO.findAll();
+        ArrayList<IProdotto> prodotti = prodottoDAO.findAll();
         Assert.assertEquals(1, prodotti.size());
     }
     @Test

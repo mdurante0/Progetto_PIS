@@ -2,11 +2,13 @@ package Business;
 
 import Business.Results.CatalogoResult;
 import DAO.MagazzinoDAO;
+import DAO.ProdottoDAO;
 import DAO.PuntoVenditaDAO;
 import DAO.ServizioDAO;
 import Model.Magazzino;
 import Model.PuntoVendita;
 import Model.Servizio;
+import Model.composite.IProdotto;
 
 import java.util.ArrayList;
 
@@ -96,4 +98,21 @@ public class CatalogoBusiness {
         return result;
     }
 
+    public CatalogoResult caricaCatalogoProdotti() {
+        CatalogoResult result = new CatalogoResult();
+        ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+
+        ArrayList<IProdotto> prodotti = prodottoDAO.findAll();
+        if(prodotti.isEmpty()){ //Non esistono prodotti
+            result.setResult(CatalogoResult.Result.ERRORE_PRODOTTI);
+            result.setMessage("Catalogo non caricato! Prodotti non trovati!");
+            return result;
+
+        }else result.setListaProdotti(prodotti); //Prodotti caricati
+
+        result.setResult(CatalogoResult.Result.CATALOGO_CARICATO);
+        result.setMessage("Catalogo caricato correttamente");
+
+        return result;
+    }
 }

@@ -6,7 +6,7 @@ import Model.composite.IProdotto;
 import java.util.ArrayList;
 
 public class CatalogoResult {
-    public enum Result { CATALOGO_CARICATO, ERRORE_MAGAZZINO, ERRORE_SERVIZI }
+    public enum Result { CATALOGO_CARICATO, ERRORE_MAGAZZINO, ERRORE_PRODOTTI, ERRORE_SERVIZI }
 
     private Result result;
     private String message;
