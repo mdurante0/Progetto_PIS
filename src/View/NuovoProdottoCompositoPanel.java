@@ -9,7 +9,7 @@ import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
 import Model.PuntoVendita;
 import Model.composite.IProdotto;
-import View.Listener.AggiungiComponenteListener;
+import View.Listener.ComponenteListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
@@ -18,6 +18,8 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static View.Listener.ComponenteListener.AGGIUNGI;
 
 public class NuovoProdottoCompositoPanel extends JPanel {
     private MainFrame frame;
@@ -184,7 +186,13 @@ public class NuovoProdottoCompositoPanel extends JPanel {
 
         JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
         aggiungiComponenteButton.setFont(bodyFont);
-        aggiungiComponenteButton.addActionListener(new AggiungiComponenteListener(this.contentPanel, componentsCounter, aggiungiComponenteButton));
+        aggiungiComponenteButton.setActionCommand(AGGIUNGI);
+        aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton));
+
+/*        JButton rimuoviComponenteButton = new JButton("Rimuovi componente");
+        rimuoviComponenteButton.setFont(bodyFont);
+        rimuoviComponenteButton.setActionCommand(RIMUOVI);
+        rimuoviComponenteButton.addActionListener(new ComponenteListener(this.contentPanel));*/
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
@@ -210,6 +218,8 @@ public class NuovoProdottoCompositoPanel extends JPanel {
         contentPanel.add(componente2Box);
         contentPanel.add(quantita2);
         contentPanel.add(quantita2Field);
+        contentPanel.add(new JLabel());
+        contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(aggiungiComponenteButton);
 

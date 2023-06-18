@@ -10,7 +10,7 @@ import Model.CategoriaProdotto;
 import Model.PuntoVendita;
 import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
-import View.Listener.AggiungiComponenteListener;
+import View.Listener.ComponenteListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
@@ -164,23 +164,22 @@ public class ModificaProdottoCompositoPanel extends JPanel {
 
         String[] nomiProdotti ;
         CatalogoResult catalogoResult = CatalogoBusiness.getInstance().caricaCatalogoProdotti();
-        int j=0;
-        while(catalogoResult.getListaProdotti() != null) {
-            JLabel componente1 = new JLabel("  Componente:");
-            componente1.setFont(bodyFont);
-            JComboBox<String> componente1Box = new JComboBox<>();
+        for( int j=0; j < p.getSottoprodotti().size(); j++) {
+            JLabel componente = new JLabel("  Componente:");
+            componente.setFont(bodyFont);
+            JComboBox<String> componenteBox = new JComboBox<>();
             Iterator<IProdotto> iterator = catalogoResult.getListaProdotti().iterator();
             nomiProdotti = new String[catalogoResult.getListaProdotti().size()];
             for (int i = 0; i < catalogoResult.getListaProdotti().size(); i++) {
                 nomiProdotti[i] = iterator.next().getName();
             }
-            componente1Box = new JComboBox<>(nomiProdotti);
-            componente1Box.setFocusable(false);
-            componente1Box.setFont(bodyFont);
-            componente1Box.setSelectedItem(p.getSottoprodotti().get(j).getName());
-            j++;
-            contentPanel.add(componente1);
-            contentPanel.add(componente1Box);
+            componenteBox = new JComboBox<>(nomiProdotti);
+            componenteBox.setFocusable(false);
+            componenteBox.setFont(bodyFont);
+            componenteBox.setSelectedItem(p.getSottoprodotti().get(j).getName());
+
+            contentPanel.add(componente);
+            contentPanel.add(componenteBox);
 
             JLabel quantita1 = new JLabel("  Quantità componente :");
             quantita1.setFont(bodyFont);
@@ -197,7 +196,8 @@ public class ModificaProdottoCompositoPanel extends JPanel {
 
         JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
         aggiungiComponenteButton.setFont(bodyFont);
-        aggiungiComponenteButton.addActionListener(new AggiungiComponenteListener(this.contentPanel, componentsCounter, aggiungiComponenteButton));
+        aggiungiComponenteButton.setActionCommand(ComponenteListener.AGGIUNGI);
+        aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
