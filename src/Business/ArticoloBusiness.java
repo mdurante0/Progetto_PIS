@@ -28,6 +28,7 @@ public class ArticoloBusiness {
         //Verifica esistenza articolo
         boolean articoloExists = aDao.articoloExists(a.getName());
         if (articoloExists){
+            a.setIdArticolo(aDao.findByName(a.getName()).getIdArticolo());
             result.setResult(ArticoloResult.Result.ITEM_ALREADY_EXISTS);
             result.setMessage("L'articolo da inserire è già esistente! Riprova");
             return result;
@@ -87,7 +88,7 @@ public class ArticoloBusiness {
         int inserito = mDao.addProdotto(idMagazzino,p);
         if(inserito == 0){ //articolo non inserito
             result.setResult(ArticoloResult.Result.ITEM_ERROR);
-            result.setMessage("Errore nell'inserimento dell'articolo! Riprova!");
+            result.setMessage("Articolo gia presente in questo punto vendita! Riprova!");
             return result;
         }
 

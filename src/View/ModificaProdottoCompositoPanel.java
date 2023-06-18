@@ -161,7 +161,6 @@ public class ModificaProdottoCompositoPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
 
-
         String[] nomiProdotti ;
         CatalogoResult catalogoResult = CatalogoBusiness.getInstance().caricaCatalogoProdotti();
         for( int j=0; j < p.getSottoprodotti().size(); j++) {
@@ -191,9 +190,6 @@ public class ModificaProdottoCompositoPanel extends JPanel {
             contentPanel.add(new JLabel());
         }
 
-
-
-
         JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
         aggiungiComponenteButton.setFont(bodyFont);
         aggiungiComponenteButton.setActionCommand(ComponenteListener.AGGIUNGI);
@@ -206,11 +202,6 @@ public class ModificaProdottoCompositoPanel extends JPanel {
         JButton aggiungiProdottoCompositoButton = new JButton("Modifica prodotto composito");
         aggiungiProdottoCompositoButton.setFont(bodyFont);
         //aggiungiProdottoCompositoButton.addActionListener();
-
-
-
-
-
 
         contentPanel.add(new JLabel());
         contentPanel.add(aggiungiComponenteButton);

@@ -85,7 +85,7 @@ public class CreaNuovoProdottoListener implements ActionListener {
                 if (collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
                     prodotto.setCollocazione(collocazione);
                     articoloResult = ArticoloBusiness.getInstance().addArticolo(prodotto);
-                    if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)){
+                    if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK) || articoloResult.getResult().equals(ArticoloResult.Result.ITEM_ALREADY_EXISTS)){
                         articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto,magazzinoResult.getMagazzini().get(0).getIdMagazzino());
                         if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
                             ImmagineResult immagineResult;
@@ -95,8 +95,8 @@ public class CreaNuovoProdottoListener implements ActionListener {
                                     break;
                             }
                             this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
-                        }
-                    }
+                        } else collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
+                    } else collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
                     JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
                 } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
             } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
