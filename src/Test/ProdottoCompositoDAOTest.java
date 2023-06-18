@@ -3,6 +3,7 @@ package Test;
 import DAO.*;
 import Model.CategoriaProdotto;
 import Model.Produttore;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import Model.composite.ProdottoComposito;
 import org.junit.After;
@@ -87,7 +88,7 @@ public class ProdottoCompositoDAOTest {
 
     @Test
     public void removeSottoProdottoTest(){
-        Prodotto p = ProdottoDAO.getInstance().findByName("Sofa");
+        IProdotto p = ProdottoDAO.getInstance().findByName("Sofa");
         ProdottoComposito pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
         ProdottoCompositoDAO.getInstance().removeSottoprodotto(pc.getIdArticolo(), p);
         pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");

@@ -18,4 +18,5 @@ public interface IProdotto {
     String getDescrizione();
     Collocazione getCollocazione();
     void setCollocazione(Collocazione c);
+    void setDescrizione(String descrizione);
 }

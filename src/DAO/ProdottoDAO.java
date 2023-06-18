@@ -31,7 +31,7 @@ public class ProdottoDAO implements IProdottoDAO {
         return instance;
     }
     @Override
-    public Prodotto findById(int idProdotto) {
+    public IProdotto findById(int idProdotto) {
 
         String sql = "SELECT articolo_idarticolo, produttore_idproduttore, categoria_prodotto_idcategoria_prodotto, nome, descrizione, costo " +
                 "FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
@@ -76,7 +76,7 @@ public class ProdottoDAO implements IProdottoDAO {
         return null;
     }
 
-    public Prodotto findByName(String name) {
+    public IProdotto findByName(String name) {
 
         String sql = "SELECT articolo_idarticolo, produttore_idproduttore, nome, descrizione, costo, categoria_prodotto_idcategoria_prodotto FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a ON a.idarticolo = p.articolo_idarticolo WHERE nome = '"+ name +"';";
 
@@ -163,7 +163,7 @@ public class ProdottoDAO implements IProdottoDAO {
         return null;
     }
 
-    public ArrayList<Prodotto> findAllByCategoria(int idCategoria) {
+    public ArrayList<IProdotto> findAllByCategoria(int idCategoria) {
 
         String sql = "SELECT * FROM progetto_pis.prodotto AS p INNER JOIN progetto_pis.articolo AS a " +
                 "ON a.idarticolo = p.articolo_idarticolo " +
@@ -173,7 +173,7 @@ public class ProdottoDAO implements IProdottoDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
-        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        ArrayList<IProdotto> prodotti = new ArrayList<>();
         try {
             while (rs.next()) {
                 prodotto = new Prodotto();

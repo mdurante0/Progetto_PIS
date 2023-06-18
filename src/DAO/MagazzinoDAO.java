@@ -58,7 +58,7 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
-                    Prodotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
                     //prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
                     prodotto.setCollocazione(new Collocazione());
@@ -104,7 +104,7 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
-                    Prodotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
                     prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
                     magazzino.add(prodotto);
@@ -150,7 +150,7 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs2.next()){
-                    Prodotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
+                    IProdotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs2.getInt("quantita_prodotto"));
                     prodotto.setCollocazione(collocazioneDAO.findById(rs2.getInt("collocazione_idcollocazione")));
                     magazzino.add(prodotto);
@@ -231,23 +231,12 @@ public class MagazzinoDAO implements IMagazzinoDAO {
 
     public int addProdotto(int idMagazzino, IProdotto iProdotto){
 
-        String sql;
-        if (iProdotto instanceof Prodotto prodotto) {
-            sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
-                    "(magazzino_idmagazzino, prodotto_articolo_idarticolo, collocazione_idcollocazione, quantita_prodotto) VALUES ('" +
-                    idMagazzino + "','" +
-                    prodotto.getIdArticolo() + "','" +
-                    prodotto.getCollocazione().getIdCollocazione() + "','" +
-                    prodotto.getQuantita() + "');";
-        }
-        else if (iProdotto instanceof ProdottoComposito prodottoComposito) {
-            sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
-                    "(magazzino_idmagazzino, prodotto_articolo_idarticolo, quantita_prodotto) VALUES ('" +
-                    idMagazzino + "','" +
-                    prodottoComposito.getIdArticolo() + "','" +
-                    prodottoComposito.getQuantita() + "');";
-        }
-        else return -1;
+        String sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
+                "(magazzino_idmagazzino, prodotto_articolo_idarticolo, collocazione_idcollocazione, quantita_prodotto) VALUES ('" +
+                idMagazzino + "','" +
+                iProdotto.getIdArticolo() + "','" +
+                iProdotto.getCollocazione().getIdCollocazione() + "','" +
+                iProdotto.getQuantita() + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

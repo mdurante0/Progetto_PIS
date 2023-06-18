@@ -9,9 +9,7 @@ import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
 import Model.PuntoVendita;
 import Model.composite.IProdotto;
-import View.Listener.ComponenteListener;
-import View.Listener.GoToMenuListener;
-import View.Listener.ImmaginiListener;
+import View.Listener.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,15 +24,16 @@ public class NuovoProdottoCompositoPanel extends JPanel {
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
-    private JTextField nomeProdottoField;
+    private JTextField nomeProdottoCompositoField;
     private JTextField descrizioneField;
-    private JTextField prezzoField;
     private JTextField quantitaField;
     private JComboBox<String> categoriaProdottoBox;
     private JComboBox<String> puntoVenditaBox;
     private JTextField corsiaField;
     private JTextField scaffaleField;
     private ArrayList<File> files = new ArrayList<>();
+    private ArrayList<JComboBox<String>> componentiBoxes = new ArrayList<>();
+    private ArrayList<JTextField> quantitaComponentiFields = new ArrayList<>();
     private JLabel immaginiCounterLabel;
     private int componentsCounter = 2;
 
@@ -57,32 +56,26 @@ public class NuovoProdottoCompositoPanel extends JPanel {
         this.setPreferredSize(new Dimension(500, 400));
         JLabel nomeProdottoLabel = new JLabel("  Nome:");
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
-        JLabel prezzoLabel = new JLabel("  Prezzo (€):");
         JLabel quantitaLabel = new JLabel("  Quantità:");
 
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 22);
         nomeProdottoLabel.setFont(bodyFont);
         descrizioneLabel.setFont(bodyFont);
-        prezzoLabel.setFont(bodyFont);
         quantitaLabel.setFont(bodyFont);
 
-        nomeProdottoField = new JTextField(20);
+        nomeProdottoCompositoField = new JTextField(20);
         descrizioneField = new JTextField(20);
-        prezzoField = new JTextField(20);
         quantitaField = new JTextField(20);
 
-        nomeProdottoField.setFont(bodyFont);
+        nomeProdottoCompositoField.setFont(bodyFont);
         descrizioneField.setFont(bodyFont);
-        prezzoField.setFont(bodyFont);
         quantitaField.setFont(bodyFont);
 
         contentPanel.add(nomeProdottoLabel);
-        contentPanel.add(nomeProdottoField);
+        contentPanel.add(nomeProdottoCompositoField);
         contentPanel.add(descrizioneLabel);
         contentPanel.add(descrizioneField);
-        contentPanel.add(prezzoLabel);
-        contentPanel.add(prezzoField);
         contentPanel.add(quantitaLabel);
         contentPanel.add(quantitaField);
 
@@ -167,40 +160,39 @@ public class NuovoProdottoCompositoPanel extends JPanel {
             componente1Box.setFocusable(false);
             componente1Box.setFont(bodyFont);
         }
+        componentiBoxes.add(componente1Box);
 
         JLabel quantita1 = new JLabel("  Quantità componente 1:");
         quantita1.setFont(bodyFont);
         JTextField quantita1Field = new JTextField(20);
         quantita1Field.setFont(bodyFont);
+        quantitaComponentiFields.add(quantita1Field);
 
         JLabel componente2 = new JLabel("  Componente 2:");
         componente2.setFont(bodyFont);
         JComboBox<String> componente2Box = new JComboBox<>(nomiProdotti);
         componente2Box.setFocusable(false);
         componente2Box.setFont(bodyFont);
+        componentiBoxes.add(componente2Box);
 
         JLabel quantita2 = new JLabel("  Quantità componente 2:");
         quantita2.setFont(bodyFont);
         JTextField quantita2Field = new JTextField(20);
         quantita2Field.setFont(bodyFont);
+        quantitaComponentiFields.add(quantita2Field);
 
         JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
         aggiungiComponenteButton.setFont(bodyFont);
         aggiungiComponenteButton.setActionCommand(AGGIUNGI);
-        aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton));
-
-/*        JButton rimuoviComponenteButton = new JButton("Rimuovi componente");
-        rimuoviComponenteButton.setFont(bodyFont);
-        rimuoviComponenteButton.setActionCommand(RIMUOVI);
-        rimuoviComponenteButton.addActionListener(new ComponenteListener(this.contentPanel));*/
-
+        aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton, componentiBoxes, quantitaComponentiFields));
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
         backButton.addActionListener(new GoToMenuListener(this.frame));
 
         JButton aggiungiProdottoCompositoButton = new JButton("Aggiungi prodotto composito");
         aggiungiProdottoCompositoButton.setFont(bodyFont);
-        //aggiungiProdottoCompositoButton.addActionListener();
+        aggiungiProdottoCompositoButton.addActionListener(new CreaNuovoProdottoCompositoListener(this.frame, nomeProdottoCompositoField, descrizioneField, quantitaField, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files, componentiBoxes, quantitaComponentiFields));
+
 
         contentPanel.add(immaginiLabel);
         contentPanel.add(aggiungiImmagineButton);

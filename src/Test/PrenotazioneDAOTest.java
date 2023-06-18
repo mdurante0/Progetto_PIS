@@ -2,6 +2,7 @@ package Test;
 
 import DAO.*;
 import Model.*;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
@@ -50,7 +51,7 @@ public class PrenotazioneDAOTest {
         prodottoDAO.add(p2);
 
         Date d = new Date();
-        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        ArrayList<IProdotto> prodotti = new ArrayList<>();
         prodotti.add(p1);
         prodotti.add(p2);
 
@@ -119,7 +120,7 @@ public class PrenotazioneDAOTest {
 
         Collocazione collocazione = new Collocazione(4,4, magazzinoDAO.findByAddress("via Paoli 23"));
 
-        Prodotto prodotto = new Prodotto(55.35F, null, "dondolo", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),magazzinoDAO.findByAddress("via Paoli 23"), null , 9);
+        IProdotto prodotto = new Prodotto(55.35F, null, "dondolo", "sono una cassa", categoriaProdottoDAO.findByName("aaa"), collocazione, produttoreDAO.findByName("Valentino"),magazzinoDAO.findByAddress("via Paoli 23"), null , 9);
 
         prodottoDAO.add(prodotto);
 
@@ -160,13 +161,13 @@ public class PrenotazioneDAOTest {
 
         prenotazione.setDataPrenotazione(d);
 
-        Prodotto prodotto2 = prodottoDAO.findByName("mattonelle");
-        Prodotto prodotto1 = prodottoDAO.findByName("cassa");
+        IProdotto prodotto2 = prodottoDAO.findByName("mattonelle");
+        IProdotto prodotto1 = prodottoDAO.findByName("cassa");
 
         prodotto1.setQuantita(20);
         prodotto2.setQuantita(30);
 
-        ArrayList<Prodotto> prodotti = new ArrayList<>();
+        ArrayList<IProdotto> prodotti = new ArrayList<>();
 
         prodotti.add(prodotto1);
         prodotti.add(prodotto2);

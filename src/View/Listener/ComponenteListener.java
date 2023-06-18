@@ -8,18 +8,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ComponenteListener implements ActionListener {
     private JPanel panel;
     private static int componentsCounter = 2;
     private JButton aggiungiComponenteButton;
+    private ArrayList<JComboBox<String>> componentiBoxes;
+    private ArrayList<JTextField> quantitaComponentiFields;
     public final static String AGGIUNGI = "aggiungi";
     public final static String RIMUOVI = "rimuovi";
 
-    public ComponenteListener(JPanel panel, JButton aggiungiComponenteButton) {
+    public ComponenteListener(JPanel panel, JButton aggiungiComponenteButton, ArrayList<JComboBox<String>> componentiBoxes, ArrayList<JTextField> quantitaComponentiFields) {
         this.panel = panel;
         this.aggiungiComponenteButton = aggiungiComponenteButton;
+        this.componentiBoxes = componentiBoxes;
+        this.quantitaComponentiFields = quantitaComponentiFields;
     }
 
     @Override
@@ -41,16 +46,18 @@ public class ComponenteListener implements ActionListener {
                 componenteNBox.setFocusable(false);
                 componenteNBox.setFont(bodyFont);
             }
+            componentiBoxes.add(componenteNBox);
 
             JLabel quantitaN = new JLabel("  Quantità componente " + componentsCounter + ":");
             quantitaN.setFont(bodyFont);
             JTextField quantitaNField = new JTextField(20);
             quantitaNField.setFont(bodyFont);
+            quantitaComponentiFields.add(quantitaNField);
 
             JButton rimuoviComponenteButton = new JButton("Rimuovi componente");
             rimuoviComponenteButton.setFont(bodyFont);
             rimuoviComponenteButton.setActionCommand(RIMUOVI);
-            rimuoviComponenteButton.addActionListener(new ComponenteListener(this.panel, aggiungiComponenteButton));
+            rimuoviComponenteButton.addActionListener(new ComponenteListener(this.panel, aggiungiComponenteButton, componentiBoxes, quantitaComponentiFields));
 
             panel.remove(panel.getComponentCount() - 2);
             panel.remove(aggiungiComponenteButton);
@@ -66,6 +73,8 @@ public class ComponenteListener implements ActionListener {
 
         } else if (e.getActionCommand().equals(RIMUOVI) && componentsCounter > 2) {
             componentsCounter--;
+            componentiBoxes.remove(componentiBoxes.size() - 1);
+            quantitaComponentiFields.remove(quantitaComponentiFields.size() -1);
 
             panel.remove(panel.getComponentCount() - 3); //label vuota
             panel.remove(panel.getComponentCount() - 3); //label vuota

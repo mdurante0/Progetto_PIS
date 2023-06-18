@@ -6,7 +6,6 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.composite.IProdotto;
-import Model.composite.Prodotto;
 import Model.composite.ProdottoComposito;
 
 import java.sql.ResultSet;
@@ -60,7 +59,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
             do {
                 idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
                 quantita = rs.getInt("quantita");
-                Prodotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
+                IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
                 sottoprodotto.setQuantita(quantita);
                 sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
@@ -110,7 +109,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
                 idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
                 quantita = rs.getInt("quantita");
-                Prodotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
+                IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
                 sottoprodotto.setQuantita(quantita);
                 sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                 sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
@@ -163,7 +162,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
                     idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
                     quantita = rs.getInt("quantita");
-                    Prodotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
+                    IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
                     sottoprodotto.setQuantita(quantita);
                     sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
                     sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
@@ -230,7 +229,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     }
 
     @Override
-    public int addSottoprodotto(int idProdottoComposito, Prodotto sottoprodotto) {
+    public int addSottoprodotto(int idProdottoComposito, IProdotto sottoprodotto) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "INSERT INTO progetto_pis.prodotto_has_prodotto (prodotto_articolo_idarticolo, prodotto_articolo_idarticolo1, quantita) VALUES ('"+
@@ -240,7 +239,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
     }
     @Override
-    public int removeSottoprodotto(int idProdottoComposito, Prodotto sottoprodotto) {
+    public int removeSottoprodotto(int idProdottoComposito, IProdotto sottoprodotto) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "DELETE FROM progetto_pis.prodotto_has_prodotto " +

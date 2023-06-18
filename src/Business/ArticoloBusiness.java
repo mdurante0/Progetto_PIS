@@ -37,19 +37,19 @@ public class ArticoloBusiness {
         //inserimento in base al tipo di articolo
         int inserito;
 
-        if(a instanceof Prodotto p) {
+        if(a instanceof Prodotto) {
             ProdottoDAO pDao = ProdottoDAO.getInstance();
-            inserito = pDao.add(p);
+            inserito = pDao.add((Prodotto) a);
         }
 
-        else if(a instanceof Servizio s){
+        else if(a instanceof Servizio){
             ServizioDAO sDao = ServizioDAO.getInstance();
-            inserito = sDao.add(s);
+            inserito = sDao.add((Servizio) a);
         }
 
-        else if(a instanceof ProdottoComposito pc) {
+        else if(a instanceof ProdottoComposito) {
             ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
-            inserito = pcDao.add(pc);
+            inserito = pcDao.add((ProdottoComposito) a);
         }
 
         else { //errore nel tipo di articolo

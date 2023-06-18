@@ -46,7 +46,7 @@ public class CollocazioneBusiness {
         CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
         if(!collocazioneDAO.isFree(collocazione)){
             result.setResult(CollocazioneResult.Result.COLLOCAZIONE_OCCUPATA);
-            result.setMessage("La collocazione inserita è già occupata! Riprova!");
+            result.setMessage("La collocazione inserita è già occupata o inesistente! Riprova!");
             return result;
         }
 

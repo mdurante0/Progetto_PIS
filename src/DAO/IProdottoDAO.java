@@ -1,15 +1,14 @@
 package DAO;
 
 import Model.composite.IProdotto;
-import Model.composite.Prodotto;
 
 import java.util.ArrayList;
 
 public interface IProdottoDAO {
-    Prodotto findById(int idProdotto);
-    Prodotto findByName(String name);
+    IProdotto findById(int idProdotto);
+    IProdotto findByName(String name);
     ArrayList<IProdotto> findAll();
-    ArrayList<Prodotto> findAllByCategoria(int idCategoria);
+    ArrayList<IProdotto> findAllByCategoria(int idCategoria);
     int add(IProdotto prodotto);
     int removeById(int idProdotto);
     int update(IProdotto prodotto);

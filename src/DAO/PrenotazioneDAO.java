@@ -6,7 +6,7 @@ import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
 import Model.Prenotazione;
-import Model.composite.Prodotto;
+import Model.composite.IProdotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,7 +57,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 do {
                     idProdotto = rs.getInt("prodotto_articolo_idarticolo");
                     quantita = rs.getInt("quantita");
-                    Prodotto prodotto = prodottoDAO.findById(idProdotto);
+                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
                     prodotto.setQuantita(quantita);
                     prenotazione.add(prodotto);
                 }while (rs.next());
@@ -100,7 +100,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 do {
                     idProdotto = rs.getInt("prodotto_articolo_idarticolo");
                     quantita = rs.getInt("quantita");
-                    Prodotto prodotto = prodottoDAO.findById(idProdotto);
+                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
                     prodotto.setQuantita(quantita);
                     prenotazione.add(prodotto);
                 }while (rs.next());
@@ -146,7 +146,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 do {
                     idProdotto = rs.getInt("prodotto_articolo_idarticolo");
                     quantita = rs.getInt("quantita");
-                    Prodotto prodotto = prodottoDAO.findById(idProdotto);
+                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
                     prodotto.setQuantita(quantita);
                     prenotazione.add(prodotto);
                 }while (rs.next());
@@ -170,12 +170,12 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public int add(Prenotazione prenotazione) {
         Date data = prenotazione.getDataPrenotazione();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int rowCount = 0;
         try{
         String s = formato.format(data);
         Date d = formato.parse(s);
-        formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente, data_prenotazione) VALUES ('"+
                 prenotazione.getIdUtente() + "','" +  formato.format(d) + "');";
@@ -192,10 +192,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             rs.next();
             prenotazione.setIdPrenotazione(rs.getInt("max(idprenotazione)"));
 
-            Iterator<Prodotto> prodottoIterator = prenotazione.getProdotti().iterator();
+            Iterator<IProdotto> prodottoIterator = prenotazione.getProdotti().iterator();
             while (prodottoIterator.hasNext()) {
 
-                Prodotto prodottoPrenotato = prodottoIterator.next();
+                IProdotto prodottoPrenotato = prodottoIterator.next();
                 sql = "INSERT INTO progetto_pis.prenotazione_has_prodotto " +
                         "(prenotazione_idprenotazione, prodotto_articolo_idarticolo, quantita) VALUES ('" +
                         prenotazione.getIdPrenotazione() + "','" +
@@ -221,7 +221,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public int addProdotto(int idPrenotazione, Prodotto prodottoPrenotato) {
+    public int addProdotto(int idPrenotazione, IProdotto prodottoPrenotato) {
 
         String sql = "INSERT INTO progetto_pis.prenotazione_has_prodotto " +
                 "(prenotazione_idprenotazione, prodotto_articolo_idarticolo, quantita) VALUES ('" +
@@ -256,7 +256,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     }
 
     @Override
-    public int removeProdotto(int idPrenotazione, Prodotto prodottoPrenotato){
+    public int removeProdotto(int idPrenotazione, IProdotto prodottoPrenotato){
 
         String sql = "DELETE FROM progetto_pis.prenotazione_has_prodotto " +
                 "WHERE prenotazione_idprenotazione = '" + idPrenotazione +
@@ -270,12 +270,12 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public int update(Prenotazione prenotazione) {
         Date data = prenotazione.getDataPrenotazione();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int rowCount = 0;
         try {
             String s = formato.format(data);
             Date d = formato.parse(s);
-            formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String sql = "UPDATE progetto_pis.prenotazione " +
                     "SET  data_prenotazione = '" + formato.format(d) +
                     "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
@@ -285,11 +285,11 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
             executor.executeOperation(writeOp);
 
 
-            Iterator<Prodotto> prodottoIterator = prenotazione.getProdotti().iterator();
+            Iterator<IProdotto> prodottoIterator = prenotazione.getProdotti().iterator();
             int i=0;
             while (prodottoIterator.hasNext()) {
 
-                Prodotto prodottoPrenotato = prodottoIterator.next();
+                IProdotto prodottoPrenotato = prodottoIterator.next();
 
                 sql = "UPDATE progetto_pis.prenotazione_has_prodotto " +
                         "SET  quantita = '" + prodottoPrenotato.getQuantita() +

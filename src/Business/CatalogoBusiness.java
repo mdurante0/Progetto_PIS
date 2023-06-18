@@ -115,4 +115,25 @@ public class CatalogoBusiness {
 
         return result;
     }
+
+    public CatalogoResult caricaCatalogoProdottiByNomi(ArrayList<String> nomi) {
+        CatalogoResult result = new CatalogoResult();
+        ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+
+        ArrayList<IProdotto> prodotti = new ArrayList<>();
+        for (String s : nomi) {
+            IProdotto p = prodottoDAO.findByName(s);
+            if (p == null) { //Prodotto non trovato
+                result.setResult(CatalogoResult.Result.ERRORE_PRODOTTI);
+                result.setMessage("Prodotti non trovati! Riprova!");
+                return result;
+            }
+            prodotti.add(p);
+        }
+        result.setListaProdotti(prodotti); //Prodotti caricati
+        result.setResult(CatalogoResult.Result.CATALOGO_CARICATO);
+        result.setMessage("Prodotti caricati correttamente");
+
+        return result;
+    }
 }

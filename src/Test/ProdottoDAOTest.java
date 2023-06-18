@@ -53,13 +53,13 @@ public class ProdottoDAOTest {
     @Test
     public void testFindById() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        Prodotto prodotto = prodottoDAO.findById(prodottoDAO.findByName("cassa").getIdArticolo());
+        IProdotto prodotto = prodottoDAO.findById(prodottoDAO.findByName("cassa").getIdArticolo());
         Assert.assertEquals("Valentino", prodotto.getProduttore().getNome());
     }
     @Test
     public void testFindByName() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        Prodotto articolo = prodottoDAO.findByName("cassa");
+        IProdotto articolo = prodottoDAO.findByName("cassa");
         Assert.assertEquals("cassa", articolo.getName());
     }
 
@@ -73,7 +73,7 @@ public class ProdottoDAOTest {
     public void testFindAllByCategoria() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
-        ArrayList<Prodotto> prodotti = prodottoDAO.findAllByCategoria(categoriaProdottoDAO.findByName("aaa").getIdCategoria());
+        ArrayList<IProdotto> prodotti = prodottoDAO.findAllByCategoria(categoriaProdottoDAO.findByName("aaa").getIdCategoria());
         Assert.assertEquals(1, prodotti.size());
     }
 
@@ -81,7 +81,7 @@ public class ProdottoDAOTest {
     @Test
     public void testUpdate() {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        Prodotto prodotto = prodottoDAO.findByName("cassa");
+        IProdotto prodotto = prodottoDAO.findByName("cassa");
         prodotto.setDescrizione("cassa in legno massello");
         prodottoDAO.update(prodotto);
         prodotto = prodottoDAO.findByName("cassa");

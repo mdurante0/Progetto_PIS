@@ -1,5 +1,6 @@
 package Model;
 
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 
 import java.util.ArrayList;
@@ -9,14 +10,14 @@ import java.util.List;
 public class Prenotazione {
 
     private int idPrenotazione;
-    private List<Model.composite.Prodotto> prodotti = new ArrayList<>();
+    private List<Model.composite.IProdotto> prodotti = new ArrayList<>();
     private Date dataPrenotazione = new Date();
     private int idUtente;
 
     public Prenotazione(){
     }
 
-    public Prenotazione(List<Model.composite.Prodotto> prodotti, Date dataPrenotazione, int idUtente) {
+    public Prenotazione(List<Model.composite.IProdotto> prodotti, Date dataPrenotazione, int idUtente) {
         this.prodotti = prodotti;
         this.dataPrenotazione = dataPrenotazione;
         this.idUtente = idUtente;
@@ -30,11 +31,11 @@ public class Prenotazione {
         this.idPrenotazione = idPrenotazione;
     }
 
-    public List<Model.composite.Prodotto> getProdotti() {
+    public List<Model.composite.IProdotto> getProdotti() {
         return prodotti;
     }
 
-    public void setProdotti(List<Model.composite.Prodotto> prodotti) {
+    public void setProdotti(List<Model.composite.IProdotto> prodotti) {
         this.prodotti = prodotti;
     }
 
@@ -54,7 +55,7 @@ public class Prenotazione {
         this.idUtente = idUtente;
     }
 
-    public void add(Prodotto prodotto) {
+    public void add(IProdotto prodotto) {
         prodotti.add(prodotto);
     }
 

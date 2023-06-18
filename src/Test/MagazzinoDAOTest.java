@@ -106,7 +106,7 @@ public class MagazzinoDAOTest {
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
 
         Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
-        Prodotto prodotto = prodottoDAO.findByName("Poltrona");
+        IProdotto prodotto = prodottoDAO.findByName("Poltrona");
 
         Assert.assertTrue(magazzinoDAO.prodottoExists(magazzino.getIdMagazzino(),prodotto.getIdArticolo()));
     }

@@ -2,6 +2,7 @@ package Test;
 
 import DAO.*;
 import Model.*;
+import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
@@ -145,8 +146,8 @@ public class ListaAcquistoDAOTest {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
         ListaAcquisto listaAcquisto = listaAcquistoDAO.findByName("mylist");
-        Prodotto prodotto = prodottoDAO.findByName("Armadio");
-        listaAcquistoDAO.removeArticolo(listaAcquisto.getIdLista(),prodotto);
+        IProdotto prodotto = prodottoDAO.findByName("Armadio");
+        listaAcquistoDAO.removeArticolo(listaAcquisto.getIdLista(),(Prodotto) prodotto);
         listaAcquisto = listaAcquistoDAO.findByName("mylist");
         Assert.assertEquals(1,listaAcquisto.getArticoli().size());
     }

@@ -193,7 +193,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
         JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
         aggiungiComponenteButton.setFont(bodyFont);
         aggiungiComponenteButton.setActionCommand(ComponenteListener.AGGIUNGI);
-        aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton));
+        //aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
