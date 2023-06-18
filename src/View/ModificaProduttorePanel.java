@@ -1,6 +1,8 @@
 package View;
 
 import Model.Produttore;
+import View.Listener.GoToMostraProduttoriListener;
+import View.Listener.ModificaProduttoreListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,8 +71,10 @@ public class ModificaProduttorePanel extends  JPanel{
 
 
         JButton modificaFornitoreButton = new JButton("Modifica");
+        modificaFornitoreButton.addActionListener(new ModificaProduttoreListener(this.frame,nomeField,emailField,telefonoField,nazioneField,cittaField,descrizioneField,sitoField));
         modificaFornitoreButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMostraProduttoriListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener

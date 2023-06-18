@@ -2,6 +2,7 @@ package View;
 
 import View.Listener.AggiungiProduttoreListener;
 import View.Listener.GoToMenuListener;
+import View.Listener.GoToMostraProduttoriListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +70,7 @@ public class ProduttorePanel extends JPanel {
         aggiungiProduttoreButton.setFont(bodyFont);
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+        tornaIndietroButton.addActionListener(new GoToMostraProduttoriListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener
