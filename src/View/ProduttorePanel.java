@@ -1,5 +1,8 @@
 package View;
 
+import View.Listener.AggiungiProduttoreListener;
+import View.Listener.GoToMenuListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -62,8 +65,11 @@ public class ProduttorePanel extends JPanel {
 
 
         JButton aggiungiProduttoreButton = new JButton("Aggiungi");
+        aggiungiProduttoreButton.addActionListener(new AggiungiProduttoreListener(this.frame,nomeField,emailField,telefonoField,nazioneField,cittaField,descrizioneField,sitoField));
         aggiungiProduttoreButton.setFont(bodyFont);
+
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener
