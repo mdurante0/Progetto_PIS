@@ -1,8 +1,6 @@
 package View.Decorator;
 
-import View.Listener.GoToNuovoProdottoCompositoListener;
-import View.Listener.GoToNuovoProdottoListener;
-import View.Listener.GoToNuovoServizioListener;
+import View.Listener.*;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -36,6 +34,8 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         nuovoProdotto.addActionListener(new GoToNuovoProdottoListener(this.frame));
         nuovoProdottoComposito.addActionListener(new GoToNuovoProdottoCompositoListener(this.frame));
         nuovoServizio.addActionListener(new GoToNuovoServizioListener(this.frame));
+        produttore.addActionListener(new GoToProduttoreListener(this.frame));
+        fornitore.addActionListener(new GoToFornitoreListener(this.frame));
 
         //add pulsanti
         pulsanti.add(nuovoProdotto);
