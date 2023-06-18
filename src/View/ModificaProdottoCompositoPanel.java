@@ -1,16 +1,16 @@
 package View;
 
+import Business.CatalogoBusiness;
 import Business.CategoriaBusiness;
-import Business.ProduttoreBusiness;
 import Business.PuntoVenditaBusiness;
+import Business.Results.CatalogoResult;
 import Business.Results.CategoriaResult;
-import Business.Results.ProduttoreResult;
 import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
-import Model.Produttore;
 import Model.PuntoVendita;
 import Model.composite.IProdotto;
-import View.Listener.CreaNuovoProdottoListener;
+import Model.composite.ProdottoComposito;
+import View.Listener.AggiungiComponenteListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
@@ -20,46 +20,54 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ModificaProdottoPanel extends JPanel {
+public class ModificaProdottoCompositoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
+    private JPanel southPanel = new JPanel();
     private JTextField nomeProdottoField;
     private JTextField descrizioneField;
     private JTextField prezzoField;
     private JTextField quantitaField;
-    private JComboBox<String> produttoreBox;
     private JComboBox<String> categoriaProdottoBox;
     private JComboBox<String> puntoVenditaBox;
     private JTextField corsiaField;
     private JTextField scaffaleField;
     private ArrayList<File> files = new ArrayList<>();
     private JLabel immaginiCounterLabel;
+    private int componentsCounter = 2;
 
-    public ModificaProdottoPanel(MainFrame frame, IProdotto p, PuntoVendita puntoVendita) {
+    public ModificaProdottoCompositoPanel(MainFrame frame, ProdottoComposito p, PuntoVendita puntoVendita) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
-        JLabel titleLabel = new JLabel("Nuovo prodotto");
+        JLabel titleLabel = new JLabel("Modifica prodotto composito");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(13, 1));
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(50, 30, 50, 300);
+        this.add(scrollPane);
+
+        contentPanel.setLayout(new GridLayout(0, 2));
+        this.setPreferredSize(new Dimension(500, 400));
         JLabel nomeProdottoLabel = new JLabel("  Nome:");
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         JLabel prezzoLabel = new JLabel("  Prezzo (€):");
         JLabel quantitaLabel = new JLabel("  Quantità:");
 
 
-        Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
+        Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 22);
         nomeProdottoLabel.setFont(bodyFont);
         descrizioneLabel.setFont(bodyFont);
         prezzoLabel.setFont(bodyFont);
         quantitaLabel.setFont(bodyFont);
 
         nomeProdottoField = new JTextField(p.getName(),20);
-        descrizioneField = new JTextField(p.getDescrizione(), 20);
+        descrizioneField = new JTextField(p.getDescrizione(),20);
         prezzoField = new JTextField(String.valueOf(p.getPrezzo()),20);
         quantitaField = new JTextField(String.valueOf(p.getQuantita()),20);
 
@@ -110,25 +118,6 @@ public class ModificaProdottoPanel extends JPanel {
             contentPanel.add(scaffaleField);
         }
 
-        ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttori();
-        if (produttoreResult.getProduttori() != null){
-            Iterator<Produttore> iterator = produttoreResult.getProduttori().iterator();
-            String[] nomiProduttori = new String[produttoreResult.getProduttori().size()];
-            for (int i = 0; i < produttoreResult.getProduttori().size(); i++) {
-                nomiProduttori[i] = iterator.next().getNome();
-            }
-            produttoreBox = new JComboBox<>(nomiProduttori);
-            produttoreBox.setFocusable(false);
-            produttoreBox.setFont(bodyFont);
-            produttoreBox.setSelectedItem(p.getProduttore().getNome());
-
-            JLabel produttoreLabel = new JLabel("  Produttore del nuovo prodotto:");
-            produttoreLabel.setFont(bodyFont);
-            produttoreBox.setFont(bodyFont);
-            contentPanel.add(produttoreLabel);
-            contentPanel.add(produttoreBox);
-        }
-
         CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategorieProdotto();
         if(categoriaResult.getCategorieProdotto() != null) {
             Iterator<CategoriaProdotto> iterator = categoriaResult.getCategorieProdotto().iterator();
@@ -159,29 +148,78 @@ public class ModificaProdottoPanel extends JPanel {
         aggiungiImmagineButton.setActionCommand(ImmaginiListener.AGGIUNGI);
         aggiungiImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
+        contentPanel.add(immaginiLabel);
+        contentPanel.add(aggiungiImmagineButton);
+
         JButton rimuoviImmagineButton = new JButton("Rimuovi l'ultima immagine");
         rimuoviImmagineButton.setFont(bodyFont);
         rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
         rimuoviImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
-        JButton aggiungiButton = new JButton("Aggiunti prodotto");
-        aggiungiButton.setFont(bodyFont);
-        aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
+        contentPanel.add(immaginiCounterLabel);
+        contentPanel.add(rimuoviImmagineButton);
+        contentPanel.add(new JLabel());
+        contentPanel.add(new JLabel());
+
+
+        String[] nomiProdotti ;
+        CatalogoResult catalogoResult = CatalogoBusiness.getInstance().caricaCatalogoProdotti();
+        int j=0;
+        while(catalogoResult.getListaProdotti() != null) {
+            JLabel componente1 = new JLabel("  Componente:");
+            componente1.setFont(bodyFont);
+            JComboBox<String> componente1Box = new JComboBox<>();
+            Iterator<IProdotto> iterator = catalogoResult.getListaProdotti().iterator();
+            nomiProdotti = new String[catalogoResult.getListaProdotti().size()];
+            for (int i = 0; i < catalogoResult.getListaProdotti().size(); i++) {
+                nomiProdotti[i] = iterator.next().getName();
+            }
+            componente1Box = new JComboBox<>(nomiProdotti);
+            componente1Box.setFocusable(false);
+            componente1Box.setFont(bodyFont);
+            componente1Box.setSelectedItem(p.getSottoprodotti().get(j).getName());
+            j++;
+            contentPanel.add(componente1);
+            contentPanel.add(componente1Box);
+
+            JLabel quantita1 = new JLabel("  Quantità componente :");
+            quantita1.setFont(bodyFont);
+            JTextField quantita1Field = new JTextField(String.valueOf(p.getSottoprodotti().get(0).getQuantita()),20);
+            quantita1Field.setFont(bodyFont);
+            contentPanel.add(quantita1);
+            contentPanel.add(quantita1Field);
+            contentPanel.add(new JLabel());
+            contentPanel.add(new JLabel());
+        }
+
+
+
+
+        JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
+        aggiungiComponenteButton.setFont(bodyFont);
+        aggiungiComponenteButton.addActionListener(new AggiungiComponenteListener(this.contentPanel, componentsCounter, aggiungiComponenteButton));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
         backButton.addActionListener(new GoToMenuListener(this.frame));
 
-        contentPanel.add(immaginiLabel);
-        contentPanel.add(aggiungiImmagineButton);
-        contentPanel.add(immaginiCounterLabel);
-        contentPanel.add(rimuoviImmagineButton);
+        JButton aggiungiProdottoCompositoButton = new JButton("Modifica prodotto composito");
+        aggiungiProdottoCompositoButton.setFont(bodyFont);
+        //aggiungiProdottoCompositoButton.addActionListener();
+
+
+
+
+
+
         contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());
-        contentPanel.add(backButton);
-        contentPanel.add(aggiungiButton);
+        contentPanel.add(aggiungiComponenteButton);
+
+        southPanel.add(backButton);
+        southPanel.add(aggiungiProdottoCompositoButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
-        this.add(contentPanel, BorderLayout.CENTER);
+        //this.add(contentPanel, BorderLayout.CENTER);
+        this.add(southPanel, BorderLayout.SOUTH);
     }
 }

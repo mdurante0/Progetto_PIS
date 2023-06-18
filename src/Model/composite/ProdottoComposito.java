@@ -3,6 +3,7 @@ package Model.composite;
 import Business.AbstractFactory.ICategoria;
 import Model.Articolo;
 import Model.CategoriaProdotto;
+import Model.Collocazione;
 import Model.Produttore;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     private int idMagazzino;
 
     private Produttore produttore = new Produttore();
+    private Collocazione collocazione;
 
     public ProdottoComposito() {
         super();
@@ -65,6 +67,16 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     }
     public ICategoria getCategoria(){return super.getCategoria();}
     public void setCategoria(CategoriaProdotto categoria){super.setCategoria(categoria);}
+
+    @Override
+    public Collocazione getCollocazione() {
+        return collocazione;
+    }
+
+    @Override
+    public void setCollocazione(Collocazione collocazione) {
+        this.collocazione = collocazione;
+    }
 
     @Override
     public Float getPrezzo() {
