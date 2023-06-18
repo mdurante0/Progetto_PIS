@@ -42,19 +42,23 @@ public class AggiungiProduttoreListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-            produttore.setNome(nomeField.getText());
-            produttore.setMail(emailField .getText());
-            produttore.setTelefono(telefonoField.getText());
-            produttore.setNazione(nazioneField.getText());
-            produttore.setCitta(cittaField.getText());
-            produttore.setDescrizione(descrizioneField.getText());
-            produttore.setSito(sitoField.getText());
+        produttore.setNome(nomeField.getText());
+        produttore.setMail(emailField.getText());
+        produttore.setTelefono(telefonoField.getText());
+        produttore.setNazione(nazioneField.getText());
+        produttore.setCitta(cittaField.getText());
+        produttore.setDescrizione(descrizioneField.getText());
+        produttore.setSito(sitoField.getText());
+        if (!produttore.getNome().isEmpty() && !produttore.getMail().isEmpty() && !produttore.getDescrizione().isEmpty() && !produttore.getSito().isEmpty()) {
 
             ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().addProduttore(produttore);
-            if(produttoreResult.getResult() == ProduttoreResult.Result.ADD_OK){
+            if (produttoreResult.getResult() == ProduttoreResult.Result.ADD_OK) {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }
             JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
         }
+        JOptionPane.showMessageDialog(this.frame, "Attenzione, il produttore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
+
     }
+}
 

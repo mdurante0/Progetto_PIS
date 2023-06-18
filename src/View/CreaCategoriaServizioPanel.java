@@ -1,6 +1,9 @@
 package View;
 
 
+import View.Listener.CreaCategoriaServizioListener;
+import View.Listener.GoToMenuListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -35,8 +38,10 @@ public class CreaCategoriaServizioPanel extends JPanel {
         categoriaField.setFont(bodyFont);
 
         JButton aggiungiCategoriaProdottoButton = new JButton("Aggiungi");
+        aggiungiCategoriaProdottoButton.addActionListener(new CreaCategoriaServizioListener(this.frame, categoriaField));
         aggiungiCategoriaProdottoButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener

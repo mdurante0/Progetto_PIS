@@ -30,26 +30,30 @@ public class CreaCategoriaProdottoListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         categoriaProdotto.setNome(categoriaField.getText());
+        if (!categoriaProdotto.getNome().isEmpty()) {
 
-        if(categoriaParentBox.getSelectedItem() == null){
-            CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
-            if(categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
-                this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
-
-                JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
-        }
-        if(categoriaParentBox.getSelectedItem() != null ){
-            CategoriaResult categoriaResult1 = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaParentBox.getSelectedItem().toString());
-            CategoriaProdotto categoriaProdottoParent = categoriaResult1.getCategorieProdotto().get(0);
-            categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoParent.getIdCategoria());
-            CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
-            if(categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
-                this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
+            if (categoriaParentBox.getSelectedItem() == null) {
+                CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
+                if (categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
+                    this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
 
                 JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+            }
+            if (categoriaParentBox.getSelectedItem() != null) {
+                CategoriaResult categoriaResult1 = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaParentBox.getSelectedItem().toString());
+                CategoriaProdotto categoriaProdottoParent = categoriaResult1.getCategorieProdotto().get(0);
+                categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoParent.getIdCategoria());
+                CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
+                if (categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
+                    this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
 
+                JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+
+
+            }
 
         }
-
+        JOptionPane.showMessageDialog(this.frame, "Attenzione: il campo deve contenere almeno un nome!");
     }
+
 }

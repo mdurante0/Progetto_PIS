@@ -41,19 +41,23 @@ public class AggiungiFornitoreListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-            fornitore.setNome(nomeField.getText());
-            fornitore.setMail(emailField .getText());
-            fornitore.setTelefono(telefonoField.getText());
-            fornitore.setNazione(nazioneField.getText());
-            fornitore.setCitta(cittaField.getText());
-            fornitore.setDescrizione(descrizioneField.getText());
-            fornitore.setSito(sitoField.getText());
+        fornitore.setNome(nomeField.getText());
+        fornitore.setMail(emailField.getText());
+        fornitore.setTelefono(telefonoField.getText());
+        fornitore.setNazione(nazioneField.getText());
+        fornitore.setCitta(cittaField.getText());
+        fornitore.setDescrizione(descrizioneField.getText());
+        fornitore.setSito(sitoField.getText());
+
+        if (!fornitore.getNome().isEmpty() && !fornitore.getMail().isEmpty() && !fornitore.getDescrizione().isEmpty() && !fornitore.getSito().isEmpty()) {
 
             FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().addFornitore(fornitore);
-            if(fornitoreResult.getResult() == FornitoreResult.Result.ADD_OK){
+            if (fornitoreResult.getResult() == FornitoreResult.Result.ADD_OK) {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }
             JOptionPane.showMessageDialog(this.frame, fornitoreResult.getMessage());
         }
+        JOptionPane.showMessageDialog(this.frame, "Attenzione, il fornitore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
     }
+}
 
