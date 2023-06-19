@@ -315,4 +315,45 @@ public class ArticoloBusiness {
         return result;
     }
 
+    public ArticoloResult getType(Articolo a){
+
+        ArticoloDAO aDao = ArticoloDAO.getInstance();
+        ArticoloResult result = new ArticoloResult();
+
+        //Verifica esistenza articolo
+        boolean articoloExists = aDao.articoloExists(a.getName());
+        if (!articoloExists){
+            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("L'articolo da cercare non esiste! Riprova");
+            return result;
+        }
+
+        //verifica tipo di articolo
+        if(aDao.isProdottoComposito(a.getName())) {
+            ProdottoComposito pc = ProdottoCompositoDAO.getInstance().findByName(a.getName());
+            result.setArticolo(pc);
+            result.setResult(ArticoloResult.Result.IS_PRODOTTO_COMPOSITO);
+            result.setMessage("L'articolo indicato è un prodotto composito");
+            return result;
+
+        } else if(aDao.isProdotto(a.getName())) {
+            Prodotto p = (Prodotto) ProdottoDAO.getInstance().findByName(a.getName());
+            result.setArticolo(p);
+            result.setResult(ArticoloResult.Result.IS_PRODOTTO_COMPOSITO);
+            result.setMessage("L'articolo indicato è un prodotto composito");
+            return result;
+
+        } else if(aDao.isServizio(a.getName())){
+            Servizio s = ServizioDAO.getInstance().findByName(a.getName());
+            result.setArticolo(s);
+            result.setResult(ArticoloResult.Result.IS_PRODOTTO_COMPOSITO);
+            result.setMessage("L'articolo indicato è un prodotto composito");
+            return result;
+
+        } else { //errore nel tipo di articolo
+            result.setResult(ArticoloResult.Result.WRONG_TYPE);
+            result.setMessage("Errore nella specificazione dell'articolo! Riprova!");
+            return result;
+        }
+    }
 }

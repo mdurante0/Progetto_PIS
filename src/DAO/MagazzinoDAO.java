@@ -8,8 +8,6 @@ import DbInterface.command.WriteOperation;
 import Model.Collocazione;
 import Model.Magazzino;
 import Model.composite.IProdotto;
-import Model.composite.Prodotto;
-import Model.composite.ProdottoComposito;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,7 +54,7 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 rs = executor.executeOperation(readOp).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
@@ -102,11 +100,13 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 rs = executor.executeOperation(readOp).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
+                    //prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
+                    prodotto.setCollocazione(new Collocazione());
+                    prodotto.getCollocazione().setIdCollocazione(rs.getInt("collocazione_idcollocazione"));
                     magazzino.add(prodotto);
                 }
 
@@ -127,7 +127,7 @@ public class MagazzinoDAO implements IMagazzinoDAO {
     @Override
     public ArrayList<Magazzino> findAll() {
 
-        String sql = "SELECT * FROM progetto_pis.magazzino ;";
+        String sql = "SELECT * FROM progetto_pis.magazzino;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -148,11 +148,13 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs2.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs2.getInt("quantita_prodotto"));
-                    prodotto.setCollocazione(collocazioneDAO.findById(rs2.getInt("collocazione_idcollocazione")));
+                    //prodotto.setCollocazione(collocazioneDAO.findById(rs2.getInt("collocazione_idcollocazione")));
+                    prodotto.setCollocazione(new Collocazione());
+                    prodotto.getCollocazione().setIdCollocazione(rs2.getInt("collocazione_idcollocazione"));
                     magazzino.add(prodotto);
                 }
 
@@ -196,22 +198,12 @@ public class MagazzinoDAO implements IMagazzinoDAO {
             while (prodottoIterator.hasNext()) {
 
                 iProdotto = prodottoIterator.next();
-                if (iProdotto instanceof Prodotto prodotto) {
-                    sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
-                            "(magazzino_idmagazzino, prodotto_articolo_idarticolo, collocazione_idcollocazione, quantita_prodotto) VALUES ('" +
-                            magazzino.getIdMagazzino() + "','" +
-                            prodotto.getIdArticolo() + "','" +
-                            prodotto.getCollocazione().getIdCollocazione() + "','" +
-                            prodotto.getQuantita() + "');";
-                }
-                else if (iProdotto instanceof ProdottoComposito prodottoComposito) {
-                    sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
-                            "(magazzino_idmagazzino, prodotto_articolo_idarticolo, quantita_prodotto) VALUES ('" +
-                            magazzino.getIdMagazzino() + "','" +
-                            prodottoComposito.getIdArticolo() + "','" +
-                            prodottoComposito.getQuantita() + "');";
-                }
-                else return -1;
+                sql = "INSERT INTO progetto_pis.magazzino_has_prodotto " +
+                        "(magazzino_idmagazzino, prodotto_articolo_idarticolo, collocazione_idcollocazione, quantita_prodotto) VALUES ('" +
+                        magazzino.getIdMagazzino() + "','" +
+                        iProdotto.getIdArticolo() + "','" +
+                        iProdotto.getCollocazione().getIdCollocazione() + "','" +
+                        iProdotto.getQuantita() + "');";
 
                 writeOp = new WriteOperation(sql);
                 rowCount += executor.executeOperation(writeOp).getRowsAffected();
@@ -290,21 +282,11 @@ public class MagazzinoDAO implements IMagazzinoDAO {
     @Override
     public int updateProdotto(Magazzino magazzino, IProdotto iProdotto) {
 
-        String sql;
-        if (iProdotto instanceof Prodotto prodotto) {
-            sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
-                    "SET collocazione_idcollocazione = '" + prodotto.getCollocazione().getIdCollocazione() +
-                    "', quantita_prodotto = '"+ prodotto.getQuantita() +
-                    "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
-                    "' AND prodotto_articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
-        }
-        else if (iProdotto instanceof ProdottoComposito prodottoComposito) {
-            sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
-                    "SET quantita_prodotto = '" + prodottoComposito.getQuantita() +
-                    "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
-                    "' AND prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
-        }
-        else return -1;
+        String sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
+                "SET collocazione_idcollocazione = '" + iProdotto.getCollocazione().getIdCollocazione() +
+                "', quantita_prodotto = '"+ iProdotto.getQuantita() +
+                "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
+                "' AND prodotto_articolo_idarticolo = '" + iProdotto.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -324,26 +306,16 @@ public class MagazzinoDAO implements IMagazzinoDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         int rowCount = executor.executeOperation(writeOp).getRowsAffected();
 
-
         Iterator<IProdotto> prodottoIterator = magazzino.getProdotti().iterator();
         IProdotto iProdotto;
         while (prodottoIterator.hasNext()) {
-
             iProdotto = prodottoIterator.next();
-            if (iProdotto instanceof Prodotto prodotto) {
-                sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
-                        "SET collocazione_idcollocazione = '" + prodotto.getCollocazione().getIdCollocazione() +
-                        "', quantita_prodotto = '"+ prodotto.getQuantita() +
-                        "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
-                        "' AND prodotto_articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
-            }
-            else if (iProdotto instanceof ProdottoComposito prodottoComposito) {
-                sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
-                        "SET quantita_prodotto = '" + prodottoComposito.getQuantita() +
-                        "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
-                        "' AND prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
-            }
-            else return -1;
+
+            sql = "UPDATE progetto_pis.magazzino_has_prodotto " +
+                    "SET collocazione_idcollocazione = '" + iProdotto.getCollocazione().getIdCollocazione() +
+                    "', quantita_prodotto = '"+ iProdotto.getQuantita() +
+                    "' WHERE magazzino_idmagazzino = '" + magazzino.getIdMagazzino() +
+                    "' AND prodotto_articolo_idarticolo = '" + iProdotto.getIdArticolo() + "';";
 
             writeOp = new WriteOperation(sql);
             rowCount += executor.executeOperation(writeOp).getRowsAffected();

@@ -5,6 +5,8 @@ import Business.Results.FeedbackResult;
 import Business.SessionManager;
 import Business.Strategy.*;
 import Model.*;
+import Model.composite.ProdottoComposito;
+import View.Listener.GoToDettagliComponenteListener;
 import View.Listener.GoToDettagliListener;
 import View.ViewModel.FeedbackTableModel;
 import View.ViewModel.RigaFeedback;
@@ -13,14 +15,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class FeedbackPanelByPuntoVendita extends JPanel {
+public class FeedbackPanel extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public FeedbackPanelByPuntoVendita(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public FeedbackPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita, ProdottoComposito prodottoComposito) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Commenti: " + articolo.getName());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -77,7 +79,11 @@ public class FeedbackPanelByPuntoVendita extends JPanel {
         JPanel pulsantiAzioneTabella = new JPanel();
         pulsantiAzioneTabella.setLayout(new FlowLayout());
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, nomePuntoVendita));
+        if(prodottoComposito == null)
+            tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, nomePuntoVendita));
+        else
+            tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, nomePuntoVendita));
+
         southPanel.add(tornaIndietroButton);
 
         this.add(contentPanel, BorderLayout.CENTER);
