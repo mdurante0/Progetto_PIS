@@ -1,7 +1,7 @@
 package View;
 
 import View.Listener.AggiungiFornitoreListener;
-import View.Listener.GoToMenuListener;
+import View.Listener.GoToMostraFornitoriListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +69,7 @@ public class FornitorePanel extends JPanel {
         aggiungiFornitoreButton.addActionListener(new AggiungiFornitoreListener(this.frame, nomeField,emailField, telefonoField, nazioneField,cittaField,descrizioneField, sitoField));
         aggiungiFornitoreButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+        tornaIndietroButton.addActionListener(new GoToMostraFornitoriListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener

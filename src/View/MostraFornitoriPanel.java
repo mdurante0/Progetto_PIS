@@ -1,57 +1,57 @@
 package View;
 
-import Business.MagazzinoBusiness;
+import Business.FornitoreBusiness;
 import Business.ProduttoreBusiness;
-import Business.Results.ProduttoreResult;
-import Model.Produttore;
+import Business.Results.FornitoreResult;
+import Model.Fornitore;
 import View.Listener.*;
-import View.ViewModel.ProduttoreTableModel;
-import View.ViewModel.RigaProduttore;
+import View.ViewModel.FornitoreTableModel;
+import View.ViewModel.RigaFornitore;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MostraProduttoriPanel extends JPanel {
+public class MostraFornitoriPanel extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraProduttoriPanel(MainFrame frame) {
+    public MostraFornitoriPanel(MainFrame frame) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Produttori ");
+        JLabel titleLabel = new JLabel("Fornitori ");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
         contentPanel.setLayout(new BorderLayout());
         this.setLayout(new BorderLayout());
 
-        ArrayList<RigaProduttore> righe = new ArrayList<>();
+        ArrayList<RigaFornitore> righe = new ArrayList<>();
 
-        ProduttoreResult result = ProduttoreBusiness.getInstance().caricaProduttori();
+        FornitoreResult result = FornitoreBusiness.getInstance().caricaFornitori();
 
-        ArrayList<Produttore> produttori = result.getProduttori();
-        for(int i = 0 ; i < result.getProduttori().size(); i++){
-            RigaProduttore riga = new RigaProduttore();
-            Produttore p = produttori.get(i);
+        ArrayList<Fornitore> produttori = result.getFornitori();
+        for(int i = 0 ; i < result.getFornitori().size(); i++){
+            RigaFornitore riga = new RigaFornitore();
+            Fornitore f = produttori.get(i);
             JButton modifica = new JButton("Modifica");
             JButton elimina = new JButton("Elimina");
-            riga.setNomeProduttore(p.getNome());
-            riga.setEmailProduttore(p.getMail());
-            riga.setSitoProduttore(p.getSito());
-            riga.setDescrizione(p.getDescrizione());
+            riga.setNomeFornitore(f.getNome());
+            riga.setEmailFornitore(f.getMail());
+            riga.setSitoFornitore(f.getSito());
+            riga.setDescrizione(f.getDescrizione());
             riga.setModificaButton(modifica);
             riga.setEliminaButton(elimina);
 
-            modifica.addActionListener(new GoToModificaProduttoreListener(this.frame, p));
-            elimina.addActionListener(new RemoveProduttoreListener(this.frame, p));
+            modifica.addActionListener(new GoToModificaFornitoreListener(this.frame, f));
+            elimina.addActionListener(new RemoveFornitoreListener(this.frame, f));
 
             righe.add(riga);
         }
 
-        ProduttoreTableModel tableModel = new ProduttoreTableModel(righe);
+        FornitoreTableModel tableModel = new FornitoreTableModel(righe);
         JTable tabella = new JTable(tableModel);
 
         tabella.setRowHeight(100);
@@ -73,8 +73,8 @@ public class MostraProduttoriPanel extends JPanel {
         contentPanel.add(scrollPane, BorderLayout.CENTER);
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
 
-        JButton creaProduttore = new JButton("Crea nuovo produttore");
-        creaProduttore.addActionListener(new GoToProduttoreListener(this.frame));
+        JButton creaProduttore = new JButton("Crea nuovo fornitore");
+        creaProduttore.addActionListener(new GoToFornitoreListener(this.frame));
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));

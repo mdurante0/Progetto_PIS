@@ -50,14 +50,15 @@ public class ModificaFornitoreListener implements ActionListener {
         fornitore.setSito(sitoField.getText());
 
         if (!fornitore.getNome().isEmpty() && !fornitore.getMail().isEmpty() && !fornitore.getDescrizione().isEmpty() && !fornitore.getSito().isEmpty()) {
-
-            FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().updateFornitore(fornitore);
+            FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().caricaFornitoreByNome(fornitore.getNome());
+            fornitoreResult = FornitoreBusiness.getInstance().updateFornitore(fornitoreResult.getFornitori().get(0));
             if (fornitoreResult.getResult() == FornitoreResult.Result.UPDATE_OK) {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }
             JOptionPane.showMessageDialog(this.frame, fornitoreResult.getMessage());
+        }else {
+            JOptionPane.showMessageDialog(this.frame, "Attenzione, il fornitore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
         }
-        JOptionPane.showMessageDialog(this.frame, "Attenzione, il fornitore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
     }
 }
 

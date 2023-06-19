@@ -56,8 +56,7 @@ public class AggiungiProduttoreListener implements ActionListener {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }
             JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
-        }
-        JOptionPane.showMessageDialog(this.frame, "Attenzione, il produttore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
+        } else JOptionPane.showMessageDialog(this.frame, "Attenzione, il produttore deve avere almeno i seguenti campi: nome, email, descrizione, sito");
 
     }
 }

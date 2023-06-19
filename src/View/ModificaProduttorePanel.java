@@ -18,7 +18,7 @@ public class ModificaProduttorePanel extends  JPanel{
 
         this.setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("Fornitore");
+        JLabel titleLabel = new JLabel("Produttore");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);

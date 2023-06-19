@@ -2,20 +2,20 @@ package View.Listener;
 
 
 import View.MainFrame;
-import View.MostraProduttoriPanel;
+import View.MostraFornitoriPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToMostraProduttoriListener implements ActionListener {
+public class GoToMostraFornitoriListener implements ActionListener {
     private MainFrame frame;
 
-    public GoToMostraProduttoriListener(MainFrame frame) {
+    public GoToMostraFornitoriListener(MainFrame frame) {
         this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new MostraProduttoriPanel(this.frame));
+        this.frame.mostraPannelloAttuale(new MostraFornitoriPanel(this.frame));
     }
 }
