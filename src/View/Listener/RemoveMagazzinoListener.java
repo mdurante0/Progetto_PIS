@@ -22,7 +22,7 @@ public class RemoveMagazzinoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int confirmed = JOptionPane.showConfirmDialog(this.frame, "Sei sicuro di voler eliminare questo fornitore?", "Confermi?", JOptionPane.YES_NO_OPTION);
+        int confirmed = JOptionPane.showConfirmDialog(this.frame, "Sei sicuro di voler eliminare questo magazzino?", "Confermi?", JOptionPane.YES_NO_OPTION);
         if(confirmed == 0) {
             MagazzinoResult result = MagazzinoBusiness.getInstance().removeMagazzino(magazzino);
 

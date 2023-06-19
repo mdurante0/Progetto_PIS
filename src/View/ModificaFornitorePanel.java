@@ -72,7 +72,7 @@ public class ModificaFornitorePanel extends  JPanel{
 
 
         JButton modificaFornitoreButton = new JButton("Modifica");
-        modificaFornitoreButton.addActionListener(new ModificaFornitoreListener(this.frame, nomeField,emailField,telefonoField,nazioneField,cittaField,descrizioneField,sitoField));
+        modificaFornitoreButton.addActionListener(new ModificaFornitoreListener(this.frame, nomeField,emailField,telefonoField,nazioneField,cittaField,descrizioneField,sitoField, fornitore));
         modificaFornitoreButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMostraFornitoriListener(this.frame));

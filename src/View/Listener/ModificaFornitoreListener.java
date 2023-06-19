@@ -23,9 +23,10 @@ public class ModificaFornitoreListener implements ActionListener {
     private JTextField cittaField;
     private JTextField descrizioneField;
     private JTextField sitoField;
-    private Fornitore fornitore = new Fornitore();
+    private Fornitore fornitore ;
 
-    public ModificaFornitoreListener(MainFrame frame, JTextField nomeField, JTextField emailField, JTextField telefonoField, JTextField nazioneField, JTextField cittaField, JTextField descrizioneField, JTextField sitoField) {
+
+    public ModificaFornitoreListener(MainFrame frame, JTextField nomeField, JTextField emailField, JTextField telefonoField, JTextField nazioneField, JTextField cittaField, JTextField descrizioneField, JTextField sitoField,Fornitore fornitore) {
         this.frame = frame;
         this.nomeField = nomeField;
         this.emailField = emailField;
@@ -34,12 +35,14 @@ public class ModificaFornitoreListener implements ActionListener {
         this.cittaField = cittaField;
         this.descrizioneField = descrizioneField;
         this.sitoField = sitoField;
-
+        this.fornitore = fornitore;
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
 
         fornitore.setNome(nomeField.getText());
         fornitore.setMail(emailField.getText());
@@ -50,8 +53,7 @@ public class ModificaFornitoreListener implements ActionListener {
         fornitore.setSito(sitoField.getText());
 
         if (!fornitore.getNome().isEmpty() && !fornitore.getMail().isEmpty() && !fornitore.getDescrizione().isEmpty() && !fornitore.getSito().isEmpty()) {
-            FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().caricaFornitoreByNome(fornitore.getNome());
-            fornitoreResult = FornitoreBusiness.getInstance().updateFornitore(fornitoreResult.getFornitori().get(0));
+            FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().updateFornitore(fornitore);
             if (fornitoreResult.getResult() == FornitoreResult.Result.UPDATE_OK) {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }

@@ -18,12 +18,13 @@ public class ModificaMagazzinoListener implements ActionListener {
     private JTextField indirizzoField;
     private JTextField quantitaCorsieField;
     private JTextField quantitaScaffaliField;
-    private Magazzino magazzino = new Magazzino();
-    public ModificaMagazzinoListener(MainFrame frame, JTextField indirizzoField, JTextField quantitaCorsieField, JTextField quantitaScaffaliField) {
+    private Magazzino magazzino;
+    public ModificaMagazzinoListener(MainFrame frame, JTextField indirizzoField, JTextField quantitaCorsieField, JTextField quantitaScaffaliField, Magazzino m) {
         this.frame = frame;
         this.indirizzoField = indirizzoField;
         this.quantitaCorsieField = quantitaCorsieField;
         this.quantitaScaffaliField = quantitaScaffaliField;
+        magazzino = m;
     }
 
     @Override
@@ -33,8 +34,7 @@ public class ModificaMagazzinoListener implements ActionListener {
         magazzino.setQuantitaScaffali(Integer.parseInt(quantitaScaffaliField.getText()));
 
         if(!magazzino.getIndirizzo().isEmpty() && magazzino.getQuantitaCorsie() != 0 && magazzino.getQuantitaScaffali() != 0){
-            MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByIndirizzo(magazzino.getIndirizzo());
-            magazzinoResult = MagazzinoBusiness.getInstance().updateMagazzino(magazzinoResult.getMagazzini().get(0));
+            MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().updateMagazzino(magazzino);
             if(magazzinoResult.getResult() == MagazzinoResult.Result.UPDATE_OK)
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());

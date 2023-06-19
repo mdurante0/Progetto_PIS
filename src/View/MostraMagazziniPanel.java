@@ -61,11 +61,10 @@ public class MostraMagazziniPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
+        JTableButtonMouseListener mouseListener = new JTableButtonMouseListener(tabella);
         tabella.getColumn("Modifica").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
-
         tabella.getColumn("Elimina").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+        tabella.addMouseListener(mouseListener);
 
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);

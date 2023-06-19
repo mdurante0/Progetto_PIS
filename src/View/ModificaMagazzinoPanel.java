@@ -47,7 +47,7 @@ public class ModificaMagazzinoPanel extends JPanel {
         quantitaScaffaliField.setFont(bodyFont);
 
         JButton modificaMagazzino = new JButton("Modifica");
-        modificaMagazzino.addActionListener(new ModificaMagazzinoListener(this.frame, indirizzoField,quantitaCorsieField,quantitaScaffaliField));
+        modificaMagazzino.addActionListener(new ModificaMagazzinoListener(this.frame, indirizzoField,quantitaCorsieField,quantitaScaffaliField,m));
         modificaMagazzino.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMostraMagazziniListener(this.frame));

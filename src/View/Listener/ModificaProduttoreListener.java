@@ -23,9 +23,9 @@ public class ModificaProduttoreListener implements ActionListener {
     private JTextField cittaField;
     private JTextField descrizioneField;
     private JTextField sitoField;
-    private Produttore produttore = new Produttore();
+    private Produttore produttore;
 
-    public ModificaProduttoreListener(MainFrame frame, JTextField nomeField, JTextField emailField, JTextField telefonoField, JTextField nazioneField, JTextField cittaField, JTextField descrizioneField, JTextField sitoField) {
+    public ModificaProduttoreListener(MainFrame frame, JTextField nomeField, JTextField emailField, JTextField telefonoField, JTextField nazioneField, JTextField cittaField, JTextField descrizioneField, JTextField sitoField, Produttore produttore) {
         this.frame = frame;
         this.nomeField = nomeField;
         this.emailField = emailField;
@@ -34,9 +34,8 @@ public class ModificaProduttoreListener implements ActionListener {
         this.cittaField = cittaField;
         this.descrizioneField = descrizioneField;
         this.sitoField = sitoField;
-
+        this.produttore = produttore;
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -50,8 +49,7 @@ public class ModificaProduttoreListener implements ActionListener {
         produttore.setSito(sitoField.getText());
 
         if (!produttore.getNome().isEmpty() && !produttore.getMail().isEmpty() && !produttore.getDescrizione().isEmpty() && !produttore.getSito().isEmpty()) {
-            ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttore.getNome());
-            produttoreResult = ProduttoreBusiness.getInstance().updateProduttore(produttoreResult.getProduttori().get(0));
+            ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().updateProduttore(produttore);
             if (produttoreResult.getResult() == ProduttoreResult.Result.UPDATE_OK) {
                 this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
             }
