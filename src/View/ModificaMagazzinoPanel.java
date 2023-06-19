@@ -1,6 +1,8 @@
 package View;
 
 import Model.Magazzino;
+import View.Listener.GoToMostraMagazziniListener;
+import View.Listener.ModificaMagazzinoListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +22,7 @@ public class ModificaMagazzinoPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("Nuovo Magazzino");
+        JLabel titleLabel = new JLabel("Modifica Magazzino");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -44,12 +46,12 @@ public class ModificaMagazzinoPanel extends JPanel {
         quantitaCorsieField.setFont(bodyFont);
         quantitaScaffaliField.setFont(bodyFont);
 
-        JButton creaMagazzino = new JButton("Aggiungi");
-        creaMagazzino.setFont(bodyFont);
+        JButton modificaMagazzino = new JButton("Modifica");
+        modificaMagazzino.addActionListener(new ModificaMagazzinoListener(this.frame, indirizzoField,quantitaCorsieField,quantitaScaffaliField));
+        modificaMagazzino.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMostraMagazziniListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(quantitaCorsieLabel);
         contentPanel.add(quantitaCorsieField);
@@ -61,7 +63,7 @@ public class ModificaMagazzinoPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(tornaIndietroButton);
-        contentPanel.add(creaMagazzino);
+        contentPanel.add(modificaMagazzino);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);

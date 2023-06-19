@@ -3,8 +3,7 @@ package View;
 import Business.MagazzinoBusiness;
 import Business.Results.MagazzinoResult;
 import Model.Magazzino;
-import View.Listener.GoToMenuListener;
-import View.Listener.JTableButtonMouseListener;
+import View.Listener.*;
 import View.ViewModel.MagazzinoTableModel;
 import View.ViewModel.RigaMagazzino;
 
@@ -44,7 +43,8 @@ public class MostraMagazziniPanel extends JPanel {
             riga.setModificaButton(modifica);
             riga.setEliminaButton(elimina);
 
-            //aggiungere action listener
+            modifica.addActionListener(new GoToModificaMagazzinoListener(this.frame, m));
+            elimina.addActionListener(new RemoveMagazzinoListener(this.frame, m));
 
             righe.add(riga);
         }
@@ -74,8 +74,12 @@ public class MostraMagazziniPanel extends JPanel {
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
 
+        JButton creaMagazzinoButton = new JButton("Crea nuovo magazzino");
+        creaMagazzinoButton.addActionListener(new GoToCreaMagazzinoListener(this.frame));
+
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
+        southPanel.add(creaMagazzinoButton);
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);

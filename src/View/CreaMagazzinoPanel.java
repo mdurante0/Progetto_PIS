@@ -6,6 +6,9 @@ import Business.Results.MagazzinoResult;
 import Business.Results.ManagerResult;
 import Model.Magazzino;
 import Model.Manager;
+import View.Listener.CreaMagazzinoListener;
+import View.Listener.GoToMenuListener;
+import View.Listener.GoToMostraMagazziniListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,11 +54,11 @@ public class CreaMagazzinoPanel extends JPanel {
         quantitaScaffaliField.setFont(bodyFont);
 
         JButton creaMagazzino = new JButton("Aggiungi");
+        creaMagazzino.addActionListener(new CreaMagazzinoListener(this.frame, indirizzoField,quantitaCorsieField,quantitaScaffaliField));
         creaMagazzino.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMostraMagazziniListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(quantitaCorsieLabel);
         contentPanel.add(quantitaCorsieField);

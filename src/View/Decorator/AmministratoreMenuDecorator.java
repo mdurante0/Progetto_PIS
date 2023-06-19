@@ -29,6 +29,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         JButton fornitore = new JButton("Fornitori");
         JButton puntoVendita = new JButton("Punti Vendita");
         JButton manager = new JButton("Manager");
+        JButton magazziniButton = new JButton("Magazzini");
 
         //action command, listener...
         nuovoProdotto.addActionListener(new GoToNuovoProdottoListener(this.frame));
@@ -38,6 +39,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         fornitore.addActionListener(new GoToMostraFornitoriListener(this.frame));
         categorieProdotti.addActionListener(new GoToCategoriaProdottoListener(this.frame));
         categorieServizi.addActionListener(new GoToCategoriaServizioListener(this.frame));
+        magazziniButton.addActionListener(new GoToMostraMagazziniListener(this.frame));
 
         //add pulsanti
         pulsanti.add(nuovoProdotto);
@@ -49,6 +51,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         pulsanti.add(fornitore);
         pulsanti.add(puntoVendita);
         pulsanti.add(manager);
+        pulsanti.add(magazziniButton);
 
         return pulsanti;
     }

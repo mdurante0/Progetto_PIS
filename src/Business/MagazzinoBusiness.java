@@ -132,5 +132,24 @@ public class MagazzinoBusiness {
 
         return result;
     }
+    public MagazzinoResult caricaMagazzinoByIndirizzo(String indirizzo){
+        MagazzinoResult result = new MagazzinoResult();
+
+        MagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+
+        Magazzino magazzino = magazzinoDAO.findByAddress(indirizzo);
+
+        if(magazzino == null){ //Non ci sono magazzini
+            result.setResult(MagazzinoResult.Result.MAGAZZINO_ERROR);
+            result.setMessage("Nessun magazzino trovato!");
+            return result;
+
+        }else result.getMagazzini().add(magazzino); //Magazzino caricato
+
+        result.setResult(MagazzinoResult.Result.MAGAZZINI_CARICATI);
+        result.setMessage("Magazzino caricati correttamente");
+
+        return result;
+    }
 
 }
