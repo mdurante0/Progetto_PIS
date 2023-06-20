@@ -68,7 +68,7 @@ public class MagazzinoBusiness {
 
         //verifico l'esistenza del magazzino
         MagazzinoDAO mDao = MagazzinoDAO.getInstance();
-        if(mDao.findById(m.getIdMagazzino()) != null){
+        if(mDao.findById(m.getIdMagazzino()) == null){
             result.setResult(MagazzinoResult.Result.MAGAZZINO_DOESNT_EXIST);
             result.setMessage("Il magazzino da aggiornare non esiste! Riprova!");
             return result;

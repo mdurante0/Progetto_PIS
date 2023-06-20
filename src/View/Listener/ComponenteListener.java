@@ -88,12 +88,9 @@ public class ComponenteListener implements ActionListener {
                 panel.remove(aggiungiComponenteButton);
                 panel.add(new JLabel());
                 panel.add(aggiungiComponenteButton);
-
             }
         }
-
         panel.repaint();
         panel.revalidate();
-
     }
 }

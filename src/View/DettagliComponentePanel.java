@@ -13,25 +13,20 @@ import View.Listener.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class DettagliPanel extends JPanel {
+public class DettagliComponentePanel extends JPanel {
     private MainFrame frame;
-    private Articolo articolo;
     private JPanel titlePanel = new JPanel();
     private JPanel immaginiPanel = new JPanel();
     private JButton previousImageButton;
     private JButton nextImageButton;
     private ImagePanel imagePanel;
-    private int index;
     private JPanel contentPanel = new JPanel();
-    private JComboBox<Integer> quantitaBox;
-    private JTextField quantitaField;
 
-    public DettagliPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public DettagliComponentePanel(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, String nomePuntoVendita) {
         this.frame = frame;
-        this.articolo = articolo;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JLabel titleLabel = new JLabel("Dettagli");
+        JLabel titleLabel = new JLabel("Dettagli componente");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -42,7 +37,6 @@ public class DettagliPanel extends JPanel {
             articolo.setImmagini(result.getListaImmagini());
 
             previousImageButton = new JButton("<-");
-            previousImageButton.setActionCommand(ImageListener.PREVIOUS);
 
             immaginiPanel.add(previousImageButton);
 
@@ -51,7 +45,6 @@ public class DettagliPanel extends JPanel {
             immaginiPanel.add(imagePanel);
 
             nextImageButton = new JButton("->");
-            nextImageButton.setActionCommand(ImageListener.NEXT);
             immaginiPanel.add(nextImageButton);
 
             previousImageButton.addActionListener(new ImageListener(this, imagePanel, articolo));
@@ -105,15 +98,14 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(categoria);
 
 
-        //produttore e quantità o fornitore
+        //produttore e quantità
         JLabel produttoreLabel;
         JLabel produttore;
         JLabel disponibilitaLabel;
         JLabel disponibilita;
-        JLabel fornitoreLabel;
-        JLabel fornitore;
+
         if(articolo instanceof IProdotto prodotto){
-            disponibilitaLabel = new JLabel("  Disponibilità:");
+            disponibilitaLabel = new JLabel("  Quantità:");
             disponibilitaLabel.setFont(bodyFont);
             contentPanel.add(disponibilitaLabel);
             disponibilita = new JLabel(String.valueOf(prodotto.getQuantita()));
@@ -130,44 +122,10 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
                 contentPanel.add(new JLabel());
             }
-            if(u instanceof Cliente) {
-                JLabel selezionaQuantitaLabel = new JLabel("  Seleziona la quantità da acquistare:");
-                selezionaQuantitaLabel.setFont(bodyFont);
-                contentPanel.add(selezionaQuantitaLabel);
-                Integer[] quantita = new Integer[articolo.getQuantita()];
-                for (int i = 0; i < articolo.getQuantita(); i++) {
-                    quantita[i] = i + 1;
-                }
-                quantitaBox = new JComboBox<>(quantita);
-                quantitaBox.setFont(bodyFont);
-                quantitaBox.setFocusable(false);
-                contentPanel.add(quantitaBox);
-            }
-            else if(u instanceof Manager) {
-                JLabel selezionaQuantitaLabel = new JLabel("  Inserisci la disponibilità:");
-                selezionaQuantitaLabel.setFont(bodyFont);
-                contentPanel.add(selezionaQuantitaLabel);
-                quantitaField = new JTextField(20);
-                quantitaField.setFont(bodyFont);
-                contentPanel.add(quantitaField);
-            }
-
-        }else if (articolo instanceof Servizio servizio){
-            if(servizio.getFornitore() != null) {
-                fornitoreLabel = new JLabel("  Fornitore:");
-                fornitoreLabel.setFont(bodyFont);
-                contentPanel.add(fornitoreLabel);
-                fornitore = new JLabel(servizio.getFornitore().getNome());
-                fornitore.setFont(bodyFont);
-                contentPanel.add(fornitore);
-            } else {
-                contentPanel.add(new JLabel());
-                contentPanel.add(new JLabel());
-            }
         }
 
         contentPanel.add(new JLabel());
-
+        contentPanel.add(new JLabel());
 
         ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
@@ -175,47 +133,14 @@ public class DettagliPanel extends JPanel {
             mostraComponentiButton.setFont(bodyFont);
             mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, nomePuntoVendita));
             contentPanel.add(mostraComponentiButton);
-
-        } else contentPanel.add(new JLabel());
-
-        if(u instanceof Cliente) {
-            JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
-            //action listener
-            nuovaListaButton.setFont(bodyFont);
-            contentPanel.add(nuovaListaButton);
-
-            JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
-            //action listener
-            listaEsistenteButton.setFont(bodyFont);
-            contentPanel.add(listaEsistenteButton);
-        }
-        else if(u instanceof Manager && articolo instanceof IProdotto){
-            JButton modificaDisponibilita = new JButton("Modifica disponibilita");
-            //action listener
-            modificaDisponibilita.setFont(bodyFont);
-            contentPanel.add(new JLabel());
-            contentPanel.add(modificaDisponibilita);
-        } else if (u instanceof Amministratore) {
-            JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
-            rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, nomePuntoVendita));
-            JButton modificaArticolo = new JButton("Modifica articolo");
-            //action listener
-            rimuoviArticolo.setFont(bodyFont);
-            modificaArticolo.setFont(bodyFont);
-            contentPanel.add(modificaArticolo);
-            contentPanel.add(rimuoviArticolo);
-        }
-        else {
-            contentPanel.add(new JLabel());
-            contentPanel.add(new JLabel());
         }
 
-        JButton backButton = new JButton("Torna al catalogo");
-        backButton.addActionListener(new GoToCatalogoListener(this.frame, nomePuntoVendita));
+        JButton backButton = new JButton("Torna al prodotto composito");
+        backButton.addActionListener(new GoToMostraComponentiListener(this.frame, prodottoComposito, nomePuntoVendita));
         backButton.setFont(bodyFont);
 
         JButton feedbackButton = new JButton("Mostra i feedback");
-        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, nomePuntoVendita));
+        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, prodottoComposito, nomePuntoVendita));
         feedbackButton.setFont(bodyFont);
 
         contentPanel.add(feedbackButton);
