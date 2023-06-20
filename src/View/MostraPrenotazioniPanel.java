@@ -2,12 +2,12 @@ package View;
 
 import Business.ClienteBusiness;
 import Business.PrenotazioneBusiness;
+import Business.PuntoVenditaBusiness;
 import Business.Results.ClienteResult;
 import Business.Results.PrenotazioneResult;
-import Model.Cliente;
-import Model.Prenotazione;
-import Model.PuntoVendita;
-import View.Listener.GoToCreaPrenotazioneListener;
+import Business.Results.PuntoVenditaResult;
+import Business.SessionManager;
+import Model.*;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.PrenotazioneTableModel;
@@ -24,7 +24,7 @@ public class MostraPrenotazioniPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraPrenotazioniPanel(MainFrame frame, PuntoVendita puntoVendita, Cliente cliente ) {
+    public MostraPrenotazioniPanel(MainFrame frame) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Prenotazioni ");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -35,31 +35,38 @@ public class MostraPrenotazioniPanel extends JPanel {
 
         ArrayList<RigaPrenotazione> righe = new ArrayList<>();
 
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+        ArrayList<Cliente> clienti = new ArrayList<>();
+        ClienteResult clienteResult = new ClienteResult();
+        if(u instanceof Manager m) {
+            PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByManager(m);
+            clienteResult = ClienteBusiness.getInstance().caricaClienteByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
+            clienti = clienteResult.getClienti();
+        }
+        else if (u instanceof Amministratore) {
+            clienteResult = ClienteBusiness.getInstance().caricaClienti();
+            clienti = clienteResult.getClienti();
+        }
+        else if(u instanceof Cliente c)
+            clienti.add(c);
 
+        for(int i = 0 ; i < clienteResult.getClienti().size(); i++){
 
-            PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(cliente.getUsername());
-            ArrayList<Prenotazione> prenotazioniCliente = prenotazioneResult.getPrenotazioni();
-
-            for(int i=0; i < prenotazioniCliente.size();i++){
+            Cliente c = clienti.get(i);
+            PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(c.getUsername());
+            Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
+            for (int j = 0; j < p.getProdotti().size(); j++) {
                 RigaPrenotazione riga = new RigaPrenotazione();
-
-                for(int j=0; j < prenotazioniCliente.get(i).getProdotti().size(); j++ ){
-                    JButton elimina = new JButton("Elimina");
-                    riga.setUsernameCliente(cliente.getUsername());
-                    riga.setNomeProdotto(prenotazioniCliente.get(i).getProdotti().get(j).getName());
-                    riga.setQuantitaProdotto(prenotazioniCliente.get(i).getProdotti().get(j).getQuantita());
-                    riga.setData(prenotazioniCliente.get(i).getDataPrenotazione());
-                    riga.setEliminaButton(elimina);
-
-                    righe.add(riga);
-                }
-
+                JButton elimina = new JButton("Elimina");
+                riga.setUsernameCliente(c.getUsername());
+                riga.setNomeProdotto(p.getProdotti().get(j).getName());
+                riga.setQuantitaProdotto(p.getProdotti().get(j).getQuantita());
+                riga.setData(p.getDataPrenotazione());
+                riga.setEliminaButton(elimina);
+                //aggiungere action listener
+                righe.add(riga);
             }
-
-
-            //aggiungere action listener
-
-
+        }
 
         PrenotazioneTableModel tableModel = new PrenotazioneTableModel(righe);
         JTable tabella = new JTable(tableModel);
@@ -73,10 +80,8 @@ public class MostraPrenotazioniPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
-        JTableButtonMouseListener mouseListener = new JTableButtonMouseListener(tabella);
         tabella.getColumn("Elimina").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(mouseListener);
-
+        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
 
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
@@ -84,12 +89,16 @@ public class MostraPrenotazioniPanel extends JPanel {
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
-
-        JButton aggiungiPrenotazione = new JButton("Crea Prenotazione");
-        aggiungiPrenotazione.addActionListener(new GoToCreaPrenotazioneListener(this.frame, puntoVendita));
-
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
+
+        if (u instanceof Cliente){
+            JButton creaPrenotazione = new JButton("Crea una prenotazione");
+            // add action listener
+            southPanel.add(creaPrenotazione);
+        }
+
+
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);
