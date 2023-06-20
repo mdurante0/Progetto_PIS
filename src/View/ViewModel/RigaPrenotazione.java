@@ -12,7 +12,6 @@ public class RigaPrenotazione {
 
     private int quantitaProdotto;
     private Date data;
-    private Object modificaButton;
     private Object eliminaButton;
 
     public String getUsernameCliente() {
@@ -45,14 +44,6 @@ public class RigaPrenotazione {
 
     public void setData(Date data) {
         this.data = data;
-    }
-
-    public Object getModificaButton() {
-        return modificaButton;
-    }
-
-    public void setModificaButton(Object modificaButton) {
-        this.modificaButton = modificaButton;
     }
 
     public Object getEliminaButton() {

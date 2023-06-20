@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PrenotazioneTableModel extends AbstractTableModel {
@@ -25,7 +26,7 @@ public class PrenotazioneTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 5;
     }
 
     @Override
@@ -41,8 +42,7 @@ public class PrenotazioneTableModel extends AbstractTableModel {
             case 1: return riga.getNomeProdotto();
             case 2: return riga.getQuantitaProdotto();
             case 3: return format.format(riga.getData());
-            case 4: return riga.getModificaButton();
-            case 5: return riga.getEliminaButton();
+            case 4: return riga.getEliminaButton();
         }
 
         return null;
@@ -51,13 +51,14 @@ public class PrenotazioneTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         RigaPrenotazione riga = righe.get(rowIndex);
+        SimpleDateFormat format = new SimpleDateFormat("'Prenotato il' dd MMM yyyy 'alle' HH:mm:ss");
 
         switch(columnIndex) {
-            case 1: riga.setUsernameCliente(value.toString());
-            case 2: riga.setNomeProdotto(value.toString());
-            case 3: riga.setQuantitaProdotto(Integer.parseInt(value.toString()));
-            case 4: riga.setModificaButton(new JButton());
-            case 5: riga.setEliminaButton(new JButton());
+            case 0: riga.setUsernameCliente(value.toString());
+            case 1: riga.setNomeProdotto(value.toString());
+            case 2: riga.setQuantitaProdotto(Integer.parseInt(value.toString()));
+            case 3: riga.setData(new Date());
+            case 4: riga.setEliminaButton(new JButton());
 
         }
     }
@@ -70,8 +71,7 @@ public class PrenotazioneTableModel extends AbstractTableModel {
             case 1: return "Prodotto";
             case 2: return "Quantità Prodotto";
             case 3: return "Data Prenotazione";
-            case 4: return "Modifica";
-            case 5: return "Elimina";
+            case 4: return "Elimina";
         }
 
         return null;
@@ -79,7 +79,6 @@ public class PrenotazioneTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 5) return JButton.class;
         if(columnIndex == 4) return JButton.class;
         return Object.class;
     }

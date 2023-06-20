@@ -3,7 +3,6 @@ package View;
 
 import Business.CatalogoBusiness;
 import Business.Results.CatalogoResult;
-import Model.PuntoVendita;
 import Model.composite.IProdotto;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class CreaPrenotazionePanel extends JPanel {
     private JComboBox<Integer> quantitaBox;
 
 
-    public CreaPrenotazionePanel(MainFrame frame, PuntoVendita puntoVendita) {
+    public CreaPrenotazionePanel(MainFrame frame) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -37,8 +36,7 @@ public class CreaPrenotazionePanel extends JPanel {
         prodottiLabel.setFont(bodyFont);
         quantitaLabel.setFont(bodyFont);
 
-
-        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogo(puntoVendita.getNome());
+        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdotti();
         ArrayList<IProdotto> prodotti = result.getListaProdotti();
         String [] nomiProdotti = new String[prodotti.size()];
         for(int i=0; i<prodotti.size(); i++){
@@ -59,8 +57,8 @@ public class CreaPrenotazionePanel extends JPanel {
         quantitaBox.setFocusable(false);
         quantitaBox.setFont(bodyFont);
 
-        JButton creaFeedback = new JButton("Aggiungi alla prenotazione");
-        creaFeedback.setFont(bodyFont);
+        JButton creaPrenotazione = new JButton("Aggiungi alla prenotazione");
+        creaPrenotazione.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.setFont(bodyFont);
 
@@ -75,7 +73,7 @@ public class CreaPrenotazionePanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(tornaIndietroButton);
-        contentPanel.add(creaFeedback);
+        contentPanel.add(creaPrenotazione);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);

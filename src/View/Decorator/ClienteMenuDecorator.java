@@ -1,5 +1,6 @@
 package View.Decorator;
 
+import View.Listener.GoToMostraPrenotazioniListener;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class ClienteMenuDecorator extends CustomMenuDecorator {
         JButton feedback = new JButton("Feedback");
 
         //action command, listener...
-
+        prenotazioni.addActionListener(new GoToMostraPrenotazioniListener(this.frame));
 
         //add dei pulsanti
         pulsanti.add(liste);
