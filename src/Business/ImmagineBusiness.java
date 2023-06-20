@@ -77,4 +77,21 @@ public class ImmagineBusiness {
         result.setMessage("Immagine rimossa correttamente!");
         return result;
     }
+
+    public ImmagineResult removeImmagineByArticolo(Articolo articolo) {
+
+        ImmagineResult result = new ImmagineResult();
+        ImmagineDAO immagineDAO = ImmagineDAO.getInstance();
+
+        if(immagineDAO.removeByArticolo(articolo.getIdArticolo()) == 0) { //immagini non rimosse
+            result.setResult(ImmagineResult.Result.REMOVE_ERROR);
+            result.setMessage("Immagini non rimosse! Riprova!");
+            return result;
+        }
+
+        //la rimozione è andata a buon fine
+        result.setResult(ImmagineResult.Result.REMOVE_OK);
+        result.setMessage("Immagini rimosse correttamente!");
+        return result;
+    }
 }

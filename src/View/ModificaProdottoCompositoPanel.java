@@ -37,7 +37,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
     private JLabel immaginiCounterLabel;
     private int componentsCounter = 2;
 
-    public ModificaProdottoCompositoPanel(MainFrame frame, ProdottoComposito p, PuntoVendita puntoVendita) {
+    public ModificaProdottoCompositoPanel(MainFrame frame, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -66,10 +66,10 @@ public class ModificaProdottoCompositoPanel extends JPanel {
         prezzoLabel.setFont(bodyFont);
         quantitaLabel.setFont(bodyFont);
 
-        nomeProdottoField = new JTextField(p.getName(),20);
-        descrizioneField = new JTextField(p.getDescrizione(),20);
-        prezzoField = new JTextField(String.valueOf(p.getPrezzo()),20);
-        quantitaField = new JTextField(String.valueOf(p.getQuantita()),20);
+        nomeProdottoField = new JTextField(prodottoComposito.getName(),20);
+        descrizioneField = new JTextField(prodottoComposito.getDescrizione(),20);
+        prezzoField = new JTextField(String.valueOf(prodottoComposito.getPrezzo()),20);
+        quantitaField = new JTextField(String.valueOf(prodottoComposito.getQuantita()),20);
 
         nomeProdottoField.setFont(bodyFont);
         descrizioneField.setFont(bodyFont);
@@ -105,14 +105,14 @@ public class ModificaProdottoCompositoPanel extends JPanel {
 
             JLabel corsiaLabel = new JLabel("  Corsia:");
             corsiaLabel.setFont(bodyFont);
-            corsiaField = new JTextField(String.valueOf(p.getCollocazione().getCorsia()),20);
+            corsiaField = new JTextField(String.valueOf(prodottoComposito.getCollocazione().getCorsia()),20);
             corsiaField.setFont(bodyFont);
             contentPanel.add(corsiaLabel);
             contentPanel.add(corsiaField);
 
             JLabel scaffaleLabel = new JLabel("  Scaffale:");
             scaffaleLabel.setFont(bodyFont);
-            scaffaleField = new JTextField(String.valueOf(p.getCollocazione().getScaffale()),20);
+            scaffaleField = new JTextField(String.valueOf(prodottoComposito.getCollocazione().getScaffale()),20);
             scaffaleField.setFont(bodyFont);
             contentPanel.add(scaffaleLabel);
             contentPanel.add(scaffaleField);
@@ -128,7 +128,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);
-            categoriaProdottoBox.setSelectedItem(p.getCategoria().getNome());
+            categoriaProdottoBox.setSelectedItem(prodottoComposito.getCategoria().getNome());
 
             JLabel categoriaLabel = new JLabel("  Categoria da assegnare al nuovo prodotto:");
             categoriaLabel.setFont(bodyFont);
@@ -163,7 +163,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
 
         String[] nomiProdotti ;
         CatalogoResult catalogoResult = CatalogoBusiness.getInstance().caricaCatalogoProdotti();
-        for( int j=0; j < p.getSottoprodotti().size(); j++) {
+        for( int j=0; j < prodottoComposito.getSottoprodotti().size(); j++) {
             JLabel componente = new JLabel("  Componente:");
             componente.setFont(bodyFont);
             JComboBox<String> componenteBox = new JComboBox<>();
@@ -175,14 +175,14 @@ public class ModificaProdottoCompositoPanel extends JPanel {
             componenteBox = new JComboBox<>(nomiProdotti);
             componenteBox.setFocusable(false);
             componenteBox.setFont(bodyFont);
-            componenteBox.setSelectedItem(p.getSottoprodotti().get(j).getName());
+            componenteBox.setSelectedItem(prodottoComposito.getSottoprodotti().get(j).getName());
 
             contentPanel.add(componente);
             contentPanel.add(componenteBox);
 
             JLabel quantita1 = new JLabel("  Quantità componente :");
             quantita1.setFont(bodyFont);
-            JTextField quantita1Field = new JTextField(String.valueOf(p.getSottoprodotti().get(0).getQuantita()),20);
+            JTextField quantita1Field = new JTextField(String.valueOf(prodottoComposito.getSottoprodotti().get(0).getQuantita()),20);
             quantita1Field.setFont(bodyFont);
             contentPanel.add(quantita1);
             contentPanel.add(quantita1Field);

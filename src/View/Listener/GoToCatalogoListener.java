@@ -1,5 +1,6 @@
 package View.Listener;
 
+import Model.PuntoVendita;
 import View.CatalogoProdottiPanel;
 import View.CatalogoServiziPanel;
 import View.MainFrame;
@@ -9,10 +10,10 @@ import java.awt.event.ActionListener;
 
 public class GoToCatalogoListener implements ActionListener {
     private MainFrame frame;
-    private String nomePuntoVendita;
-    public GoToCatalogoListener(MainFrame frame, String nomePuntoVendita) {
+    private PuntoVendita puntoVendita;
+    public GoToCatalogoListener(MainFrame frame, PuntoVendita puntoVendita) {
         this.frame = frame;
-        this.nomePuntoVendita = nomePuntoVendita;
+        this.puntoVendita = puntoVendita;
     }
 
     public GoToCatalogoListener(MainFrame frame){
@@ -21,8 +22,8 @@ public class GoToCatalogoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(nomePuntoVendita != null)
-            this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, nomePuntoVendita));
+        if(puntoVendita != null)
+            this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
         else
             this.frame.mostraPannelloAttuale(new CatalogoServiziPanel(this.frame));
     }

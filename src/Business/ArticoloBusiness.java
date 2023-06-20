@@ -114,22 +114,18 @@ public class ArticoloBusiness {
         //aggiornamento in base al tipo di articolo
         int aggiornato;
 
-        if(aDao.isProdotto(a.getName())) {
-            Prodotto p = (Prodotto) a;
+        if(a instanceof ProdottoComposito pc) {
+            ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
+            aggiornato = pcDao.update(pc);
+        }
+        else if(a instanceof Prodotto p) {
             ProdottoDAO pDao = ProdottoDAO.getInstance();
             aggiornato = pDao.update(p);
         }
 
-        else if(aDao.isServizio(a.getName())){
-            Servizio s = (Servizio) a;
+        else if(a instanceof Servizio s){
             ServizioDAO sDao = ServizioDAO.getInstance();
             aggiornato = sDao.update(s);
-        }
-
-        else if(aDao.isProdottoComposito(a.getName())) {
-            ProdottoComposito pc = (ProdottoComposito) a;
-            ProdottoCompositoDAO pcDao = ProdottoCompositoDAO.getInstance();
-            aggiornato = pcDao.update(pc);
         }
 
         else { //errore nel tipo di articolo

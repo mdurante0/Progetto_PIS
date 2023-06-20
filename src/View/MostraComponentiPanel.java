@@ -3,6 +3,7 @@ package View;
 import Business.ArticoloBusiness;
 import Business.Results.ArticoloResult;
 import Model.Articolo;
+import Model.PuntoVendita;
 import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
 import View.Listener.GoToDettagliComponenteListener;
@@ -21,7 +22,7 @@ public class MostraComponentiPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraComponentiPanel(MainFrame frame, ProdottoComposito prodottoComposito, String nomePuntoVendita) {
+    public MostraComponentiPanel(MainFrame frame, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Sottoprodotti di " + prodottoComposito.getName());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -43,7 +44,7 @@ public class MostraComponentiPanel extends JPanel {
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
             riga.setDettagliButton(dettagliButton);
-            dettagliButton.addActionListener(new GoToDettagliComponenteListener(this.frame, (Articolo) p, prodottoComposito, nomePuntoVendita));
+            dettagliButton.addActionListener(new GoToDettagliComponenteListener(this.frame, (Articolo) p, prodottoComposito, puntoVendita));
             righe.add(riga);
         }
 
@@ -67,7 +68,7 @@ public class MostraComponentiPanel extends JPanel {
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, prodottoComposito, nomePuntoVendita));
+        tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, prodottoComposito, puntoVendita));
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);

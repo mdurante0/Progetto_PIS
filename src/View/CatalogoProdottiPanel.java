@@ -1,10 +1,9 @@
 package View;
 
-import Business.CatalogoBusiness;
-import Business.Results.CatalogoResult;
 import Business.SessionManager;
 import Model.Amministratore;
 import Model.Articolo;
+import Model.PuntoVendita;
 import Model.Utente;
 import Model.composite.IProdotto;
 import View.Listener.GoToDettagliListener;
@@ -25,9 +24,9 @@ public class CatalogoProdottiPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public CatalogoProdottiPanel(MainFrame frame, String nomePuntoVendita) {
+    public CatalogoProdottiPanel(MainFrame frame, PuntoVendita puntoVendita) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Catalogo di " + nomePuntoVendita);
+        JLabel titleLabel = new JLabel("Catalogo di " + puntoVendita.getNome());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -35,10 +34,8 @@ public class CatalogoProdottiPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         ArrayList<RigaCatalogo> righe = new ArrayList<>();
-
-        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdotti(nomePuntoVendita);
-        ArrayList<IProdotto> prodotti = result.getListaProdotti();
-        for(int i = 0 ; i < result.getListaProdotti().size(); i++){
+        ArrayList<IProdotto> prodotti = puntoVendita.getMagazzino().getProdotti();
+        for(int i = 0 ; i < prodotti.size(); i++){
             RigaCatalogo riga = new RigaCatalogo();
             IProdotto p = prodotti.get(i);
             JButton dettagliButton = new JButton("Dettagli");
@@ -48,7 +45,7 @@ public class CatalogoProdottiPanel extends JPanel {
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
             riga.setDettagliButton(dettagliButton);
-            dettagliButton.addActionListener(new GoToDettagliListener(this.frame, (Articolo) p, nomePuntoVendita));
+            dettagliButton.addActionListener(new GoToDettagliListener(this.frame, (Articolo) p, puntoVendita));
             righe.add(riga);
         }
 

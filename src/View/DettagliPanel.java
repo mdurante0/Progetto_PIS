@@ -7,6 +7,7 @@ import Business.Results.ImmagineResult;
 import Business.SessionManager;
 import Model.*;
 import Model.composite.IProdotto;
+import Model.composite.Prodotto;
 import Model.composite.ProdottoComposito;
 import View.Listener.*;
 
@@ -25,7 +26,7 @@ public class DettagliPanel extends JPanel {
     private JComboBox<Integer> quantitaBox;
     private JTextField quantitaField;
 
-    public DettagliPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public DettagliPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -37,6 +38,7 @@ public class DettagliPanel extends JPanel {
 
         ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(articolo.getName());
         if(!result.getListaImmagini().isEmpty()) {
+            articolo.setImmagini(result.getListaImmagini());
             immaginiPanel.setLayout(new FlowLayout());
             articolo.setImmagini(result.getListaImmagini());
 
@@ -173,7 +175,7 @@ public class DettagliPanel extends JPanel {
             pc.setQuantita(articolo.getQuantita());
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
-            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, nomePuntoVendita));
+            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, puntoVendita));
             contentPanel.add(mostraComponentiButton);
 
         } else contentPanel.add(new JLabel());
@@ -198,9 +200,15 @@ public class DettagliPanel extends JPanel {
             contentPanel.add(modificaDisponibilita);
         } else if (u instanceof Amministratore) {
             JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
-            rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, nomePuntoVendita));
+            rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, puntoVendita));
             JButton modificaArticolo = new JButton("Modifica articolo");
-            //action listener
+            if(articolo instanceof ProdottoComposito prodottoComposito)
+                modificaArticolo.addActionListener(new GoToModificaProdottoCompositoListener(this.frame, prodottoComposito, puntoVendita));
+            else if(articolo instanceof Prodotto prodotto)
+                modificaArticolo.addActionListener(new GoToModificaProdottoListener(this.frame, prodotto, puntoVendita));
+            else if(articolo instanceof Servizio servizio)
+                modificaArticolo.addActionListener(new GoToModificaServizioListener(this.frame, servizio));
+
             rimuoviArticolo.setFont(bodyFont);
             modificaArticolo.setFont(bodyFont);
             contentPanel.add(modificaArticolo);
@@ -212,11 +220,11 @@ public class DettagliPanel extends JPanel {
         }
 
         JButton backButton = new JButton("Torna al catalogo");
-        backButton.addActionListener(new GoToCatalogoListener(this.frame, nomePuntoVendita));
+        backButton.addActionListener(new GoToCatalogoListener(this.frame, puntoVendita));
         backButton.setFont(bodyFont);
 
         JButton feedbackButton = new JButton("Mostra i feedback");
-        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, nomePuntoVendita));
+        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, puntoVendita));
         feedbackButton.setFont(bodyFont);
 
         contentPanel.add(feedbackButton);

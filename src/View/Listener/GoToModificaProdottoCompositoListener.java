@@ -3,17 +3,16 @@ package View.Listener;
 import Model.PuntoVendita;
 import Model.composite.ProdottoComposito;
 import View.MainFrame;
-import View.MostraComponentiPanel;
+import View.ModificaProdottoCompositoPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToMostraComponentiListener implements ActionListener {
-
+public class GoToModificaProdottoCompositoListener implements ActionListener {
     private MainFrame frame;
     private ProdottoComposito prodottoComposito;
     private PuntoVendita puntoVendita;
-    public GoToMostraComponentiListener(MainFrame frame, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
+    public GoToModificaProdottoCompositoListener(MainFrame frame, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.prodottoComposito = prodottoComposito;
         this.puntoVendita = puntoVendita;
@@ -21,6 +20,6 @@ public class GoToMostraComponentiListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        frame.mostraPannelloAttuale(new MostraComponentiPanel(frame, prodottoComposito, puntoVendita));
+        this.frame.mostraPannelloAttuale(new ModificaProdottoCompositoPanel(this.frame, prodottoComposito, puntoVendita));
     }
 }

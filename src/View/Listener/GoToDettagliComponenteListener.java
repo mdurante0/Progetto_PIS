@@ -1,6 +1,7 @@
 package View.Listener;
 
 import Model.Articolo;
+import Model.PuntoVendita;
 import Model.composite.ProdottoComposito;
 import View.DettagliComponentePanel;
 import View.MainFrame;
@@ -12,15 +13,15 @@ public class GoToDettagliComponenteListener implements ActionListener {
     private MainFrame frame;
     private Articolo articolo;
     private ProdottoComposito prodottoComposito;
-    private String nomePuntoVendita;
-    public GoToDettagliComponenteListener(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, String nomePuntoVendita) {
+    private PuntoVendita puntoVendita;
+    public GoToDettagliComponenteListener(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
         this.prodottoComposito = prodottoComposito;
-        this.nomePuntoVendita = nomePuntoVendita;
+        this.puntoVendita = puntoVendita;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new DettagliComponentePanel(this.frame, articolo, prodottoComposito, nomePuntoVendita));
+        this.frame.mostraPannelloAttuale(new DettagliComponentePanel(this.frame, articolo, prodottoComposito, puntoVendita));
     }
 }

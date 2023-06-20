@@ -59,7 +59,7 @@ public class RifornimentoListener implements ActionListener {
 
         //Se il rifornimento è andato a buon fine, aggiorno il panel per mostrare la nuova quantità e svuotare il JTextField
         if(articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)){
-            this.frame.mostraPannelloAttuale(new DettagliPanel(frame, (Articolo) prodotto, puntoVenditaResult.getPuntiVendita().get(0).getNome()));
+            this.frame.mostraPannelloAttuale(new DettagliPanel(frame, (Articolo) prodotto, puntoVenditaResult.getPuntiVendita().get(0)));
         }
     }
 }

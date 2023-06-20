@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 public class GoToModificaFornitoreListener implements ActionListener {
     private MainFrame frame;
-    private Fornitore produttore;
-    public GoToModificaFornitoreListener(MainFrame frame, Fornitore p) {
+    private Fornitore fornitore;
+    public GoToModificaFornitoreListener(MainFrame frame, Fornitore fornitore) {
         this.frame = frame;
-        produttore = p;
+        this.fornitore = fornitore;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new ModificaFornitorePanel(this.frame, produttore));
+        this.frame.mostraPannelloAttuale(new ModificaFornitorePanel(this.frame, fornitore));
     }
 }

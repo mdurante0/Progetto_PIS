@@ -42,7 +42,7 @@ public class MenuPuntiVenditaPanel extends JPanel {
 
             for (PuntoVendita puntovendita : result.getPuntiVendita()) {
                 JButton puntoVenditaButton = new JButton(puntovendita.getNome());
-                puntoVenditaButton.addActionListener(new GoToCatalogoListener(this.frame, puntovendita.getNome()));
+                puntoVenditaButton.addActionListener(new GoToCatalogoListener(this.frame, puntovendita));
 
                 JLabel puntoVenditaLabel = new JLabel("  Punto vendita in " + puntovendita.getIndirizzo() + ":");
                 puntoVenditaLabel.setFont(bodyFont);

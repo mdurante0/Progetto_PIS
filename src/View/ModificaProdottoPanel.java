@@ -9,10 +9,10 @@ import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
 import Model.Produttore;
 import Model.PuntoVendita;
-import Model.composite.IProdotto;
-import View.Listener.CreaNuovoProdottoListener;
-import View.Listener.GoToMenuListener;
+import Model.composite.Prodotto;
+import View.Listener.GoToDettagliListener;
 import View.Listener.ImmaginiListener;
+import View.Listener.ModificaProdottoListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,7 @@ public class ModificaProdottoPanel extends JPanel {
     private ArrayList<File> files = new ArrayList<>();
     private JLabel immaginiCounterLabel;
 
-    public ModificaProdottoPanel(MainFrame frame, IProdotto p, PuntoVendita puntoVendita) {
+    public ModificaProdottoPanel(MainFrame frame, Prodotto prodotto, PuntoVendita puntoVendita) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -58,10 +58,10 @@ public class ModificaProdottoPanel extends JPanel {
         prezzoLabel.setFont(bodyFont);
         quantitaLabel.setFont(bodyFont);
 
-        nomeProdottoField = new JTextField(p.getName(),20);
-        descrizioneField = new JTextField(p.getDescrizione(), 20);
-        prezzoField = new JTextField(String.valueOf(p.getPrezzo()),20);
-        quantitaField = new JTextField(String.valueOf(p.getQuantita()),20);
+        nomeProdottoField = new JTextField(prodotto.getName(),20);
+        descrizioneField = new JTextField(prodotto.getDescrizione(), 20);
+        prezzoField = new JTextField(String.valueOf(prodotto.getPrezzo()),20);
+        quantitaField = new JTextField(String.valueOf(prodotto.getQuantita()),20);
 
         nomeProdottoField.setFont(bodyFont);
         descrizioneField.setFont(bodyFont);
@@ -97,14 +97,14 @@ public class ModificaProdottoPanel extends JPanel {
 
             JLabel corsiaLabel = new JLabel("  Corsia:");
             corsiaLabel.setFont(bodyFont);
-            corsiaField = new JTextField(String.valueOf(p.getCollocazione().getCorsia()),20);
+            corsiaField = new JTextField(String.valueOf(prodotto.getCollocazione().getCorsia()),20);
             corsiaField.setFont(bodyFont);
             contentPanel.add(corsiaLabel);
             contentPanel.add(corsiaField);
 
             JLabel scaffaleLabel = new JLabel("  Scaffale:");
             scaffaleLabel.setFont(bodyFont);
-            scaffaleField = new JTextField(String.valueOf(p.getCollocazione().getScaffale()),20);
+            scaffaleField = new JTextField(String.valueOf(prodotto.getCollocazione().getScaffale()),20);
             scaffaleField.setFont(bodyFont);
             contentPanel.add(scaffaleLabel);
             contentPanel.add(scaffaleField);
@@ -120,7 +120,7 @@ public class ModificaProdottoPanel extends JPanel {
             produttoreBox = new JComboBox<>(nomiProduttori);
             produttoreBox.setFocusable(false);
             produttoreBox.setFont(bodyFont);
-            produttoreBox.setSelectedItem(p.getProduttore().getNome());
+            produttoreBox.setSelectedItem(prodotto.getProduttore().getNome());
 
             JLabel produttoreLabel = new JLabel("  Produttore del nuovo prodotto:");
             produttoreLabel.setFont(bodyFont);
@@ -139,7 +139,7 @@ public class ModificaProdottoPanel extends JPanel {
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);
-            categoriaProdottoBox.setSelectedItem(p.getCategoria().getNome());
+            categoriaProdottoBox.setSelectedItem(prodotto.getCategoria().getNome());
 
             JLabel categoriaLabel = new JLabel("  Categoria da assegnare al nuovo prodotto:");
             categoriaLabel.setFont(bodyFont);
@@ -164,13 +164,13 @@ public class ModificaProdottoPanel extends JPanel {
         rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
         rimuoviImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
-        JButton aggiungiButton = new JButton("Aggiunti prodotto");
+        JButton aggiungiButton = new JButton("Modifica prodotto");
         aggiungiButton.setFont(bodyFont);
-        aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
+        aggiungiButton.addActionListener(new ModificaProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files, prodotto));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
-        backButton.addActionListener(new GoToMenuListener(this.frame));
+        backButton.addActionListener(new GoToDettagliListener(this.frame, prodotto, puntoVendita));
 
         contentPanel.add(immaginiLabel);
         contentPanel.add(aggiungiImmagineButton);

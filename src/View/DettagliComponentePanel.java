@@ -22,7 +22,7 @@ public class DettagliComponentePanel extends JPanel {
     private ImagePanel imagePanel;
     private JPanel contentPanel = new JPanel();
 
-    public DettagliComponentePanel(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, String nomePuntoVendita) {
+    public DettagliComponentePanel(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -132,16 +132,16 @@ public class DettagliComponentePanel extends JPanel {
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
-            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, nomePuntoVendita));
+            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, puntoVendita));
             contentPanel.add(mostraComponentiButton);
         }
 
         JButton backButton = new JButton("Torna al prodotto composito");
-        backButton.addActionListener(new GoToMostraComponentiListener(this.frame, prodottoComposito, nomePuntoVendita));
+        backButton.addActionListener(new GoToMostraComponentiListener(this.frame, prodottoComposito, puntoVendita));
         backButton.setFont(bodyFont);
 
         JButton feedbackButton = new JButton("Mostra i feedback");
-        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, prodottoComposito, nomePuntoVendita));
+        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, prodottoComposito, puntoVendita));
         feedbackButton.setFont(bodyFont);
 
         contentPanel.add(feedbackButton);

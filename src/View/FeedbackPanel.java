@@ -23,7 +23,7 @@ public class FeedbackPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public FeedbackPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita, ProdottoComposito prodottoComposito) {
+    public FeedbackPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita, ProdottoComposito prodottoComposito) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Commenti: " + articolo.getName());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -81,13 +81,13 @@ public class FeedbackPanel extends JPanel {
         pulsantiAzioneTabella.setLayout(new FlowLayout());
         JButton tornaIndietroButton = new JButton("Torna indietro");
         if(prodottoComposito == null)
-            tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, nomePuntoVendita));
+            tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, puntoVendita));
         else
-            tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, nomePuntoVendita));
+            tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, puntoVendita));
         JButton creaFeedback = new JButton("Crea feedback");
         southPanel.add(tornaIndietroButton);
         if (u instanceof Cliente ){
-            creaFeedback.addActionListener(new GoToCreaFeedbackListener(this.frame, articolo, nomePuntoVendita));
+            creaFeedback.addActionListener(new GoToCreaFeedbackListener(this.frame, articolo, puntoVendita));
             southPanel.add(creaFeedback);
         }
 

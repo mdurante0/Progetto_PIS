@@ -9,8 +9,6 @@ import Model.Immagine;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -157,39 +155,16 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
 
-    //metodo vecchio
-  /*  @Override
-    public int update(Immagine immagine) {
-        String sql = "UPDATE progetto_pis.immagine " +
-                "SET immagine = '" + immagine.getPic() +
-                "', articolo_idarticolo = '" + immagine.getIdArticolo() +
-                "' WHERE idimmagine = '" + immagine.getIdImmagine() + ";";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
-*/
 
     //vedi se così funziona
     public int update(File file, Immagine immagine) {
 
-        FileInputStream inputStream;
-        try {
-            inputStream = new FileInputStream(file);
-            immagine.setPic(new ImageIcon(inputStream.readAllBytes()));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         String sql = "UPDATE progetto_pis.immagine " +
-                "SET immagine = '" + inputStream +
-                "', articolo_idarticolo = '" + immagine.getIdArticolo() +
+                "SET immagine = '?', articolo_idarticolo = '" + immagine.getIdArticolo() +
                 "' WHERE idimmagine = '" + immagine.getIdImmagine() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
+        IDbOperation writeOp = new WriteOperation(file, sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 }

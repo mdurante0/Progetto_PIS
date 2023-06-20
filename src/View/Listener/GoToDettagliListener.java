@@ -1,6 +1,7 @@
 package View.Listener;
 
 import Model.Articolo;
+import Model.PuntoVendita;
 import View.DettagliPanel;
 import View.MainFrame;
 
@@ -10,11 +11,11 @@ import java.awt.event.ActionListener;
 public class GoToDettagliListener implements ActionListener {
     private MainFrame frame;
     private Articolo articolo;
-    private String nomePuntoVendita;
-    public GoToDettagliListener(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    private PuntoVendita puntoVendita;
+    public GoToDettagliListener(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
-        this.nomePuntoVendita = nomePuntoVendita;
+        this.puntoVendita = puntoVendita;
     }
     public GoToDettagliListener(MainFrame frame, Articolo articolo) {
         this.frame = frame;
@@ -23,6 +24,6 @@ public class GoToDettagliListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, articolo, nomePuntoVendita));
+        this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, articolo, puntoVendita));
     }
 }

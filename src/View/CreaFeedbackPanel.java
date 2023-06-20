@@ -2,10 +2,8 @@ package View;
 
 import Model.Articolo;
 import Model.Feedback;
-import Model.composite.IProdotto;
-import View.Listener.GoToDettagliListener;
+import Model.PuntoVendita;
 import View.Listener.GoToFeedbackListener;
-import org.bouncycastle.asn1.tsp.ArchiveTimeStamp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +17,7 @@ public class CreaFeedbackPanel extends JPanel {
     private JTextArea commentoField;
 
 
-    public CreaFeedbackPanel(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public CreaFeedbackPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -49,7 +47,7 @@ public class CreaFeedbackPanel extends JPanel {
         JButton creaFeedback = new JButton("Aggiungi");
         creaFeedback.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, nomePuntoVendita));
+        tornaIndietroButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, puntoVendita));
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener

@@ -5,6 +5,7 @@ import Business.CollocazioneBusiness;
 import Business.Results.ArticoloResult;
 import Business.Results.CollocazioneResult;
 import Model.Articolo;
+import Model.PuntoVendita;
 import Model.composite.Prodotto;
 import View.CatalogoProdottiPanel;
 import View.CatalogoServiziPanel;
@@ -17,12 +18,12 @@ import java.awt.event.ActionListener;
 public class RemoveArticoloListener implements ActionListener {
     private MainFrame frame;
     private Articolo articolo;
-    private String nomePuntoVendita;
+    private PuntoVendita puntoVendita;
 
-    public RemoveArticoloListener(MainFrame frame, Articolo articolo, String nomePuntoVendita) {
+    public RemoveArticoloListener(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.articolo = articolo;
-        this.nomePuntoVendita = nomePuntoVendita;
+        this.puntoVendita = puntoVendita;
     }
 
     @Override
@@ -39,8 +40,8 @@ public class RemoveArticoloListener implements ActionListener {
             }
 
             if(result.getResult().equals(ArticoloResult.Result.DELETE_OK)){
-                if(nomePuntoVendita != null)
-                    this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, nomePuntoVendita));
+                if(puntoVendita != null)
+                    this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
                 else
                     this.frame.mostraPannelloAttuale(new CatalogoServiziPanel(this.frame));
             }

@@ -41,11 +41,11 @@ public class SfogliaCatalogoProdottiListener implements ActionListener {
                 frame.mostraPannelloAttuale(new MenuPuntiVenditaPanel(this.frame));
 
             //Altrimenti lo faccio accedere al punto vendita che gli è stato assegnato
-            else frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, result.getPuntiVendita().get(0).getNome()));
+            else frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, result.getPuntiVendita().get(0)));
 
         //Infine se è un cliente lo faccio accedere al suo punto vendita di registrazione
         } else if (u instanceof Cliente c) {
-            frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, c.getPuntoVenditaDiRegistrazione().getNome()));
+            frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, c.getPuntoVenditaDiRegistrazione()));
 
         }
     }
