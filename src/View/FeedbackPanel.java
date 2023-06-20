@@ -6,6 +6,7 @@ import Business.SessionManager;
 import Business.Strategy.*;
 import Model.*;
 import Model.composite.ProdottoComposito;
+import View.Listener.GoToCreaFeedbackListener;
 import View.Listener.GoToDettagliComponenteListener;
 import View.Listener.GoToDettagliListener;
 import View.ViewModel.FeedbackTableModel;
@@ -83,8 +84,14 @@ public class FeedbackPanel extends JPanel {
             tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, nomePuntoVendita));
         else
             tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, nomePuntoVendita));
-
+        JButton creaFeedback = new JButton("Crea feedback");
         southPanel.add(tornaIndietroButton);
+        if (u instanceof Cliente ){
+            creaFeedback.addActionListener(new GoToCreaFeedbackListener(this.frame, articolo, nomePuntoVendita));
+            southPanel.add(creaFeedback);
+        }
+
+
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);
