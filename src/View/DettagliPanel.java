@@ -189,9 +189,10 @@ public class DettagliPanel extends JPanel {
             listaEsistenteButton.setFont(bodyFont);
             contentPanel.add(listaEsistenteButton);
         }
-        else if(u instanceof Manager && articolo instanceof IProdotto){
+        else if(u instanceof Manager m && articolo instanceof IProdotto prodotto){
             JButton modificaDisponibilita = new JButton("Modifica disponibilita");
-            //action listener
+            modificaDisponibilita.addActionListener(new RifornimentoListener(this.frame, quantitaField, prodotto, m));
+            articolo.setQuantita(prodotto.getQuantita());
             modificaDisponibilita.setFont(bodyFont);
             contentPanel.add(new JLabel());
             contentPanel.add(modificaDisponibilita);

@@ -280,29 +280,20 @@ public class ArticoloBusiness {
         result.setMessage("Categoria rimossa correttamente!");
         return result;
     }
-    public ArticoloResult updateProdottoInMagazzino(String prodottoName, int idMagazzino){
+    public ArticoloResult updateProdottoInMagazzino(IProdotto prodotto, Magazzino magazzino){
         MagazzinoDAO mDao = MagazzinoDAO.getInstance();
         ProdottoDAO pDao = ProdottoDAO.getInstance();
         ArticoloResult result = new ArticoloResult();
 
-        IProdotto p = pDao.findByName(prodottoName);
+
         //Verifica esistenza articolo
-        if (p == null || !mDao.prodottoExists(idMagazzino, p.getIdArticolo())){
+        if (!mDao.prodottoExists(magazzino.getIdMagazzino(), prodotto.getIdArticolo())){
             result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("L'articolo indicato non è presente nel magazzino! Riprova");
             return result;
         }
 
-        //Verifica esistenza magazzino
-        Magazzino m = mDao.findById(idMagazzino);
-        boolean magazzinoExists = m != null;
-        if (!magazzinoExists){
-            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
-            result.setMessage("Il magazzino indicato non esiste! Riprova");
-            return result;
-        }
-
-        int aggiornato = mDao.updateProdotto(m,p);
+        int aggiornato = mDao.updateProdotto(magazzino,prodotto);
         if(aggiornato == 0){ //articolo non aggiornato
             result.setResult(ArticoloResult.Result.ITEM_ERROR);
             result.setMessage("Errore nella modifica! Riprova!");
