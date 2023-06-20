@@ -1,6 +1,7 @@
 package View.Decorator;
 
 import View.Listener.GoToFeedbackListener;
+import View.Listener.GoToListaAcquistoListener;
 import View.Listener.GoToMostraPrenotazioniListener;
 import View.MainFrame;
 
@@ -26,6 +27,8 @@ public class ClienteMenuDecorator extends CustomMenuDecorator {
 
         //action command, listener...
         prenotazioni.addActionListener(new GoToMostraPrenotazioniListener(this.frame));
+        liste.addActionListener(new GoToListaAcquistoListener(this.frame));
+
 
         //add dei pulsanti
         pulsanti.add(liste);

@@ -7,9 +7,16 @@ public class RigaListaAcquisto {
     private String usernameCliente;
     private String nomeLista;
     private Object pagata;
-    private Object visualizzaButton;
+    private Object DettagliButton;
     private Object eliminaButton;
 
+    public Object getDettagliButton() {
+        return DettagliButton;
+    }
+
+    public void setDettagliButton(Object dettagliButton) {
+        DettagliButton = dettagliButton;
+    }
     public String getNomeLista() {
         return nomeLista;
     }
@@ -34,13 +41,6 @@ public class RigaListaAcquisto {
         this.pagata = pagata;
     }
 
-    public Object getVisualizzaButton() {
-        return visualizzaButton;
-    }
-
-    public void setVisualizzaButton(Object visualizzaButton) {
-        this.visualizzaButton = visualizzaButton;
-    }
 
     public Object getEliminaButton() {
         return eliminaButton;

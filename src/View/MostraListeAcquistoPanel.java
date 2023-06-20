@@ -1,12 +1,10 @@
 package View;
 
-import Business.ClienteBusiness;
-import Business.ListaAcquistoBusiness;
-import Business.PrenotazioneBusiness;
+import Business.*;
 import Business.Results.ClienteResult;
 import Business.Results.ListaAcquistoResult;
-import Model.Cliente;
-import Model.ListaAcquisto;
+import Business.Results.PuntoVenditaResult;
+import Model.*;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.ListaAcquistoTableModel;
@@ -34,36 +32,85 @@ public class MostraListeAcquistoPanel extends JPanel {
 
         ArrayList<RigaListaAcquisto> righe = new ArrayList<>();
 
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
-        ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienti();
-        ArrayList<Cliente> clienti = clienteResult.getClienti();
-
-        for(int i = 0 ; i < clienteResult.getClienti().size(); i++){
-
-            Cliente c = clienti.get(i);
+        if (u instanceof Cliente c){
             ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(c.getUsername());
             ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
-            int j=i;
-            while (j < listeAcquisto.size()){
-                RigaListaAcquisto riga = new RigaListaAcquisto();
-                JButton visualizzaButton = new JButton("Visualizza");
-                JButton eliminaButton = new JButton("Elimina");
-                JButton pagataButton = new JButton("Pagata");
-                riga.setUsernameCliente(c.getUsername());
-                riga.setNomeLista(listeAcquisto.get(j).getNome());
-                riga.setPagata(pagataButton);
-                riga.setVisualizzaButton(visualizzaButton);
-                riga.setEliminaButton(eliminaButton);
-                j++;
-                righe.add(riga);
+            for(int i = 0 ; i < listeAcquisto.size(); i++){
+                    RigaListaAcquisto riga = new RigaListaAcquisto();
+                    JButton DettagliButton = new JButton("Dettagli");
+                    JButton eliminaButton = new JButton("Elimina");
+                    riga.setPagata(String.valueOf(listeAcquisto.get(i).getPagata()));
+                    riga.setNomeLista(listeAcquisto.get(i).getNome());
+                    riga.setDettagliButton(DettagliButton);
+                    riga.setEliminaButton(eliminaButton);
+
+                    righe.add(riga);
+
+                //aggiungere action listener
+
             }
 
+        }
+        if (u instanceof Manager m){
+            PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByManager(m);
+            PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
 
-            //aggiungere action listener
+            ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienteByPuntoVendita(puntoVendita);
+
+            ArrayList<Cliente> clienti = clienteResult.getClienti();
+
+            for(int i = 0 ; i < clienti.size(); i++){
+                ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(clienti.get(i).getUsername());
+
+                ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
+
+                for (int j = 0; j < listeAcquisto.size(); j++) {
+
+                    RigaListaAcquisto riga = new RigaListaAcquisto();
+                    JButton eliminaButton = new JButton("Elimina");
+                    JButton pagataButton = new JButton("Pagata");
+                    riga.setUsernameCliente(clienti.get(i).getUsername());
+                    riga.setNomeLista(listeAcquisto.get(j).getNome());
+                    riga.setPagata(pagataButton);
+                    riga.setEliminaButton(eliminaButton);
+                    j++;
+                    righe.add(riga);
+                }
+                //aggiungere action listener
+
+            }
 
         }
+        if (u instanceof Amministratore){
+            ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienti();
 
-        ListaAcquistoTableModel tableModel = new ListaAcquistoTableModel(righe);
+            ArrayList<Cliente> clienti = clienteResult.getClienti();
+
+            for(int i = 0 ; i < clienti.size(); i++){
+                ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(clienti.get(i).getUsername());
+
+                ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
+
+                for (int j = 0; j < listeAcquisto.size(); j++) {
+
+                    RigaListaAcquisto riga = new RigaListaAcquisto();
+                    JButton eliminaButton = new JButton("Elimina");
+                    JButton pagataButton = new JButton("Pagata");
+                    riga.setUsernameCliente(clienti.get(i).getUsername());
+                    riga.setNomeLista(listeAcquisto.get(j).getNome());
+                    riga.setPagata(pagataButton);
+                    riga.setEliminaButton(eliminaButton);
+                    j++;
+                    righe.add(riga);
+                }
+                //aggiungere action listener
+
+            }
+        }
+
+        ListaAcquistoTableModel tableModel = new ListaAcquistoTableModel(righe, u);
         JTable tabella = new JTable(tableModel);
 
         tabella.setRowHeight(100);
@@ -75,14 +122,14 @@ public class MostraListeAcquistoPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
-        tabella.getColumn("Visualizza").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+        JTableButtonMouseListener mouseListener = new JTableButtonMouseListener(tabella);
+        if (u instanceof Cliente)
+             tabella.getColumn("Dettagli").setCellRenderer(buttonRenderer);
+        else
+            tabella.getColumn("Stato pagamento").setCellRenderer(buttonRenderer);
 
         tabella.getColumn("Elimina").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
-
-        tabella.getColumn("Stato Pagamento").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+        tabella.addMouseListener(mouseListener);
 
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
