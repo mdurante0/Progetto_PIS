@@ -1,13 +1,13 @@
 package View;
 
 import Business.ClienteBusiness;
-import Business.MagazzinoBusiness;
 import Business.PrenotazioneBusiness;
 import Business.Results.ClienteResult;
-import Business.Results.MagazzinoResult;
 import Business.Results.PrenotazioneResult;
 import Model.Cliente;
 import Model.Prenotazione;
+import Model.PuntoVendita;
+import View.Listener.GoToCreaPrenotazioneListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.PrenotazioneTableModel;
@@ -24,7 +24,7 @@ public class MostraPrenotazioniPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraPrenotazioniPanel(MainFrame frame) {
+    public MostraPrenotazioniPanel(MainFrame frame, PuntoVendita puntoVendita, Cliente cliente ) {
         this.frame = frame;
         JLabel titleLabel = new JLabel("Prenotazioni ");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
@@ -36,33 +36,30 @@ public class MostraPrenotazioniPanel extends JPanel {
         ArrayList<RigaPrenotazione> righe = new ArrayList<>();
 
 
-        ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienti();
-        ArrayList<Cliente> clienti = clienteResult.getClienti();
 
-        for(int i = 0 ; i < clienteResult.getClienti().size(); i++){
+            PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(cliente.getUsername());
+            ArrayList<Prenotazione> prenotazioniCliente = prenotazioneResult.getPrenotazioni();
 
-            Cliente c = clienti.get(i);
-            PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(c.getUsername());
-            Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
-            int j=i;
-            while (j < p.getProdotti().size()){
+            for(int i=0; i < prenotazioniCliente.size();i++){
                 RigaPrenotazione riga = new RigaPrenotazione();
-                JButton modifica = new JButton("Modifica");
-                JButton elimina = new JButton("Elimina");
-                riga.setUsernameCliente(c.getUsername());
-                riga.setNomeProdotto(p.getProdotti().get(j).getName());
-                riga.setQuantitaProdotto(p.getProdotti().get(j).getQuantita());
-                riga.setData(p.getDataPrenotazione());
-                riga.setModificaButton(modifica);
-                riga.setEliminaButton(elimina);
-                j++;
-                righe.add(riga);
+
+                for(int j=0; j < prenotazioniCliente.get(i).getProdotti().size(); j++ ){
+                    JButton elimina = new JButton("Elimina");
+                    riga.setUsernameCliente(cliente.getUsername());
+                    riga.setNomeProdotto(prenotazioniCliente.get(i).getProdotti().get(j).getName());
+                    riga.setQuantitaProdotto(prenotazioniCliente.get(i).getProdotti().get(j).getQuantita());
+                    riga.setData(prenotazioniCliente.get(i).getDataPrenotazione());
+                    riga.setEliminaButton(elimina);
+
+                    righe.add(riga);
+                }
+
             }
 
 
             //aggiungere action listener
 
-        }
+
 
         PrenotazioneTableModel tableModel = new PrenotazioneTableModel(righe);
         JTable tabella = new JTable(tableModel);
@@ -76,11 +73,10 @@ public class MostraPrenotazioniPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
-        tabella.getColumn("Modifica").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
-
+        JTableButtonMouseListener mouseListener = new JTableButtonMouseListener(tabella);
         tabella.getColumn("Elimina").setCellRenderer(buttonRenderer);
-        tabella.addMouseListener(new JTableButtonMouseListener(tabella));
+        tabella.addMouseListener(mouseListener);
+
 
         contentPanel.add(new JLabel("          "), BorderLayout.WEST);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
@@ -88,6 +84,9 @@ public class MostraPrenotazioniPanel extends JPanel {
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+
+        JButton aggiungiPrenotazione = new JButton("Crea Prenotazione");
+        aggiungiPrenotazione.addActionListener(new GoToCreaPrenotazioneListener(this.frame, puntoVendita));
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
