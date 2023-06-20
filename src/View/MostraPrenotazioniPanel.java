@@ -10,6 +10,7 @@ import Business.SessionManager;
 import Model.*;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
+import View.Listener.RemovePrenotazioneListener;
 import View.ViewModel.PrenotazioneTableModel;
 import View.ViewModel.RigaPrenotazione;
 
@@ -47,25 +48,28 @@ public class MostraPrenotazioniPanel extends JPanel {
             clienteResult = ClienteBusiness.getInstance().caricaClienti();
             clienti = clienteResult.getClienti();
         }
-        else if(u instanceof Cliente c)
+        else if(u instanceof Cliente c) {
             clienti.add(c);
-
-        for(int i = 0 ; i < clienteResult.getClienti().size(); i++){
+        }
+        for(int i = 0 ; i < clienti.size(); i++){
 
             Cliente c = clienti.get(i);
             PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(c.getUsername());
-            Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
-            for (int j = 0; j < p.getProdotti().size(); j++) {
-                RigaPrenotazione riga = new RigaPrenotazione();
-                JButton elimina = new JButton("Elimina");
-                riga.setUsernameCliente(c.getUsername());
-                riga.setNomeProdotto(p.getProdotti().get(j).getName());
-                riga.setQuantitaProdotto(p.getProdotti().get(j).getQuantita());
-                riga.setData(p.getDataPrenotazione());
-                riga.setEliminaButton(elimina);
-                //aggiungere action listener
-                righe.add(riga);
+            if (!prenotazioneResult.getPrenotazioni().isEmpty()){
+                Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
+                for (int j = 0; j < p.getProdotti().size(); j++) {
+                    RigaPrenotazione riga = new RigaPrenotazione();
+                    JButton elimina = new JButton("Elimina");
+                    riga.setUsernameCliente(c.getUsername());
+                    riga.setNomeProdotto(p.getProdotti().get(j).getName());
+                    riga.setQuantitaProdotto(p.getProdotti().get(j).getQuantita());
+                    riga.setData(p.getDataPrenotazione());
+                    riga.setEliminaButton(elimina);
+                    elimina.addActionListener(new RemovePrenotazioneListener(this.frame, p, p.getProdotti().get(j)));
+                    righe.add(riga);
+                }
             }
+
         }
 
         PrenotazioneTableModel tableModel = new PrenotazioneTableModel(righe);
@@ -91,14 +95,6 @@ public class MostraPrenotazioniPanel extends JPanel {
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
-
-        if (u instanceof Cliente){
-            JButton creaPrenotazione = new JButton("Crea una prenotazione");
-            // add action listener
-            southPanel.add(creaPrenotazione);
-        }
-
-
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);

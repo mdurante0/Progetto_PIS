@@ -1,14 +1,8 @@
 package View.Listener;
 
-import Business.ArticoloBusiness;
-import Business.CollocazioneBusiness;
 import Business.ProduttoreBusiness;
 import Business.Results.ProduttoreResult;
-import Business.Results.CollocazioneResult;
 import Model.Produttore;
-import Model.composite.Prodotto;
-import View.CatalogoProdottiPanel;
-import View.CatalogoServiziPanel;
 import View.MainFrame;
 import View.MostraProduttoriPanel;
 

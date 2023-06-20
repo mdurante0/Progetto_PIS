@@ -6,6 +6,7 @@ import DAO.PrenotazioneDAO;
 import DAO.UtenteDAO;
 import Model.Cliente;
 import Model.Prenotazione;
+import Model.composite.IProdotto;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,23 @@ public class PrenotazioneBusiness {
         result.setMessage("Prenotazione aggiunta con successo! Le forniremo il prodotto richiesto al più presto!");
         return result;
     }
+    public PrenotazioneResult addProdottoInPrenotazione(Prenotazione prenotazione, IProdotto prodotto){
+        PrenotazioneResult result = new PrenotazioneResult();
+        PrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
+
+        int inserita = prenotazioneDAO.addProdotto(prenotazione.getIdPrenotazione(),prodotto);
+        if(inserita == 0){ //Prenotazione non inserita
+            result.setResult(PrenotazioneResult.Result.ADD_ERROR);
+            result.setMessage("Errore nella prenotazione del prodotto! Riprova!");
+            return result;
+        }
+
+        //Prenotazione aggiunta correttamente
+        result.setResult(PrenotazioneResult.Result.ADD_OK);
+        result.setMessage("Prenotazione aggiunta con successo! Le forniremo il prodotto richiesto al più presto!");
+        return result;
+    }
+
 
     public PrenotazioneResult removePrenotazione(Prenotazione prenotazione){
         PrenotazioneResult result = new PrenotazioneResult();
@@ -55,13 +73,29 @@ public class PrenotazioneBusiness {
         int rimossa = prenotazioneDAO.removeById(prenotazione.getIdPrenotazione());
         if(rimossa == 0){ //Prenotazione non rimossa
             result.setResult(PrenotazioneResult.Result.REMOVE_ERROR);
-            result.setMessage("Errore nella rimozione della rimozione! Riprova!");
+            result.setMessage("Errore nella rimozione della prenotazione! Riprova!");
             return result;
         }
 
-        //Prenotazione rimossa correttamente
+            //Prenotazione rimossa correttamente
         result.setResult(PrenotazioneResult.Result.REMOVE_OK);
         result.setMessage("Prenotazione rimossa con successo!");
+        return result;
+    }
+    public PrenotazioneResult removeProdottoInPrenotazione(Prenotazione prenotazione, IProdotto prodotto) {
+        PrenotazioneResult result = new PrenotazioneResult();
+        PrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
+
+
+        int rimossa = prenotazioneDAO.removeProdotto(prenotazione.getIdPrenotazione(), prodotto);
+        if (rimossa == 0) { //Prenotazione non rimossa
+            result.setResult(PrenotazioneResult.Result.REMOVE_ERROR);
+            result.setMessage("Errore nella rimozione del prodotto! Riprova!");
+            return result;
+        }
+        //Prenotazione rimossa correttamente
+        result.setResult(PrenotazioneResult.Result.REMOVE_OK);
+        result.setMessage("Prodotto rimosso con successo!");
         return result;
     }
 
