@@ -41,7 +41,7 @@ public class CatalogoServiziPanel extends JPanel {
             Servizio servizio = servizi.get(i);
             JButton dettagliButton = new JButton("Dettagli");
             riga.setIdArticolo(servizio.getIdArticolo());
-            riga.setNomeProdotto(servizio.getName());
+            riga.setNome(servizio.getName());
             riga.setNomeRifornitore(servizio.getFornitore().getNome());
             riga.setNomeCategoria(servizio.getCategoria().getNome());
             riga.setPrezzo(servizio.getPrezzo());

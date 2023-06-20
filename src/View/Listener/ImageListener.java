@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class ImageListener implements ActionListener {
     private JPanel panel;
-    private static int index;
+    private int index;
     private ImagePanel imagePanel;
     private Articolo articolo;
     public static final String NEXT = "prossima";

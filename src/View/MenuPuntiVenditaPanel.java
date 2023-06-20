@@ -22,7 +22,7 @@ public class MenuPuntiVenditaPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         titlePanel.setLayout(new FlowLayout());
-        centerPanel.setLayout(new FlowLayout());
+        centerPanel.setLayout(new GridLayout(0, 2));
         goBackPanel.setLayout(new FlowLayout());
 
         JLabel titleLabel = new JLabel("Scegli il punto vendita!");
@@ -30,10 +30,16 @@ public class MenuPuntiVenditaPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
+        JScrollPane scrollPane = new JScrollPane(centerPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(50, 30, 50, 300);
+        this.add(scrollPane);
+
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
         PuntoVenditaResult result = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
         if(!result.getPuntiVendita().isEmpty()) {
-            centerPanel.setLayout(new GridLayout(result.getPuntiVendita().size(), 1));
+
             for (PuntoVendita puntovendita : result.getPuntiVendita()) {
                 JButton puntoVenditaButton = new JButton(puntovendita.getNome());
                 puntoVenditaButton.addActionListener(new GoToCatalogoListener(this.frame, puntovendita.getNome()));
@@ -57,7 +63,6 @@ public class MenuPuntiVenditaPanel extends JPanel {
         goBackPanel.add(tornaIndietroButton);
 
         this.add(titlePanel, BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
         this.add(goBackPanel, BorderLayout.SOUTH);
     }
 }

@@ -42,7 +42,7 @@ public class CatalogoTableModel extends AbstractTableModel {
         switch(columnIndex) {
 
             case 0:
-                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(riga.getNomeProdotto());
+                ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(riga.getNome());
                 if(result.getResult() == ImmagineResult.Result.IMMAGINI_CARICATE)
                     return new ImageIcon(result.getListaImmagini().get(0).getPic().getImage().getScaledInstance(70,70, Image.SCALE_SMOOTH));
                 else {
@@ -55,7 +55,7 @@ public class CatalogoTableModel extends AbstractTableModel {
                         return new ImageIcon();
                     }
                 }
-            case 1: return riga.getNomeProdotto();
+            case 1: return riga.getNome();
             case 2: return riga.getNomeRifornitore();
             case 3: return riga.getNomeCategoria();
             case 4: return riga.getPrezzo();
@@ -70,7 +70,7 @@ public class CatalogoTableModel extends AbstractTableModel {
         RigaCatalogo riga = righe.get(rowIndex);
 
         switch(columnIndex) {
-            case 1: riga.setNomeProdotto(value.toString());
+            case 1: riga.setNome(value.toString());
             case 2: riga.setNomeRifornitore(value.toString());
             case 3: riga.setNomeCategoria(value.toString());
             case 4: riga.setPrezzo(Float.parseFloat(value.toString()));

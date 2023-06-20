@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ProdottoComposito extends Articolo implements IProdotto {
 
-    private List<IProdotto> sottoprodotti = new ArrayList<>();
+    private ArrayList<IProdotto> sottoprodotti = new ArrayList<>();
     private int idMagazzino;
 
     private Produttore produttore = new Produttore();
@@ -53,10 +53,10 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public void setName(String name) {
         super.setName(name);
     }
-    public List<IProdotto> getSottoprodotti() {
+    public ArrayList<IProdotto> getSottoprodotti() {
         return sottoprodotti;
     }
-    public void setSottoprodotti(List<IProdotto> sottoprodotti) {
+    public void setSottoprodotti(ArrayList<IProdotto> sottoprodotti) {
         this.sottoprodotti = sottoprodotti;
     }
     public int getIdMagazzino() {

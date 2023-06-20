@@ -12,7 +12,6 @@ import View.Listener.GoToMenuListener;
 import View.Listener.GoToMenuPuntiVenditaListener;
 import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.CatalogoTableModel;
-import View.ViewModel.CatalogoTableModel;
 import View.ViewModel.RigaCatalogo;
 
 import javax.swing.*;
@@ -44,7 +43,7 @@ public class CatalogoProdottiPanel extends JPanel {
             IProdotto p = prodotti.get(i);
             JButton dettagliButton = new JButton("Dettagli");
             riga.setIdArticolo(p.getIdArticolo());
-            riga.setNomeProdotto(p.getName());
+            riga.setNome(p.getName());
             riga.setNomeRifornitore(p.getProduttore().getNome());
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());

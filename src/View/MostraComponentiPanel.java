@@ -1,7 +1,7 @@
 package View;
 
-import Business.CatalogoBusiness;
-import Business.Results.CatalogoResult;
+import Business.ArticoloBusiness;
+import Business.Results.ArticoloResult;
 import Model.Articolo;
 import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
@@ -31,19 +31,14 @@ public class MostraComponentiPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         ArrayList<RigaCatalogo> righe = new ArrayList<>();
-        ArrayList<String> nomiComponenti = new ArrayList<>();
-        for (IProdotto sottoprodotto:
-                prodottoComposito.getSottoprodotti()) {
-            nomiComponenti.add(sottoprodotto.getName());
-        }
-        CatalogoResult result = CatalogoBusiness.getInstance().caricaCatalogoProdottiByNomi(nomiComponenti);
-        ArrayList<IProdotto> prodotti = result.getListaProdotti();
-        for(int i = 0 ; i < result.getListaProdotti().size(); i++){
+        ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(prodottoComposito);
+        ArrayList<IProdotto> prodotti = ((ProdottoComposito) articoloResult.getArticolo()).getSottoprodotti();
+        for(int i = 0 ; i < prodotti.size(); i++){
             RigaCatalogo riga = new RigaCatalogo();
             IProdotto p = prodotti.get(i);
             JButton dettagliButton = new JButton("Dettagli");
             riga.setIdArticolo(p.getIdArticolo());
-            riga.setNomeProdotto(p.getName());
+            riga.setNome(p.getName());
             riga.setNomeRifornitore(p.getProduttore().getNome());
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());

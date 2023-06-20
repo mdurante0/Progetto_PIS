@@ -37,18 +37,19 @@ public class DettagliComponentePanel extends JPanel {
             articolo.setImmagini(result.getListaImmagini());
 
             previousImageButton = new JButton("<-");
-
+            previousImageButton.setActionCommand(ImageListener.PREVIOUS);
             immaginiPanel.add(previousImageButton);
 
-            int index = 0;
-            imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
+            imagePanel = new ImagePanel(articolo.getImmagini().get(0).getPic().getImage());
             immaginiPanel.add(imagePanel);
 
             nextImageButton = new JButton("->");
+            nextImageButton.setActionCommand(ImageListener.NEXT);
             immaginiPanel.add(nextImageButton);
 
-            previousImageButton.addActionListener(new ImageListener(this, imagePanel, articolo));
-            nextImageButton.addActionListener(new ImageListener(this, imagePanel, articolo));
+            ImageListener imageListener = new ImageListener(this, imagePanel, articolo);
+            previousImageButton.addActionListener(imageListener);
+            nextImageButton.addActionListener(imageListener);
 
             this.add(immaginiPanel);
         }
@@ -108,7 +109,7 @@ public class DettagliComponentePanel extends JPanel {
             disponibilitaLabel = new JLabel("  Quantità:");
             disponibilitaLabel.setFont(bodyFont);
             contentPanel.add(disponibilitaLabel);
-            disponibilita = new JLabel(String.valueOf(prodotto.getQuantita()));
+            disponibilita = new JLabel(String.valueOf(articolo.getQuantita()));
             disponibilita.setFont(bodyFont);
             contentPanel.add(disponibilita);
             if(prodotto.getProduttore().getNome() != null) {

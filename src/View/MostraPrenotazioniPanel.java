@@ -38,7 +38,7 @@ public class MostraPrenotazioniPanel extends JPanel {
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
         ArrayList<Cliente> clienti = new ArrayList<>();
-        ClienteResult clienteResult = new ClienteResult();
+        ClienteResult clienteResult;
         if(u instanceof Manager m) {
             PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByManager(m);
             clienteResult = ClienteBusiness.getInstance().caricaClienteByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
@@ -51,11 +51,11 @@ public class MostraPrenotazioniPanel extends JPanel {
         else if(u instanceof Cliente c) {
             clienti.add(c);
         }
-        for(int i = 0 ; i < clienti.size(); i++){
+        for(int i = 0 ; i < clienti.size(); i++) {
 
             Cliente c = clienti.get(i);
             PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(c.getUsername());
-            if (!prenotazioneResult.getPrenotazioni().isEmpty()){
+            if (!prenotazioneResult.getPrenotazioni().isEmpty()) {
                 Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
                 for (int j = 0; j < p.getProdotti().size(); j++) {
                     RigaPrenotazione riga = new RigaPrenotazione();
@@ -69,9 +69,7 @@ public class MostraPrenotazioniPanel extends JPanel {
                     righe.add(riga);
                 }
             }
-
         }
-
         PrenotazioneTableModel tableModel = new PrenotazioneTableModel(righe);
         JTable tabella = new JTable(tableModel);
 

@@ -3,7 +3,7 @@ package View.ViewModel;
 public class RigaCatalogo {
 
     private int idArticolo;
-    private String nomeProdotto;
+    private String nome;
     private String nomeRifornitore;
     private float prezzo;
     private String nomeCategoria;
@@ -25,12 +25,12 @@ public class RigaCatalogo {
         this.idArticolo = idArticolo;
     }
 
-    public String getNomeProdotto() {
-        return nomeProdotto;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeProdotto(String nomeProdotto) {
-        this.nomeProdotto = nomeProdotto;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getNomeRifornitore() {

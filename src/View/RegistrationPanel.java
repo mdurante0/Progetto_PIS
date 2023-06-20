@@ -35,7 +35,7 @@ public class RegistrationPanel extends JPanel {
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
 
-        contentPanel.setLayout(new GridLayout(21,2));
+        contentPanel.setLayout(new GridLayout(0,2));
         JLabel firstNameLabel = new JLabel("  Nome:");
         JLabel lastNameLabel = new JLabel("  Cognome:");
         JLabel emailLabel = new JLabel("  Email:");
@@ -97,7 +97,9 @@ public class RegistrationPanel extends JPanel {
         }
 
         JButton registerButton = new JButton("Registrati");
+        registerButton.setFont(bodyFont);
         JButton backButton = new JButton("Torna al login");
+        backButton.setFont(bodyFont);
 
         registerButton.addActionListener(new RegistrationListener(this.frame, firstNameField, lastNameField, emailField, usernameField, passwordField, confermaPasswordField, professionField, ageField, residenzaField, telefonoField, puntoVenditaBox));
         backButton.addActionListener(new GoToLoginListener(this.frame));

@@ -21,7 +21,6 @@ public class DettagliPanel extends JPanel {
     private JButton previousImageButton;
     private JButton nextImageButton;
     private ImagePanel imagePanel;
-    private int index;
     private JPanel contentPanel = new JPanel();
     private JComboBox<Integer> quantitaBox;
     private JTextField quantitaField;
@@ -46,16 +45,16 @@ public class DettagliPanel extends JPanel {
 
             immaginiPanel.add(previousImageButton);
 
-            int index = 0;
-            imagePanel = new ImagePanel(articolo.getImmagini().get(index).getPic().getImage());
+            imagePanel = new ImagePanel(articolo.getImmagini().get(0).getPic().getImage());
             immaginiPanel.add(imagePanel);
 
             nextImageButton = new JButton("->");
             nextImageButton.setActionCommand(ImageListener.NEXT);
             immaginiPanel.add(nextImageButton);
 
-            previousImageButton.addActionListener(new ImageListener(this, imagePanel, articolo));
-            nextImageButton.addActionListener(new ImageListener(this, imagePanel, articolo));
+            ImageListener imageListener = new ImageListener(this, imagePanel, articolo);
+            previousImageButton.addActionListener(imageListener);
+            nextImageButton.addActionListener(imageListener);
 
             this.add(immaginiPanel);
         }
@@ -171,6 +170,7 @@ public class DettagliPanel extends JPanel {
 
         ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
+            pc.setQuantita(articolo.getQuantita());
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
             mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, nomePuntoVendita));
