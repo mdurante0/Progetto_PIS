@@ -29,7 +29,7 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -48,11 +48,12 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
                 if (utente instanceof Cliente)
                     return riga.getPagata();
                 else return riga.getNomeLista();
-            case 2:
+            case 2: return riga.getCostoTotale();
+            case 3:
                 if (utente instanceof Cliente)
                     return riga.getDettagliButton();
                 else return riga.getPagata();
-            case 3:
+            case 4:
                 return riga.getEliminaButton();
 
         }
@@ -73,11 +74,14 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
                 if (utente instanceof Cliente)
                     riga.setPagata(value.toString());
                 else riga.setNomeLista(value.toString());
-            case 2:
+
+            case 2:  riga.setCostoTotale(Float.parseFloat(value.toString()));
+
+            case 3:
                 if (utente instanceof Cliente)
                     riga.setDettagliButton(new JButton());
                 else riga.setPagata(new JButton());
-            case 3:
+            case 4:
                 riga.setEliminaButton(new JButton());
 
         }
@@ -97,11 +101,12 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
                 if (utente instanceof Cliente)
                     return "Stato pagamento";
                 else return "Nome lista";
-            case 2:
+            case 2: return "Costo totale";
+            case 3:
                 if (utente instanceof Cliente)
                     return "Dettagli";
                 else return "Stato pagamento";
-            case 3: return "Elimina";
+            case 4: return "Elimina";
         }
 
         return null;
@@ -109,8 +114,8 @@ public class ListaAcquistoTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == 2 ) return JButton.class;
-        if(columnIndex == 3) return JButton.class;
+        if(columnIndex == 3 ) return JButton.class;
+        if(columnIndex == 4) return JButton.class;
 
         return Object.class;
     }

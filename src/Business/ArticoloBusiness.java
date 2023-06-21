@@ -326,15 +326,15 @@ public class ArticoloBusiness {
         } else if(aDao.isProdotto(a.getName())) {
             Prodotto p = (Prodotto) ProdottoDAO.getInstance().findByName(a.getName());
             result.setArticolo(p);
-            result.setResult(ArticoloResult.Result.IS_PRODOTTO_COMPOSITO);
-            result.setMessage("L'articolo indicato è un prodotto composito");
+            result.setResult(ArticoloResult.Result.IS_PRODOTTO);
+            result.setMessage("L'articolo indicato è un prodotto");
             return result;
 
         } else if(aDao.isServizio(a.getName())){
             Servizio s = ServizioDAO.getInstance().findByName(a.getName());
             result.setArticolo(s);
-            result.setResult(ArticoloResult.Result.IS_PRODOTTO_COMPOSITO);
-            result.setMessage("L'articolo indicato è un prodotto composito");
+            result.setResult(ArticoloResult.Result.IS_SERVIZIO);
+            result.setMessage("L'articolo indicato è un servizio");
             return result;
 
         } else { //errore nel tipo di articolo

@@ -1,10 +1,12 @@
 package View;
 
 import Business.*;
+import Business.Results.ArticoloResult;
 import Business.Results.ClienteResult;
 import Business.Results.ListaAcquistoResult;
 import Business.Results.PuntoVenditaResult;
 import Model.*;
+import View.Listener.GoToDettagliListaAcquistoListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
 import View.Listener.RemoveListaAcquistoListener;
@@ -40,15 +42,22 @@ public class MostraListeAcquistoPanel extends JPanel {
             ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
             for(int i = 0 ; i < listeAcquisto.size(); i++){
                     RigaListaAcquisto riga = new RigaListaAcquisto();
-                    JButton DettagliButton = new JButton("Dettagli");
+                    JButton dettagliButton = new JButton("Dettagli");
                     JButton eliminaButton = new JButton("Elimina");
                     riga.setPagata(String.valueOf(listeAcquisto.get(i).getPagata()));
                     riga.setNomeLista(listeAcquisto.get(i).getNome());
-                    riga.setDettagliButton(DettagliButton);
+                    riga.setDettagliButton(dettagliButton);
                     riga.setEliminaButton(eliminaButton);
+                    float costoTotale = 0;
+                for (int j = 0; j < listeAcquisto.get(i).getArticoli().size(); j++) {
+                    if(!ArticoloBusiness.getInstance().getType(listeAcquisto.get(i).getArticoli().get(j)).getResult().equals(ArticoloResult.Result.IS_SERVIZIO))
+                        costoTotale += listeAcquisto.get(i).getArticoli().get(j).getPrezzo()*listeAcquisto.get(i).getArticoli().get(j).getQuantita();
+                    else  costoTotale += listeAcquisto.get(i).getArticoli().get(j).getPrezzo();
+                }
+                riga.setCostoTotale(costoTotale);
 
                     eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(i)));
-                    //aggiungere action Listener dettagliButton
+                    dettagliButton.addActionListener(new GoToDettagliListaAcquistoListener(this.frame, listeAcquisto.get(i)));
 
                     righe.add(riga);
 
@@ -77,6 +86,12 @@ public class MostraListeAcquistoPanel extends JPanel {
                     riga.setNomeLista(listeAcquisto.get(j).getNome());
                     riga.setPagata(pagataButton);
                     riga.setEliminaButton(eliminaButton);
+                    float costoTotale = 0;
+                    for (int k = 0; k < listeAcquisto.get(j).getArticoli().size(); k++) {
+                        if(!ArticoloBusiness.getInstance().getType(listeAcquisto.get(j).getArticoli().get(k)).getResult().equals(ArticoloResult.Result.IS_SERVIZIO))
+                            costoTotale += listeAcquisto.get(j).getArticoli().get(k).getPrezzo()*listeAcquisto.get(j).getArticoli().get(k).getQuantita();
+                        else  costoTotale += listeAcquisto.get(j).getArticoli().get(k).getPrezzo();                    }
+                    riga.setCostoTotale(costoTotale);
 
                     eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
                     // aggiungere action Listener pagata Button
@@ -105,6 +120,12 @@ public class MostraListeAcquistoPanel extends JPanel {
                     riga.setNomeLista(listeAcquisto.get(j).getNome());
                     riga.setPagata(pagataButton);
                     riga.setEliminaButton(eliminaButton);
+                    float costoTotale = 0;
+                    for (int k = 0; k < listeAcquisto.get(i).getArticoli().size(); k++) {
+                        if(!ArticoloBusiness.getInstance().getType(listeAcquisto.get(j).getArticoli().get(k)).getResult().equals(ArticoloResult.Result.IS_SERVIZIO))
+                            costoTotale += listeAcquisto.get(j).getArticoli().get(k).getPrezzo()*listeAcquisto.get(j).getArticoli().get(k).getQuantita();
+                        else  costoTotale += listeAcquisto.get(j).getArticoli().get(k).getPrezzo();                          }
+                    riga.setCostoTotale(costoTotale);
 
                     eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
                     //aggiungere action listener pagataButton

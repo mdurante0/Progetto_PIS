@@ -6,6 +6,7 @@ public class RigaListaAcquisto {
 
     private String usernameCliente;
     private String nomeLista;
+    private float costoTotale;
     private Object pagata;
     private Object DettagliButton;
     private Object eliminaButton;
@@ -48,5 +49,13 @@ public class RigaListaAcquisto {
 
     public void setEliminaButton(Object eliminaButton) {
         this.eliminaButton = eliminaButton;
+    }
+
+    public float getCostoTotale() {
+        return costoTotale;
+    }
+
+    public void setCostoTotale(float costoTotale) {
+        this.costoTotale = costoTotale;
     }
 }
