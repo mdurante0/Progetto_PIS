@@ -63,7 +63,6 @@ public class DettagliListaAcquistoPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
 
-
         JLabel totale = new JLabel("    Totale:   €" + listaAcquisto.getCostoFinale());
         totale.setFont(bodyFont);
         contentPanel.add(totale);

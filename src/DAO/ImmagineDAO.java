@@ -9,6 +9,8 @@ import Model.Immagine;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,6 +49,14 @@ public class ImmagineDAO implements IImmagineDAO {
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setPic(new ImageIcon(rs.getBytes("immagine")));
 
+                byte [] array = rs.getBytes("immagine");
+                File file = File.createTempFile("something-", ".binary", new File("resources/temporaryFiles"));
+                FileOutputStream out = new FileOutputStream( file );
+                out.write( array );
+                out.close();
+                immagine.setFile(file);
+                file.delete();
+
                 return immagine;
             }
         } catch (SQLException e) {
@@ -57,6 +67,8 @@ public class ImmagineDAO implements IImmagineDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
@@ -74,9 +86,17 @@ public class ImmagineDAO implements IImmagineDAO {
         try {
             while (rs.next()) {
                 immagine = new Immagine();
-                immagine.setPic(new ImageIcon(rs.getBytes("immagine"))); //cast rimosso
+                immagine.setPic(new ImageIcon(rs.getBytes("immagine")));
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
+
+                byte [] array = rs.getBytes("immagine");
+                File file = File.createTempFile("something-", ".binary", new File("resources/temporaryFiles"));
+                FileOutputStream out = new FileOutputStream( file );
+                out.write( array );
+                out.close();
+                immagine.setFile(file);
+                file.delete();
 
                 immagini.add(immagine);
             }
@@ -89,6 +109,8 @@ public class ImmagineDAO implements IImmagineDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return null;
@@ -111,6 +133,14 @@ public class ImmagineDAO implements IImmagineDAO {
                 immagine.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 immagine.setIdImmagine(rs.getInt("idimmagine"));
 
+                byte [] array = rs.getBytes("immagine");
+                File file = File.createTempFile("something-", ".binary", new File("resources/temporaryFiles"));
+                FileOutputStream out = new FileOutputStream( file );
+                out.write( array );
+                out.close();
+                immagine.setFile(file);
+                file.delete();
+
                 immagini.add(immagine);
             }
             return immagini;
@@ -122,6 +152,8 @@ public class ImmagineDAO implements IImmagineDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
@@ -153,8 +185,6 @@ public class ImmagineDAO implements IImmagineDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
-
 
     //vedi se così funziona
     public int update(File file, Immagine immagine) {
