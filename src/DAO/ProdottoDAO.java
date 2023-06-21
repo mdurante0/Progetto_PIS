@@ -301,7 +301,7 @@ public class ProdottoDAO implements IProdottoDAO {
         else if(prodotto.getCategoria().getNome() == null && prodotto.getProduttore().getNome() != null)
             sql = "UPDATE progetto_pis.prodotto " +
                     "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
-                    "' WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+                    "', categoria_prodotto_idcategoria_prodotto = null WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
             //sia categoria che produttore sono null
         else

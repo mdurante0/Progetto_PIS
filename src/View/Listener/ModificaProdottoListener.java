@@ -2,7 +2,6 @@ package View.Listener;
 
 import Business.*;
 import Business.Results.*;
-import Model.Collocazione;
 import Model.composite.Prodotto;
 import View.DettagliPanel;
 import View.MainFrame;
@@ -74,50 +73,64 @@ public class ModificaProdottoListener implements ActionListener {
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
             else JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+        } else {
+            articoloResult = ArticoloBusiness.getInstance().removeArticoloFromCategoria(prodotto);
+            if(!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)){
+                JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                return;
+            }
         }
 
         //Caricamento Punto Vendita
         PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
         if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
 
-            //Caricamento Magazzino
-            MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
-            prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
-            if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
+            //Rimozione dal vecchio magazzino
+            articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
+            if(articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
 
-                //Rimozione vecchia Collocazione
-                CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
-                if(collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)) {
+                //Caricamento nuovo Magazzino
+                MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
+                prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
+                if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
 
-                    //Inserimento nuova collocazione
-                    Collocazione collocazione = new Collocazione(Integer.parseInt(corsiaField.getText()), Integer.parseInt(scaffaleField.getText()), magazzinoResult.getMagazzini().get(0));
-                    collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(collocazione);
-                    if (collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
-                        prodotto.setCollocazione(collocazione);
+                    //Aggiornamento nuova collocazione
+                    prodotto.getCollocazione().setIdProdotto(prodotto.getIdArticolo());
+                    prodotto.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
+                    prodotto.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
+                    prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
+                    CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().updateCollocazione(prodotto.getCollocazione());
+                    if (collocazioneResult.getResult().equals(CollocazioneResult.Result.UPDATE_OK)) {
 
                         //Aggiornamento Prodotto
                         articoloResult = ArticoloBusiness.getInstance().updateArticolo(prodotto);
                         if (articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)) {
 
-                            //Aggiornamento Prodotto nel Magazzino (collocazione e quantità)
-                            articoloResult = ArticoloBusiness.getInstance().updateProdottoInMagazzino(prodotto, magazzinoResult.getMagazzini().get(0));
-                            if (articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)) {
+                            //Inserimento Prodotto nel nuovo Magazzino (collocazione e quantità)
+                            articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+                            if (articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
 
-                                //Inserimento Immagini
-                                ImmagineResult immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodotto);
-                                if(immagineResult.getResult().equals(ImmagineResult.Result.REMOVE_OK)) {
-                                    for (int i = 0; i < files.size(); i++) {
-                                        immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
-                                        if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
-                                            break;
+                                //Rimozione vecchie Immagini
+                                ImmagineResult immagineResult;
+                                if(prodotto.getImmagini().size() != 0) {
+                                    immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodotto);
+                                    if (!immagineResult.getResult().equals(ImmagineResult.Result.REMOVE_OK)){
+                                        JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
+                                        return;
                                     }
-                                } else JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
-                            } else CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
-                        } else CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
-                        JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                                }
+
+                                //Inserimento delle nuove immagini
+                                for (int i = 0; i < files.size(); i++) {
+                                    immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
+                                    if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
+                                        break;
+                                }
+                            }
+                        }
                     } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
-                } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
-            } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
+                } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
+            } else JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
         } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
 
         this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVenditaResult.getPuntiVendita().get(0)));

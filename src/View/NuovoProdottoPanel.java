@@ -147,7 +147,7 @@ public class NuovoProdottoPanel extends JPanel {
         JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
         immaginiLabel.setFont(bodyFont);
 
-        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
+        immaginiCounterLabel = new JLabel("  Immagini inserite: 0");
         immaginiCounterLabel.setFont(bodyFont);
 
         JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");

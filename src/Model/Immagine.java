@@ -1,10 +1,12 @@
 package Model;
 
 import javax.swing.*;
+import java.io.File;
 
 public class Immagine {
     private int idImmagine;
     private ImageIcon pic = new ImageIcon();
+    private File file;
     private int idArticolo;
 
     public Immagine(ImageIcon pic, int idArticolo) {
@@ -20,6 +22,14 @@ public class Immagine {
 
     public void setPic(ImageIcon pic) {
         this.pic = pic;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public int getIdArticolo() {

@@ -1,8 +1,10 @@
 package View;
 
 import Business.ArticoloBusiness;
+import Business.CollocazioneBusiness;
 import Business.ImmagineBusiness;
 import Business.Results.ArticoloResult;
+import Business.Results.CollocazioneResult;
 import Business.Results.ImmagineResult;
 import Business.SessionManager;
 import Model.*;
@@ -38,7 +40,6 @@ public class DettagliPanel extends JPanel {
 
         ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(articolo.getName());
         if(!result.getListaImmagini().isEmpty()) {
-            articolo.setImmagini(result.getListaImmagini());
             immaginiPanel.setLayout(new FlowLayout());
             articolo.setImmagini(result.getListaImmagini());
 
@@ -61,7 +62,7 @@ public class DettagliPanel extends JPanel {
             this.add(immaginiPanel);
         }
 
-        contentPanel.setLayout(new GridLayout(11,2));
+        contentPanel.setLayout(new GridLayout(0,2));
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
@@ -105,12 +106,15 @@ public class DettagliPanel extends JPanel {
         categoria.setFont(bodyFont);
         contentPanel.add(categoria);
 
-
         //produttore e quantità o fornitore
         JLabel produttoreLabel;
         JLabel produttore;
         JLabel disponibilitaLabel;
         JLabel disponibilita;
+        JLabel corsiaLabel;
+        JLabel corsia;
+        JLabel scaffaleLabel;
+        JLabel scaffale;
         JLabel fornitoreLabel;
         JLabel fornitore;
         if(articolo instanceof IProdotto prodotto){
@@ -131,6 +135,22 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
                 contentPanel.add(new JLabel());
             }
+            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
+            prodotto.setCollocazione(collocazioneResult.getCollocazioni().get(0));
+            corsiaLabel = new JLabel("  Corsia:");
+            corsiaLabel.setFont(bodyFont);
+            contentPanel.add(corsiaLabel);
+            corsia = new JLabel(String.valueOf(prodotto.getCollocazione().getCorsia()));
+            corsia.setFont(bodyFont);
+            contentPanel.add(corsia);
+
+            scaffaleLabel = new JLabel("  Scaffale:");
+            scaffaleLabel.setFont(bodyFont);
+            contentPanel.add(scaffaleLabel);
+            scaffale = new JLabel(String.valueOf(prodotto.getCollocazione().getScaffale()));
+            scaffale.setFont(bodyFont);
+            contentPanel.add(scaffale);
+
             if(u instanceof Cliente) {
                 JLabel selezionaQuantitaLabel = new JLabel("  Seleziona la quantità da acquistare:");
                 selezionaQuantitaLabel.setFont(bodyFont);
@@ -166,9 +186,7 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
             }
         }
-
         contentPanel.add(new JLabel());
-
 
         ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){

@@ -106,6 +106,7 @@ public class CreaNuovoProdottoListener implements ActionListener {
                                 immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
                                 if(!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
                                     break;
+                                else prodotto.getImmagini().get(i).setFile(files.get(i));
                             }
 
                             this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));

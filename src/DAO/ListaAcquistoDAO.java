@@ -8,7 +8,7 @@ import DbInterface.command.WriteOperation;
 import Model.Articolo;
 import Model.ListaAcquisto;
 import Model.Servizio;
-import Model.composite.Prodotto;
+import Model.composite.IProdotto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -321,7 +321,7 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
     @Override
     public int addArticolo(int idListaAcquisto, Articolo articolo){
         String sql;
-        if(articolo instanceof Prodotto prodotto)
+        if(articolo instanceof IProdotto prodotto)
             sql = "INSERT INTO progetto_pis.lista_acquisto_has_articolo " +
                 "(lista_acquisto_idlista_acquisto, articolo_idarticolo, quantita) VALUES ('" +
                 idListaAcquisto + "','" +
@@ -336,7 +336,11 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        rowCount += update(findById(idListaAcquisto));
+
+        return rowCount;
     }
 
     @Override
@@ -370,7 +374,11 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        int rowCount = executor.executeOperation(writeOp).getRowsAffected();
+
+        rowCount += update(findById(idListaAcquisto));
+
+        return rowCount;
     }
 
     @Override

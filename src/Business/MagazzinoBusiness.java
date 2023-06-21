@@ -128,7 +128,7 @@ public class MagazzinoBusiness {
         }else result.getMagazzini().add(magazzino); //Magazzino caricato
 
         result.setResult(MagazzinoResult.Result.MAGAZZINI_CARICATI);
-        result.setMessage("Magazzino caricati correttamente");
+        result.setMessage("Magazzino caricato correttamente");
 
         return result;
     }

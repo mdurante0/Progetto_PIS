@@ -2,10 +2,8 @@ package View;
 
 import Business.ArticoloBusiness;
 import Business.Results.ArticoloResult;
-import Model.*;
-import Model.composite.IProdotto;
-import Model.composite.Prodotto;
-import View.Listener.*;
+import Model.ListaAcquisto;
+import View.Listener.GoToListaAcquistoListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,11 +36,7 @@ public class DettagliListaAcquistoPanel extends JPanel {
         contentPanel.add(nomeLabel);
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
-    /*    contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());*/
 
-        float costoTotale = 0;
         //Articoli
         for (int i = 0; i < listaAcquisto.getArticoli().size(); i++) {
             JLabel articoloLabel = new JLabel("     Articolo:       " + this.listaAcquisto.getArticoli().get(i).getName() );
@@ -51,15 +45,8 @@ public class DettagliListaAcquistoPanel extends JPanel {
             if(!ArticoloBusiness.getInstance().getType(listaAcquisto.getArticoli().get(i)).getResult().equals(ArticoloResult.Result.IS_SERVIZIO)){
                 quantitaLabel.setText("     Quantità articolo:      " + listaAcquisto.getArticoli().get(i).getQuantita() );
                 prezzoLabel.setText ("    Prezzo:    €" + listaAcquisto.getArticoli().get(i).getQuantita()*listaAcquisto.getArticoli().get(i).getPrezzo());
-                costoTotale += listaAcquisto.getArticoli().get(i).getQuantita()*listaAcquisto.getArticoli().get(i).getPrezzo();
 
-
-            }else  {
-                prezzoLabel.setText ("    Prezzo:    €" + listaAcquisto.getArticoli().get(i).getPrezzo());
-                costoTotale += listaAcquisto.getArticoli().get(i).getPrezzo();
-            }
-
-
+            }else prezzoLabel.setText ("    Prezzo:    €" + listaAcquisto.getArticoli().get(i).getPrezzo());
 
             articoloLabel.setFont(bodyFont);
             quantitaLabel.setFont(bodyFont);
@@ -68,10 +55,6 @@ public class DettagliListaAcquistoPanel extends JPanel {
             contentPanel.add(articoloLabel);
             contentPanel.add(quantitaLabel);
             contentPanel.add(prezzoLabel);
-    /*        contentPanel.add(new JLabel());
-            contentPanel.add(new JLabel());
-            contentPanel.add(new JLabel());*/
-
 
         }
         contentPanel.add(new JLabel());
@@ -81,7 +64,7 @@ public class DettagliListaAcquistoPanel extends JPanel {
         contentPanel.add(new JLabel());
 
 
-        JLabel totale = new JLabel("    Totale:   €"+costoTotale);
+        JLabel totale = new JLabel("    Totale:   €" + listaAcquisto.getCostoFinale());
         totale.setFont(bodyFont);
         contentPanel.add(totale);
 

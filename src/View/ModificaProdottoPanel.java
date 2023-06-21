@@ -1,12 +1,15 @@
 package View;
 
 import Business.CategoriaBusiness;
+import Business.CollocazioneBusiness;
 import Business.ProduttoreBusiness;
 import Business.PuntoVenditaBusiness;
 import Business.Results.CategoriaResult;
+import Business.Results.CollocazioneResult;
 import Business.Results.ProduttoreResult;
 import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
+import Model.Immagine;
 import Model.Produttore;
 import Model.PuntoVendita;
 import Model.composite.Prodotto;
@@ -89,11 +92,15 @@ public class ModificaProdottoPanel extends JPanel {
             puntoVenditaBox.setFont(bodyFont);
             puntoVenditaBox.setSelectedItem(puntoVendita.getNome());
 
+            prodotto.setMagazzino(puntoVendita.getMagazzino());
             JLabel puntoVenditaLabel = new JLabel("  Punto vendita in cui vendere il nuovo prodotto:");
             puntoVenditaLabel.setFont(bodyFont);
             puntoVenditaBox.setFont(bodyFont);
             contentPanel.add(puntoVenditaLabel);
             contentPanel.add(puntoVenditaBox);
+
+            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
+            prodotto.setCollocazione(collocazioneResult.getCollocazioni().get(0));
 
             JLabel corsiaLabel = new JLabel("  Corsia:");
             corsiaLabel.setFont(bodyFont);
@@ -148,10 +155,15 @@ public class ModificaProdottoPanel extends JPanel {
             contentPanel.add(categoriaProdottoBox);
         }
 
+        for (Immagine immagine :
+                prodotto.getImmagini()) {
+            files.add(immagine.getFile());
+        }
+
         JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
         immaginiLabel.setFont(bodyFont);
 
-        immaginiCounterLabel = new JLabel("  Immagini inserite: " + files.size());
+        immaginiCounterLabel = new JLabel("  Immagini inserite: " + prodotto.getImmagini().size());
         immaginiCounterLabel.setFont(bodyFont);
 
         JButton aggiungiImmagineButton = new JButton("Aggiungi immagine");

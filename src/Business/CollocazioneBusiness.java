@@ -34,7 +34,7 @@ public class CollocazioneBusiness {
         }else result.setCollocazioni(collocazioni); //Collocazioni caricate
 
         result.setResult(CollocazioneResult.Result.COLLOCAZIONI_CARICATE);
-        result.setMessage("Magazzini caricati correttamente");
+        result.setMessage("Collocazioni caricate correttamente");
 
         return result;
     }
@@ -93,13 +93,6 @@ public class CollocazioneBusiness {
         CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
         CollocazioneResult result = new CollocazioneResult();
 
-        //Verifica esistenza collocazione
-        if (collocazioneDAO.isFree(collocazione)){
-            result.setResult(CollocazioneResult.Result.COLLOCAZIONE_LIBERA);
-            result.setMessage("La collocazione da rimuovere non esiste! Riprova");
-            return result;
-        }
-
         //rimozione della collocazione
         int removed = collocazioneDAO.removeById(collocazione.getIdCollocazione());
         if(removed == 0){ //collocazione non rimossa
@@ -135,7 +128,26 @@ public class CollocazioneBusiness {
         }else result.setCollocazioni(collocazioni); //Collocazioni caricate
 
         result.setResult(CollocazioneResult.Result.COLLOCAZIONI_CARICATE);
-        result.setMessage("Magazzini caricati correttamente");
+        result.setMessage("Collocazioni caricate correttamente");
+
+        return result;
+    }
+    public CollocazioneResult caricaCollocazioneById(int idCollocazione){
+        CollocazioneResult result = new CollocazioneResult();
+
+        CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+
+        Collocazione collocazione = collocazioneDAO.findById(idCollocazione);
+
+        if(collocazione == null){ //Collocazione non trovata
+            result.setResult(CollocazioneResult.Result.COLLOCAZIONE_ERROR);
+            result.setMessage("Collocazione non trovata!");
+            return result;
+
+        }else result.getCollocazioni().add(collocazione); //Collocazione caricata
+
+        result.setResult(CollocazioneResult.Result.COLLOCAZIONI_CARICATE);
+        result.setMessage("Collocazione caricata correttamente");
 
         return result;
     }

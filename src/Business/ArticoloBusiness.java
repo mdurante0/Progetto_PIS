@@ -2,9 +2,7 @@ package Business;
 
 import Business.Results.ArticoloResult;
 import DAO.*;
-import Model.Articolo;
-import Model.Magazzino;
-import Model.Servizio;
+import Model.*;
 import Model.composite.IProdotto;
 import Model.composite.Prodotto;
 import Model.composite.ProdottoComposito;
@@ -177,18 +175,8 @@ public class ArticoloBusiness {
 
     public ArticoloResult removeProdottoFromMagazzino(IProdotto p, int idMagazzino){
 
-        ProdottoDAO pDao = ProdottoDAO.getInstance();
         MagazzinoDAO mDao = MagazzinoDAO.getInstance();
         ArticoloResult result = new ArticoloResult();
-
-        //Verifica esistenza articolo
-        p = pDao.findByName(p.getName());
-        boolean prodottoExists = p != null;
-        if (!prodottoExists){
-            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
-            result.setMessage("L'articolo da rimuovere non esiste! Riprova");
-            return result;
-        }
 
         int removed = mDao.removeProdotto(idMagazzino,p);
         if(removed == 0){ //articolo non rimosso
@@ -255,12 +243,15 @@ public class ArticoloBusiness {
         }
 
         int rimossa;
-        a.setCategoria(null);
+
         if(a instanceof IProdotto p) {
             ProdottoDAO pDao = ProdottoDAO.getInstance();
+            a.setCategoria(new CategoriaProdotto());
+            p.setCategoria(new CategoriaProdotto());
             rimossa = pDao.update(p);
         } else  {
             ServizioDAO sDao = ServizioDAO.getInstance();
+            a.setCategoria(new CategoriaServizio());
             Servizio s = (Servizio) a;
             rimossa = sDao.update(s);
         }

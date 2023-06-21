@@ -101,8 +101,11 @@ public class ListaAcquisto {
 
     public float getCostoFinale() {
         this.costoFinale=0F;
-        for (Articolo a : articoli)
-            costoFinale += a.getPrezzo();
+        for (Articolo a : articoli) {
+            if (!(a instanceof Servizio))
+                costoFinale += a.getPrezzo() * a.getQuantita();
+            else costoFinale += a.getPrezzo();
+        }
         return costoFinale;
     }
 
