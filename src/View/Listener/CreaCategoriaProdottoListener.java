@@ -52,8 +52,7 @@ public class CreaCategoriaProdottoListener implements ActionListener {
 
             }
 
-        }
-        JOptionPane.showMessageDialog(this.frame, "Attenzione: il campo deve contenere almeno un nome!");
+        } else JOptionPane.showMessageDialog(this.frame, "Attenzione: il campo deve contenere almeno un nome!");
     }
 
 }

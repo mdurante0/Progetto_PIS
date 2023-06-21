@@ -117,13 +117,17 @@ public class DettagliPanel extends JPanel {
         JLabel scaffale;
         JLabel fornitoreLabel;
         JLabel fornitore;
+        
+        Collocazione collocazione = new Collocazione();
         if(articolo instanceof IProdotto prodotto){
-            disponibilitaLabel = new JLabel("  Disponibilità:");
-            disponibilitaLabel.setFont(bodyFont);
-            contentPanel.add(disponibilitaLabel);
-            disponibilita = new JLabel(String.valueOf(prodotto.getQuantita()));
-            disponibilita.setFont(bodyFont);
-            contentPanel.add(disponibilita);
+            if(puntoVendita != null) {
+                disponibilitaLabel = new JLabel("  Disponibilità:");
+                disponibilitaLabel.setFont(bodyFont);
+                contentPanel.add(disponibilitaLabel);
+                disponibilita = new JLabel(String.valueOf(prodotto.getQuantita()));
+                disponibilita.setFont(bodyFont);
+                contentPanel.add(disponibilita);
+            }
             if(prodotto.getProduttore().getNome() != null) {
                 produttoreLabel = new JLabel("  Produttore:");
                 produttoreLabel.setFont(bodyFont);
@@ -135,22 +139,25 @@ public class DettagliPanel extends JPanel {
                 contentPanel.add(new JLabel());
                 contentPanel.add(new JLabel());
             }
-            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
-            prodotto.setCollocazione(collocazioneResult.getCollocazioni().get(0));
-            corsiaLabel = new JLabel("  Corsia:");
-            corsiaLabel.setFont(bodyFont);
-            contentPanel.add(corsiaLabel);
-            corsia = new JLabel(String.valueOf(prodotto.getCollocazione().getCorsia()));
-            corsia.setFont(bodyFont);
-            contentPanel.add(corsia);
+            if (puntoVendita != null) {
+                CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
+                collocazione = collocazioneResult.getCollocazioni().get(0);
 
-            scaffaleLabel = new JLabel("  Scaffale:");
-            scaffaleLabel.setFont(bodyFont);
-            contentPanel.add(scaffaleLabel);
-            scaffale = new JLabel(String.valueOf(prodotto.getCollocazione().getScaffale()));
-            scaffale.setFont(bodyFont);
-            contentPanel.add(scaffale);
+                prodotto.setCollocazione(collocazione);
+                corsiaLabel = new JLabel("  Corsia:");
+                corsiaLabel.setFont(bodyFont);
+                contentPanel.add(corsiaLabel);
+                corsia = new JLabel(String.valueOf(prodotto.getCollocazione().getCorsia()));
+                corsia.setFont(bodyFont);
+                contentPanel.add(corsia);
 
+                scaffaleLabel = new JLabel("  Scaffale:");
+                scaffaleLabel.setFont(bodyFont);
+                contentPanel.add(scaffaleLabel);
+                scaffale = new JLabel(String.valueOf(prodotto.getCollocazione().getScaffale()));
+                scaffale.setFont(bodyFont);
+                contentPanel.add(scaffale);
+            }
             if(u instanceof Cliente) {
                 JLabel selezionaQuantitaLabel = new JLabel("  Seleziona la quantità da acquistare:");
                 selezionaQuantitaLabel.setFont(bodyFont);
@@ -190,6 +197,8 @@ public class DettagliPanel extends JPanel {
 
         ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
+            if(puntoVendita != null)
+                pc.setCollocazione(collocazione);
             pc.setQuantita(articolo.getQuantita());
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
@@ -238,6 +247,10 @@ public class DettagliPanel extends JPanel {
         }
 
         JButton backButton = new JButton("Torna al catalogo");
+        if(articolo instanceof IProdotto)
+            backButton.setActionCommand(GoToCatalogoListener.PRODOTTI);
+        else if (articolo instanceof Servizio)
+            backButton.setActionCommand(GoToCatalogoListener.SERVIZI);
         backButton.addActionListener(new GoToCatalogoListener(this.frame, puntoVendita));
         backButton.setFont(bodyFont);
 

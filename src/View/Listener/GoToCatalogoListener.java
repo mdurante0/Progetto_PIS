@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 public class GoToCatalogoListener implements ActionListener {
     private MainFrame frame;
     private PuntoVendita puntoVendita;
+    public static final String PRODOTTI = "prodotti";
+    public static final String SERVIZI = "servizi";
     public GoToCatalogoListener(MainFrame frame, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.puntoVendita = puntoVendita;
@@ -22,9 +24,10 @@ public class GoToCatalogoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(puntoVendita != null)
+        if(puntoVendita != null && e.getActionCommand().equals(PRODOTTI))
             this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
-        else
+        else if (e.getActionCommand().equals(SERVIZI))
             this.frame.mostraPannelloAttuale(new CatalogoServiziPanel(this.frame));
+        else this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, null));
     }
 }

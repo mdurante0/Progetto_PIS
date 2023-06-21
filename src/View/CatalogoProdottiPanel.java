@@ -1,5 +1,6 @@
 package View;
 
+import Business.CatalogoBusiness;
 import Business.SessionManager;
 import Model.Amministratore;
 import Model.Articolo;
@@ -26,7 +27,12 @@ public class CatalogoProdottiPanel extends JPanel {
 
     public CatalogoProdottiPanel(MainFrame frame, PuntoVendita puntoVendita) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Catalogo di " + puntoVendita.getNome());
+
+        JLabel titleLabel;
+        if(puntoVendita != null)
+            titleLabel= new JLabel("Catalogo di " + puntoVendita.getNome());
+        else titleLabel = new JLabel("Tutti i prodotti");
+
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -34,7 +40,11 @@ public class CatalogoProdottiPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         ArrayList<RigaCatalogo> righe = new ArrayList<>();
-        ArrayList<IProdotto> prodotti = puntoVendita.getMagazzino().getProdotti();
+        ArrayList<IProdotto> prodotti;
+        if(puntoVendita != null)
+            prodotti = puntoVendita.getMagazzino().getProdotti();
+        else prodotti = CatalogoBusiness.getInstance().caricaCatalogoProdotti().getListaProdotti();
+
         for(int i = 0 ; i < prodotti.size(); i++){
             RigaCatalogo riga = new RigaCatalogo();
             IProdotto p = prodotti.get(i);

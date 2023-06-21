@@ -6,10 +6,9 @@ import Business.Results.CategoriaResult;
 import Business.Results.FornitoreResult;
 import Model.CategoriaServizio;
 import Model.Fornitore;
+import Model.Immagine;
 import Model.Servizio;
-import View.Listener.CreaNuovoServizioListener;
-import View.Listener.GoToMenuListener;
-import View.Listener.ImmaginiListener;
+import View.Listener.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,6 +101,11 @@ public class ModificaServizioPanel extends JPanel {
             contentPanel.add(categoriaServizioBox);
         }
 
+        for (Immagine immagine :
+                servizio.getImmagini()) {
+            files.add(immagine.getFile());
+        }
+
         JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
         immaginiLabel.setFont(bodyFont);
 
@@ -120,12 +124,12 @@ public class ModificaServizioPanel extends JPanel {
 
         JButton aggiungiButton = new JButton("Modifica servizio");
         aggiungiButton.setFont(bodyFont);
-        aggiungiButton.addActionListener(new CreaNuovoServizioListener(this.frame, nomeServizioField, descrizioneField, prezzoField, fornitoreBox, categoriaServizioBox, files));
+        aggiungiButton.addActionListener(new ModificaServizioListener(this.frame, nomeServizioField, descrizioneField, prezzoField, fornitoreBox, categoriaServizioBox, files, servizio));
 
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);
-        backButton.addActionListener(new GoToMenuListener(this.frame));
+        backButton.addActionListener(new GoToDettagliListener(this.frame, servizio));
 
         contentPanel.add(immaginiLabel);
         contentPanel.add(aggiungiImmagineButton);

@@ -55,7 +55,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 out.write( array );
                 out.close();
                 immagine.setFile(file);
-                file.delete();
+                file.deleteOnExit();
 
                 return immagine;
             }
@@ -96,7 +96,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 out.write( array );
                 out.close();
                 immagine.setFile(file);
-                file.delete();
+                file.deleteOnExit();
 
                 immagini.add(immagine);
             }
@@ -139,7 +139,7 @@ public class ImmagineDAO implements IImmagineDAO {
                 out.write( array );
                 out.close();
                 immagine.setFile(file);
-                file.delete();
+                file.deleteOnExit();
 
                 immagini.add(immagine);
             }

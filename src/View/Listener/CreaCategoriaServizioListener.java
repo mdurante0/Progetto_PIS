@@ -37,7 +37,7 @@ public class CreaCategoriaServizioListener implements ActionListener {
             JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
 
         }
-        JOptionPane.showMessageDialog(this.frame, "Attenzione: il campo deve contenere almeno un nome!");
+        else JOptionPane.showMessageDialog(this.frame, "Attenzione: il campo deve contenere almeno un nome!");
 
     }
 

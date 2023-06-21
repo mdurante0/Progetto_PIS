@@ -261,7 +261,7 @@ public class ServizioDAO implements IServizioDAO {
 
         String sql;
 
-        if(servizio.getCategoria() != null)
+        if(servizio.getCategoria().getNome() != null)
             sql = "UPDATE progetto_pis.servizio " +
                     "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
                     "', categoria_servizio_idcategoria_servizio = '" + servizio.getCategoria().getIdCategoria() +
@@ -269,7 +269,8 @@ public class ServizioDAO implements IServizioDAO {
         else
             sql = "UPDATE progetto_pis.servizio " +
                     "SET fornitore_idfornitore= '" + servizio.getFornitore().getIdFornitore() +
-                    "' WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
+                    "', categoria_servizio_idcategoria_servizio = null" +
+                    " WHERE articolo_idarticolo = '" + servizio.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

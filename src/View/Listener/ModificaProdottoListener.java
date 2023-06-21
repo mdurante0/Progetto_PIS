@@ -73,7 +73,7 @@ public class ModificaProdottoListener implements ActionListener {
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
             else JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
-        } else {
+        } else if (prodotto.getCategoria().getNome() != null){
             articoloResult = ArticoloBusiness.getInstance().removeArticoloFromCategoria(prodotto);
             if(!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)){
                 JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
@@ -133,6 +133,7 @@ public class ModificaProdottoListener implements ActionListener {
             } else JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
         } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
 
+        JOptionPane.showMessageDialog(this.frame, "Prodotto modificato con successo");
         this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVenditaResult.getPuntiVendita().get(0)));
     }
 }

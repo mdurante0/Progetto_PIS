@@ -42,6 +42,7 @@ public class MenuPuntiVenditaPanel extends JPanel {
 
             for (PuntoVendita puntovendita : result.getPuntiVendita()) {
                 JButton puntoVenditaButton = new JButton(puntovendita.getNome());
+                puntoVenditaButton.setActionCommand(GoToCatalogoListener.PRODOTTI);
                 puntoVenditaButton.addActionListener(new GoToCatalogoListener(this.frame, puntovendita));
 
                 JLabel puntoVenditaLabel = new JLabel("  Punto vendita in " + puntovendita.getIndirizzo() + ":");
@@ -52,6 +53,16 @@ public class MenuPuntiVenditaPanel extends JPanel {
                 centerPanel.add(puntoVenditaButton);
             }
         }
+
+        JLabel tuttiIProdottiLabel = new JLabel("  Visualizza tutti i prodotti:");
+        tuttiIProdottiLabel.setFont(bodyFont);
+
+        JButton tuttiIProdottiButton = new JButton("Tutti i prodotti");
+        tuttiIProdottiButton.setFont(bodyFont);
+        tuttiIProdottiButton.setActionCommand(GoToCatalogoListener.PRODOTTI);
+        tuttiIProdottiButton.addActionListener(new GoToCatalogoListener(this.frame));
+        centerPanel.add(tuttiIProdottiLabel);
+        centerPanel.add(tuttiIProdottiButton);
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 

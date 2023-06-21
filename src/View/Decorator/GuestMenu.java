@@ -16,6 +16,7 @@ public class GuestMenu extends Menu {
         JButton sfogliaCatalogoProdotti = new JButton("Sfoglia catalogo prodotti");
         sfogliaCatalogoProdotti.addActionListener(new SfogliaCatalogoProdottiListener(this.frame));
         JButton sfogliaCatalogoServizi = new JButton("Sfoglia catalogo servizi");
+        sfogliaCatalogoServizi.setActionCommand(GoToCatalogoListener.SERVIZI);
         sfogliaCatalogoServizi.addActionListener(new GoToCatalogoListener(this.frame));
 
         pulsanti.add(sfogliaCatalogoProdotti);
