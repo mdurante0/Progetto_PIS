@@ -7,6 +7,7 @@ import Business.Results.PuntoVenditaResult;
 import Model.*;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
+import View.Listener.RemoveListaAcquistoListener;
 import View.ViewModel.ListaAcquistoTableModel;
 import View.ViewModel.RigaListaAcquisto;
 
@@ -46,9 +47,10 @@ public class MostraListeAcquistoPanel extends JPanel {
                     riga.setDettagliButton(DettagliButton);
                     riga.setEliminaButton(eliminaButton);
 
-                    righe.add(riga);
+                    eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(i)));
+                    //aggiungere action Listener dettagliButton
 
-                //aggiungere action listener
+                    righe.add(riga);
 
             }
 
@@ -75,11 +77,12 @@ public class MostraListeAcquistoPanel extends JPanel {
                     riga.setNomeLista(listeAcquisto.get(j).getNome());
                     riga.setPagata(pagataButton);
                     riga.setEliminaButton(eliminaButton);
-                    j++;
+
+                    eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
+                    // aggiungere action Listener pagata Button
+
                     righe.add(riga);
                 }
-                //aggiungere action listener
-
             }
 
         }
@@ -102,10 +105,12 @@ public class MostraListeAcquistoPanel extends JPanel {
                     riga.setNomeLista(listeAcquisto.get(j).getNome());
                     riga.setPagata(pagataButton);
                     riga.setEliminaButton(eliminaButton);
-                    j++;
+
+                    eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
+                    //aggiungere action listener pagataButton
+
                     righe.add(riga);
                 }
-                //aggiungere action listener
 
             }
         }
