@@ -23,7 +23,7 @@ public class VisualizzaListaAcquistoPanel extends JPanel {
 
     public VisualizzaListaAcquistoPanel(MainFrame frame, ListaAcquisto listaAcquisto) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Liste di acquisto:  "+listaAcquisto.getNome());
+        JLabel titleLabel = new JLabel("Lista di acquisto:  "+listaAcquisto.getNome());
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
