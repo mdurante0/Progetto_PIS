@@ -4,6 +4,8 @@ package View;
 import Model.Articolo;
 import Model.Feedback;
 import Model.PuntoVendita;
+import Model.composite.ProdottoComposito;
+import View.Listener.AggiungiRispostaFeedbackListener;
 import View.Listener.GoToFeedbackListener;
 
 import javax.swing.*;
@@ -17,7 +19,7 @@ public class CreaRispostaFeedbackProdottoPanel extends JPanel {
     private JTextArea rispostaField;
 
 
-    public CreaRispostaFeedbackProdottoPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
+    public CreaRispostaFeedbackProdottoPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita, ProdottoComposito prodottoComposito, Feedback f) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -30,25 +32,18 @@ public class CreaRispostaFeedbackProdottoPanel extends JPanel {
         contentPanel.setLayout(new GridLayout(4,2));
         JLabel categoriaLabel = new JLabel("  Risposta:");
 
-
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 15);
         categoriaLabel.setFont(bodyFont);
 
-
         rispostaField = new JTextArea();
-
-
-
         rispostaField.setFont(bodyFont);
 
-
         JButton aggiungiRispostaButton = new JButton("Aggiungi");
+        aggiungiRispostaButton.addActionListener(new AggiungiRispostaFeedbackListener(this.frame, rispostaField, articolo, puntoVendita, prodottoComposito,f));
         aggiungiRispostaButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToFeedbackListener(this.frame, articolo,puntoVendita));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(categoriaLabel);
         contentPanel.add(rispostaField);

@@ -59,7 +59,7 @@ public class FeedbackPanel extends JPanel {
             riga.setPunteggio(f.getGradimento());
             riga.setRisposta(f.getRisposta());
             riga.setRispondi(rispondiButton);
-            rispondiButton.addActionListener(new GoToCreaRispostaFeedbackListener(this.frame, articolo, puntoVendita));
+            rispondiButton.addActionListener(new GoToCreaRispostaFeedbackListener(this.frame, articolo, puntoVendita, prodottoComposito, f));
 
             righe.add(riga);
         }

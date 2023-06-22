@@ -18,10 +18,10 @@ public class AggiungiFeedbackListener implements ActionListener {
     private JPanel contentPanel = new JPanel();
     private JComboBox gradimentoField;
     private JTextArea commentoField;
-    Articolo articolo;
-    Cliente cliente;
-    PuntoVendita puntoVendita;
-    ProdottoComposito prodottoComposito;
+    private Articolo articolo;
+    private Cliente cliente;
+    private PuntoVendita puntoVendita;
+    private ProdottoComposito prodottoComposito;
     private Feedback feedback = new Feedback();
 
     public AggiungiFeedbackListener(MainFrame frame, JComboBox gradimentoField, JTextArea commentoField, Articolo articolo, Cliente cliente, PuntoVendita puntoVendita, ProdottoComposito prodottoComposito) {
