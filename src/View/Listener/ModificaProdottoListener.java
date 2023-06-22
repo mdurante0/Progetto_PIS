@@ -2,6 +2,7 @@ package View.Listener;
 
 import Business.*;
 import Business.Results.*;
+import Model.PuntoVendita;
 import Model.composite.Prodotto;
 import View.DettagliPanel;
 import View.MainFrame;
@@ -43,12 +44,9 @@ public class ModificaProdottoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try{
-            Integer.parseInt(quantitaField.getText());
+        try {
             Float.parseFloat(prezzoField.getText());
-            Integer.parseInt(corsiaField.getText());
-            Integer.parseInt(scaffaleField.getText());
-        } catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
             return;
         }
@@ -57,83 +55,145 @@ public class ModificaProdottoListener implements ActionListener {
         prodotto.setName(nomeProdottoField.getText());
         prodotto.setDescrizione(descrizioneField.getText());
         prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
-        prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+
 
         //Caricamento Produttore
-        if(produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()){
+        if (produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()) {
             ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttoreBox.getSelectedItem().toString());
+
             if (produttoreResult.getResult().equals(ProduttoreResult.Result.PRODUTTORI_CARICATI))
                 prodotto.setProduttore(produttoreResult.getProduttori().get(0));
-            else JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
+            else {
+                JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
+                return;
+            }
         }
 
         //Caricamento Categoria
-        if(categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank() ) {
+        if (categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
+
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
-            else JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
-        } else if (prodotto.getCategoria().getNome() != null){
+            else{
+                JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+                return;
+            }
+
+        } else if (prodotto.getCategoria().getNome() != null) {
             articoloResult = ArticoloBusiness.getInstance().removeArticoloFromCategoria(prodotto);
-            if(!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)){
+
+            if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
                 JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
                 return;
             }
         }
 
+        //Aggiornamento Prodotto
+        articoloResult = ArticoloBusiness.getInstance().updateArticolo(prodotto);
+        if (!articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)) {
+            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+            return;
+        }
+
+        //Rimozione vecchie Immagini
+        ImmagineResult immagineResult;
+        if (prodotto.getImmagini().size() != 0) {
+            immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodotto);
+            if (!immagineResult.getResult().equals(ImmagineResult.Result.REMOVE_OK)) {
+                JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
+                return;
+            }
+        }
+        //Inserimento delle nuove immagini
+        for (File file : files) {
+            immagineResult = ImmagineBusiness.getInstance().addImmagine(file, prodotto.getIdArticolo());
+            if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK)) {
+                JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
+                return;
+            }
+        }
+
         //Caricamento Punto Vendita
-        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
-        if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
+        PuntoVenditaResult puntoVenditaResult;
+        if (puntoVenditaBox.getSelectedItem() != null && !puntoVenditaBox.getSelectedItem().toString().isBlank()) {
 
-            //Rimozione dal vecchio magazzino
-            articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
-            if(articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
-
+            puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
+            if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
+                PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
+                //Rimozione dal vecchio magazzino
+                if(prodotto.getMagazzino().getIndirizzo() != null) {
+                    articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
+                    if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
+                        JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                        return;
+                    }
+                }
                 //Caricamento nuovo Magazzino
-                MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
+                MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVendita);
                 prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
                 if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
 
-                    //Aggiornamento nuova collocazione
+                    try {
+                        Integer.parseInt(quantitaField.getText());
+                        Integer.parseInt(corsiaField.getText());
+                        Integer.parseInt(scaffaleField.getText());
+                    } catch (NumberFormatException exception) {
+                        JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+                        return;
+                    }
+                    prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+
+                    //Aggiornamento collocazione
+                    CollocazioneResult collocazioneResult;
                     prodotto.getCollocazione().setIdProdotto(prodotto.getIdArticolo());
                     prodotto.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
                     prodotto.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
-                    prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
-                    CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().updateCollocazione(prodotto.getCollocazione());
-                    if (collocazioneResult.getResult().equals(CollocazioneResult.Result.UPDATE_OK)) {
 
-                        //Aggiornamento Prodotto
-                        articoloResult = ArticoloBusiness.getInstance().updateArticolo(prodotto);
-                        if (articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)) {
+                    if(prodotto.getCollocazione().getMagazzino() == null){
+                        prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
+                        collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(prodotto.getCollocazione());
+                    }else {
+                        prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
+                        collocazioneResult = CollocazioneBusiness.getInstance().updateCollocazione(prodotto.getCollocazione());
+                    }
+                    if (collocazioneResult.getResult().equals(CollocazioneResult.Result.UPDATE_OK) || collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
 
-                            //Inserimento Prodotto nel nuovo Magazzino (collocazione e quantità)
-                            articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
-                            if (articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
-
-                                //Rimozione vecchie Immagini
-                                ImmagineResult immagineResult;
-                                if(prodotto.getImmagini().size() != 0) {
-                                    immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodotto);
-                                    if (!immagineResult.getResult().equals(ImmagineResult.Result.REMOVE_OK)){
-                                        JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
-                                        return;
-                                    }
-                                }
-
-                                //Inserimento delle nuove immagini
-                                for (int i = 0; i < files.size(); i++) {
-                                    immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
-                                    if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
-                                        break;
-                                }
+                        //Inserimento Prodotto nel nuovo Magazzino (collocazione e quantità)
+                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+                        if (!articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
+                            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                            collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
+                            if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
+                                JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
+                                return;
                             }
+                        } else {
+                            JOptionPane.showMessageDialog(this.frame, "Prodotto inserito con successo in " + puntoVendita.getNome());
+                            puntoVendita.getMagazzino().add(prodotto);
+                            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVendita));
                         }
                     } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
                 } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
             } else JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
-        } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
+
+        } else if (prodotto.getMagazzino().getIndirizzo() != null){
+
+            //Rimozione dal magazzino
+            articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
+            if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
+                JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                return;
+            }
+            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
+            if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
+                JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
+                return;
+            }
+            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, null));
+
+        }else this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, null));
 
         JOptionPane.showMessageDialog(this.frame, "Prodotto modificato con successo");
-        this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVenditaResult.getPuntiVendita().get(0)));
     }
 }

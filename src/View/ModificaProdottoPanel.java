@@ -64,12 +64,12 @@ public class ModificaProdottoPanel extends JPanel {
         nomeProdottoField = new JTextField(prodotto.getName(),20);
         descrizioneField = new JTextField(prodotto.getDescrizione(), 20);
         prezzoField = new JTextField(String.valueOf(prodotto.getPrezzo()),20);
-        quantitaField = new JTextField(String.valueOf(prodotto.getQuantita()),20);
+
 
         nomeProdottoField.setFont(bodyFont);
         descrizioneField.setFont(bodyFont);
         prezzoField.setFont(bodyFont);
-        quantitaField.setFont(bodyFont);
+
 
         contentPanel.add(nomeProdottoLabel);
         contentPanel.add(nomeProdottoField);
@@ -77,41 +77,49 @@ public class ModificaProdottoPanel extends JPanel {
         contentPanel.add(descrizioneField);
         contentPanel.add(prezzoLabel);
         contentPanel.add(prezzoField);
-        contentPanel.add(quantitaLabel);
-        contentPanel.add(quantitaField);
 
         PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
+        CollocazioneResult collocazioneResult;
         if (puntoVenditaResult.getPuntiVendita() != null) {
             Iterator<PuntoVendita> iterator = puntoVenditaResult.getPuntiVendita().iterator();
-            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size()];
+            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size() + 1];
             for (int i = 0; i < puntoVenditaResult.getPuntiVendita().size(); i++) {
                 nomiPV[i] = iterator.next().getNome();
             }
             puntoVenditaBox = new JComboBox<>(nomiPV);
             puntoVenditaBox.setFocusable(false);
             puntoVenditaBox.setFont(bodyFont);
-            puntoVenditaBox.setSelectedItem(puntoVendita.getNome());
 
-            prodotto.setMagazzino(puntoVendita.getMagazzino());
-            JLabel puntoVenditaLabel = new JLabel("  Punto vendita in cui vendere il nuovo prodotto:");
+            if(puntoVendita != null) {
+                puntoVenditaBox.setSelectedItem(puntoVendita.getNome());
+                prodotto.setMagazzino(puntoVendita.getMagazzino());
+                quantitaField = new JTextField(String.valueOf(prodotto.getQuantita()),20);
+                collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
+                prodotto.setCollocazione(collocazioneResult.getCollocazioni().get(0));
+                corsiaField = new JTextField(String.valueOf(prodotto.getCollocazione().getCorsia()),20);
+                scaffaleField = new JTextField(String.valueOf(prodotto.getCollocazione().getScaffale()),20);
+            } else {
+                quantitaField = new JTextField(20);
+                corsiaField = new JTextField(20);
+                scaffaleField = new JTextField(20);
+            }
+            JLabel puntoVenditaLabel = new JLabel("  Punto vendita in cui vendere il prodotto:");
             puntoVenditaLabel.setFont(bodyFont);
             puntoVenditaBox.setFont(bodyFont);
+            quantitaField.setFont(bodyFont);
+            contentPanel.add(quantitaLabel);
+            contentPanel.add(quantitaField);
             contentPanel.add(puntoVenditaLabel);
             contentPanel.add(puntoVenditaBox);
 
-            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().caricaCollocazioneById(prodotto.getCollocazione().getIdCollocazione());
-            prodotto.setCollocazione(collocazioneResult.getCollocazioni().get(0));
-
             JLabel corsiaLabel = new JLabel("  Corsia:");
             corsiaLabel.setFont(bodyFont);
-            corsiaField = new JTextField(String.valueOf(prodotto.getCollocazione().getCorsia()),20);
             corsiaField.setFont(bodyFont);
             contentPanel.add(corsiaLabel);
             contentPanel.add(corsiaField);
 
             JLabel scaffaleLabel = new JLabel("  Scaffale:");
             scaffaleLabel.setFont(bodyFont);
-            scaffaleField = new JTextField(String.valueOf(prodotto.getCollocazione().getScaffale()),20);
             scaffaleField.setFont(bodyFont);
             contentPanel.add(scaffaleLabel);
             contentPanel.add(scaffaleField);
@@ -159,7 +167,6 @@ public class ModificaProdottoPanel extends JPanel {
                 prodotto.getImmagini()) {
             files.add(immagine.getFile());
         }
-
         JLabel immaginiLabel = new JLabel("  Aggiungi le immagini:");
         immaginiLabel.setFont(bodyFont);
 
