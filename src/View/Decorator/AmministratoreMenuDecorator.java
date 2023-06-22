@@ -28,7 +28,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         JButton produttore = new JButton("Produttori");
         JButton fornitore = new JButton("Fornitori");
         JButton puntoVendita = new JButton("Punti Vendita");
-        JButton manager = new JButton("Manager");
+        JButton manager = new JButton("Mostra Manager");
         JButton magazziniButton = new JButton("Magazzini");
 
         //action command, listener...

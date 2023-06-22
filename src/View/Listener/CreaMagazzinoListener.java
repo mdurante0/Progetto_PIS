@@ -28,6 +28,14 @@ public class CreaMagazzinoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        try{
+            Integer.parseInt(quantitaCorsieField.getText());
+            Integer.parseInt(quantitaScaffaliField.getText());
+        } catch (NumberFormatException exception){
+            JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+            return;
+        }
+
         magazzino.setIndirizzo(indirizzoField.getText());
         magazzino.setQuantitaCorsie(Integer.parseInt(quantitaCorsieField.getText()));
         magazzino.setQuantitaScaffali(Integer.parseInt(quantitaScaffaliField.getText()));

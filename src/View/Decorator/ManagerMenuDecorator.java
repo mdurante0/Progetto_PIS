@@ -1,5 +1,6 @@
 package View.Decorator;
 
+import View.Listener.GoToMostraClientiListener;
 import View.MainFrame;
 
 import javax.swing.*;
@@ -21,7 +22,8 @@ public class ManagerMenuDecorator extends CustomMenuDecorator {
         // + le funzioni del manager
         JButton clienti = new JButton("Mostra clienti");
 
-        //action command, listener...
+        clienti.addActionListener(new GoToMostraClientiListener(this.frame));
+
 
         //add pulsanti
         pulsanti.add(clienti);

@@ -18,27 +18,10 @@ public class ClienteBusiness {
         }
         return instance;
     }
-    public ClienteResult abilitazioneCliente (String clienteUsername, int idManager, boolean abilitazione){
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+    public ClienteResult abilitazioneCliente (Cliente cliente, boolean abilitazione){
         ClienteDAO clienteDAO = ClienteDAO.getInstance();
         ClienteResult result = new ClienteResult();
 
-        //Verifico l'esistenza del cliente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(ClienteResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente non esiste! Riprova!");
-            return result;
-        }
-
-        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
-        //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
-        if(!clienteDAO.isGestibile(cliente,idManager)){
-            result.setResult(ClienteResult.Result.ABILITAZIONE_ERROR);
-            result.setMessage("Il cliente indicato è registrato in un altro punto vendita! Riprova!");
-            return result;
-        }
-
-        cliente = clienteDAO.findByUsername(cliente.getUsername());
         //Aggiorno l'abilitazione del cliente
         cliente.setAbilitazione(abilitazione);
         int aggiornato = clienteDAO.update(cliente);
@@ -54,25 +37,10 @@ public class ClienteBusiness {
         return result;
     }
 
-    public ClienteResult rimuoviCliente(String clienteUsername, int idManager){
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
+    public ClienteResult rimuoviCliente(Cliente cliente){
         ClienteDAO clienteDAO = ClienteDAO.getInstance();
         ClienteResult result = new ClienteResult();
 
-        //Verifico l'esistenza del cliente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(ClienteResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente non esiste! Riprova!");
-            return result;
-        }
-
-        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
-        //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
-        if(!clienteDAO.isGestibile(cliente,idManager)){
-            result.setResult(ClienteResult.Result.RIMOZIONE_ERROR);
-            result.setMessage("Il cliente indicato è registrato in un altro punto vendita! Riprova!");
-            return result;
-        }
 
         //Rimozione del cliente
         int rimosso = clienteDAO.removeById(cliente.getUsername());
