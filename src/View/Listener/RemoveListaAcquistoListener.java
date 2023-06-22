@@ -32,6 +32,8 @@ public class RemoveListaAcquistoListener implements ActionListener {
 
             }
             JOptionPane.showMessageDialog(this.frame, result.getMessage());
+            frame.repaint();
+            frame.revalidate();
         }
     }
 }

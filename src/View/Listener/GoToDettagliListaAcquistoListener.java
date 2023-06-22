@@ -2,8 +2,8 @@ package View.Listener;
 
 
 import Model.ListaAcquisto;
-import View.DettagliListaAcquistoPanel;
 import View.MainFrame;
+import View.VisualizzaListaAcquistoPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +20,6 @@ public class GoToDettagliListaAcquistoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new DettagliListaAcquistoPanel(this.frame, listaAcquisto));
+        this.frame.mostraPannelloAttuale(new VisualizzaListaAcquistoPanel(this.frame, listaAcquisto));
     }
 }
