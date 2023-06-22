@@ -10,6 +10,15 @@ public class RigaFeedback {
     private String commento;
     private Feedback.Punteggio punteggio;
     private String risposta;
+    private Object rispondiButton;
+
+    public Object getRispondi() {
+        return rispondiButton;
+    }
+
+    public void setRispondi(Object rispondi) {
+        this.rispondiButton = rispondi;
+    }
 
     public Date getData() {
         return data;

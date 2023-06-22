@@ -1,8 +1,12 @@
 package View.ViewModel;
 
+import Business.SessionManager;
+import Model.Cliente;
 import Model.Feedback;
+import Model.Utente;
 import View.ViewModel.RigaFeedback;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +32,10 @@ public class FeedbackTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+        if (u instanceof Cliente)
+            return 5;
+        return 6;
     }
 
     @Override
@@ -43,6 +50,7 @@ public class FeedbackTableModel extends AbstractTableModel {
             case 2: return riga.getCommento();
             case 3: return String.valueOf(riga.getPunteggio());
             case 4: return riga.getRisposta();
+            case 5: return riga.getRispondi();
         }
 
         return null;
@@ -58,6 +66,7 @@ public class FeedbackTableModel extends AbstractTableModel {
             case 2: riga.setCommento(value.toString());
             case 3: riga.setPunteggio(Feedback.Punteggio.valueOf(value.toString()));
             case 4: riga.setRisposta(value.toString());
+            case 5: riga.setRispondi(new JButton());
         }
     }
 
@@ -70,6 +79,7 @@ public class FeedbackTableModel extends AbstractTableModel {
             case 2: return "Commento";
             case 3: return "Voto";
             case 4: return "Risposta del manager";
+            case 5: return "Rispondi";
         }
 
         return null;
@@ -78,6 +88,7 @@ public class FeedbackTableModel extends AbstractTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         if(columnIndex == 3) return Feedback.Punteggio.class;
+        if(columnIndex == 5) return JButton.class;
         return Object.class;
     }
 }

@@ -1,8 +1,11 @@
 package View;
 
 import Model.Articolo;
+import Model.Cliente;
 import Model.Feedback;
 import Model.PuntoVendita;
+import Model.composite.ProdottoComposito;
+import View.Listener.AggiungiFeedbackListener;
 import View.Listener.GoToFeedbackListener;
 
 import javax.swing.*;
@@ -17,7 +20,7 @@ public class CreaFeedbackPanel extends JPanel {
     private JTextArea commentoField;
 
 
-    public CreaFeedbackPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
+    public CreaFeedbackPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita, Cliente cliente, ProdottoComposito prodottoComposito) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -45,12 +48,11 @@ public class CreaFeedbackPanel extends JPanel {
         commentoField.setFont(bodyFont1);
 
         JButton creaFeedback = new JButton("Aggiungi");
+        creaFeedback.addActionListener(new AggiungiFeedbackListener(this.frame, gradimentoField, commentoField, articolo, cliente, puntoVendita, prodottoComposito));
         creaFeedback.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, puntoVendita));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(commentoLabel);
         contentPanel.add(commentoField);

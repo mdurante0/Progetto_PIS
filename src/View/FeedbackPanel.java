@@ -6,9 +6,7 @@ import Business.SessionManager;
 import Business.Strategy.*;
 import Model.*;
 import Model.composite.ProdottoComposito;
-import View.Listener.GoToCreaFeedbackListener;
-import View.Listener.GoToDettagliComponenteListener;
-import View.Listener.GoToDettagliListener;
+import View.Listener.*;
 import View.ViewModel.FeedbackTableModel;
 import View.ViewModel.RigaFeedback;
 
@@ -54,11 +52,15 @@ public class FeedbackPanel extends JPanel {
         for(int i = 0 ; i < result.getFeedbacks().size(); i++){
             RigaFeedback riga = new RigaFeedback();
             Feedback f = feedbacks.get(i);
+            JButton rispondiButton = new JButton("Rispondi");
             riga.setData(f.getData());
             riga.setUsernameCliente(f.getCliente().getUsername());
             riga.setCommento(f.getCommento());
             riga.setPunteggio(f.getGradimento());
             riga.setRisposta(f.getRisposta());
+            riga.setRispondi(rispondiButton);
+            rispondiButton.addActionListener(new GoToCreaRispostaFeedbackListener(this.frame, articolo, puntoVendita));
+
             righe.add(riga);
         }
 
@@ -86,11 +88,17 @@ public class FeedbackPanel extends JPanel {
             tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, puntoVendita));
         JButton creaFeedback = new JButton("Crea feedback");
         southPanel.add(tornaIndietroButton);
-        if (u instanceof Cliente ){
-            creaFeedback.addActionListener(new GoToCreaFeedbackListener(this.frame, articolo, puntoVendita));
+        if (u instanceof Cliente c){
+            creaFeedback.addActionListener(new GoToCreaFeedbackListener(this.frame, articolo, puntoVendita,c ,prodottoComposito));
             southPanel.add(creaFeedback);
         }
+        JTableButtonRenderer buttonRenderer = new JTableButtonRenderer();
+        JTableButtonMouseListener mouseListener = new JTableButtonMouseListener(tabella);
 
+        if (u instanceof Manager || u instanceof Amministratore){
+            tabella.getColumn("Rispondi").setCellRenderer(buttonRenderer);
+        }
+        tabella.addMouseListener(mouseListener);
 
 
         this.add(contentPanel, BorderLayout.CENTER);
