@@ -11,7 +11,7 @@ public class PuntoVenditaResult {
 
     private Result result;
     private String message;
-    private List<PuntoVendita> puntiVendita = new ArrayList<>();
+    private ArrayList<PuntoVendita> puntiVendita = new ArrayList<>();
 
     public Result getResult() {
         return result;
@@ -29,11 +29,11 @@ public class PuntoVenditaResult {
         this.message = message;
     }
 
-    public List<PuntoVendita> getPuntiVendita() {
+    public ArrayList<PuntoVendita> getPuntiVendita() {
         return puntiVendita;
     }
 
-    public void setPuntiVendita(List<PuntoVendita> puntiVendita) {
+    public void setPuntiVendita(ArrayList<PuntoVendita> puntiVendita) {
         this.puntiVendita = puntiVendita;
     }
 }

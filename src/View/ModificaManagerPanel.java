@@ -1,6 +1,7 @@
 package View;
 
 import Model.Manager;
+import View.Listener.GoToMostraManagerListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,6 +69,7 @@ public class ModificaManagerPanel extends JPanel {
         JButton backButton = new JButton("Indietro");
 
         // ggiungere action listener
+        backButton.addActionListener(new GoToMostraManagerListener(this.frame));
 
         contentPanel.add(firstNameLabel);
         contentPanel.add(firstNameField);

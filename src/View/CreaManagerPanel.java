@@ -3,12 +3,11 @@ package View;
 import Business.PuntoVenditaBusiness;
 import Business.Results.PuntoVenditaResult;
 import Model.PuntoVendita;
-import View.Listener.GoToLoginListener;
-import View.Listener.RegistrationListener;
-
+import View.Listener.AggiungiManagerListener;
+import View.Listener.GoToMostraManagerListener;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class CreaManagerPanel extends JPanel {
     private MainFrame frame;
@@ -21,6 +20,7 @@ public class CreaManagerPanel extends JPanel {
     private JPasswordField passwordField;
     private JPasswordField confermaPasswordField;
     private JTextField durataIncaricoField;
+    private JComboBox<String> puntiVenditaBox;
 
 
     public CreaManagerPanel(MainFrame frame) {
@@ -40,6 +40,7 @@ public class CreaManagerPanel extends JPanel {
         JLabel passwordLabel = new JLabel("  Password:");
         JLabel confermaPasswordLabel = new JLabel("  Conferma password:");
         JLabel durataincaricoLabel = new JLabel("  Durata incarico:");
+        JLabel puntiVenditaLabel = new JLabel("  Seleziona Punto Vendita:");
 
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
@@ -50,6 +51,7 @@ public class CreaManagerPanel extends JPanel {
         passwordLabel.setFont(bodyFont);
         confermaPasswordLabel.setFont(bodyFont);
         durataincaricoLabel.setFont(bodyFont);
+        puntiVenditaLabel.setFont(bodyFont);
 
 
         firstNameField = new JTextField(20);
@@ -59,6 +61,19 @@ public class CreaManagerPanel extends JPanel {
         passwordField = new JPasswordField(20);
         confermaPasswordField = new JPasswordField(20);
         durataIncaricoField = new JTextField(20);
+
+        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
+        if(!puntoVenditaResult.getPuntiVendita().isEmpty()){
+            ArrayList<PuntoVendita> puntiVendita = puntoVenditaResult.getPuntiVendita();
+            String[] nomiPuntiVendita = new String[puntoVenditaResult.getPuntiVendita().size()+1];
+            for (int i = 0; i < puntiVendita.size(); i++) {
+                nomiPuntiVendita[i] = puntiVendita.get(i).getNome();
+            }
+            puntiVenditaBox = new JComboBox<>(nomiPuntiVendita);
+            puntiVenditaBox.setFocusable(false);
+            puntiVenditaBox.setFont(bodyFont);
+        }
+
 
         firstNameField.setFont(bodyFont);
         lastNameField.setFont(bodyFont);
@@ -70,7 +85,10 @@ public class CreaManagerPanel extends JPanel {
 
 
         JButton registerButton = new JButton("Aggiungi");
+        registerButton.addActionListener(new AggiungiManagerListener(this.frame,firstNameField,lastNameField, emailField, usernameField, passwordField, confermaPasswordField,durataIncaricoField, puntiVenditaBox));
+
         JButton backButton = new JButton("Indietro");
+        backButton.addActionListener(new GoToMostraManagerListener(this.frame));
 
         // ggiungere action listener
 
@@ -88,6 +106,8 @@ public class CreaManagerPanel extends JPanel {
         contentPanel.add(confermaPasswordField);
         contentPanel.add(durataincaricoLabel);
         contentPanel.add(durataIncaricoField);
+        contentPanel.add(puntiVenditaLabel);
+        contentPanel.add(puntiVenditaBox);
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(backButton);

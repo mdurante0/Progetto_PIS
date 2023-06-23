@@ -263,7 +263,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() != null)
             sql = "UPDATE progetto_pis.punto_vendita " +
                     "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
-                    "', magazzino_idmagazzino ='" + puntoVendita.getMagazzino() +
+                    "', magazzino_idmagazzino ='" + puntoVendita.getMagazzino().getIdMagazzino() +
                     "', citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +

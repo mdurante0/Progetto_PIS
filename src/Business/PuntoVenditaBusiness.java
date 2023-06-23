@@ -109,7 +109,7 @@ public class PuntoVenditaBusiness {
 
         //verifico l'esistenza del punto vendita
         PuntoVenditaDAO pDao = PuntoVenditaDAO.getInstance();
-        if(pDao.findById(p.getIdPuntoVendita()) != null){
+        if(pDao.findById(p.getIdPuntoVendita()) == null){
             result.setResult(PuntoVenditaResult.Result.SALEPOINT_DOESNT_EXIST);
             result.setMessage("Il punto vendita da aggiornare non esiste! Riprova!");
             return result;
