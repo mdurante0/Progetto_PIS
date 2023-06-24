@@ -3,6 +3,7 @@ package Model.composite;
 import Business.AbstractFactory.ICategoria;
 import Model.CategoriaProdotto;
 import Model.Collocazione;
+import Model.Magazzino;
 import Model.Produttore;
 
 public interface IProdotto {
@@ -19,6 +20,9 @@ public interface IProdotto {
     String getDescrizione();
     Collocazione getCollocazione();
     void setCollocazione(Collocazione c);
+    Magazzino getMagazzino();
+    void setMagazzino(Magazzino magazzino);
     void setDescrizione(String descrizione);
+
 
 }

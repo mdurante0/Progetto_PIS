@@ -3,10 +3,10 @@ package View.Listener;
 import Business.ArticoloBusiness;
 import Business.CollocazioneBusiness;
 import Business.Results.ArticoloResult;
-import Business.Results.CollocazioneResult;
 import Model.Articolo;
+import Model.Collocazione;
 import Model.PuntoVendita;
-import Model.composite.Prodotto;
+import Model.composite.IProdotto;
 import View.CatalogoProdottiPanel;
 import View.CatalogoServiziPanel;
 import View.MainFrame;
@@ -31,18 +31,21 @@ public class RemoveArticoloListener implements ActionListener {
         int confirmed = JOptionPane.showConfirmDialog(this.frame, "Sei sicuro di voler eliminare questo articolo?", "Confermi?", JOptionPane.YES_NO_OPTION);
         if(confirmed == 0) {
             ArticoloResult result = ArticoloBusiness.getInstance().removeArticolo(articolo);
-            if(articolo instanceof Prodotto prodotto) {
-                prodotto.getCollocazione().setMagazzino(prodotto.getMagazzino());
-                CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
-                if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
-                    JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
-                }
-            }
+            if(result.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
 
-            if(result.getResult().equals(ArticoloResult.Result.DELETE_OK)){
-                if(puntoVendita != null)
-                    this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
-                else
+                if (articolo instanceof IProdotto prodotto) {
+
+                    for (Collocazione collocazione :
+                            CollocazioneBusiness.getInstance().caricaCollocazioniByProdotto(prodotto).getCollocazioni()) {
+                        CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
+                    }
+
+                    if (prodotto.getMagazzino().getIndirizzo() != null) {
+                        this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
+                    } else {
+                        this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, null));
+                    }
+                } else
                     this.frame.mostraPannelloAttuale(new CatalogoServiziPanel(this.frame));
             }
             JOptionPane.showMessageDialog(this.frame, result.getMessage());

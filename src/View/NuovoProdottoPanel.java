@@ -79,10 +79,11 @@ public class NuovoProdottoPanel extends JPanel {
         PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
         if (puntoVenditaResult.getPuntiVendita() != null) {
             Iterator<PuntoVendita> iterator = puntoVenditaResult.getPuntiVendita().iterator();
-            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size()];
+            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size() + 1];
             for (int i = 0; i < puntoVenditaResult.getPuntiVendita().size(); i++) {
                 nomiPV[i] = iterator.next().getNome();
             }
+            nomiPV[nomiPV.length - 1] = "Nessun punto vendita";
             puntoVenditaBox = new JComboBox<>(nomiPV);
             puntoVenditaBox.setFocusable(false);
             puntoVenditaBox.setFont(bodyFont);
@@ -160,7 +161,7 @@ public class NuovoProdottoPanel extends JPanel {
         rimuoviImmagineButton.setActionCommand(ImmaginiListener.RIMUOVI);
         rimuoviImmagineButton.addActionListener(new ImmaginiListener(this.frame, files, immaginiCounterLabel));
 
-        JButton aggiungiButton = new JButton("Aggiunti prodotto");
+        JButton aggiungiButton = new JButton("Aggiungi prodotto");
         aggiungiButton.setFont(bodyFont);
         aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
 

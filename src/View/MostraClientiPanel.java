@@ -5,7 +5,6 @@ import Business.PuntoVenditaBusiness;
 import Business.Results.ClienteResult;
 import Business.Results.PuntoVenditaResult;
 import Business.SessionManager;
-import Business.UtenteBusiness;
 import Model.Amministratore;
 import Model.Cliente;
 import Model.Manager;
@@ -18,7 +17,6 @@ import View.ViewModel.ClienteTableModel;
 import View.ViewModel.RigaCliente;
 
 import javax.swing.*;
-import javax.xml.transform.Result;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -54,6 +52,8 @@ public class MostraClientiPanel extends JPanel {
                 JButton abilitazioneButton = new JButton("Abilitato");
 
                 Cliente c = clienti.get(i);
+                if (!c.isAbilitazione())
+                    abilitazioneButton.setText("Disabilitato");
 
                 rigaCliente.setUsername(c.getUsername());
                 rigaCliente.setEmail(c.getEmail());

@@ -5,6 +5,7 @@ import DAO.CollocazioneDAO;
 import DAO.MagazzinoDAO;
 import Model.Collocazione;
 import Model.Magazzino;
+import Model.composite.IProdotto;
 
 import java.util.ArrayList;
 
@@ -132,6 +133,25 @@ public class CollocazioneBusiness {
 
         return result;
     }
+
+    public CollocazioneResult caricaCollocazioniByProdotto(IProdotto prodotto){
+        CollocazioneResult result = new CollocazioneResult();
+        CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+
+        ArrayList<Collocazione> collocazioni = collocazioneDAO.findAllByProdotto(prodotto.getIdArticolo());
+        if(collocazioni.isEmpty()){ //Non ci sono collocazioni occupate
+            result.setResult(CollocazioneResult.Result.COLLOCAZIONE_ERROR);
+            result.setMessage("Nessuna collocazione occupata trovata!");
+            return result;
+
+        }else result.setCollocazioni(collocazioni); //Collocazioni caricate
+
+        result.setResult(CollocazioneResult.Result.COLLOCAZIONI_CARICATE);
+        result.setMessage("Collocazioni caricate correttamente");
+
+        return result;
+    }
+
     public CollocazioneResult caricaCollocazioneById(int idCollocazione){
         CollocazioneResult result = new CollocazioneResult();
 

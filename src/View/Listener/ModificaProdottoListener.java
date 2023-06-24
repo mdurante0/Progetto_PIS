@@ -114,7 +114,7 @@ public class ModificaProdottoListener implements ActionListener {
 
         //Caricamento Punto Vendita
         PuntoVenditaResult puntoVenditaResult;
-        if (puntoVenditaBox.getSelectedItem() != null && !puntoVenditaBox.getSelectedItem().toString().isBlank()) {
+        if (!puntoVenditaBox.getSelectedItem().toString().equals("Nessun punto vendita")) {
 
             puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
             if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
@@ -140,6 +140,10 @@ public class ModificaProdottoListener implements ActionListener {
                         JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
                         return;
                     }
+                    if(Integer.parseInt(quantitaField.getText()) <= 0 || Integer.parseInt(corsiaField.getText()) <= 0 || Integer.parseInt(scaffaleField.getText()) <= 0){
+                        JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+                        return;
+                    }
                     prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
 
                     //Aggiornamento collocazione
@@ -160,7 +164,6 @@ public class ModificaProdottoListener implements ActionListener {
                         //Inserimento Prodotto nel nuovo Magazzino (collocazione e quantità)
                         articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
                         if (!articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
-                            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
                             collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
                             if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
                                 JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());

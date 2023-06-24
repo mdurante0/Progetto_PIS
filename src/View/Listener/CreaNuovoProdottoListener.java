@@ -4,9 +4,10 @@ import Business.AbstractFactory.FactoryProvider;
 import Business.*;
 import Business.Results.*;
 import Model.Collocazione;
+import Model.PuntoVendita;
 import Model.composite.Prodotto;
+import View.CatalogoProdottiPanel;
 import View.MainFrame;
-import View.MenuPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -44,77 +45,107 @@ public class CreaNuovoProdottoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try{
-            Integer.parseInt(quantitaField.getText());
-            Float.parseFloat(prezzoField.getText());
-            Integer.parseInt(corsiaField.getText());
-            Integer.parseInt(scaffaleField.getText());
-        } catch (NumberFormatException exception){
-            JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
-            return;
-        }
-
         ArticoloResult articoloResult;
         prodotto = (Prodotto) FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).crea();
         prodotto.setName(nomeProdottoField.getText());
         prodotto.setDescrizione(descrizioneField.getText());
-        prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
-        prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+
+        try {
+            prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
+        } catch (NumberFormatException exception) {
+            JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+            return;
+        }
 
         //Caricamento Produttore
-        if(produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()){
+        if (produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()) {
             ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttoreBox.getSelectedItem().toString());
+
             if (produttoreResult.getResult().equals(ProduttoreResult.Result.PRODUTTORI_CARICATI))
                 prodotto.setProduttore(produttoreResult.getProduttori().get(0));
             else JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
         }
 
         //Caricamento Categoria
-        if(categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank() ) {
+        if (categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
+
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
-            else JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+            else {
+                JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
+                return;
+            }
+        }
+
+        //Inserimento Prodotto
+        articoloResult = ArticoloBusiness.getInstance().addArticolo(prodotto);
+        if (!articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
+            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+            return;
+        }
+
+        //Inserimento delle nuove immagini
+        ImmagineResult immagineResult;
+        for (File file : files) {
+            immagineResult = ImmagineBusiness.getInstance().addImmagine(file, prodotto.getIdArticolo());
+
+            if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK)) {
+                JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
+                return;
+            }
         }
 
         //Caricamento Punto Vendita
-        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
-        if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
+        PuntoVenditaResult puntoVenditaResult;
+        if (!puntoVenditaBox.getSelectedItem().toString().equals("Nessun punto vendita")) {
 
-            //Caricamento Magazzino
-            MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
-            prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
-            if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
+            puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
+            if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
+                PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
 
-                //Inserimento Collocazione
-                Collocazione collocazione = new Collocazione(Integer.parseInt(corsiaField.getText()), Integer.parseInt(scaffaleField.getText()), magazzinoResult.getMagazzini().get(0));
-                CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(collocazione);
-                if (collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
-                    prodotto.setCollocazione(collocazione);
+                //Caricamento Magazzino
+                MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVendita);
+                prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
+                if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
 
-                    //Inserimento Prodotto
-                    articoloResult = ArticoloBusiness.getInstance().addArticolo(prodotto);
-                    if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK) || articoloResult.getResult().equals(ArticoloResult.Result.ITEM_ALREADY_EXISTS)){
+                    try {
+                        Integer.parseInt(quantitaField.getText());
+                        Integer.parseInt(corsiaField.getText());
+                        Integer.parseInt(scaffaleField.getText());
+                    } catch (NumberFormatException exception) {
+                        JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+                        return;
+                    }
+                    prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+
+                    //Inserimento Collocazione
+                    Collocazione collocazione = new Collocazione(Integer.parseInt(corsiaField.getText()), Integer.parseInt(scaffaleField.getText()), magazzinoResult.getMagazzini().get(0));
+                    CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(collocazione);
+                    if (collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
+                        prodotto.setCollocazione(collocazione);
 
                         //Inserimento Prodotto nel Magazzino
-                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto,magazzinoResult.getMagazzini().get(0).getIdMagazzino());
-                        if(articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
+                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+                        if (articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
+                            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+                            JOptionPane.showMessageDialog(this.frame, "Prodotto inserito con successo in " + puntoVendita.getNome());
+                            this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, puntoVendita));
 
-                            //Inserimento Immagini
-                            ImmagineResult immagineResult;
-                            for (int i = 0; i < files.size(); i++) {
-                                immagineResult = ImmagineBusiness.getInstance().addImmagine(files.get(i), prodotto.getIdArticolo());
-                                if(!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK))
-                                    break;
-                                else prodotto.getImmagini().get(i).setFile(files.get(i));
-                            }
+                        } else CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
 
-                            this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
-                        } else collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
-                    } else collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(collocazione);
-                    JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
-                } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
-            } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
-        } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
+                    } else {
+                        JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
+                        ArticoloBusiness.getInstance().removeArticolo(prodotto);
+                    }
+
+                } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
+
+            } else JOptionPane.showMessageDialog(this.frame, puntoVenditaResult.getMessage());
+
+        } else {
+            JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
+            this.frame.mostraPannelloAttuale(new CatalogoProdottiPanel(this.frame, null));
+        }
     }
 }

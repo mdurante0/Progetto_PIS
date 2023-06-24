@@ -92,6 +92,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
             for (int i = 0; i < puntoVenditaResult.getPuntiVendita().size(); i++) {
                 nomiPV[i] = iterator.next().getNome();
             }
+            nomiPV[nomiPV.length - 1] = "Nessun punto vendita";
             puntoVenditaBox = new JComboBox<>(nomiPV);
             puntoVenditaBox.setFocusable(false);
             puntoVenditaBox.setFont(bodyFont);

@@ -102,7 +102,42 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     @Override
     public ArrayList<Collocazione> findAll() {
         DbOperationExecutor executor = new DbOperationExecutor();
-        String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione ;";
+        String sql = "SELECT idcollocazione, corsia, scaffale, magazzino_idmagazzino FROM progetto_pis.collocazione;";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        ArrayList<Collocazione> collocazioni = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                collocazione = new Collocazione();
+                collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
+                collocazione.setScaffale(rs.getInt("scaffale"));
+                collocazione.setCorsia(rs.getInt("corsia"));
+
+                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
+                if(magazzino != null){
+                    collocazione.setMagazzino(magazzino);
+                }
+
+                collocazioni.add(collocazione);
+            }
+            return collocazioni;
+        } catch (SQLException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // Gestisce le differenti categorie d'errore
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Collocazione> findAllByProdotto(int idProdotto) {
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT * FROM progetto_pis.collocazione AS c INNER JOIN progetto_pis.magazzino_has_prodotto AS mp ON c.idcollocazione = mp.collocazione_idcollocazione WHERE mp.prodotto_articolo_idarticolo = '" + idProdotto + "';";
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 

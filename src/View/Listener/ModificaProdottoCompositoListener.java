@@ -113,7 +113,7 @@ public class ModificaProdottoCompositoListener implements ActionListener {
 
         //Caricamento Punto Vendita
         PuntoVenditaResult puntoVenditaResult;
-        if (puntoVenditaBox.getSelectedItem() != null && !puntoVenditaBox.getSelectedItem().toString().isBlank()) {
+        if (!puntoVenditaBox.getSelectedItem().toString().equals("Nessun punto vendita")) {
 
             puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntoVenditaBox.getSelectedItem().toString());
             if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {

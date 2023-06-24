@@ -226,7 +226,7 @@ public class DettagliPanel extends JPanel {
             contentPanel.add(new JLabel());
             contentPanel.add(modificaDisponibilita);
         } else if (u instanceof Amministratore) {
-            JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
+            JButton rimuoviArticolo = new JButton("Rimuovi questo articolo");
             rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, puntoVendita));
             JButton modificaArticolo = new JButton("Modifica articolo");
 

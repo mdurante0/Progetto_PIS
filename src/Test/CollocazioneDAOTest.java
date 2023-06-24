@@ -48,8 +48,12 @@ public class CollocazioneDAOTest {
         Assert.assertEquals(2, collocazioni.size());
     }
 
-
-
+    @Test
+    public void findAllByProdottoTest() {
+        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+        ArrayList<Collocazione> collocazioni = collocazioneDAO.findAllByProdotto(1);
+        Assert.assertEquals(2, collocazioni.size());
+    }
 
     @Test
     public void updateTest() {

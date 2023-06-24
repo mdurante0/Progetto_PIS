@@ -81,7 +81,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
         PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
         if (puntoVenditaResult.getPuntiVendita() != null) {
             Iterator<PuntoVendita> iterator = puntoVenditaResult.getPuntiVendita().iterator();
-            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size()];
+            String[] nomiPV = new String[puntoVenditaResult.getPuntiVendita().size() + 1];
             for (int i = 0; i < puntoVenditaResult.getPuntiVendita().size(); i++) {
                 nomiPV[i] = iterator.next().getNome();
             }
@@ -180,7 +180,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
         quantita2Field.setFont(bodyFont);
         quantitaComponentiFields.add(quantita2Field);
 
-        JButton aggiungiComponenteButton = new JButton("Aggiunti componente");
+        JButton aggiungiComponenteButton = new JButton("Aggiungi componente");
         aggiungiComponenteButton.setFont(bodyFont);
         aggiungiComponenteButton.setActionCommand(AGGIUNGI);
         aggiungiComponenteButton.addActionListener(new ComponenteListener(this.contentPanel, aggiungiComponenteButton, componentiBoxes, quantitaComponentiFields));
