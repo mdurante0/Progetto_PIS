@@ -27,6 +27,7 @@ public class DettagliPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
     private JComboBox<Integer> quantitaBox;
     private JTextField quantitaField;
+    private JTextField quantitaPrenotazioneField;
 
     public DettagliPanel(MainFrame frame, Articolo articolo, PuntoVendita puntoVendita) {
         this.frame = frame;
@@ -37,6 +38,10 @@ public class DettagliPanel extends JPanel {
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
+
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.add(scrollPane);
 
         ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(articolo.getName());
         if(!result.getListaImmagini().isEmpty()) {
@@ -170,6 +175,19 @@ public class DettagliPanel extends JPanel {
                 quantitaBox.setFont(bodyFont);
                 quantitaBox.setFocusable(false);
                 contentPanel.add(quantitaBox);
+
+                JLabel prenotaLabel = new JLabel("  Seleziona la quantità da prenotare:");
+                prenotaLabel.setFont(bodyFont);
+                contentPanel.add(prenotaLabel);
+                quantitaPrenotazioneField = new JTextField(20);
+                quantitaPrenotazioneField.setFont(bodyFont);
+                contentPanel.add(quantitaPrenotazioneField);
+
+                JButton prenotaButton = new JButton("Prenota");
+                prenotaButton.addActionListener(new PrenotazioneListener(this.frame, prodotto, quantitaPrenotazioneField));
+                prenotaButton.setFont(bodyFont);
+                contentPanel.add(new JLabel());
+                contentPanel.add(prenotaButton);
             }
             else if(u instanceof Manager) {
                 JLabel selezionaQuantitaLabel = new JLabel("  Inserisci la disponibilità:");
@@ -247,10 +265,6 @@ public class DettagliPanel extends JPanel {
             contentPanel.add(modificaArticolo);
             contentPanel.add(rimuoviArticolo);
         }
-        else {
-            contentPanel.add(new JLabel());
-            contentPanel.add(new JLabel());
-        }
 
         JButton backButton = new JButton("Torna al catalogo");
         if(articolo instanceof IProdotto)
@@ -268,6 +282,6 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(backButton);
 
         this.add(titlePanel);
-        this.add(contentPanel);
+        this.add(scrollPane);
     }
 }

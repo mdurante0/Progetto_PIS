@@ -65,7 +65,7 @@ public class CatalogoBusiness {
         PuntoVendita puntoVendita = puntoVenditaDAO.findByName(nomePuntoVendita);
         Magazzino magazzino = magazzinoDAO.findById(puntoVendita.getMagazzino().getIdMagazzino());
 
-        if(magazzino.getProdotti().isEmpty()){ //Il magazzino è vuoto
+        if(magazzino == null || magazzino.getProdotti().isEmpty()){ //Il magazzino è vuoto
             result.setResult(CatalogoResult.Result.ERRORE_MAGAZZINO);
             result.setMessage("Catalogo non caricato! Prodotti non trovati!");
             return result;

@@ -3,7 +3,6 @@ package Test;
 import Business.FactoryMethod.NotificationFactory;
 import DAO.*;
 import Model.*;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class FeedbackDAOTest {
         feedbackDAO.add(new Feedback(Feedback.Punteggio.BUONO, "articolo molto buono", false, false, "", date, articoloDAO.findByName("Armadio"), clienteDAO.findByUsername("vr46")));
     }
 
-    @After
+    //@After
     public void tearDown() {
         IFeedbackDAO feedbackDAO = FeedbackDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();

@@ -20,21 +20,10 @@ public class PrenotazioneBusiness {
         }
         return instance;
     }
-    public PrenotazioneResult addPrenotazione(Prenotazione prenotazione, String clienteUsername){
+    public PrenotazioneResult addPrenotazione(Prenotazione prenotazione){
         PrenotazioneResult result = new PrenotazioneResult();
         PrenotazioneDAO prenotazioneDAO = PrenotazioneDAO.getInstance();
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
 
-        //Verifico l'esistenza dell'utente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(PrenotazioneResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente indicato non esiste! Riprova!");
-            return result;
-        }
-
-        ClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente c = clienteDAO.findByUsername(clienteUsername);
-        prenotazione.setIdUtente(c.getIdUtente());
         int inserita = prenotazioneDAO.add(prenotazione);
         if(inserita == 0){ //Prenotazione non inserita
             result.setResult(PrenotazioneResult.Result.ADD_ERROR);
@@ -114,7 +103,7 @@ public class PrenotazioneBusiness {
 
         Cliente c = clienteDAO.findByUsername(clienteUsername);
         ArrayList<Prenotazione> prenotazioni = prenotazioneDAO.findByUser(c.getIdUtente());
-        if(prenotazioni.isEmpty()){ //Non ci sono prenotazioni
+        if(prenotazioni == null){ //Non ci sono prenotazioni
             result.setResult(PrenotazioneResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("Nessuna prenotazione trovata! Può crearne di nuove per richiedere prodotti non attualmente disponibili!");
             return result;

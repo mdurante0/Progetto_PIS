@@ -43,13 +43,14 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
 
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             rs.next();
             if (rs.getRow()==1) {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
-                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 int idProdotto;
@@ -72,6 +73,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Date format " + e.getMessage());;
         }
         return null;
     }
@@ -87,12 +90,13 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             while (rs.next()) {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
-                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 int idProdotto;
@@ -116,6 +120,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Date format " + e.getMessage());;
         }
 
         return null;
@@ -133,12 +139,13 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         rs = executor.executeOperation(readOp).getResultSet();
 
         ArrayList<Prenotazione> prenotazioni = new ArrayList<>();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             while (rs.next()) {
                 prenotazione = new Prenotazione();
                 prenotazione.setIdPrenotazione(rs.getInt("idprenotazione"));
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
-                prenotazione.setDataPrenotazione(rs.getDate("data_prenotazione"));
+                prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
                 int idProdotto;
@@ -162,6 +169,8 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         } catch (NullPointerException e) {
             // Gestisce le differenti categorie d'errore
             System.out.println("Resultset: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Date format " + e.getMessage());;
         }
 
         return null;
@@ -173,12 +182,10 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int rowCount = 0;
         try{
-        String s = formato.format(data);
-        Date d = formato.parse(s);
-        formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formatted = formato.format(data);
 
         String sql = "INSERT INTO progetto_pis.prenotazione (utente_acquirente_utente_idutente, data_prenotazione) VALUES ('"+
-                prenotazione.getIdUtente() + "','" +  formato.format(d) + "');";
+                prenotazione.getIdUtente() + "','" +  formatted + "');";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
@@ -214,8 +221,6 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         } catch (NullPointerException e) {
             // handle any errors
             System.out.println("Resultset: " + e.getMessage());
-        }catch  (ParseException e) {
-            System.out.println("Formato data non valido.");
         }
         return rowCount;
     }
@@ -272,36 +277,28 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
         Date data = prenotazione.getDataPrenotazione();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int rowCount = 0;
-        try {
-            String s = formato.format(data);
-            Date d = formato.parse(s);
-            formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String sql = "UPDATE progetto_pis.prenotazione " +
-                    "SET  data_prenotazione = '" + formato.format(d) +
-                    "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+        String formatted = formato.format(data);
+        String sql = "UPDATE progetto_pis.prenotazione " +
+                "SET  data_prenotazione = '" + formatted +
+                "' WHERE idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
 
-            DbOperationExecutor executor = new DbOperationExecutor();
-            IDbOperation writeOp = new WriteOperation(sql);
-            executor.executeOperation(writeOp);
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        executor.executeOperation(writeOp);
 
+        Iterator<IProdotto> prodottoIterator = prenotazione.getProdotti().iterator();
+        int i=0;
+        while (prodottoIterator.hasNext()) {
 
-            Iterator<IProdotto> prodottoIterator = prenotazione.getProdotti().iterator();
-            int i=0;
-            while (prodottoIterator.hasNext()) {
+            IProdotto prodottoPrenotato = prodottoIterator.next();
 
-                IProdotto prodottoPrenotato = prodottoIterator.next();
+            sql = "UPDATE progetto_pis.prenotazione_has_prodotto " +
+                    "SET  quantita = '" + prodottoPrenotato.getQuantita() +
+                    "' WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "' && prodotto_articolo_idarticolo = '"+prenotazione.getProdotti().get(i).getIdArticolo()+"';";
 
-                sql = "UPDATE progetto_pis.prenotazione_has_prodotto " +
-                        "SET  quantita = '" + prodottoPrenotato.getQuantita() +
-                        "' WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "' && prodotto_articolo_idarticolo = '"+prenotazione.getProdotti().get(i).getIdArticolo()+"';";
-
-                writeOp = new WriteOperation(sql);
-                rowCount += executor.executeOperation(writeOp).getRowsAffected();
-                i++;
-
-            }
-        }catch  (ParseException e) {
-            System.out.println("Formato data non valido.");
+            writeOp = new WriteOperation(sql);
+            rowCount += executor.executeOperation(writeOp).getRowsAffected();
+            i++;
         }
         return rowCount;
     }

@@ -215,27 +215,21 @@ public class FeedbackDAO implements IFeedbackDAO {
         DbOperationExecutor executor = new DbOperationExecutor();
         Date data = feedback.getData();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String s = formato.format(data);
-        try {
-            Date d = formato.parse(s);
+        String formatted = formato.format(data);
 
-            String sql = "INSERT INTO progetto_pis.feedback (commento, gradimento, " +
-                    "articolo_idarticolo, utente_acquirente_utente_idutente, " +
-                    "risposta, data) VALUES ('"+
-                    feedback.getCommento() + "','" +
-                    feedback.getGradimento() + "','" +
-                    feedback.getArticolo().getIdArticolo() + "','" +
-                    feedback.getCliente().getIdUtente() + "','" +
-                    feedback.getRisposta() + "','" +
-                    formato.format(d) + "');";
-            IDbOperation writeOp = new WriteOperation(sql);
+        String sql = "INSERT INTO progetto_pis.feedback (commento, gradimento, " +
+                "articolo_idarticolo, utente_acquirente_utente_idutente, " +
+                "risposta, data) VALUES ('"+
+                feedback.getCommento() + "','" +
+                feedback.getGradimento() + "','" +
+                feedback.getArticolo().getIdArticolo() + "','" +
+                feedback.getCliente().getIdUtente() + "','" +
+                feedback.getRisposta() + "','" +
+                formatted + "');";
+        IDbOperation writeOp = new WriteOperation(sql);
 
-            return  executor.executeOperation(writeOp).getRowsAffected();
+        return  executor.executeOperation(writeOp).getRowsAffected();
 
-        } catch (ParseException e) {
-            System.out.println("Formato data non valido.");
-        }
-        return -1;
     }
 
     @Override
@@ -279,27 +273,18 @@ public class FeedbackDAO implements IFeedbackDAO {
     public int update(Feedback feedback) {
         Date data = feedback.getData();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String s = formato.format(data);
-        try {
-            Date d = formato.parse(s);
-            formato = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String formatted = formato.format(data);
 
-            String sql = "UPDATE progetto_pis.feedback " +
-                    "SET commento = '" + feedback.getCommento() +
-                    "', gradimento = '" + feedback.getGradimento() +
-                    "', articolo_idarticolo = '" + feedback.getArticolo().getIdArticolo() +
-                    "', utente_acquirente_utente_idutente = '" + feedback.getCliente().getIdUtente() +
-                    "', risposta = '" + feedback.getRisposta() +
-                    "', data = '" + formato.format(d) +
-                    "' WHERE idfeedback = '" + feedback.getIdFeedback() + "';";
-
-            DbOperationExecutor executor = new DbOperationExecutor();
-            IDbOperation writeOp = new WriteOperation(sql);
-            return executor.executeOperation(writeOp).getRowsAffected();
-        }catch (ParseException e) {
-            System.out.println("Formato data non valido.");
-        }
-        return -1;
+        String sql = "UPDATE progetto_pis.feedback " +
+                "SET commento = '" + feedback.getCommento() +
+                "', gradimento = '" + feedback.getGradimento() +
+                "', articolo_idarticolo = '" + feedback.getArticolo().getIdArticolo() +
+                "', utente_acquirente_utente_idutente = '" + feedback.getCliente().getIdUtente() +
+                "', risposta = '" + feedback.getRisposta() +
+                "', data = '" + formatted +
+                "' WHERE idfeedback = '" + feedback.getIdFeedback() + "';";
+        DbOperationExecutor executor = new DbOperationExecutor();
+        IDbOperation writeOp = new WriteOperation(sql);
+        return executor.executeOperation(writeOp).getRowsAffected();
     }
-
 }

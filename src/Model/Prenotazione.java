@@ -10,15 +10,21 @@ import java.util.List;
 public class Prenotazione {
 
     private int idPrenotazione;
-    private List<Model.composite.IProdotto> prodotti = new ArrayList<>();
+    private List<IProdotto> prodotti = new ArrayList<>();
     private Date dataPrenotazione = new Date();
     private int idUtente;
 
     public Prenotazione(){
     }
 
-    public Prenotazione(List<Model.composite.IProdotto> prodotti, Date dataPrenotazione, int idUtente) {
+    public Prenotazione(List<IProdotto> prodotti, Date dataPrenotazione, int idUtente) {
         this.prodotti = prodotti;
+        this.dataPrenotazione = dataPrenotazione;
+        this.idUtente = idUtente;
+    }
+
+    public Prenotazione(IProdotto prodotto, Date dataPrenotazione, int idUtente) {
+        this.prodotti.add(prodotto);
         this.dataPrenotazione = dataPrenotazione;
         this.idUtente = idUtente;
     }
