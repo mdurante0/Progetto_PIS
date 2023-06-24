@@ -98,16 +98,7 @@ public class ArticoloBusiness {
 
     public ArticoloResult updateArticolo(Articolo a){
 
-        ArticoloDAO aDao = ArticoloDAO.getInstance();
         ArticoloResult result = new ArticoloResult();
-
-        //Verifica esistenza articolo
-        boolean articoloExists = aDao.articoloExists(a.getName());
-        if (!articoloExists){
-            result.setResult(ArticoloResult.Result.ITEM_DOESNT_EXIST);
-            result.setMessage("L'articolo da aggiornare non esiste! Riprova");
-            return result;
-        }
 
         //aggiornamento in base al tipo di articolo
         int aggiornato;

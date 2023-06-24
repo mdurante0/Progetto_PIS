@@ -13,10 +13,12 @@ public interface IProdotto {
     int getQuantita();
     ICategoria getCategoria();
     void setCategoria(CategoriaProdotto categoriaProdotto);
+    void setProduttore(Produttore produttore);
     Produttore getProduttore();
     void setQuantita(int quantita);
     String getDescrizione();
     Collocazione getCollocazione();
     void setCollocazione(Collocazione c);
     void setDescrizione(String descrizione);
+
 }

@@ -42,7 +42,7 @@ public class CatalogoProdottiPanel extends JPanel {
         ArrayList<RigaCatalogo> righe = new ArrayList<>();
         ArrayList<IProdotto> prodotti;
         if(puntoVendita != null)
-            prodotti = puntoVendita.getMagazzino().getProdotti();
+            prodotti = CatalogoBusiness.getInstance().caricaCatalogoProdotti(puntoVendita.getNome()).getListaProdotti();
         else prodotti = CatalogoBusiness.getInstance().caricaCatalogoProdotti().getListaProdotti();
 
         for(int i = 0 ; i < prodotti.size(); i++){

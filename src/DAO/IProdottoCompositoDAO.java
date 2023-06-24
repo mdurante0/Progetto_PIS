@@ -12,6 +12,7 @@ public interface IProdottoCompositoDAO {
     int add(ProdottoComposito prodottoComposito);
     int addSottoprodotto(int idProdottoComposito, IProdotto sottoprodotto);
     int removeSottoprodotto(int idProdottoComposito, IProdotto sottoprodotto);
+    int removeAllSottoprodotti(int idProdottoComposito);
     int removeById(int idProdottoComposito);
     int update(ProdottoComposito prodottoComposito);
 }

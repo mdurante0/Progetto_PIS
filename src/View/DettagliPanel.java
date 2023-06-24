@@ -196,13 +196,13 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(new JLabel());
 
         ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
-        if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
+        if(articoloResult.getArticolo() instanceof ProdottoComposito prodottoComposito){
             if(puntoVendita != null)
-                pc.setCollocazione(collocazione);
-            pc.setQuantita(articolo.getQuantita());
+                prodottoComposito.setCollocazione(collocazione);
+            prodottoComposito.setQuantita(articolo.getQuantita());
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
-            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, pc, puntoVendita));
+            mostraComponentiButton.addActionListener(new GoToMostraComponentiListener(this.frame, prodottoComposito, puntoVendita));
             contentPanel.add(mostraComponentiButton);
 
         } else contentPanel.add(new JLabel());
@@ -229,8 +229,14 @@ public class DettagliPanel extends JPanel {
             JButton rimuoviArticolo = new JButton("Rimuovi questo articolo dal catalogo");
             rimuoviArticolo.addActionListener(new RemoveArticoloListener(this.frame, articolo, puntoVendita));
             JButton modificaArticolo = new JButton("Modifica articolo");
-            if(articolo instanceof ProdottoComposito prodottoComposito)
+
+            if(articoloResult.getArticolo() instanceof ProdottoComposito prodottoComposito) {
+                if(puntoVendita != null)
+                    prodottoComposito.setCollocazione(collocazione);
+                prodottoComposito.setQuantita(articolo.getQuantita());
+                prodottoComposito.setImmagini(articolo.getImmagini());
                 modificaArticolo.addActionListener(new GoToModificaProdottoCompositoListener(this.frame, prodottoComposito, puntoVendita));
+            }
             else if(articolo instanceof Prodotto prodotto)
                 modificaArticolo.addActionListener(new GoToModificaProdottoListener(this.frame, prodotto, puntoVendita));
             else if(articolo instanceof Servizio servizio)

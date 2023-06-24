@@ -1,10 +1,7 @@
 package Model.composite;
 
 import Business.AbstractFactory.ICategoria;
-import Model.Articolo;
-import Model.CategoriaProdotto;
-import Model.Collocazione;
-import Model.Produttore;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +9,17 @@ import java.util.List;
 public class ProdottoComposito extends Articolo implements IProdotto {
 
     private ArrayList<IProdotto> sottoprodotti = new ArrayList<>();
-    private int idMagazzino;
+    private Magazzino magazzino;
 
-    private Produttore produttore = new Produttore();
+    private Produttore produttore;
     private Collocazione collocazione;
 
     public ProdottoComposito() {
         super();
         super.setCategoria(new CategoriaProdotto());
+        this.collocazione = new Collocazione();
+        this.produttore = new Produttore();
+        this.magazzino = new Magazzino();
     }
 
     public ProdottoComposito(String name, String descrizione, Produttore produttore, CategoriaProdotto categoriaProdotto) {
@@ -59,11 +59,11 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public void setSottoprodotti(ArrayList<IProdotto> sottoprodotti) {
         this.sottoprodotti = sottoprodotti;
     }
-    public int getIdMagazzino() {
-        return idMagazzino;
+    public Magazzino getMagazzino() {
+        return magazzino;
     }
-    public void setIdMagazzino(int idMagazzino) {
-        this.idMagazzino = idMagazzino;
+    public void setMagazzino(Magazzino magazzino) {
+        this.magazzino = magazzino;
     }
     public ICategoria getCategoria(){return super.getCategoria();}
     public void setCategoria(CategoriaProdotto categoria){super.setCategoria(categoria);}

@@ -27,6 +27,10 @@ public class ComponenteListener implements ActionListener {
         this.quantitaComponentiFields = quantitaComponentiFields;
     }
 
+    public static void setComponentsCounter(int componentsCounter) {
+        ComponenteListener.componentsCounter = componentsCounter;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals(AGGIUNGI)) {

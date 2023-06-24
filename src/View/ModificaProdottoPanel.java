@@ -43,7 +43,7 @@ public class ModificaProdottoPanel extends JPanel {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
-        JLabel titleLabel = new JLabel("Nuovo prodotto");
+        JLabel titleLabel = new JLabel("Modifica prodotto");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -137,7 +137,7 @@ public class ModificaProdottoPanel extends JPanel {
             produttoreBox.setFont(bodyFont);
             produttoreBox.setSelectedItem(prodotto.getProduttore().getNome());
 
-            JLabel produttoreLabel = new JLabel("  Produttore del nuovo prodotto:");
+            JLabel produttoreLabel = new JLabel("  Produttore del prodotto:");
             produttoreLabel.setFont(bodyFont);
             produttoreBox.setFont(bodyFont);
             contentPanel.add(produttoreLabel);
@@ -156,7 +156,7 @@ public class ModificaProdottoPanel extends JPanel {
             categoriaProdottoBox.setFont(bodyFont);
             categoriaProdottoBox.setSelectedItem(prodotto.getCategoria().getNome());
 
-            JLabel categoriaLabel = new JLabel("  Categoria da assegnare al nuovo prodotto:");
+            JLabel categoriaLabel = new JLabel("  Categoria da assegnare al prodotto:");
             categoriaLabel.setFont(bodyFont);
             categoriaProdottoBox.setFont(bodyFont);
             contentPanel.add(categoriaLabel);

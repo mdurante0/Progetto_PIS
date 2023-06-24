@@ -59,7 +59,7 @@ public class ProdottoCompositoDAOTest {
     public void findAllTest() {
         IProdottoCompositoDAO prodottoCompositoDAO = ProdottoCompositoDAO.getInstance();
         ArrayList<ProdottoComposito> prodottiCompositi = prodottoCompositoDAO.findAll();
-        Assert.assertEquals(1, prodottiCompositi.size());
+        Assert.assertEquals(9, prodottiCompositi.size());
     }
 
     @Test
@@ -93,6 +93,18 @@ public class ProdottoCompositoDAOTest {
         ProdottoCompositoDAO.getInstance().removeSottoprodotto(pc.getIdArticolo(), p);
         pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
         Assert.assertEquals(1, pc.getSottoprodotti().size());
+        ProdottoCompositoDAO.getInstance().addSottoprodotto(pc.getIdArticolo(), p);
+    }
+
+    @Test
+    public void removeAllSottoProdottiTest(){
+        ProdottoComposito pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        ProdottoCompositoDAO.getInstance().removeAllSottoprodotti(pc.getIdArticolo());
+        pc = ProdottoCompositoDAO.getInstance().findByName("Poltrone e Sofa");
+        Assert.assertEquals(0, pc.getSottoprodotti().size());
+        IProdotto p = ProdottoDAO.getInstance().findByName("Poltrona");
+        ProdottoCompositoDAO.getInstance().addSottoprodotto(pc.getIdArticolo(), p);
+        p = ProdottoDAO.getInstance().findByName("Sofa");
         ProdottoCompositoDAO.getInstance().addSottoprodotto(pc.getIdArticolo(), p);
     }
 

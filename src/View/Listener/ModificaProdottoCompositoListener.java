@@ -3,7 +3,7 @@ package View.Listener;
 import Business.*;
 import Business.Results.*;
 import Model.PuntoVendita;
-import Model.composite.Prodotto;
+import Model.composite.ProdottoComposito;
 import View.DettagliPanel;
 import View.MainFrame;
 
@@ -13,73 +13,55 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ModificaProdottoListener implements ActionListener {
+public class ModificaProdottoCompositoListener implements ActionListener {
     private MainFrame frame;
-    private JTextField nomeProdottoField;
+    private JTextField nomeProdottoCompositoField;
     private JTextField descrizioneField;
-    private JTextField prezzoField;
     private JTextField quantitaField;
-    private JComboBox<String> produttoreBox;
     private JComboBox<String> categoriaProdottoBox;
     private JComboBox<String> puntoVenditaBox;
     private JTextField corsiaField;
     private JTextField scaffaleField;
     private ArrayList<File> files;
-    private Prodotto prodotto;
+    private ArrayList<JComboBox<String>> componentiBoxes;
+    private ArrayList<JTextField> quantitaComponentiFields;
+    private ProdottoComposito prodottoComposito;
 
-    public ModificaProdottoListener(MainFrame frame, JTextField nomeProdottoField, JTextField descrizioneField, JTextField prezzoField, JTextField quantitaField, JComboBox<String> produttoreBox, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files, Prodotto prodotto) {
+    public ModificaProdottoCompositoListener(MainFrame frame, JTextField nomeProdottoCompositoField, JTextField descrizioneField, JTextField quantitaField, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files, ArrayList<JComboBox<String>> componentiBoxes, ArrayList<JTextField> quantitaComponentiFields, ProdottoComposito prodottoComposito) {
         this.frame = frame;
-        this.nomeProdottoField = nomeProdottoField;
+        this.nomeProdottoCompositoField = nomeProdottoCompositoField;
         this.descrizioneField = descrizioneField;
-        this.prezzoField = prezzoField;
         this.quantitaField = quantitaField;
-        this.produttoreBox = produttoreBox;
         this.categoriaProdottoBox = categoriaProdottoBox;
         this.puntoVenditaBox = puntoVenditaBox;
         this.corsiaField = corsiaField;
         this.scaffaleField = scaffaleField;
         this.files = files;
-        this.prodotto = prodotto;
+        this.componentiBoxes = componentiBoxes;
+        this.quantitaComponentiFields = quantitaComponentiFields;
+        this.prodottoComposito = prodottoComposito;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            prodotto.setPrezzo(Float.valueOf(prezzoField.getText()));
-        } catch (NumberFormatException exception) {
-            JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
-            return;
-        }
 
         ArticoloResult articoloResult;
-        prodotto.setName(nomeProdottoField.getText());
-        prodotto.setDescrizione(descrizioneField.getText());
-
-        //Caricamento Produttore
-        if (produttoreBox.getSelectedItem() != null && !produttoreBox.getSelectedItem().toString().isBlank()) {
-            ProduttoreResult produttoreResult = ProduttoreBusiness.getInstance().caricaProduttoreByNome(produttoreBox.getSelectedItem().toString());
-
-            if (produttoreResult.getResult().equals(ProduttoreResult.Result.PRODUTTORI_CARICATI))
-                prodotto.setProduttore(produttoreResult.getProduttori().get(0));
-            else {
-                JOptionPane.showMessageDialog(this.frame, produttoreResult.getMessage());
-                return;
-            }
-        }
+        prodottoComposito.setName(nomeProdottoCompositoField.getText());
+        prodottoComposito.setDescrizione(descrizioneField.getText());
 
         //Caricamento Categoria
         if (categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
 
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
-                prodotto.setCategoria(categoriaResult.getCategorieProdotto().get(0));
+                prodottoComposito.setCategoria(categoriaResult.getCategorieProdotto().get(0));
             else{
                 JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
                 return;
             }
 
-        } else if (prodotto.getCategoria().getNome() != null) {
-            articoloResult = ArticoloBusiness.getInstance().removeArticoloFromCategoria(prodotto);
+        } else if (prodottoComposito.getCategoria().getNome() != null) {
+            articoloResult = ArticoloBusiness.getInstance().removeArticoloFromCategoria(prodottoComposito);
 
             if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
                 JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
@@ -87,8 +69,25 @@ public class ModificaProdottoListener implements ActionListener {
             }
         }
 
+        //sottoprodotti
+        ArrayList<String> nomiSottoprodotti = new ArrayList<>();
+        for (JComboBox<String> componentBox :
+                componentiBoxes) {
+            nomiSottoprodotti.add(componentBox.getSelectedItem().toString());
+        }
+        CatalogoResult catalogoResult = CatalogoBusiness.getInstance().caricaCatalogoProdottiByNomi(nomiSottoprodotti);
+        prodottoComposito.setSottoprodotti(catalogoResult.getListaProdotti());
+        for (int i = 0; i < prodottoComposito.getSottoprodotti().size(); i++) {
+            try {
+                prodottoComposito.getSottoprodotti().get(i).setQuantita(Integer.parseInt(quantitaComponentiFields.get(i).getText()));
+            } catch (NumberFormatException exception){
+                JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
+                return;
+            }
+        }
+
         //Aggiornamento Prodotto
-        articoloResult = ArticoloBusiness.getInstance().updateArticolo(prodotto);
+        articoloResult = ArticoloBusiness.getInstance().updateArticolo(prodottoComposito);
         if (!articoloResult.getResult().equals(ArticoloResult.Result.UPDATE_OK)) {
             JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
             return;
@@ -96,8 +95,8 @@ public class ModificaProdottoListener implements ActionListener {
 
         //Rimozione vecchie Immagini
         ImmagineResult immagineResult;
-        if (prodotto.getImmagini().size() != 0) {
-            immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodotto);
+        if (prodottoComposito.getImmagini().size() != 0) {
+            immagineResult = ImmagineBusiness.getInstance().removeImmagineByArticolo(prodottoComposito);
             if (!immagineResult.getResult().equals(ImmagineResult.Result.REMOVE_OK)) {
                 JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
                 return;
@@ -105,7 +104,7 @@ public class ModificaProdottoListener implements ActionListener {
         }
         //Inserimento delle nuove immagini
         for (File file : files) {
-            immagineResult = ImmagineBusiness.getInstance().addImmagine(file, prodotto.getIdArticolo());
+            immagineResult = ImmagineBusiness.getInstance().addImmagine(file, prodottoComposito.getIdArticolo());
             if (!immagineResult.getResult().equals(ImmagineResult.Result.ADD_OK)) {
                 JOptionPane.showMessageDialog(this.frame, immagineResult.getMessage());
                 return;
@@ -120,8 +119,8 @@ public class ModificaProdottoListener implements ActionListener {
             if (puntoVenditaResult.getResult().equals(PuntoVenditaResult.Result.SALEPOINT_CARICATI)) {
                 PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
                 //Rimozione dal vecchio magazzino
-                if(prodotto.getMagazzino().getIndirizzo() != null) {
-                    articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
+                if(prodottoComposito.getMagazzino().getIndirizzo() != null) {
+                    articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodottoComposito, prodottoComposito.getMagazzino().getIdMagazzino());
                     if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
                         JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
                         return;
@@ -129,7 +128,7 @@ public class ModificaProdottoListener implements ActionListener {
                 }
                 //Caricamento nuovo Magazzino
                 MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVendita);
-                prodotto.setMagazzino(magazzinoResult.getMagazzini().get(0));
+                prodottoComposito.setMagazzino(magazzinoResult.getMagazzini().get(0));
                 if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
 
                     try {
@@ -140,56 +139,56 @@ public class ModificaProdottoListener implements ActionListener {
                         JOptionPane.showMessageDialog(this.frame, "Verificare i valori inseriti");
                         return;
                     }
-                    prodotto.setQuantita(Integer.parseInt(quantitaField.getText()));
+                    prodottoComposito.setQuantita(Integer.parseInt(quantitaField.getText()));
 
                     //Aggiornamento collocazione
                     CollocazioneResult collocazioneResult;
-                    prodotto.getCollocazione().setIdProdotto(prodotto.getIdArticolo());
-                    prodotto.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
-                    prodotto.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
+                    prodottoComposito.getCollocazione().setIdProdotto(prodottoComposito.getIdArticolo());
+                    prodottoComposito.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
+                    prodottoComposito.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
 
-                    if(prodotto.getCollocazione().getMagazzino() == null){
-                        prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
-                        collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(prodotto.getCollocazione());
+                    if(prodottoComposito.getCollocazione().getMagazzino() == null){
+                        prodottoComposito.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
+                        collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(prodottoComposito.getCollocazione());
                     }else {
-                        prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
-                        collocazioneResult = CollocazioneBusiness.getInstance().updateCollocazione(prodotto.getCollocazione());
+                        prodottoComposito.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
+                        collocazioneResult = CollocazioneBusiness.getInstance().updateCollocazione(prodottoComposito.getCollocazione());
                     }
                     if (collocazioneResult.getResult().equals(CollocazioneResult.Result.UPDATE_OK) || collocazioneResult.getResult().equals(CollocazioneResult.Result.ADD_OK)) {
 
                         //Inserimento Prodotto nel nuovo Magazzino (collocazione e quantità)
-                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodotto, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+                        articoloResult = ArticoloBusiness.getInstance().addProdottoToMagazzino(prodottoComposito, magazzinoResult.getMagazzini().get(0).getIdMagazzino());
                         if (!articoloResult.getResult().equals(ArticoloResult.Result.ADD_OK)) {
                             JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
-                            collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
+                            collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodottoComposito.getCollocazione());
                             if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
                                 JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
                                 return;
                             }
                         } else {
                             JOptionPane.showMessageDialog(this.frame, "Prodotto inserito con successo in " + puntoVendita.getNome());
-                            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVendita));
+                            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodottoComposito, puntoVendita));
                         }
                     } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
                 } else JOptionPane.showMessageDialog(this.frame, magazzinoResult.getMessage());
             } else JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
 
-        } else if (prodotto.getMagazzino().getIndirizzo() != null){
+        } else if (prodottoComposito.getMagazzino().getIndirizzo() != null){
 
             //Rimozione dal magazzino
-            articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodotto, prodotto.getMagazzino().getIdMagazzino());
+            articoloResult = ArticoloBusiness.getInstance().removeProdottoFromMagazzino(prodottoComposito, prodottoComposito.getMagazzino().getIdMagazzino());
             if (!articoloResult.getResult().equals(ArticoloResult.Result.DELETE_OK)) {
                 JOptionPane.showMessageDialog(this.frame, articoloResult.getMessage());
                 return;
             }
-            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodotto.getCollocazione());
+            CollocazioneResult collocazioneResult = CollocazioneBusiness.getInstance().removeCollocazione(prodottoComposito.getCollocazione());
             if(!collocazioneResult.getResult().equals(CollocazioneResult.Result.DELETE_OK)){
                 JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());
                 return;
             }
-            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, null));
+            this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodottoComposito, null));
 
-        }else this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, null));
+        }else this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodottoComposito, null));
 
         JOptionPane.showMessageDialog(this.frame, "Prodotto modificato con successo");
     }

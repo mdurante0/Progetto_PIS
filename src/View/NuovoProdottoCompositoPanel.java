@@ -35,7 +35,6 @@ public class NuovoProdottoCompositoPanel extends JPanel {
     private ArrayList<JComboBox<String>> componentiBoxes = new ArrayList<>();
     private ArrayList<JTextField> quantitaComponentiFields = new ArrayList<>();
     private JLabel immaginiCounterLabel;
-    private int componentsCounter = 2;
 
     public NuovoProdottoCompositoPanel(MainFrame frame) {
         this.frame = frame;
@@ -219,7 +218,6 @@ public class NuovoProdottoCompositoPanel extends JPanel {
         southPanel.add(aggiungiProdottoCompositoButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
-        //this.add(contentPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.SOUTH);
     }
 }

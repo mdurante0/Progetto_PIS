@@ -98,7 +98,7 @@ public class CreaNuovoProdottoCompositoListener implements ActionListener {
 
             //Caricamento Magazzino
             MagazzinoResult magazzinoResult = MagazzinoBusiness.getInstance().caricaMagazzinoByPuntoVendita(puntoVenditaResult.getPuntiVendita().get(0));
-            prodottoComposito.setIdMagazzino(magazzinoResult.getMagazzini().get(0).getIdMagazzino());
+            prodottoComposito.setMagazzino(magazzinoResult.getMagazzini().get(0));
             if (magazzinoResult.getResult().equals(MagazzinoResult.Result.MAGAZZINI_CARICATI)) {
 
                 //Inserimento Collocazione

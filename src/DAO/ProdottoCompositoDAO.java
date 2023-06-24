@@ -5,6 +5,8 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
+import Model.CategoriaProdotto;
+import Model.Produttore;
 import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
 
@@ -33,8 +35,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     @Override
     public ProdottoComposito findById(int idProdottoComposito) {
 
-        String sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto INNER JOIN progetto_pis.articolo ON prodotto_articolo_idarticolo = idarticolo INNER JOIN progetto_pis.prodotto  ON idarticolo = articolo_idarticolo WHERE prodotto_articolo_idarticolo = '" + idProdottoComposito + "';";
-
+        String sql = "SELECT * FROM progetto_pis.articolo INNER JOIN progetto_pis.prodotto  ON idarticolo = articolo_idarticolo WHERE articolo_idarticolo = '" + idProdottoComposito + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -44,29 +45,31 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
             rs.next();
             if (rs.getRow()==1) {
                 prodottoComposito = new ProdottoComposito();
-                prodottoComposito.setIdArticolo(rs.getInt("prodotto_articolo_idarticolo"));
+                prodottoComposito.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 prodottoComposito.setName(rs.getString("nome"));
                 prodottoComposito.setDescrizione(rs.getString("descrizione"));
                 prodottoComposito.setPrezzo(rs.getFloat("costo"));
-                prodottoComposito.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
-                prodottoComposito.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
+
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                if (categoriaProdotto != null)
+                    prodottoComposito.setCategoria(categoriaProdotto);
+
+                Produttore produttore = ProduttoreDAO.getInstance().findById(rs.getInt("produttore_idproduttore"));
+                if (produttore != null)
+                    prodottoComposito.setProduttore(produttore);
+
+                //aggiungo i componenti del prodotto composito
+                sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                while(rs.next()){
+                    IProdotto sottoprodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo1"));
+                    sottoprodotto.setQuantita(rs.getInt("quantita"));
+                    prodottoComposito.add(sottoprodotto);
+                }
             }
-
-            //aggiungo i componenti del prodotto composito
-            ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-            int idSottoprodotto;
-            int quantita;
-            do {
-                idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
-                quantita = rs.getInt("quantita");
-                IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
-                sottoprodotto.setQuantita(quantita);
-                sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
-                sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
-                prodottoComposito.add(sottoprodotto);
-
-            } while (rs.next());
-
             return prodottoComposito;
 
         } catch (SQLException e) {
@@ -83,7 +86,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
 
     public ProdottoComposito findByName(String name) {
 
-        String sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto INNER JOIN progetto_pis.articolo ON prodotto_articolo_idarticolo = idarticolo INNER JOIN progetto_pis.prodotto  ON idarticolo = articolo_idarticolo WHERE nome = '" + name + "';";
+        String sql = "SELECT * FROM progetto_pis.articolo INNER JOIN progetto_pis.prodotto  ON idarticolo = articolo_idarticolo WHERE nome = '" + name + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -93,30 +96,32 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
             rs.next();
             if (rs.getRow()==1) {
                 prodottoComposito = new ProdottoComposito();
-                prodottoComposito.setIdArticolo(rs.getInt("prodotto_articolo_idarticolo"));
+                prodottoComposito.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 prodottoComposito.setName(rs.getString("nome"));
                 prodottoComposito.setDescrizione(rs.getString("descrizione"));
                 prodottoComposito.setPrezzo(rs.getFloat("costo"));
-                prodottoComposito.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
-                prodottoComposito.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
+
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                if (categoriaProdotto != null)
+                    prodottoComposito.setCategoria(categoriaProdotto);
+
+                Produttore produttore = ProduttoreDAO.getInstance().findById(rs.getInt("produttore_idproduttore"));
+                if (produttore != null)
+                    prodottoComposito.setProduttore(produttore);
+
+
+                //aggiungo i componenti del prodotto composito
+                sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+                ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+                while(rs.next()){
+                    IProdotto sottoprodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo1"));
+                    sottoprodotto.setQuantita(rs.getInt("quantita"));
+                    prodottoComposito.add(sottoprodotto);
+                }
             }
-
-            //aggiungo i componenti del prodotto composito
-            ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-            int idSottoprodotto;
-            int quantita;
-            do {
-
-                idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
-                quantita = rs.getInt("quantita");
-                IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
-                sottoprodotto.setQuantita(quantita);
-                sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
-                sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
-                prodottoComposito.add(sottoprodotto);
-
-            } while (rs.next());
-
             return prodottoComposito;
 
         } catch (SQLException e) {
@@ -135,7 +140,7 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     @Override
     public ArrayList<ProdottoComposito> findAll() {
 
-        String sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto INNER JOIN progetto_pis.articolo ON prodotto_articolo_idarticolo = idarticolo INNER JOIN progetto_pis.prodotto  ON idarticolo = articolo_idarticolo;";
+        String sql = "SELECT * FROM progetto_pis.articolo INNER JOIN progetto_pis.prodotto ON idarticolo = articolo_idarticolo;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -145,31 +150,29 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
         try {
             while (rs.next()) {
                 prodottoComposito = new ProdottoComposito();
-                prodottoComposito.setIdArticolo(rs.getInt("prodotto_articolo_idarticolo"));
+                prodottoComposito.setIdArticolo(rs.getInt("articolo_idarticolo"));
                 prodottoComposito.setName(rs.getString("nome"));
                 prodottoComposito.setDescrizione(rs.getString("descrizione"));
                 prodottoComposito.setPrezzo(rs.getFloat("costo"));
-                prodottoComposito.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
-                prodottoComposito.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
+
+                CategoriaProdotto categoriaProdotto = CategoriaProdottoDAO.getInstance().findById(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                if (categoriaProdotto != null)
+                    prodottoComposito.setCategoria(categoriaProdotto);
+
+                Produttore produttore = ProduttoreDAO.getInstance().findById(rs.getInt("produttore_idproduttore"));
+                if (produttore != null)
+                    prodottoComposito.setProduttore(produttore);
 
                 //aggiungo i componenti del prodotto composito
+                sql = "SELECT * FROM progetto_pis.prodotto_has_prodotto WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() + "';";
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                int idSottoprodotto;
-                int quantita;
-
-                int idAttuale = prodottoComposito.getIdArticolo();
-                while (idAttuale == rs.getInt("prodotto_articolo_idarticolo")) {
-
-                    idSottoprodotto = rs.getInt("prodotto_articolo_idarticolo1");
-                    quantita = rs.getInt("quantita");
-                    IProdotto sottoprodotto = prodottoDAO.findById(idSottoprodotto);
-                    sottoprodotto.setQuantita(quantita);
-                    sottoprodotto.getProduttore().setIdProduttore(rs.getInt("produttore_idproduttore"));
-                    sottoprodotto.getCategoria().setIdCategoria(rs.getInt("categoria_prodotto_idcategoria_prodotto"));
+                while(rs2.next()){
+                    IProdotto sottoprodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo1"));
+                    sottoprodotto.setQuantita(rs2.getInt("quantita"));
                     prodottoComposito.add(sottoprodotto);
-
-                    if(!rs.next())
-                        break;
                 }
                 prodottiCompositi.add(prodottoComposito);
             }
@@ -251,6 +254,17 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     }
 
     @Override
+    public int removeAllSottoprodotti(int idProdottoComposito) {
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "DELETE FROM progetto_pis.prodotto_has_prodotto " +
+                "WHERE prodotto_articolo_idarticolo = '" + idProdottoComposito + "';";
+        IDbOperation readOp = new WriteOperation(sql);
+        return executor.executeOperation(readOp).getRowsAffected();
+
+    }
+
+    @Override
     public int removeById(int idProdottoComposito) {
 
         ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
@@ -261,28 +275,14 @@ public class ProdottoCompositoDAO implements IProdottoCompositoDAO{
     public int update(ProdottoComposito prodottoComposito) {
 
         ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        prodottoDAO.update(prodottoComposito);
-
-        String sql = "";
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp;
-        int rowCount = 0;
+        int rowCount = prodottoDAO.update(prodottoComposito);
+        rowCount += removeAllSottoprodotti(prodottoComposito.getIdArticolo());
 
         Iterator<IProdotto> sottoprodottiIterator = prodottoComposito.getSottoprodotti().iterator();
         while (sottoprodottiIterator.hasNext()) {
-
             IProdotto sottoprodotto = sottoprodottiIterator.next();
-
-            sql = "UPDATE progetto_pis.prodotto_has_prodotto " +
-                    "SET  quantita = '" + sottoprodotto.getQuantita() +
-                    "' WHERE prodotto_articolo_idarticolo = '" + prodottoComposito.getIdArticolo() +
-                    "' && prodotto_articolo_idarticolo1 = " + sottoprodotto.getIdArticolo() + ";";
-
-            writeOp = new WriteOperation(sql);
-            rowCount += executor.executeOperation(writeOp).getRowsAffected();
+            rowCount += addSottoprodotto(prodottoComposito.getIdArticolo(), sottoprodotto);
         }
-
-        writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        return rowCount;
     }
 }
