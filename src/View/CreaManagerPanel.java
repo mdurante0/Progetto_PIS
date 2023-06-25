@@ -85,9 +85,11 @@ public class CreaManagerPanel extends JPanel {
 
 
         JButton registerButton = new JButton("Aggiungi");
+        registerButton.setFont(bodyFont);
         registerButton.addActionListener(new AggiungiManagerListener(this.frame,firstNameField,lastNameField, emailField, usernameField, passwordField, confermaPasswordField,durataIncaricoField, puntiVenditaBox));
 
         JButton backButton = new JButton("Indietro");
+        backButton.setFont(bodyFont);
         backButton.addActionListener(new GoToMostraManagerListener(this.frame));
 
         contentPanel.add(firstNameLabel);

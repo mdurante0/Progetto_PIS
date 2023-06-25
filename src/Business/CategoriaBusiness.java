@@ -79,7 +79,7 @@ public class CategoriaBusiness {
 
         return result;
     }
-    public CategoriaResult caricaCategoriaProdottoById(int  idCategoriaProdotto){
+    public CategoriaResult caricaCategoriaProdottoById(int idCategoriaProdotto){
         CategoriaResult result = new CategoriaResult();
 
         CategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();

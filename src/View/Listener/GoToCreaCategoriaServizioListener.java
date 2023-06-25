@@ -6,9 +6,9 @@ import View.MainFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToCategoriaServizioListener implements ActionListener {
+public class GoToCreaCategoriaServizioListener implements ActionListener {
     private MainFrame frame;
-    public GoToCategoriaServizioListener(MainFrame frame) {
+    public GoToCreaCategoriaServizioListener(MainFrame frame) {
         this.frame = frame;
     }
 

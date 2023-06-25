@@ -14,7 +14,7 @@ public interface IListaAcquistoDAO {
     int removeById(int id);
     int removeByUser(int idUtenteAcquirente);
     int setPagata(int idListaAcquisto);
-    ArrayList<ListaAcquisto> findNotPaidByPuntoVendita(int idPuntoVendita);
+    ArrayList<ListaAcquisto> findAllByPuntoVendita(int idPuntoVendita);
     int addArticolo(int idListaAcquisto, Articolo articolo);
     int removeArticolo(int idListaAcquisto, Articolo articolo);
     int update(ListaAcquisto listaAcquisto);

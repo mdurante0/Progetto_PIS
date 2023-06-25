@@ -7,13 +7,13 @@ import java.util.List;
 
 public class CategoriaTableModel extends AbstractTableModel {
 
-    private List<RigaCategoriaProdotto> righe = new ArrayList<RigaCategoriaProdotto>();
+    private List<RigaCategoria> righe = new ArrayList<>();
 
-    public List<RigaCategoriaProdotto> getRighe() {
+    public List<RigaCategoria> getRighe() {
         return righe;
     }
 
-    public CategoriaTableModel(List<RigaCategoriaProdotto> righe) {
+    public CategoriaTableModel(List<RigaCategoria> righe) {
         this.righe = righe;
     }
 
@@ -30,7 +30,7 @@ public class CategoriaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        RigaCategoriaProdotto riga = righe.get(rowIndex);
+        RigaCategoria riga = righe.get(rowIndex);
 
         switch (columnIndex) {
 
@@ -49,7 +49,7 @@ public class CategoriaTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        RigaCategoriaProdotto riga = righe.get(rowIndex);
+        RigaCategoria riga = righe.get(rowIndex);
 
         switch(columnIndex) {
             case 0: riga.setNomeCategoria(value.toString());

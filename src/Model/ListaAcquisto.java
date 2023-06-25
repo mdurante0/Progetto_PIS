@@ -11,30 +11,30 @@ public class ListaAcquisto {
     private String nome;
     private List<Articolo> articoli = new ArrayList<>();
     private Date dataCreazione = new Date();
-    private int idUtente;
+    private Cliente cliente = new Cliente();
     private float costoFinale;
 
     public ListaAcquisto(){
 
     }
 
-    public ListaAcquisto(int idUtente, boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
-        this.idUtente = idUtente;
+    public ListaAcquisto(Cliente cliente, boolean pagata, String nome, List<Articolo> articoli, Date dataCreazione) {
+        this.cliente = cliente;
         this.pagata = pagata;
         this.nome = nome;
         this.articoli = articoli;
         this.dataCreazione = dataCreazione;
     }
 
-    public ListaAcquisto(int idUtente, boolean pagata, String nome, Date dataCreazione) {
-        this.idUtente = idUtente;
+    public ListaAcquisto(Cliente cliente, boolean pagata, String nome, Date dataCreazione) {
+        this.cliente = cliente;
         this.pagata = pagata;
         this.nome = nome;
         this.dataCreazione = dataCreazione;
     }
 
-    public ListaAcquisto(int idUtente, boolean pagata, String nome, ArrayList<Articolo> articoli) {
-        this.idUtente = idUtente;
+    public ListaAcquisto(Cliente cliente, boolean pagata, String nome, ArrayList<Articolo> articoli) {
+        this.cliente = cliente;
         this.pagata = pagata;
         this.nome = nome;
         this.articoli = articoli;
@@ -98,18 +98,18 @@ public class ListaAcquisto {
         this.dataCreazione = dataCreazione;
     }
 
-    public int getIdUtente() {
-        return idUtente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdUtente(int idUtente) {
-        this.idUtente = idUtente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public float getCostoFinale() {
         this.costoFinale=0F;
         for (Articolo a : articoli) {
-            if (!(a instanceof Servizio))
+            if (a.getQuantita() != 0)
                 costoFinale += a.getPrezzo() * a.getQuantita();
             else costoFinale += a.getPrezzo();
         }

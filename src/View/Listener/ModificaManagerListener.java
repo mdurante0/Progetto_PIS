@@ -43,27 +43,28 @@ public class ModificaManagerListener implements ActionListener {
         String password = Arrays.toString(passwordField.getPassword());
         String confermaPassword = Arrays.toString(confermaPasswordField.getPassword());
 
-        if (!password.equals(confermaPassword))
+        if (!password.equals(confermaPassword)) {
             JOptionPane.showMessageDialog(this.frame, "Le password non coincidono! Riprova!");
-
-            manager.setName(firstNameField.getText());
-            manager.setSurname(lastNameField.getText());
-            manager.setEmail(emailField.getText());
-            manager.setUsername(usernameField.getText());
-            manager.setPwd(String.valueOf(passwordField.getPassword()));
-            manager.setDurataIncarico(Integer.parseInt(durataIncaricoField.getText()));
-
-            if (!manager.getName().isEmpty() && !manager.getSurname().isEmpty() && !manager.getEmail().isEmpty() && !manager.getUsername().isEmpty()) {
-                ManagerResult managerResult = ManagerBusiness.getInstance().updateManager(manager);
-                if (managerResult.getResult() == ManagerResult.Result.UPDATE_OK) {
-                    this.frame.mostraPannelloAttuale(new MostraManagerPanel(this.frame));
-                }
-                JOptionPane.showMessageDialog(this.frame, managerResult.getMessage());
-            } else {
-                JOptionPane.showMessageDialog(this.frame, "Attenzione, il Manager deve avere almeno i seguenti campi: nome, cognome, email, username");
-            }
-
+            return;
         }
+
+        manager.setName(firstNameField.getText());
+        manager.setSurname(lastNameField.getText());
+        manager.setEmail(emailField.getText());
+        manager.setUsername(usernameField.getText());
+        manager.setPwd(String.valueOf(passwordField.getPassword()));
+        manager.setDurataIncarico(Integer.parseInt(durataIncaricoField.getText()));
+        if (!manager.getName().isEmpty() && !manager.getSurname().isEmpty() && !manager.getEmail().isEmpty() && !manager.getUsername().isEmpty()) {
+            ManagerResult managerResult = ManagerBusiness.getInstance().updateManager(manager);
+            if (managerResult.getResult() == ManagerResult.Result.UPDATE_OK) {
+                this.frame.mostraPannelloAttuale(new MostraManagerPanel(this.frame));
+            }
+            JOptionPane.showMessageDialog(this.frame, managerResult.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(this.frame, "Attenzione, il Manager deve avere almeno i seguenti campi: nome, cognome, email, username");
+        }
+
     }
+}
 
 

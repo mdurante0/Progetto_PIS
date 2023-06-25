@@ -46,7 +46,7 @@ public class ListaAcquistoDAOTest {
         articoli.add(p);
         articoli.add(s);
 
-        ListaAcquisto lista = new ListaAcquisto(c.getIdUtente(), false, "mylist", articoli);
+        ListaAcquisto lista = new ListaAcquisto(c, false, "mylist", articoli);
         listaAcquistoDAO.add(lista);
     }
 
@@ -115,7 +115,7 @@ public class ListaAcquistoDAOTest {
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         PuntoVendita puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
-        ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoDAO.findNotPaidByPuntoVendita(puntoVendita.getIdPuntoVendita());
+        ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoDAO.findAllByPuntoVendita(puntoVendita.getIdPuntoVendita());
         Assert.assertEquals(1, listeAcquisto.size());
     }
 

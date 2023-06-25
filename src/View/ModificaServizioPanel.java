@@ -83,7 +83,7 @@ public class ModificaServizioPanel extends JPanel {
         }
 
         CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategorieServizio();
-        if(categoriaResult.getCategorieProdotto() != null) {
+        if(categoriaResult.getCategorieServizio() != null) {
             Iterator<CategoriaServizio> iterator = categoriaResult.getCategorieServizio().iterator();
             String[] nomiCategorieServizio = new String[categoriaResult.getCategorieServizio().size() + 1];
             for (int i = 0; i < categoriaResult.getCategorieServizio().size(); i++) {

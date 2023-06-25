@@ -2,7 +2,7 @@ package View;
 
 import Business.CategoriaBusiness;
 import Business.Results.CategoriaResult;
-import Model.CategoriaProdotto;
+import Model.CategoriaServizio;
 import View.Listener.*;
 import View.ViewModel.CategoriaTableModel;
 import View.ViewModel.RigaCategoria;
@@ -11,16 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MostraCategoriaProdottoPanel extends JPanel {
+public class MostraCategoriaServizioPanel extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraCategoriaProdottoPanel(MainFrame frame) {
+    public MostraCategoriaServizioPanel(MainFrame frame) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Categorie Prodotti");
+        JLabel titleLabel = new JLabel("Categorie Servizio");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -29,28 +29,20 @@ public class MostraCategoriaProdottoPanel extends JPanel {
 
         ArrayList<RigaCategoria> righe = new ArrayList<>();
 
-        CategoriaResult result = CategoriaBusiness.getInstance().caricaCategorieProdotto();
+        CategoriaResult result = CategoriaBusiness.getInstance().caricaCategorieServizio();
+        ArrayList<CategoriaServizio> categorieServizio = result.getCategorieServizio();
 
-        ArrayList<CategoriaProdotto> categorieProdotti = result.getCategorieProdotto();
-
-        for(int i = 0 ; i < categorieProdotti.size(); i++){
-            CategoriaProdotto categoriaProdotto = categorieProdotti.get(i);
+        for(int i = 0 ; i < categorieServizio.size(); i++){
+            CategoriaServizio categoriaServizio = categorieServizio.get(i);
             RigaCategoria riga = new RigaCategoria();
             JButton modifica = new JButton("Modifica");
             JButton elimina = new JButton("Elimina");
-            riga.setNomeCategoria(categoriaProdotto.getNome());
-            if (categorieProdotti.get(i).getIdCategoriaProdottoParent() != 0){
-                result = CategoriaBusiness.getInstance().caricaCategoriaProdottoById(categoriaProdotto.getIdCategoriaProdottoParent());
-                CategoriaProdotto superCategoria = result.getCategorieProdotto().get(0);
-                riga.setNomeSopraCategoria(superCategoria.getNome());
-
-            }
-
+            riga.setNomeCategoria(categoriaServizio.getNome());
             riga.setModificaButton(modifica);
             riga.setEliminaButton(elimina);
 
-            modifica.addActionListener(new GoToModificaCategoriaListener(this.frame, categoriaProdotto));
-            elimina.addActionListener(new RemoveCategoriaProdottoListener(this.frame , categoriaProdotto));
+            modifica.addActionListener(new GoToModificaCategoriaListener(this.frame, categoriaServizio));
+            elimina.addActionListener(new RemoveCategoriaProdottoListener(this.frame , categoriaServizio));
 
             righe.add(riga);
         }
@@ -77,7 +69,7 @@ public class MostraCategoriaProdottoPanel extends JPanel {
         contentPanel.add(new JLabel("          "), BorderLayout.EAST);
 
         JButton creaCategoria = new JButton("Crea Categoria");
-        creaCategoria.addActionListener(new GoToCreaCategoriaProdottoListener(this.frame));
+        creaCategoria.addActionListener(new GoToCreaCategoriaServizioListener(this.frame));
 
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));

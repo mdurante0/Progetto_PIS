@@ -8,6 +8,7 @@ import DAO.UtenteDAO;
 import Model.Articolo;
 import Model.Cliente;
 import Model.ListaAcquisto;
+import Model.PuntoVendita;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,23 @@ public class ListaAcquistoBusiness {
         return result;
     }
 
+    public ListaAcquistoResult updateListaAcquisto(ListaAcquisto listaAcquisto){
+        ListaAcquistoResult result = new ListaAcquistoResult();
+        ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+
+        int aggiornata = listaAcquistoDAO.update(listaAcquisto);
+        if(aggiornata == 0){ //Lista d'acquisto non aggiornata
+            result.setResult(ListaAcquistoResult.Result.UPDATE_ERROR);
+            result.setMessage("Errore nell'aggiornamento della lista d'acquisto! Riprova!");
+            return result;
+        }
+
+        //Lista d'acquisto aggiunta correttamente
+        result.setResult(ListaAcquistoResult.Result.UPDATE_OK);
+        result.setMessage("Lista d'acquisto aggiornata con successo!");
+        return result;
+    }
+
     public ListaAcquistoResult removeListaAcquisto(ListaAcquisto listaAcquisto){
         ListaAcquistoResult result = new ListaAcquistoResult();
         ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
@@ -55,7 +73,7 @@ public class ListaAcquistoBusiness {
         return result;
     }
 
-    public ListaAcquistoResult caricaListeAcquisto(String clienteUsername){
+    public ListaAcquistoResult caricaListeAcquistoByCliente(String clienteUsername){
         ListaAcquistoResult result = new ListaAcquistoResult();
         UtenteDAO utenteDAO = UtenteDAO.getInstance();
         ClienteDAO clienteDAO = ClienteDAO.getInstance();
@@ -72,7 +90,7 @@ public class ListaAcquistoBusiness {
         ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findByUser(c.getIdUtente());
         if(liste.isEmpty()){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
-            result.setMessage("Nessuna lista d'acquisto trovate! Può crearne di nuove per effettuare nuovi acquisti!");
+            result.setMessage("Nessuna lista d'acquisto trovata! Può crearne di nuove per effettuare nuovi acquisti!");
             return result;
         }
 
@@ -83,19 +101,46 @@ public class ListaAcquistoBusiness {
         return result;
     }
 
-    public ListaAcquistoResult addArticoloInListaAcquisto(ListaAcquisto listaAcquisto, String nomeArticolo){
+    public ListaAcquistoResult caricaListeAcquistoByPuntoVendita(PuntoVendita puntoVendita){
         ListaAcquistoResult result = new ListaAcquistoResult();
         ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
-        ArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        //Verifico l'esistenza dell'articolo
-        if(!articoloDAO.articoloExists(nomeArticolo)){
+        ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findAllByPuntoVendita(puntoVendita.getIdPuntoVendita());
+        if(liste.isEmpty()){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
-            result.setMessage("Articolo non trovato! Riprova!");
+            result.setMessage("Nessuna lista d'acquisto trovata!");
             return result;
         }
 
-        Articolo articolo = articoloDAO.findByName(nomeArticolo);
+        //Liste d'acquisto caricate correttamente
+        result.setListeAcquisto(liste);
+        result.setResult(ListaAcquistoResult.Result.LISTE_CARICATE);
+        result.setMessage("Liste d'acquisto caricate correttamente!");
+        return result;
+    }
+
+    public ListaAcquistoResult caricaListeAcquisto(){
+        ListaAcquistoResult result = new ListaAcquistoResult();
+        ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+
+        ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findAll();
+        if(liste.isEmpty()){ //Non ci sono liste d'acquisto
+            result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
+            result.setMessage("Nessuna lista d'acquisto trovata!");
+            return result;
+        }
+
+        //Liste d'acquisto caricate correttamente
+        result.setListeAcquisto(liste);
+        result.setResult(ListaAcquistoResult.Result.LISTE_CARICATE);
+        result.setMessage("Liste d'acquisto caricate correttamente!");
+        return result;
+    }
+
+    public ListaAcquistoResult addArticoloInListaAcquisto(ListaAcquisto listaAcquisto, Articolo articolo){
+        ListaAcquistoResult result = new ListaAcquistoResult();
+        ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
+
         int aggiunto = listaAcquistoDAO.addArticolo(listaAcquisto.getIdLista(), articolo);
         if(aggiunto == 0){ //Articolo non inserito
             result.setResult(ListaAcquistoResult.Result.ADD_ERROR);

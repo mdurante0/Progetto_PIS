@@ -1,12 +1,11 @@
 package View;
 
-import Business.*;
+import Business.ArticoloBusiness;
 import Business.Results.ArticoloResult;
-import Business.Results.ClienteResult;
-import Business.Results.ListaAcquistoResult;
-import Business.Results.PuntoVenditaResult;
-import Model.*;
-import View.Listener.*;
+import Model.ListaAcquisto;
+import View.Listener.GoToListaAcquistoListener;
+import View.Listener.JTableButtonMouseListener;
+import View.Listener.RemoveArticoloFromListaAcquistoListener;
 import View.ViewModel.DettagliListaAcquistoTableModel;
 import View.ViewModel.RigaDettagliListaAcquisto;
 
@@ -40,22 +39,16 @@ public class VisualizzaListaAcquistoPanel extends JPanel {
 
             ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(listaAcquisto.getArticoli().get(i));
             if (!articoloResult.getResult().equals(ArticoloResult.Result.IS_SERVIZIO)){
-                rigaDettagliListaAcquisto.setQuantita(listaAcquisto.getArticoli().get(i).getQuantita());
+                rigaDettagliListaAcquisto.setQuantita(String.valueOf(listaAcquisto.getArticoli().get(i).getQuantita()));
                 rigaDettagliListaAcquisto.setCosto(listaAcquisto.getArticoli().get(i).getPrezzo()*listaAcquisto.getArticoli().get(i).getQuantita());
-
             }
             else {
-                rigaDettagliListaAcquisto.setQuantita(1);
+                rigaDettagliListaAcquisto.setQuantita("");
                 rigaDettagliListaAcquisto.setCosto(listaAcquisto.getArticoli().get(i).getPrezzo());
-
             }
-
             rigaDettagliListaAcquisto.setEliminaButton(eliminaButton);
-
             righe.add(rigaDettagliListaAcquisto);
         }
-
-
 
         DettagliListaAcquistoTableModel tableModel = new DettagliListaAcquistoTableModel(righe);
         JTable tabella = new JTable(tableModel);

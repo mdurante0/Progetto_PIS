@@ -1,5 +1,6 @@
 package Business.Results;
 
+import Business.AbstractFactory.ICategoria;
 import Model.CategoriaProdotto;
 import Model.CategoriaServizio;
 
@@ -13,6 +14,7 @@ public class CategoriaResult {
     private String message;
     private ArrayList<CategoriaProdotto> categorieProdotto = new ArrayList<>();
     private ArrayList<CategoriaServizio> categorieServizio = new ArrayList<>();
+    private ArrayList<ICategoria> categorie = new ArrayList<>();
     public Result getResult() {
         return result;
     }
@@ -27,6 +29,14 @@ public class CategoriaResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public ArrayList<ICategoria> getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(ArrayList<ICategoria> categorie) {
+        this.categorie = categorie;
     }
 
     public ArrayList<CategoriaProdotto> getCategorieProdotto() {

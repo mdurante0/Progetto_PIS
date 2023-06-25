@@ -3,16 +3,10 @@ package View.ViewModel;
 
 
 public class RigaDettagliListaAcquisto {
-
-
-
     private String nomeProdotto;
-    private int quantita;
+    private String quantita;
     private float costo;
     private Object eliminaButton;
-
-
-
     public Object getEliminaButton() {
         return eliminaButton;
     }
@@ -29,11 +23,11 @@ public class RigaDettagliListaAcquisto {
         this.nomeProdotto = nomeProdotto;
     }
 
-    public int getQuantita() {
+    public String getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(int quantita) {
+    public void setQuantita(String quantita) {
         this.quantita = quantita;
     }
 

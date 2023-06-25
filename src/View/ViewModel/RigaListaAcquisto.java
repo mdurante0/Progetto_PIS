@@ -10,6 +10,7 @@ public class RigaListaAcquisto {
     private Object pagata;
     private Object DettagliButton;
     private Object eliminaButton;
+    private Object aggiungiButton;
 
     public Object getDettagliButton() {
         return DettagliButton;
@@ -41,8 +42,6 @@ public class RigaListaAcquisto {
     public void setPagata(Object pagata) {
         this.pagata = pagata;
     }
-
-
     public Object getEliminaButton() {
         return eliminaButton;
     }
@@ -57,5 +56,13 @@ public class RigaListaAcquisto {
 
     public void setCostoTotale(float costoTotale) {
         this.costoTotale = costoTotale;
+    }
+
+    public Object getAggiungiButton() {
+        return aggiungiButton;
+    }
+
+    public void setAggiungiButton(Object aggiungiButton) {
+        this.aggiungiButton = aggiungiButton;
     }
 }

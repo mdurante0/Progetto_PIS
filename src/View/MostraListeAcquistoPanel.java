@@ -1,17 +1,12 @@
 package View;
 
-import Business.ClienteBusiness;
 import Business.ListaAcquistoBusiness;
 import Business.PuntoVenditaBusiness;
-import Business.Results.ClienteResult;
 import Business.Results.ListaAcquistoResult;
 import Business.Results.PuntoVenditaResult;
 import Business.SessionManager;
 import Model.*;
-import View.Listener.GoToDettagliListaAcquistoListener;
-import View.Listener.GoToMenuListener;
-import View.Listener.JTableButtonMouseListener;
-import View.Listener.RemoveListaAcquistoListener;
+import View.Listener.*;
 import View.ViewModel.ListaAcquistoTableModel;
 import View.ViewModel.RigaListaAcquisto;
 
@@ -28,7 +23,7 @@ public class MostraListeAcquistoPanel extends JPanel {
 
     public MostraListeAcquistoPanel(MainFrame frame) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Liste di acquisto ");
+        JLabel titleLabel = new JLabel("Liste di acquisto");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
@@ -38,90 +33,51 @@ public class MostraListeAcquistoPanel extends JPanel {
         ArrayList<RigaListaAcquisto> righe = new ArrayList<>();
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
+        ListaAcquistoResult listaAcquistoResult;
+        ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
+        JButton dettagliButton = new JButton("Dettagli");
+        JButton eliminaButton = new JButton("Elimina");
+        JButton pagataButton = new JButton();
+        RigaListaAcquisto riga = new RigaListaAcquisto();
 
         if (u instanceof Cliente c){
-            ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(c.getUsername());
-            ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
+            listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquistoByCliente(c.getUsername());
+            listeAcquisto = listaAcquistoResult.getListeAcquisto();
 
-            for(int i = 0 ; i < listeAcquisto.size(); i++){
-                RigaListaAcquisto riga = new RigaListaAcquisto();
-                JButton dettagliButton = new JButton("Dettagli");
-                JButton eliminaButton = new JButton("Elimina");
-                if (listeAcquisto.get(i).isPagata())
-                    riga.setPagata("Acquistata");
-                else riga.setPagata("Non Acquistata");
-                riga.setNomeLista(listeAcquisto.get(i).getNome());
-                riga.setDettagliButton(dettagliButton);
-                riga.setEliminaButton(eliminaButton);
-                riga.setCostoTotale(listeAcquisto.get(i).getCostoFinale());
-
-                eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(i)));
-                dettagliButton.addActionListener(new GoToDettagliListaAcquistoListener(this.frame, listeAcquisto.get(i)));
-
-                righe.add(riga);
-            }
         }
-        if (u instanceof Manager m){
+        else if (u instanceof Manager m){
             PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByManager(m);
             PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
 
-            ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienteByPuntoVendita(puntoVendita);
-
-            ArrayList<Cliente> clienti = clienteResult.getClienti();
-
-            for(int i = 0 ; i < clienti.size(); i++){
-                ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(clienti.get(i).getUsername());
-
-                ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
-
-                for (int j = 0; j < listeAcquisto.size(); j++) {
-
-                    RigaListaAcquisto riga = new RigaListaAcquisto();
-                    JButton eliminaButton = new JButton("Elimina");
-                    JButton pagataButton = new JButton("Non Pagata");
-                    if (listeAcquisto.get(j).isPagata())
-                        pagataButton.setText("Pagata");
-                    riga.setUsernameCliente(clienti.get(i).getUsername());
-                    riga.setNomeLista(listeAcquisto.get(j).getNome());
-                    riga.setPagata(pagataButton);
-                    riga.setEliminaButton(eliminaButton);
-                    riga.setCostoTotale(listeAcquisto.get(j).getCostoFinale());
-
-                    eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
-                    // aggiungere action Listener pagata Button
-
-                    righe.add(riga);
-                }
-            }
-
+            listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquistoByPuntoVendita(puntoVendita);
+            listeAcquisto = listaAcquistoResult.getListeAcquisto();
         }
-        if (u instanceof Amministratore){
-            ClienteResult clienteResult = ClienteBusiness.getInstance().caricaClienti();
+        else if (u instanceof Amministratore){
+            listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto();
+            listeAcquisto = listaAcquistoResult.getListeAcquisto();
+        }
 
-            ArrayList<Cliente> clienti = clienteResult.getClienti();
-
-            for(int i = 0 ; i < clienti.size(); i++){
-                ListaAcquistoResult listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquisto(clienti.get(i).getUsername());
-
-                ArrayList<ListaAcquisto> listeAcquisto = listaAcquistoResult.getListeAcquisto();
-
-                for (int j = 0; j < listeAcquisto.size(); j++) {
-
-                    RigaListaAcquisto riga = new RigaListaAcquisto();
-                    JButton eliminaButton = new JButton("Elimina");
-                    JButton pagataButton = new JButton("Non pagata");
-                    riga.setUsernameCliente(clienti.get(i).getUsername());
-                    riga.setNomeLista(listeAcquisto.get(j).getNome());
-                    riga.setPagata(pagataButton);
-                    riga.setEliminaButton(eliminaButton);
-                    riga.setCostoTotale(listeAcquisto.get(j).getCostoFinale());
-                    eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(j)));
-                    //aggiungere action listener pagataButton
-
-                    righe.add(riga);
-                }
-
+        for (int i = 0; i < listeAcquisto.size(); i++) {
+            if (listeAcquisto.get(i).isPagata()) {
+                pagataButton.setText("Acquistata");
+                riga.setPagata("Acquistata");
             }
+            else {
+                pagataButton.setText("Non Acquistata");
+                riga.setPagata("Non Acquistata");
+                riga.setEliminaButton(eliminaButton);
+            }
+            riga.setUsernameCliente(listeAcquisto.get(i).getCliente().getUsername());
+            riga.setNomeLista(listeAcquisto.get(i).getNome());
+            if (u instanceof Manager || u instanceof Amministratore)
+                riga.setPagata(pagataButton);
+            riga.setDettagliButton(dettagliButton);
+            riga.setEliminaButton(eliminaButton);
+            riga.setCostoTotale(listeAcquisto.get(i).getCostoFinale());
+            eliminaButton.addActionListener(new RemoveListaAcquistoListener(this.frame, listeAcquisto.get(i)));
+            dettagliButton.addActionListener(new GoToDettagliListaAcquistoListener(this.frame, listeAcquisto.get(i)));
+            pagataButton.addActionListener(new SetPagataListener(this.frame, listeAcquisto.get(i), pagataButton));
+            righe.add(riga);
         }
 
         ListaAcquistoTableModel tableModel = new ListaAcquistoTableModel(righe, u);

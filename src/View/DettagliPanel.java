@@ -232,7 +232,7 @@ public class DettagliPanel extends JPanel {
             contentPanel.add(nuovaListaButton);
 
             JButton listaEsistenteButton = new JButton("Aggiungi ad una lista d'acquisto esistente");
-            //action listener
+            listaEsistenteButton.addActionListener(new GoToAggiungiAListaListener(this.frame, quantitaBox, articolo, puntoVendita));
             listaEsistenteButton.setFont(bodyFont);
             contentPanel.add(listaEsistenteButton);
         }

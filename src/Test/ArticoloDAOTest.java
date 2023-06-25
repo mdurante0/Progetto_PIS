@@ -127,7 +127,7 @@ public class ArticoloDAOTest {
         ArrayList<Articolo> articoli = new ArrayList<>();
         articoli.add(p);
 
-        ListaAcquisto lista = new ListaAcquisto(c.getIdUtente(), true, "mylist", articoli);
+        ListaAcquisto lista = new ListaAcquisto(c, true, "mylist", articoli);
         listaAcquistoDAO.add(lista);
 
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();

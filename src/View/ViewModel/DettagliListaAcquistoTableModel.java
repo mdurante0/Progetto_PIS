@@ -1,8 +1,5 @@
 package View.ViewModel;
 
-import Model.Cliente;
-import Model.Utente;
-
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class DettagliListaAcquistoTableModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0: riga.setNomeProdotto(value.toString());
-            case 1: riga.setQuantita(Integer.parseInt(value.toString()));
+            case 1: riga.setQuantita(value.toString());
             case 2: riga.setCosto(Float.parseFloat(value.toString()));
             case 3: riga.setEliminaButton(new JButton());
 

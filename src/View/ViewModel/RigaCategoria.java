@@ -1,6 +1,6 @@
 package View.ViewModel;
 
-public class RigaCategoriaProdotto {
+public class RigaCategoria {
 
   private String nomeCategoria;
   private String nomeSopraCategoria;
