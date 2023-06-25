@@ -32,19 +32,14 @@ public class CreaCategoriaServizioPanel extends JPanel {
         categoriaLabel.setFont(bodyFont);
 
         categoriaField = new JTextField(20);
-
-
-
         categoriaField.setFont(bodyFont);
 
-        JButton aggiungiCategoriaProdottoButton = new JButton("Aggiungi");
-        aggiungiCategoriaProdottoButton.addActionListener(new CreaCategoriaServizioListener(this.frame, categoriaField));
-        aggiungiCategoriaProdottoButton.setFont(bodyFont);
+        JButton aggiungiCategoriaServizioButton = new JButton("Aggiungi");
+        aggiungiCategoriaServizioButton.addActionListener(new CreaCategoriaServizioListener(this.frame, categoriaField));
+        aggiungiCategoriaServizioButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(categoriaLabel);
         contentPanel.add(categoriaField);
@@ -52,7 +47,7 @@ public class CreaCategoriaServizioPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(tornaIndietroButton);
-        contentPanel.add(aggiungiCategoriaProdottoButton);
+        contentPanel.add(aggiungiCategoriaServizioButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);

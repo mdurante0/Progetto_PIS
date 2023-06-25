@@ -26,6 +26,13 @@ public class ListaAcquisto {
         this.dataCreazione = dataCreazione;
     }
 
+    public ListaAcquisto(int idUtente, boolean pagata, String nome, Date dataCreazione) {
+        this.idUtente = idUtente;
+        this.pagata = pagata;
+        this.nome = nome;
+        this.dataCreazione = dataCreazione;
+    }
+
     public ListaAcquisto(int idUtente, boolean pagata, String nome, ArrayList<Articolo> articoli) {
         this.idUtente = idUtente;
         this.pagata = pagata;

@@ -21,21 +21,10 @@ public class ListaAcquistoBusiness {
         }
         return instance;
     }
-    public ListaAcquistoResult addListaAcquisto(ListaAcquisto listaAcquisto, String clienteUsername){
+    public ListaAcquistoResult addListaAcquisto(ListaAcquisto listaAcquisto){
         ListaAcquistoResult result = new ListaAcquistoResult();
         ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
 
-        //Verifico l'esistenza del cliente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(ListaAcquistoResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente indicato non esiste! Riprova!");
-            return result;
-        }
-
-        ClienteDAO clienteDAO = ClienteDAO.getInstance();
-        Cliente c = clienteDAO.findByUsername(clienteUsername);
-        listaAcquisto.setIdUtente(c.getIdUtente());
         int inserita = listaAcquistoDAO.add(listaAcquisto);
         if(inserita == 0){ //Lista d'acquisto non inserita
             result.setResult(ListaAcquistoResult.Result.ADD_ERROR);

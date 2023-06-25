@@ -227,7 +227,7 @@ public class DettagliPanel extends JPanel {
 
         if(u instanceof Cliente) {
             JButton nuovaListaButton = new JButton("Aggiungi ad una nuova lista d'acquisto");
-            //action listener
+            nuovaListaButton.addActionListener(new GoToCreaListaListener(this.frame, quantitaBox, articolo, puntoVendita));
             nuovaListaButton.setFont(bodyFont);
             contentPanel.add(nuovaListaButton);
 

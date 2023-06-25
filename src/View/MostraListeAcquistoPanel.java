@@ -47,7 +47,9 @@ public class MostraListeAcquistoPanel extends JPanel {
                 RigaListaAcquisto riga = new RigaListaAcquisto();
                 JButton dettagliButton = new JButton("Dettagli");
                 JButton eliminaButton = new JButton("Elimina");
-                riga.setPagata(String.valueOf(listeAcquisto.get(i).getPagata()));
+                if (listeAcquisto.get(i).isPagata())
+                    riga.setPagata("Acquistata");
+                else riga.setPagata("Non Acquistata");
                 riga.setNomeLista(listeAcquisto.get(i).getNome());
                 riga.setDettagliButton(dettagliButton);
                 riga.setEliminaButton(eliminaButton);
@@ -77,6 +79,8 @@ public class MostraListeAcquistoPanel extends JPanel {
                     RigaListaAcquisto riga = new RigaListaAcquisto();
                     JButton eliminaButton = new JButton("Elimina");
                     JButton pagataButton = new JButton("Non Pagata");
+                    if (listeAcquisto.get(j).isPagata())
+                        pagataButton.setText("Pagata");
                     riga.setUsernameCliente(clienti.get(i).getUsername());
                     riga.setNomeLista(listeAcquisto.get(j).getNome());
                     riga.setPagata(pagataButton);

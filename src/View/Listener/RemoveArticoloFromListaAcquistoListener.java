@@ -5,7 +5,6 @@ import Business.Results.ListaAcquistoResult;
 import Model.Articolo;
 import Model.ListaAcquisto;
 import View.MainFrame;
-import View.MostraListeAcquistoPanel;
 import View.VisualizzaListaAcquistoPanel;
 
 import javax.swing.*;
@@ -30,7 +29,8 @@ public class RemoveArticoloFromListaAcquistoListener implements ActionListener {
             ListaAcquistoResult result = ListaAcquistoBusiness.getInstance().removeArticoloFromListaAcquisto(listaAcquisto, articolo.getName());
 
             if(result.getResult().equals(ListaAcquistoResult.Result.REMOVE_OK)){
-                    this.frame.mostraPannelloAttuale(new VisualizzaListaAcquistoPanel(this.frame, listaAcquisto));
+                listaAcquisto.remove(articolo);
+                this.frame.mostraPannelloAttuale(new VisualizzaListaAcquistoPanel(this.frame, listaAcquisto));
 
             }
             JOptionPane.showMessageDialog(this.frame, result.getMessage());
