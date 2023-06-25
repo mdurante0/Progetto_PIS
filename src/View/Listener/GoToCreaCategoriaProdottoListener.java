@@ -1,15 +1,14 @@
 package View.Listener;
 
 import View.CreaCategoriaProdottoPanel;
-import View.FornitorePanel;
 import View.MainFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToCategoriaProdottoListener implements ActionListener {
+public class GoToCreaCategoriaProdottoListener implements ActionListener {
     private MainFrame frame;
-    public GoToCategoriaProdottoListener(MainFrame frame) {
+    public GoToCreaCategoriaProdottoListener(MainFrame frame) {
         this.frame = frame;
     }
 

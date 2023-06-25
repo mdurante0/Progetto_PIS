@@ -1,10 +1,15 @@
 package View;
 
 
+import Business.CategoriaBusiness;
+import Business.Results.CategoriaResult;
 import Model.CategoriaProdotto;
+import View.Listener.GoToMostraCategorieProdottiListener;
+import View.Listener.ModificaCategoriaProdottoListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ModificaCategoriaProdottoPanel extends JPanel {
     private MainFrame frame;
@@ -12,7 +17,7 @@ public class ModificaCategoriaProdottoPanel extends JPanel {
     private JPanel contentPanel = new JPanel();
 
     private JTextField categoriaField;
-    private JTextField sottocategoriaField;
+    private JComboBox categoriaPadreBox;
 
     public ModificaCategoriaProdottoPanel(MainFrame frame, CategoriaProdotto categoriaProdotto) {
         this.frame = frame;
@@ -26,18 +31,27 @@ public class ModificaCategoriaProdottoPanel extends JPanel {
 
         contentPanel.setLayout(new GridLayout(7,2));
         JLabel categoriaLabel = new JLabel("  Categoria:");
-        JLabel sottocategorieLabel = new JLabel("  Sottocategoria:");
+        JLabel sottocategorieLabel = new JLabel("  Categoria Padre:");
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
         categoriaLabel.setFont(bodyFont);
         sottocategorieLabel.setFont(bodyFont);
 
         categoriaField = new JTextField(categoriaProdotto.getNome(),20);
-        sottocategoriaField = new JTextField(categoriaProdotto.getSottocategorie().get(0).getNome(),20);
-
+        CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategorieProdotto();
+        ArrayList<CategoriaProdotto> categorieProdotti = categoriaResult.getCategorieProdotto();
+        String[] nomiCategorie = new String[categorieProdotti.size()+1];
+        for (int i = 0; i < categorieProdotti.size(); i++) {
+            nomiCategorie[i] = categorieProdotti.get(i).getNome();
+        }
+        nomiCategorie[nomiCategorie.length -1] = "Nessuna sopra categoria";
+        categoriaPadreBox = new JComboBox(nomiCategorie);
+        categoriaPadreBox.setFocusable(false);
+        categoriaPadreBox.setSelectedItem(CategoriaBusiness.getInstance().caricaCategoriaProdottoById(categoriaProdotto.getIdCategoriaProdottoParent()).getCategorieProdotto().get(0).getNome());
 
         categoriaField.setFont(bodyFont);
-        sottocategoriaField.setFont(bodyFont);
+        categoriaPadreBox.setFont(bodyFont);
+
 
         JButton aggiungiCategoriaProdottoButton = new JButton("Modifica");
         aggiungiCategoriaProdottoButton.setFont(bodyFont);
@@ -45,11 +59,13 @@ public class ModificaCategoriaProdottoPanel extends JPanel {
         tornaIndietroButton.setFont(bodyFont);
 
         // aggiungere gli action listener
+        aggiungiCategoriaProdottoButton.addActionListener(new ModificaCategoriaProdottoListener(this.frame, categoriaField, categoriaPadreBox, categoriaProdotto));
+        tornaIndietroButton.addActionListener(new GoToMostraCategorieProdottiListener(this.frame));
 
         contentPanel.add(categoriaLabel);
         contentPanel.add(categoriaField);
         contentPanel.add(sottocategorieLabel);
-        contentPanel.add(sottocategoriaField);
+        contentPanel.add(categoriaPadreBox);
 
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());

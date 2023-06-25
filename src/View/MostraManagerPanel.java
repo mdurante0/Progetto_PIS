@@ -46,6 +46,7 @@ public class MostraManagerPanel extends JPanel {
             rigaManager.setEliminaButton(eliminaButton);
 
             //aggiungere action listener
+            modificaButton.addActionListener(new GoToModificaManagerListener(this.frame, managers.get(i)));
             eliminaButton.addActionListener(new RemoveManagerListener(this.frame, managers.get(i)));
 
             righe.add(rigaManager);

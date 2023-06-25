@@ -6,6 +6,7 @@ import Business.Results.CategoriaResult;
 import Model.CategoriaProdotto;
 import View.Listener.CreaCategoriaProdottoListener;
 import View.Listener.GoToMenuListener;
+import View.Listener.GoToMostraCategorieProdottiListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,10 +59,8 @@ public class CreaCategoriaProdottoPanel extends JPanel {
         aggiungiCategoriaProdottoButton.addActionListener(new CreaCategoriaProdottoListener(this.frame, categoriaField,categoriaParentBox));
         aggiungiCategoriaProdottoButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
-        tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
+        tornaIndietroButton.addActionListener(new GoToMostraCategorieProdottiListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(categoriaLabel);
         contentPanel.add(categoriaField);

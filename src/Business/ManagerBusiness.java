@@ -1,6 +1,7 @@
 package Business;
 
 import Business.Results.ManagerResult;
+import Business.Results.RegisterResult;
 import DAO.ManagerDAO;
 import Model.Manager;
 
@@ -75,6 +76,26 @@ public class ManagerBusiness {
         }
 
         //Aggiorno il manager
+        String pwd = manager.getPwd();
+        final int MINIMUM_LENGTH = 8;
+        boolean length = pwd.length() >= MINIMUM_LENGTH;
+        if(!length){
+            result.setMessage("La password inserita deve contenere almeno 8 caratteri! Riprova");
+            return result;
+        }
+        boolean containsUpper = pwd.matches(".*\\p{Upper}.*");
+        if (!containsUpper) {
+            result.setMessage("La password deve contenere almento una lettera maiuscola! Riprova");
+            return result;
+        }
+        boolean containsDigits = pwd.matches(".*\\d.*");
+        if (!containsDigits) {
+            result.setMessage("La password deve contenere almeno un numero! Riprova");
+            return result;
+        }
+
+        String pwdEncrypted = Encrypt.encrypt(manager.getPwd());
+        manager.setPwd(pwdEncrypted);
         if(managerDAO.update(manager) == 0) { //manager non aggiornato
             result.setResult(ManagerResult.Result.MANAGER_ERROR);
             result.setMessage("Manager non aggiornato! Riprova!");

@@ -90,8 +90,6 @@ public class CreaManagerPanel extends JPanel {
         JButton backButton = new JButton("Indietro");
         backButton.addActionListener(new GoToMostraManagerListener(this.frame));
 
-        // ggiungere action listener
-
         contentPanel.add(firstNameLabel);
         contentPanel.add(firstNameField);
         contentPanel.add(lastNameLabel);

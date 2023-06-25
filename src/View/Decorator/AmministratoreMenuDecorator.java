@@ -37,7 +37,7 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         nuovoServizio.addActionListener(new GoToNuovoServizioListener(this.frame));
         produttore.addActionListener(new GoToMostraProduttoriListener(this.frame));
         fornitore.addActionListener(new GoToMostraFornitoriListener(this.frame));
-        categorieProdotti.addActionListener(new GoToCategoriaProdottoListener(this.frame));
+        categorieProdotti.addActionListener(new GoToMostraCategorieProdottiListener(this.frame));
         categorieServizi.addActionListener(new GoToCategoriaServizioListener(this.frame));
         magazziniButton.addActionListener(new GoToMostraMagazziniListener(this.frame));
         manager.addActionListener(new GoToMostraManagerListener(this.frame));

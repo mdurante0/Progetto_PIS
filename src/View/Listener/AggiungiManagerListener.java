@@ -1,6 +1,5 @@
 package View.Listener;
 
-import Business.ManagerBusiness;
 import Business.PuntoVenditaBusiness;
 import Business.Results.PuntoVenditaResult;
 import Business.Results.RegisterResult;

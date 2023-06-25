@@ -135,6 +135,7 @@ public class UtenteDAO implements IUtenteDAO {
         String sql = "UPDATE progetto_pis.utente SET nome = '" + utente.getName() +
                 "', cognome = '" + utente.getSurname() +
                 "', username = '" + utente.getUsername() +
+                "', password = '" + utente.getPwd() +
                 "', email = '" + utente.getEmail() +
                 "' WHERE idutente = '" + utente.getIdUtente() + "';";
         IDbOperation writeOp = new WriteOperation(sql);

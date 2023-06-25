@@ -2,6 +2,7 @@ package View;
 
 import Model.Manager;
 import View.Listener.GoToMostraManagerListener;
+import View.Listener.ModificaManagerListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,6 +70,7 @@ public class ModificaManagerPanel extends JPanel {
         JButton backButton = new JButton("Indietro");
 
         // ggiungere action listener
+        registerButton.addActionListener(new ModificaManagerListener(this.frame, firstNameField, lastNameField, emailField, usernameField, passwordField, confermaPasswordField, durataIncaricoField, manager));
         backButton.addActionListener(new GoToMostraManagerListener(this.frame));
 
         contentPanel.add(firstNameLabel);
