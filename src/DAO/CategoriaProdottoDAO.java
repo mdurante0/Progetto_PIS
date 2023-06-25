@@ -189,7 +189,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
     @Override
     public int update(CategoriaProdotto categoria) {
         String sql;
-        if (categoriaProdotto.getIdCategoriaProdottoParent() != 0)
+        if (categoria.getIdCategoriaProdottoParent() != 0)
             sql = "UPDATE progetto_pis.categoria_prodotto " +
                     "SET nome = '" + categoria.getNome() +
                     "', categoria_prodotto_idcategoria_prodotto = '" + categoria.getIdCategoriaProdottoParent() +
@@ -197,7 +197,7 @@ public class CategoriaProdottoDAO implements ICategoriaProdottoDAO {
         else
             sql = "UPDATE progetto_pis.categoria_prodotto " +
                     "SET nome = '" + categoria.getNome() +
-                    "' WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
+                    "' , categoria_prodotto_idcategoria_prodotto = null WHERE idcategoria_prodotto = '" + categoria.getIdCategoria() + "';";
 
 
         DbOperationExecutor executor = new DbOperationExecutor();

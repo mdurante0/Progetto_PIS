@@ -47,7 +47,8 @@ public class ModificaCategoriaProdottoPanel extends JPanel {
         nomiCategorie[nomiCategorie.length -1] = "Nessuna sopra categoria";
         categoriaPadreBox = new JComboBox(nomiCategorie);
         categoriaPadreBox.setFocusable(false);
-        categoriaPadreBox.setSelectedItem(CategoriaBusiness.getInstance().caricaCategoriaProdottoById(categoriaProdotto.getIdCategoriaProdottoParent()).getCategorieProdotto().get(0).getNome());
+        if (categoriaProdotto.getIdCategoriaProdottoParent() != 0)
+            categoriaPadreBox.setSelectedItem(CategoriaBusiness.getInstance().caricaCategoriaProdottoById(categoriaProdotto.getIdCategoriaProdottoParent()).getCategorieProdotto().get(0).getNome());
 
         categoriaField.setFont(bodyFont);
         categoriaPadreBox.setFont(bodyFont);
@@ -58,7 +59,6 @@ public class ModificaCategoriaProdottoPanel extends JPanel {
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.setFont(bodyFont);
 
-        // aggiungere gli action listener
         aggiungiCategoriaProdottoButton.addActionListener(new ModificaCategoriaProdottoListener(this.frame, categoriaField, categoriaPadreBox, categoriaProdotto));
         tornaIndietroButton.addActionListener(new GoToMostraCategorieProdottiListener(this.frame));
 

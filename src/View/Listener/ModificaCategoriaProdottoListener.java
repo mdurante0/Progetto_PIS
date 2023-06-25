@@ -30,12 +30,21 @@ public class ModificaCategoriaProdottoListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         categoriaProdotto.setNome(categoriaField.getText());
-        if(categoriaPadre.getSelectedItem().toString() != "Nessuna sopra categoria" )
-             categoriaProdotto.setIdCategoriaProdottoParent(CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaPadre.getSelectedItem().toString()).getCategorieProdotto().get(0).getIdCategoriaProdottoParent());
-        else categoriaProdotto.setIdCategoriaProdottoParent(0);
-            CategoriaResult categoriaResult = CategoriaBusiness.getInstance().updateCategoria(categoriaProdotto);
+        CategoriaResult categoriaResult = new CategoriaResult();
+        if(!categoriaPadre.getSelectedItem().toString().equals("Nessuna sopra categoria")){
+            categoriaProdotto.setIdCategoriaProdottoParent(CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaPadre.getSelectedItem().toString()).getCategorieProdotto().get(0).getIdCategoria());
+             categoriaResult = CategoriaBusiness.getInstance().updateCategoria(categoriaProdotto);
             if(categoriaResult.getResult() == CategoriaResult.Result.UPDATE_OK)
                 this.frame.mostraPannelloAttuale(new MostraCategoriaProdottoPanel(this.frame));
+        }
+
+
+        else {
+            categoriaProdotto.setIdCategoriaProdottoParent(0);
+             categoriaResult = CategoriaBusiness.getInstance().updateCategoria(categoriaProdotto);
+                if(categoriaResult.getResult() == CategoriaResult.Result.UPDATE_OK)
+                    this.frame.mostraPannelloAttuale(new MostraCategoriaProdottoPanel(this.frame));
+            }
             JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
 
     }
