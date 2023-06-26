@@ -1,58 +1,62 @@
 package View;
 
 import Business.ManagerBusiness;
+import Business.PuntoVenditaBusiness;
 import Business.Results.ManagerResult;
+import Business.Results.PuntoVenditaResult;
 import Model.Manager;
+import Model.PuntoVendita;
 import View.Listener.*;
-import View.ViewModel.ManagerTableModel;
-import View.ViewModel.RigaManager;
+import View.ViewModel.PuntoVenditaTableModel;
+import View.ViewModel.RigaPuntoVendita;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MostraManagerPanel extends JPanel {
+public class MostraPuntiVenditaPanel extends JPanel {
 
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JPanel southPanel = new JPanel();
 
-    public MostraManagerPanel(MainFrame frame) {
+    public MostraPuntiVenditaPanel(MainFrame frame) {
         this.frame = frame;
-        JLabel titleLabel = new JLabel("Managers ");
+        JLabel titleLabel = new JLabel("Punti Vendita ");
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
         contentPanel.setLayout(new BorderLayout());
         this.setLayout(new BorderLayout());
 
-        ArrayList<RigaManager> righe = new ArrayList<>();
+        ArrayList<RigaPuntoVendita> righe = new ArrayList<>();
 
-        ManagerResult managerResult = ManagerBusiness.getInstance().caricaManagers();
-        ArrayList<Manager> managers = managerResult.getManagers();
+        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
 
-        for (int i = 0; i < managers.size(); i++) {
-            RigaManager rigaManager = new RigaManager();
+        ArrayList<PuntoVendita> puntiVendita = puntoVenditaResult.getPuntiVendita();
+
+        for (int i = 0; i < puntiVendita.size(); i++) {
+            RigaPuntoVendita rigaPuntoVendita = new RigaPuntoVendita();
             JButton modificaButton = new JButton("Modifica");
             JButton eliminaButton = new JButton("Elimina");
 
-            rigaManager.setUsername(managers.get(i).getUsername());
-            rigaManager.setNomeManager(managers.get(i).getName());
-            rigaManager.setCongnomeManager(managers.get(i).getSurname());
-            rigaManager.setEmail(managers.get(i).getEmail());
-            rigaManager.setDurataIncarico(managers.get(i).getDurataIncarico());
-            rigaManager.setModificaButton(modificaButton);
-            rigaManager.setEliminaButton(eliminaButton);
+            rigaPuntoVendita.setNomePuntoVendita(puntiVendita.get(i).getNome());
+            rigaPuntoVendita.setManager(puntiVendita.get(i).getManager().getName());
+            rigaPuntoVendita.setMagazzino(puntiVendita.get(i).getMagazzino().getIndirizzo());
+            rigaPuntoVendita.setCitta(puntiVendita.get(i).getCitta());
+            rigaPuntoVendita.setIndirizzo(puntiVendita.get(i).getIndirizzo());
+            rigaPuntoVendita.setTelefono(puntiVendita.get(i).getTelefono());
+            rigaPuntoVendita.setModificaButton(modificaButton);
+            rigaPuntoVendita.setEliminaButton(eliminaButton);
 
-            modificaButton.addActionListener(new GoToModificaManagerListener(this.frame, managers.get(i)));
-            eliminaButton.addActionListener(new RemoveManagerListener(this.frame, managers.get(i)));
+            //aggiungere action listener
 
-            righe.add(rigaManager);
+            righe.add(rigaPuntoVendita);
         }
 
 
-            ManagerTableModel tableModel = new ManagerTableModel(righe);
+            PuntoVenditaTableModel tableModel = new PuntoVenditaTableModel(righe);
             JTable tabella = new JTable(tableModel);
 
             tabella.setRowHeight(100);
@@ -77,8 +81,8 @@ public class MostraManagerPanel extends JPanel {
             JButton tornaIndietroButton = new JButton("Torna indietro");
             tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
 
-            JButton creaManagerButton = new JButton("Crea un nuovo Manager");
-            creaManagerButton.addActionListener(new GoToCreaManagerListener(this.frame));
+            JButton creaManagerButton = new JButton("Crea un nuovo punto vendita");
+            // aggiungere action listener
 
             southPanel.setLayout(new FlowLayout());
             southPanel.add(tornaIndietroButton);

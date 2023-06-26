@@ -14,7 +14,8 @@ public class RigaCliente {
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
     }
-
+    private Object abilitazione;
+    private Object eliminaButton;
     public String getCongnomeCliente() {
         return congnomeCliente;
     }
@@ -22,10 +23,6 @@ public class RigaCliente {
     public void setCongnomeCliente(String congnomeCliente) {
         this.congnomeCliente = congnomeCliente;
     }
-
-    private Object abilitazione;
-    private Object eliminaButton;
-
     public Object getEliminaButton() {
         return eliminaButton;
     }
