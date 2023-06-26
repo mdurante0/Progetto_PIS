@@ -22,7 +22,7 @@ public class DocumentoListaAcquisto extends Documento {
     }
 
     @Override
-    public void invia(String indirizzo) {
+    public int invia(String indirizzo) {
 
         List<Articolo> articoli = lista.getArticoli();
         StringBuilder text = new StringBuilder();
@@ -52,10 +52,11 @@ public class DocumentoListaAcquisto extends Documento {
             pdfAPI.creaPdf(text.toString(), path);
 
             //invio della mail
-            MailHelper.getInstance(new MailHelperAPI(), indirizzo, "Ecco la tua lista d'acquisto!", "Utilizza il file in allegato per il resoconto della tua spesa!").send(path);
+            return MailHelper.getInstance(new MailHelperAPI(), indirizzo, "Ecco la tua lista d'acquisto!", "Utilizza il file in allegato per il resoconto della tua spesa!").send(path);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return -1;
         }
     }
 }

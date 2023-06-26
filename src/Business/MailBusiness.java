@@ -2,10 +2,12 @@ package Business;
 
 import Business.Bridge.Mail.MailHelper;
 import Business.Bridge.Mail.MailHelperAPI;
+import Business.Bridge.Pdf.Documento;
+import Business.Bridge.Pdf.DocumentoListaAcquisto;
+import Business.Bridge.Pdf.PdfBoxAPI;
 import Business.Results.MailResult;
-import DAO.ClienteDAO;
-import DAO.UtenteDAO;
 import Model.Cliente;
+import Model.ListaAcquisto;
 
 import java.io.File;
 
@@ -19,25 +21,8 @@ public class MailBusiness {
         }
         return instance;
     }
-    public MailResult invioEmail(String clienteUsername, int idManager, String oggetto, String messaggio){
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        ClienteDAO clienteDAO = ClienteDAO.getInstance();
+    public MailResult invioEmail(Cliente cliente, String oggetto, String messaggio){
         MailResult result = new MailResult();
-
-        //Verifico l'esistenza del cliente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(MailResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente non esiste! Riprova!");
-            return result;
-        }
-
-        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
-        //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
-        if(!clienteDAO.isGestibile(cliente,idManager)){
-            result.setResult(MailResult.Result.USER_ERROR);
-            result.setMessage("Il cliente indicato è registrato in un altro punto vendita! Riprova!");
-            return result;
-        }
 
         //invio l'email
         int invio = MailHelper.getInstance(new MailHelperAPI(), cliente.getEmail(), oggetto, messaggio).send();
@@ -53,25 +38,8 @@ public class MailBusiness {
         return result;
     }
 
-    public MailResult invioEmail(String clienteUsername, int idManager, String oggetto, String messaggio, String percorsoFile){
-        UtenteDAO utenteDAO = UtenteDAO.getInstance();
-        ClienteDAO clienteDAO = ClienteDAO.getInstance();
+    public MailResult invioEmail(Cliente cliente, String oggetto, String messaggio, String percorsoFile){
         MailResult result = new MailResult();
-
-        //Verifico l'esistenza del cliente
-        if(!utenteDAO.userExists(clienteUsername) || !utenteDAO.isCliente(clienteUsername)){
-            result.setResult(MailResult.Result.USER_DOESNT_EXIST);
-            result.setMessage("Il cliente non esiste! Riprova!");
-            return result;
-        }
-
-        Cliente cliente = clienteDAO.findByUsername(clienteUsername);
-        //Verifico che il cliente indicato sia registrato nello stesso punto vendita gestito dal manager
-        if(!clienteDAO.isGestibile(cliente,idManager)){
-            result.setResult(MailResult.Result.USER_ERROR);
-            result.setMessage("Il cliente indicato è registrato in un altro punto vendita! Riprova!");
-            return result;
-        }
 
         //Verifico l'esistenza dell'allegato
         File file = new File(percorsoFile);
@@ -92,6 +60,24 @@ public class MailBusiness {
         //Email inviata correttamente
         result.setResult(MailResult.Result.INVIO_OK);
         result.setMessage("Email inviata correttamente al destinatario!");
+        return result;
+    }
+
+    public MailResult invioListaAcquisto(ListaAcquisto listaAcquisto){
+        MailResult result = new MailResult();
+        Documento doc = new DocumentoListaAcquisto(listaAcquisto, new PdfBoxAPI());
+
+        //invio l'email
+        int invio = doc.invia(listaAcquisto.getCliente().getEmail());
+        if(invio == 1) { //email non inviata
+            result.setResult(MailResult.Result.INVIO_ERROR);
+            result.setMessage("Errore nell'invio della Lista d'Acquisto! Riprova!");
+            return result;
+        }
+
+        //Email inviata correttamente
+        result.setResult(MailResult.Result.INVIO_OK);
+        result.setMessage("Lista d'Acquisto inviata correttamente! Controlli la sua mail!");
         return result;
     }
 

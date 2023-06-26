@@ -418,6 +418,24 @@ public class ListaAcquistoDAO implements IListaAcquistoDAO {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
+        int rowCount =  executor.executeOperation(writeOp).getRowsAffected();
+
+        Iterator<Articolo> articoloIterator = listaAcquisto.getArticoli().iterator();
+        Articolo articolo;
+        while (articoloIterator.hasNext()) {
+
+            articolo = articoloIterator.next();
+            if(articolo.getQuantita() > 0)
+
+                sql = "UPDATE progetto_pis.lista_acquisto_has_articolo " +
+                        "SET quantita = '" + articolo.getQuantita() +
+                        "' WHERE lista_acquisto_idlista_acquisto = '" + listaAcquisto.getIdLista() +
+                        "' AND articolo_idarticolo = '" + articolo.getIdArticolo() + "';";
+
+            writeOp = new WriteOperation(sql);
+            rowCount += executor.executeOperation(writeOp).getRowsAffected();
+        }
+
+        return rowCount;
     }
 }

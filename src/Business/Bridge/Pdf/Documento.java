@@ -8,6 +8,6 @@ public abstract class Documento {
         this.pdfAPI = pdfAPI;
     }
 
-    public abstract void invia(String indirizzo);
+    public abstract int invia(String indirizzo);
 
 }

@@ -3,6 +3,7 @@ package View;
 import Business.ArticoloBusiness;
 import Business.Results.ArticoloResult;
 import Model.ListaAcquisto;
+import View.Listener.AcquistoListener;
 import View.Listener.GoToListaAcquistoListener;
 import View.Listener.JTableButtonMouseListener;
 import View.Listener.RemoveArticoloFromListaAcquistoListener;
@@ -74,8 +75,7 @@ public class VisualizzaListaAcquistoPanel extends JPanel {
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToListaAcquistoListener(this.frame));
         JButton acquistaButton = new JButton("Acquista");
-
-        //aggiungere action listener
+        acquistaButton.addActionListener(new AcquistoListener(this.frame, listaAcquisto));
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
