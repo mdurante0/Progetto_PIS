@@ -6,6 +6,9 @@ public class RigaCliente {
     private String email;
     private String nomeCliente;
     private String congnomeCliente;
+    private Object emailButton;
+    private Object abilitazioneButton;
+    private Object eliminaButton;
 
     public String getNomeCliente() {
         return nomeCliente;
@@ -14,8 +17,13 @@ public class RigaCliente {
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
     }
-    private Object abilitazione;
-    private Object eliminaButton;
+    public Object getEmailButton() {
+        return emailButton;
+    }
+
+    public void setEmailButton(Object emailButton) {
+        this.emailButton = emailButton;
+    }
     public String getCongnomeCliente() {
         return congnomeCliente;
     }
@@ -47,11 +55,11 @@ public class RigaCliente {
         this.email = email;
     }
 
-    public Object getAbilitazione() {
-        return abilitazione;
+    public Object getAbilitazioneButton() {
+        return abilitazioneButton;
     }
 
-    public void setAbilitazione(Object abilitazione) {
-        this.abilitazione = abilitazione;
+    public void setAbilitazioneButton(Object abilitazioneButton) {
+        this.abilitazioneButton = abilitazioneButton;
     }
 }

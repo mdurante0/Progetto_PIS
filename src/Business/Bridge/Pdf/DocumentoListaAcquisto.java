@@ -4,7 +4,7 @@ import Business.Bridge.Mail.MailHelper;
 import Business.Bridge.Mail.MailHelperAPI;
 import Model.Articolo;
 import Model.ListaAcquisto;
-import Model.composite.Prodotto;
+import Model.composite.IProdotto;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +35,9 @@ public class DocumentoListaAcquisto extends Documento {
             text.append(String.format(Locale.ITALIAN,"%.2f",a.getPrezzo())).append(" € ");
 
             //per i prodotti inserisco anche la collocazione
-            if(a instanceof Prodotto){
-                int scaffale = ((Prodotto) a).getCollocazione().getScaffale();
-                int corsia = ((Prodotto) a).getCollocazione().getCorsia();
+            if(a instanceof IProdotto){
+                int scaffale = ((IProdotto) a).getCollocazione().getScaffale();
+                int corsia = ((IProdotto) a).getCollocazione().getCorsia();
                 text.append("Corsia: ").append(corsia).append(" ");
                 text.append("Scaffale: ").append(scaffale);
             }
