@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaTableModel extends AbstractTableModel {
+public class CategoriaProdottoTableModel extends AbstractTableModel {
 
     private List<RigaCategoria> righe = new ArrayList<>();
 
@@ -13,7 +13,7 @@ public class CategoriaTableModel extends AbstractTableModel {
         return righe;
     }
 
-    public CategoriaTableModel(List<RigaCategoria> righe) {
+    public CategoriaProdottoTableModel(List<RigaCategoria> righe) {
         this.righe = righe;
     }
 

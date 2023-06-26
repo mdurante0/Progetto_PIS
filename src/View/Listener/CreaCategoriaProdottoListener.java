@@ -1,6 +1,8 @@
 package View.Listener;
 
 
+import Business.AbstractFactory.FactoryProvider;
+import Business.AbstractFactory.ICategoria;
 import Business.CategoriaBusiness;
 import Business.Results.CategoriaResult;
 import Model.CategoriaProdotto;
@@ -15,10 +17,8 @@ public class CreaCategoriaProdottoListener implements ActionListener {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-
     private JTextField categoriaField;
     private JComboBox categoriaParentBox;
-    private CategoriaProdotto categoriaProdotto = new CategoriaProdotto();
 
     public CreaCategoriaProdottoListener(MainFrame frame, JTextField categoriaField, JComboBox categoriaParentBox) {
         this.frame = frame;
@@ -28,11 +28,11 @@ public class CreaCategoriaProdottoListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        ICategoria categoriaProdotto = FactoryProvider.getFactory(FactoryProvider.FactoryType.PRODOTTO).creaCategoria();
         categoriaProdotto.setNome(categoriaField.getText());
         if (!categoriaProdotto.getNome().isEmpty()) {
 
-            if (categoriaParentBox.getSelectedItem() == null) {
+            if (categoriaParentBox.getSelectedItem().equals("Nessuna categoria")) {
                 CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
                 if (categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
                     this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));
@@ -42,7 +42,7 @@ public class CreaCategoriaProdottoListener implements ActionListener {
             if (categoriaParentBox.getSelectedItem() != null) {
                 CategoriaResult categoriaResult1 = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaParentBox.getSelectedItem().toString());
                 CategoriaProdotto categoriaProdottoParent = categoriaResult1.getCategorieProdotto().get(0);
-                categoriaProdotto.setIdCategoriaProdottoParent(categoriaProdottoParent.getIdCategoria());
+                ((CategoriaProdotto)categoriaProdotto).setIdCategoriaProdottoParent(categoriaProdottoParent.getIdCategoria());
                 CategoriaResult categoriaResult = CategoriaBusiness.getInstance().addCategoria(categoriaProdotto);
                 if (categoriaResult.getResult().equals(CategoriaResult.Result.ADD_OK))
                     this.frame.mostraPannelloAttuale(new MenuPanel(this.frame));

@@ -6,6 +6,7 @@ import Business.Results.CategoriaResult;
 import Model.CategoriaProdotto;
 import View.MainFrame;
 import View.MostraCategoriaProdottoPanel;
+import View.MostraCategoriaServizioPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,14 +34,17 @@ public class ModificaCategoriaListener implements ActionListener {
         categoria.setNome(categoriaField.getText());
 
         if(categoria instanceof CategoriaProdotto categoriaProdotto) {
-            if (!categoriaPadre.getSelectedItem().toString().equals("Nessuna sopra categoria"))
+            if (!categoriaPadre.getSelectedItem().toString().equals("Nessuna categoria"))
                 categoriaProdotto.setIdCategoriaProdottoParent(CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaPadre.getSelectedItem().toString()).getCategorieProdotto().get(0).getIdCategoriaProdottoParent());
             else categoriaProdotto.setIdCategoriaProdottoParent(0);
             categoria = categoriaProdotto;
         }
         CategoriaResult categoriaResult = CategoriaBusiness.getInstance().updateCategoria(categoria);
-        if(categoriaResult.getResult().equals(CategoriaResult.Result.UPDATE_OK))
-            this.frame.mostraPannelloAttuale(new MostraCategoriaProdottoPanel(this.frame));
+        if(categoriaResult.getResult().equals(CategoriaResult.Result.UPDATE_OK)) {
+            if (categoria instanceof CategoriaProdotto)
+                this.frame.mostraPannelloAttuale(new MostraCategoriaProdottoPanel(this.frame));
+            else this.frame.mostraPannelloAttuale(new MostraCategoriaServizioPanel(this.frame));
+        }
         JOptionPane.showMessageDialog(this.frame, categoriaResult.getMessage());
 
     }

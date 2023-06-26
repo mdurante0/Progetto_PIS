@@ -23,7 +23,6 @@ public class ModificaCategoriaPanel extends JPanel {
 
     public ModificaCategoriaPanel(MainFrame frame, ICategoria categoria) {
         this.frame = frame;
-
         this.setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Modifica Categoria");
@@ -52,22 +51,19 @@ public class ModificaCategoriaPanel extends JPanel {
             sottocategorieLabel = new JLabel("  Sottocategoria di:");
             sottocategorieLabel.setFont(bodyFont);
 
-            categoriaField = new JTextField(categoriaProdotto.getNome(),20);
             categoriaResult = CategoriaBusiness.getInstance().caricaCategorieProdotto();
             ArrayList<CategoriaProdotto> categorieProdotti = categoriaResult.getCategorieProdotto();
-            nomiCategorie = new String[categorieProdotti.size()+1];
+            nomiCategorie = new String[categorieProdotti.size()];
             for (int i = 0; i < categorieProdotti.size(); i++) {
-                nomiCategorie[i] = categorieProdotti.get(i).getNome();
+                if (!categoria.getNome().equals(categorieProdotti.get(i).getNome()))
+                    nomiCategorie[i] = categorieProdotti.get(i).getNome();
             }
             nomiCategorie[nomiCategorie.length -1] = "Nessuna categoria";
             categoriaPadreBox = new JComboBox(nomiCategorie);
             categoriaPadreBox.setFocusable(false);
             if (categoriaProdotto.getIdCategoriaProdottoParent() != 0)
                 categoriaPadreBox.setSelectedItem(CategoriaBusiness.getInstance().caricaCategoriaProdottoById(categoriaProdotto.getIdCategoriaProdottoParent()).getCategorieProdotto().get(0).getNome());
-
-            categoriaField.setFont(bodyFont);
             categoriaPadreBox.setFont(bodyFont);
-
 
             JButton aggiungiCategoriaProdottoButton = new JButton("Modifica");
             aggiungiCategoriaProdottoButton.setFont(bodyFont);
@@ -93,7 +89,4 @@ public class ModificaCategoriaPanel extends JPanel {
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
     }
-
-
-
 }

@@ -4,7 +4,7 @@ import Business.CategoriaBusiness;
 import Business.Results.CategoriaResult;
 import Model.CategoriaServizio;
 import View.Listener.*;
-import View.ViewModel.CategoriaTableModel;
+import View.ViewModel.CategoriaServizioTableModel;
 import View.ViewModel.RigaCategoria;
 
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class MostraCategoriaServizioPanel extends JPanel {
             righe.add(riga);
         }
 
-        CategoriaTableModel tableModel = new CategoriaTableModel(righe);
+        CategoriaServizioTableModel tableModel = new CategoriaServizioTableModel(righe);
         JTable tabella = new JTable(tableModel);
 
         tabella.setRowHeight(100);

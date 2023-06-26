@@ -5,7 +5,6 @@ import Business.CategoriaBusiness;
 import Business.Results.CategoriaResult;
 import Model.CategoriaProdotto;
 import View.Listener.CreaCategoriaProdottoListener;
-import View.Listener.GoToMenuListener;
 import View.Listener.GoToMostraCategorieProdottiListener;
 
 import javax.swing.*;
@@ -16,13 +15,11 @@ public class CreaCategoriaProdottoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-
     private JTextField categoriaField;
     private JComboBox<String> categoriaParentBox;
 
     public CreaCategoriaProdottoPanel(MainFrame frame) {
         this.frame = frame;
-
         this.setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Nuova Categoria prodotto");
@@ -32,7 +29,7 @@ public class CreaCategoriaProdottoPanel extends JPanel {
 
         contentPanel.setLayout(new GridLayout(7,2));
         JLabel categoriaLabel = new JLabel("  Categoria:");
-        JLabel sottocategorieLabel = new JLabel("  Categoria Padre:");
+        JLabel sottocategorieLabel = new JLabel("  Sottocategoria di:");
 
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
         categoriaLabel.setFont(bodyFont);
@@ -44,10 +41,9 @@ public class CreaCategoriaProdottoPanel extends JPanel {
         ArrayList<CategoriaProdotto> categorieProdotti = categoriaResult.getCategorieProdotto();
         String[] nomiCategorie = new String[categorieProdotti.size() + 1];
         for(int i = 0; i < categorieProdotti.size(); i++ ){
-
              nomiCategorie[i] = categorieProdotti.get(i).getNome();
-
         }
+        nomiCategorie[nomiCategorie.length - 1] = "Nessuna categoria";
         categoriaParentBox = new JComboBox<>(nomiCategorie);
         categoriaParentBox.setFocusable(false);
         categoriaParentBox.setFont(bodyFont);
@@ -74,7 +70,4 @@ public class CreaCategoriaProdottoPanel extends JPanel {
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
     }
-
-
-
 }

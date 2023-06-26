@@ -1,9 +1,10 @@
 package View.Listener;
 
 
+import Business.AbstractFactory.FactoryProvider;
+import Business.AbstractFactory.ICategoria;
 import Business.CategoriaBusiness;
 import Business.Results.CategoriaResult;
-import Model.CategoriaServizio;
 import View.MainFrame;
 import View.MenuPanel;
 
@@ -15,10 +16,7 @@ public class CreaCategoriaServizioListener implements ActionListener {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
-
     private JTextField categoriaField;
-    private CategoriaServizio categoriaServizio = new CategoriaServizio();
-
     public CreaCategoriaServizioListener(MainFrame frame, JTextField categoriaField) {
         this.frame = frame;
         this.categoriaField = categoriaField;
@@ -27,7 +25,7 @@ public class CreaCategoriaServizioListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        ICategoria categoriaServizio = FactoryProvider.getFactory(FactoryProvider.FactoryType.SERVIZIO).creaCategoria();
         categoriaServizio.setNome(categoriaField.getText());
 
         if (!categoriaServizio.getNome().isEmpty()) {
