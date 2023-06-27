@@ -5,7 +5,6 @@ import DbInterface.command.DbOperationExecutor;
 import DbInterface.command.IDbOperation;
 import DbInterface.command.ReadOperation;
 import DbInterface.command.WriteOperation;
-import Model.Collocazione;
 import Model.Magazzino;
 import Model.composite.IProdotto;
 
@@ -54,13 +53,11 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 rs = executor.executeOperation(readOp).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    //prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
-                    prodotto.setCollocazione(new Collocazione());
-                    prodotto.getCollocazione().setIdCollocazione(rs.getInt("collocazione_idcollocazione"));
+                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
                     magazzino.add(prodotto);
                 }
                 return magazzino;
@@ -100,13 +97,11 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 rs = executor.executeOperation(readOp).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs.getInt("quantita_prodotto"));
-                    //prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
-                    prodotto.setCollocazione(new Collocazione());
-                    prodotto.getCollocazione().setIdCollocazione(rs.getInt("collocazione_idcollocazione"));
+                    prodotto.setCollocazione(collocazioneDAO.findById(rs.getInt("collocazione_idcollocazione")));
                     magazzino.add(prodotto);
                 }
 
@@ -148,13 +143,11 @@ public class MagazzinoDAO implements IMagazzinoDAO {
                 ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
 
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                //CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+                CollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
                 while(rs2.next()){
                     IProdotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
                     prodotto.setQuantita(rs2.getInt("quantita_prodotto"));
-                    //prodotto.setCollocazione(collocazioneDAO.findById(rs2.getInt("collocazione_idcollocazione")));
-                    prodotto.setCollocazione(new Collocazione());
-                    prodotto.getCollocazione().setIdCollocazione(rs2.getInt("collocazione_idcollocazione"));
+                    prodotto.setCollocazione(collocazioneDAO.findById(rs2.getInt("collocazione_idcollocazione")));
                     magazzino.add(prodotto);
                 }
 

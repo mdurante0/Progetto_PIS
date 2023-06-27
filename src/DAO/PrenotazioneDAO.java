@@ -34,10 +34,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public Prenotazione findById(int idPrenotazione) {
 
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
-                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
-                "ON p.idprenotazione = pp.prenotazione_idprenotazione " +
-                "WHERE idprenotazione = '" + idPrenotazione + "';";
+        String sql = "SELECT * FROM progetto_pis.prenotazione WHERE idprenotazione = '" + idPrenotazione + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -52,16 +49,17 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
+                sql = "SELECT * FROM progetto_pis.prenotazione_has_prodotto WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+                executor = new DbOperationExecutor();
+                readOp = new ReadOperation(sql);
+                rs = executor.executeOperation(readOp).getResultSet();
+
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                int idProdotto;
-                int quantita;
-                do {
-                    idProdotto = rs.getInt("prodotto_articolo_idarticolo");
-                    quantita = rs.getInt("quantita");
-                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
-                    prodotto.setQuantita(quantita);
+                while (rs.next()) {
+                    IProdotto prodotto = prodottoDAO.findById(rs.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs.getInt("quantita"));
                     prenotazione.add(prodotto);
-                }while (rs.next());
+                }
 
                 return prenotazione;
             }
@@ -81,10 +79,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
 
     public ArrayList<Prenotazione> findByUser(int idUtenteAcquirente){
 
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
-                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
-        "ON p.idprenotazione = pp.prenotazione_idprenotazione " +
-                "WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
+        String sql = "SELECT * FROM progetto_pis.prenotazione WHERE utente_acquirente_utente_idutente = '" + idUtenteAcquirente + "';";
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
         rs = executor.executeOperation(readOp).getResultSet();
@@ -98,16 +93,17 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
+                sql = "SELECT * FROM progetto_pis.prenotazione_has_prodotto WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
+
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                int idProdotto;
-                int quantita;
-                do {
-                    idProdotto = rs.getInt("prodotto_articolo_idarticolo");
-                    quantita = rs.getInt("quantita");
-                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
-                    prodotto.setQuantita(quantita);
+                while (rs2.next()) {
+                    IProdotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs2.getInt("quantita"));
                     prenotazione.add(prodotto);
-                }while (rs.next());
+                }
 
                 prenotazioni.add(prenotazione);
             }
@@ -130,9 +126,7 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
     @Override
     public ArrayList<Prenotazione> findAll() {
 
-        String sql = "SELECT idprenotazione, utente_acquirente_utente_idutente, data_prenotazione, prodotto_articolo_idarticolo, quantita " +
-                "FROM progetto_pis.prenotazione AS p INNER JOIN progetto_pis.prenotazione_has_prodotto AS pp " +
-                "ON p.idprenotazione = pp.prenotazione_idprenotazione;";
+        String sql = "SELECT * FROM progetto_pis.prenotazione;";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation readOp = new ReadOperation(sql);
@@ -147,16 +141,17 @@ public class PrenotazioneDAO implements IPrenotazioneDAO {
                 prenotazione.setIdUtente(rs.getInt("utente_acquirente_utente_idutente"));
                 prenotazione.setDataPrenotazione(formato.parse(rs.getString("data_prenotazione")));
 
+                sql = "SELECT * FROM progetto_pis.prenotazione_has_prodotto WHERE prenotazione_idprenotazione = '" + prenotazione.getIdPrenotazione() + "';";
+                DbOperationExecutor executor2 = new DbOperationExecutor();
+                IDbOperation readOp2 = new ReadOperation(sql);
+                ResultSet rs2 = executor2.executeOperation(readOp2).getResultSet();
+
                 ProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-                int idProdotto;
-                int quantita;
-                do {
-                    idProdotto = rs.getInt("prodotto_articolo_idarticolo");
-                    quantita = rs.getInt("quantita");
-                    IProdotto prodotto = prodottoDAO.findById(idProdotto);
-                    prodotto.setQuantita(quantita);
+                while (rs2.next()) {
+                    IProdotto prodotto = prodottoDAO.findById(rs2.getInt("prodotto_articolo_idarticolo"));
+                    prodotto.setQuantita(rs2.getInt("quantita"));
                     prenotazione.add(prodotto);
-                }while (rs.next());
+                }
 
                 prenotazioni.add(prenotazione);
             }

@@ -1,10 +1,7 @@
 package Model.composite;
 
 import Business.AbstractFactory.ICategoria;
-import Model.CategoriaProdotto;
-import Model.Collocazione;
-import Model.Magazzino;
-import Model.Produttore;
+import Model.*;
 
 public interface IProdotto {
     void setIdArticolo(int idArticolo);

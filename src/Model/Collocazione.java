@@ -6,7 +6,7 @@ public class Collocazione {
     private int corsia;
     private int scaffale;
     private int idProdotto;
-    private Magazzino magazzino;
+    private Magazzino magazzino = new Magazzino();
 
     public Collocazione(int corsia, int scaffale) {
         this.corsia = corsia;

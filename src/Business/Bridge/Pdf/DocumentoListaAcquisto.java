@@ -4,7 +4,7 @@ import Business.Bridge.Mail.MailHelper;
 import Business.Bridge.Mail.MailHelperAPI;
 import Model.Articolo;
 import Model.ListaAcquisto;
-import Model.composite.IProdotto;
+import Model.composite.Prodotto;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,14 +32,15 @@ public class DocumentoListaAcquisto extends Documento {
         while(i.hasNext()) {
             Articolo a = i.next();
             text.append(a.getName()).append(" ");
-            text.append(String.format(Locale.ITALIAN,"%.2f",a.getPrezzo())).append(" € ");
+            text.append(String.format(Locale.ITALIAN,"%.2f",a.getPrezzo())).append(" € \n");
 
             //per i prodotti inserisco anche la collocazione
-            if(a instanceof IProdotto){
-                int scaffale = ((IProdotto) a).getCollocazione().getScaffale();
-                int corsia = ((IProdotto) a).getCollocazione().getCorsia();
+            if(a instanceof Prodotto){
+                int scaffale = ((Prodotto) a).getCollocazione().getScaffale();
+                int corsia = ((Prodotto) a).getCollocazione().getCorsia();
                 text.append("Corsia: ").append(corsia).append(" ");
-                text.append("Scaffale: ").append(scaffale);
+                text.append("Scaffale: ").append(scaffale).append(" ");
+                text.append("Quantita: ").append(a.getQuantita()).append("\n");
             }
             text.append("\n");
         }

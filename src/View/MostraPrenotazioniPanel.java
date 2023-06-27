@@ -10,6 +10,7 @@ import Business.SessionManager;
 import Model.*;
 import View.Listener.GoToMenuListener;
 import View.Listener.JTableButtonMouseListener;
+import View.Listener.MailPrenotazioneListener;
 import View.Listener.RemovePrenotazioneListener;
 import View.ViewModel.PrenotazioneTableModel;
 import View.ViewModel.RigaPrenotazione;
@@ -56,17 +57,21 @@ public class MostraPrenotazioniPanel extends JPanel {
             Cliente c = clienti.get(i);
             PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().caricaPrenotazioniByUser(c.getUsername());
             if (!prenotazioneResult.getPrenotazioni().isEmpty()) {
-                Prenotazione p = prenotazioneResult.getPrenotazioni().get(i);
-                for (int j = 0; j < p.getProdotti().size(); j++) {
-                    RigaPrenotazione riga = new RigaPrenotazione();
-                    JButton elimina = new JButton("Elimina");
-                    riga.setUsernameCliente(c.getUsername());
-                    riga.setNomeProdotto(p.getProdotti().get(j).getName());
-                    riga.setQuantitaProdotto(p.getProdotti().get(j).getQuantita());
-                    riga.setData(p.getDataPrenotazione());
-                    riga.setEliminaButton(elimina);
-                    elimina.addActionListener(new RemovePrenotazioneListener(this.frame, p, p.getProdotti().get(j)));
-                    righe.add(riga);
+
+                for (int j = 0; j < prenotazioneResult.getPrenotazioni().size(); j++) {
+                    Prenotazione p = prenotazioneResult.getPrenotazioni().get(j);
+
+                    for (int k = 0; k < p.getProdotti().size(); k++) {
+                        RigaPrenotazione riga = new RigaPrenotazione();
+                        JButton elimina = new JButton("Elimina");
+                        riga.setUsernameCliente(c.getUsername());
+                        riga.setNomeProdotto(p.getProdotti().get(k).getName());
+                        riga.setQuantitaProdotto(p.getProdotti().get(k).getQuantita());
+                        riga.setData(p.getDataPrenotazione());
+                        riga.setEliminaButton(elimina);
+                        elimina.addActionListener(new RemovePrenotazioneListener(this.frame, p, p.getProdotti().get(k)));
+                        righe.add(riga);
+                    }
                 }
             }
         }
@@ -93,6 +98,12 @@ public class MostraPrenotazioniPanel extends JPanel {
         tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
         southPanel.setLayout(new FlowLayout());
         southPanel.add(tornaIndietroButton);
+
+        if(u instanceof Cliente cliente){
+            JButton promemoriaButton = new JButton("Ricevi promemoria");
+            promemoriaButton.addActionListener(new MailPrenotazioneListener(this.frame, cliente));
+            southPanel.add(promemoriaButton);
+        }
 
         this.add(contentPanel, BorderLayout.CENTER);
         this.add(titlePanel, BorderLayout.PAGE_START);

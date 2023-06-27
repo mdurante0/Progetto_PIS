@@ -4,12 +4,15 @@ import Business.Bridge.Mail.MailHelper;
 import Business.Bridge.Mail.MailHelperAPI;
 import Business.Bridge.Pdf.Documento;
 import Business.Bridge.Pdf.DocumentoListaAcquisto;
+import Business.Bridge.Pdf.DocumentoPrenotazione;
 import Business.Bridge.Pdf.PdfBoxAPI;
 import Business.Results.MailResult;
 import Model.Cliente;
 import Model.ListaAcquisto;
+import Model.Prenotazione;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MailBusiness {
 
@@ -78,6 +81,24 @@ public class MailBusiness {
         //Email inviata correttamente
         result.setResult(MailResult.Result.INVIO_OK);
         result.setMessage("Lista d'Acquisto inviata correttamente! Controlli la sua mail!");
+        return result;
+    }
+
+    public MailResult invioPrenotazioni(ArrayList<Prenotazione> prenotazioni, Cliente cliente){
+        MailResult result = new MailResult();
+        Documento doc = new DocumentoPrenotazione(prenotazioni, new PdfBoxAPI());
+
+        //invio l'email
+        int invio = doc.invia(cliente.getEmail());
+        if(invio == 1) { //email non inviata
+            result.setResult(MailResult.Result.INVIO_ERROR);
+            result.setMessage("Errore nell'invio delle Prenotazioni! Riprova!");
+            return result;
+        }
+
+        //Email inviata correttamente
+        result.setResult(MailResult.Result.INVIO_OK);
+        result.setMessage("Prenotazioni inviate correttamente! Controlli la sua mail!");
         return result;
     }
 

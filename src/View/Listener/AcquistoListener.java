@@ -9,6 +9,7 @@ import Business.Results.MailResult;
 import Business.Results.PrenotazioneResult;
 import Model.*;
 import Model.composite.IProdotto;
+import Model.composite.Prodotto;
 import View.MainFrame;
 import View.MostraListeAcquistoPanel;
 
@@ -43,21 +44,24 @@ public class AcquistoListener implements ActionListener {
             for (int j = 0; j < magazzino.getProdotti().size(); j++) {
                 IProdotto prodotto = magazzino.getProdotti().get(j);
 
-                if (articoloLista.getQuantita() > prodotto.getQuantita()){
-                    int quantitaRestanti = articoloLista.getQuantita() - prodotto.getQuantita();
-                    int confirmed = JOptionPane.showConfirmDialog(this.frame, "La quantità richiesta per " + articoloLista.getName() + "è superiore alla disponibilità presente in magazzino. Vuole prenotare i restanti "+ quantitaRestanti +"?", "Prenotare?", JOptionPane.YES_NO_OPTION);
-                    if (prodotto.getQuantita() == 0) {
-                        listaAcquisto.remove(articoloLista);
-                        ListaAcquistoBusiness.getInstance().removeArticoloFromListaAcquisto(listaAcquisto, articoloLista.getName());
-                    }
-                     else listaAcquisto.getArticoli().get(i).setQuantita(prodotto.getQuantita());
+                if (articoloLista.getName().equals(prodotto.getName())) {
+                    ((Prodotto) listaAcquisto.getArticoli().get(i)).setCollocazione(prodotto.getCollocazione());
 
-                    if (confirmed == 0){
-                        prodotto.setQuantita(quantitaRestanti);
-                        Prenotazione prenotazione = new Prenotazione(prodotto, Date.from(Instant.now()), listaAcquisto.getCliente().getIdUtente());
+                    if (articoloLista.getQuantita() > prodotto.getQuantita()) {
+                        int quantitaRestanti = articoloLista.getQuantita() - prodotto.getQuantita();
+                        int confirmed = JOptionPane.showConfirmDialog(this.frame, "La quantità richiesta per " + articoloLista.getName() + "è superiore alla disponibilità presente in magazzino. Vuole prenotare i restanti " + quantitaRestanti + "?", "Prenotare?", JOptionPane.YES_NO_OPTION);
+                        if (prodotto.getQuantita() == 0) {
+                            listaAcquisto.remove(articoloLista);
+                            ListaAcquistoBusiness.getInstance().removeArticoloFromListaAcquisto(listaAcquisto, articoloLista.getName());
+                        } else listaAcquisto.getArticoli().get(i).setQuantita(prodotto.getQuantita());
 
-                        PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().addPrenotazione(prenotazione);
-                        JOptionPane.showMessageDialog(frame, prenotazioneResult.getMessage());
+                        if (confirmed == 0) {
+                            prodotto.setQuantita(quantitaRestanti);
+                            Prenotazione prenotazione = new Prenotazione(prodotto, Date.from(Instant.now()), listaAcquisto.getCliente().getIdUtente());
+
+                            PrenotazioneResult prenotazioneResult = PrenotazioneBusiness.getInstance().addPrenotazione(prenotazione);
+                            JOptionPane.showMessageDialog(frame, prenotazioneResult.getMessage());
+                        }
                     }
                 }
             }

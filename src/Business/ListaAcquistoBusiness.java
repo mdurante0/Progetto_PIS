@@ -88,7 +88,7 @@ public class ListaAcquistoBusiness {
 
         Cliente c = clienteDAO.findByUsername(clienteUsername);
         ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findByUser(c.getIdUtente());
-        if(liste.isEmpty()){ //Non ci sono liste d'acquisto
+        if(liste == null){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("Nessuna lista d'acquisto trovata! Può crearne di nuove per effettuare nuovi acquisti!");
             return result;
@@ -106,7 +106,7 @@ public class ListaAcquistoBusiness {
         ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
 
         ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findAllByPuntoVendita(puntoVendita.getIdPuntoVendita());
-        if(liste.isEmpty()){ //Non ci sono liste d'acquisto
+        if(liste == null){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("Nessuna lista d'acquisto trovata!");
             return result;
@@ -124,7 +124,7 @@ public class ListaAcquistoBusiness {
         ListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
 
         ArrayList<ListaAcquisto> liste = listaAcquistoDAO.findAll();
-        if(liste.isEmpty()){ //Non ci sono liste d'acquisto
+        if(liste == null){ //Non ci sono liste d'acquisto
             result.setResult(ListaAcquistoResult.Result.ITEM_DOESNT_EXIST);
             result.setMessage("Nessuna lista d'acquisto trovata!");
             return result;

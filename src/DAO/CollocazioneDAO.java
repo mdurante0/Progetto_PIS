@@ -41,15 +41,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
             rs.next();
             if (rs.getRow()==1) {
                 collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setCorsia(rs.getInt("corsia"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
-
-                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
-                if(magazzino != null){
-                    collocazione.setMagazzino(magazzino);
-                }
-
                 return collocazione;
             }
         } catch (SQLException e) {
@@ -76,15 +71,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
             rs.next();
             if (rs.getRow()==1) {
                 collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
                 collocazione.setCorsia(rs.getInt("corsia"));
                 collocazione.setScaffale(rs.getInt("scaffale"));
-
-                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
-                if(magazzino != null){
-                    collocazione.setMagazzino(magazzino);
-                }
-
                 return collocazione;
             }
         } catch (SQLException e) {
@@ -110,15 +100,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         try {
             while (rs.next()) {
                 collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
-                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
-
-                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
-                if(magazzino != null){
-                    collocazione.setMagazzino(magazzino);
-                }
-
+                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazioni.add(collocazione);
             }
             return collocazioni;
@@ -145,15 +130,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         try {
             while (rs.next()) {
                 collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
-                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
-
-                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
-                if(magazzino != null){
-                    collocazione.setMagazzino(magazzino);
-                }
-
+                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazioni.add(collocazione);
             }
             return collocazioni;
@@ -180,15 +160,10 @@ public class CollocazioneDAO implements ICollocazioneDAO {
         try {
             while (rs.next()) {
                 collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
                 collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
-                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazione.setCorsia(rs.getInt("corsia"));
-
-                Magazzino magazzino = MagazzinoDAO.getInstance().findById(rs.getInt("magazzino_idmagazzino"));
-                if(magazzino != null){
-                    collocazione.setMagazzino(magazzino);
-                }
-
+                collocazione.setScaffale(rs.getInt("scaffale"));
                 collocazioni.add(collocazione);
             }
             return collocazioni;
