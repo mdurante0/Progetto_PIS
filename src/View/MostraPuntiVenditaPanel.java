@@ -1,12 +1,11 @@
 package View;
 
-import Business.ManagerBusiness;
 import Business.PuntoVenditaBusiness;
-import Business.Results.ManagerResult;
 import Business.Results.PuntoVenditaResult;
-import Model.Manager;
 import Model.PuntoVendita;
-import View.Listener.*;
+import View.Listener.GoToCreaPuntoVenditaListener;
+import View.Listener.GoToMenuListener;
+import View.Listener.JTableButtonMouseListener;
 import View.ViewModel.PuntoVenditaTableModel;
 import View.ViewModel.RigaPuntoVendita;
 
@@ -81,12 +80,12 @@ public class MostraPuntiVenditaPanel extends JPanel {
             JButton tornaIndietroButton = new JButton("Torna indietro");
             tornaIndietroButton.addActionListener(new GoToMenuListener(this.frame));
 
-            JButton creaManagerButton = new JButton("Crea un nuovo punto vendita");
-            // aggiungere action listener
+            JButton creaPuntoVenditaButton = new JButton("Crea un nuovo punto vendita");
+            creaPuntoVenditaButton.addActionListener(new GoToCreaPuntoVenditaListener(this.frame));
 
             southPanel.setLayout(new FlowLayout());
             southPanel.add(tornaIndietroButton);
-            southPanel.add(creaManagerButton);
+            southPanel.add(creaPuntoVenditaButton);
 
             this.add(contentPanel, BorderLayout.CENTER);
             this.add(titlePanel, BorderLayout.PAGE_START);

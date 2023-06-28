@@ -1,5 +1,7 @@
 package Model;
 
+import Model.composite.IProdotto;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,7 +111,7 @@ public class ListaAcquisto {
     public float getCostoFinale() {
         this.costoFinale=0F;
         for (Articolo a : articoli) {
-            if (a.getQuantita() != 0)
+            if (a instanceof IProdotto)
                 costoFinale += a.getPrezzo() * a.getQuantita();
             else costoFinale += a.getPrezzo();
         }
