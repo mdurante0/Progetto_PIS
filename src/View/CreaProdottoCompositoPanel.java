@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 import static View.Listener.ComponenteListener.AGGIUNGI;
 
-public class NuovoProdottoCompositoPanel extends JPanel {
+public class CreaProdottoCompositoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
@@ -36,7 +36,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
     private ArrayList<JTextField> quantitaComponentiFields = new ArrayList<>();
     private JLabel immaginiCounterLabel;
 
-    public NuovoProdottoCompositoPanel(MainFrame frame) {
+    public CreaProdottoCompositoPanel(MainFrame frame) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -85,6 +85,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
             for (int i = 0; i < puntoVenditaResult.getPuntiVendita().size(); i++) {
                 nomiPV[i] = iterator.next().getNome();
             }
+            nomiPV[nomiPV.length - 1] = "Nessun Punto Vendita";
             puntoVenditaBox = new JComboBox<>(nomiPV);
             puntoVenditaBox.setFocusable(false);
             puntoVenditaBox.setFont(bodyFont);
@@ -117,6 +118,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieProdotto().size(); i++) {
                 nomiCategorieProdotto[i] = iterator.next().getNome();
             }
+            nomiCategorieProdotto[nomiCategorieProdotto.length - 1] = "Nessuna Categoria";
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);
@@ -190,7 +192,7 @@ public class NuovoProdottoCompositoPanel extends JPanel {
 
         JButton aggiungiProdottoCompositoButton = new JButton("Aggiungi prodotto composito");
         aggiungiProdottoCompositoButton.setFont(bodyFont);
-        aggiungiProdottoCompositoButton.addActionListener(new CreaNuovoProdottoCompositoListener(this.frame, nomeProdottoCompositoField, descrizioneField, quantitaField, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files, componentiBoxes, quantitaComponentiFields));
+        aggiungiProdottoCompositoButton.addActionListener(new CreaProdottoCompositoListener(this.frame, nomeProdottoCompositoField, descrizioneField, quantitaField, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files, componentiBoxes, quantitaComponentiFields));
 
 
         contentPanel.add(immaginiLabel);

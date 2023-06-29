@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class CreaNuovoProdottoListener implements ActionListener {
+public class CreaProdottoListener implements ActionListener {
     private MainFrame frame;
     private JTextField nomeProdottoField;
     private JTextField descrizioneField;
@@ -29,7 +29,7 @@ public class CreaNuovoProdottoListener implements ActionListener {
     private ArrayList<File> files;
     private Prodotto prodotto;
 
-    public CreaNuovoProdottoListener(MainFrame frame, JTextField nomeProdottoField, JTextField descrizioneField, JTextField prezzoField, JTextField quantitaField, JComboBox<String> produttoreBox, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files) {
+    public CreaProdottoListener(MainFrame frame, JTextField nomeProdottoField, JTextField descrizioneField, JTextField prezzoField, JTextField quantitaField, JComboBox<String> produttoreBox, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files) {
         this.frame = frame;
         this.nomeProdottoField = nomeProdottoField;
         this.descrizioneField = descrizioneField;

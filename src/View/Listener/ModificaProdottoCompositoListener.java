@@ -50,7 +50,7 @@ public class ModificaProdottoCompositoListener implements ActionListener {
         prodottoComposito.setDescrizione(descrizioneField.getText());
 
         //Caricamento Categoria
-        if (categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank()) {
+        if (!categoriaProdottoBox.getSelectedItem().toString().equals("Nessuna Categoria")) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
 
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))

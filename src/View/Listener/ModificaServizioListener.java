@@ -47,7 +47,7 @@ public class ModificaServizioListener implements ActionListener {
         servizio.setDescrizione(descrizioneField.getText());
         servizio.setPrezzo(Float.valueOf(prezzoField.getText()));
 
-        //Caricamento Produttore
+        //Caricamento Fornitore
         if(fornitoreBox.getSelectedItem() != null && !fornitoreBox.getSelectedItem().toString().isBlank()){
             FornitoreResult fornitoreResult = FornitoreBusiness.getInstance().caricaFornitoreByNome(fornitoreBox.getSelectedItem().toString());
             if (fornitoreResult.getResult().equals(FornitoreResult.Result.FORNITORI_CARICATI))
@@ -56,7 +56,7 @@ public class ModificaServizioListener implements ActionListener {
         }
 
         //Caricamento Categoria
-        if(categoriaServizioBox.getSelectedItem() != null && !categoriaServizioBox.getSelectedItem().toString().isBlank() ) {
+        if(!categoriaServizioBox.getSelectedItem().toString().equals("Nessuna Categoria") ) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaServizioByName(categoriaServizioBox.getSelectedItem().toString());
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 servizio.setCategoria(categoriaResult.getCategorieServizio().get(0));

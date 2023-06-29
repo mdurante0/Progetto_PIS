@@ -9,7 +9,7 @@ import Business.Results.PuntoVenditaResult;
 import Model.CategoriaProdotto;
 import Model.Produttore;
 import Model.PuntoVendita;
-import View.Listener.CreaNuovoProdottoListener;
+import View.Listener.CreaProdottoListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class NuovoProdottoPanel extends JPanel {
+public class CreaProdottoPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
@@ -35,7 +35,7 @@ public class NuovoProdottoPanel extends JPanel {
     private ArrayList<File> files = new ArrayList<>();
     private JLabel immaginiCounterLabel;
 
-    public NuovoProdottoPanel(MainFrame frame) {
+    public CreaProdottoPanel(MainFrame frame) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -134,6 +134,7 @@ public class NuovoProdottoPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieProdotto().size(); i++) {
                 nomiCategorieProdotto[i] = iterator.next().getNome();
             }
+            nomiCategorieProdotto[nomiCategorieProdotto.length - 1] = "Nessuna Categoria";
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);
@@ -163,7 +164,7 @@ public class NuovoProdottoPanel extends JPanel {
 
         JButton aggiungiButton = new JButton("Aggiungi prodotto");
         aggiungiButton.setFont(bodyFont);
-        aggiungiButton.addActionListener(new CreaNuovoProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
+        aggiungiButton.addActionListener(new CreaProdottoListener(this.frame, nomeProdottoField, descrizioneField, prezzoField, quantitaField, produttoreBox, categoriaProdottoBox, puntoVenditaBox, corsiaField, scaffaleField, files));
 
         JButton backButton = new JButton("Torna indietro");
         backButton.setFont(bodyFont);

@@ -1,20 +1,20 @@
 package View.Listener;
 
 import View.MainFrame;
-import View.NuovoProdottoPanel;
+import View.CreaProdottoPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToNuovoProdottoListener implements ActionListener {
+public class GoToCreaProdottoListener implements ActionListener {
     private MainFrame frame;
 
-    public GoToNuovoProdottoListener(MainFrame frame) {
+    public GoToCreaProdottoListener(MainFrame frame) {
         this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new NuovoProdottoPanel(this.frame));
+        this.frame.mostraPannelloAttuale(new CreaProdottoPanel(this.frame));
     }
 }

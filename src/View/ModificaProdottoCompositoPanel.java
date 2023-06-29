@@ -106,6 +106,7 @@ public class ModificaProdottoCompositoPanel extends JPanel {
                 corsiaField = new JTextField(String.valueOf(prodottoComposito.getCollocazione().getCorsia()),20);
                 scaffaleField = new JTextField(String.valueOf(prodottoComposito.getCollocazione().getScaffale()),20);
             } else {
+                puntoVenditaBox.setSelectedItem("Nessun punto vendita");
                 quantitaField = new JTextField(20);
                 corsiaField = new JTextField(20);
                 scaffaleField = new JTextField(20);
@@ -139,10 +140,13 @@ public class ModificaProdottoCompositoPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieProdotto().size(); i++) {
                 nomiCategorieProdotto[i] = iterator.next().getNome();
             }
+            nomiCategorieProdotto[nomiCategorieProdotto.length - 1] = "Nessuna Categoria";
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);
-            categoriaProdottoBox.setSelectedItem(prodottoComposito.getCategoria().getNome());
+            if (prodottoComposito.getCategoria().getNome() != null)
+                categoriaProdottoBox.setSelectedItem(prodottoComposito.getCategoria().getNome());
+            else categoriaProdottoBox.setSelectedItem("Nessuna Categoria");
 
             JLabel categoriaLabel = new JLabel("  Categoria da assegnare al prodotto composito:");
             categoriaLabel.setFont(bodyFont);

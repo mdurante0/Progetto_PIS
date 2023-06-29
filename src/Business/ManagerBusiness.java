@@ -1,7 +1,6 @@
 package Business;
 
 import Business.Results.ManagerResult;
-import Business.Results.RegisterResult;
 import DAO.ManagerDAO;
 import Model.Manager;
 
@@ -25,7 +24,7 @@ public class ManagerBusiness {
 
         ArrayList<Manager> managers = managerDAO.findAll();
 
-        if(managers.isEmpty()){ //Non ci sono manager
+        if(managers == null){ //Non ci sono manager
             result.setResult(ManagerResult.Result.MANAGER_ERROR);
             result.setMessage("Nessun manager trovato!");
             return result;
@@ -130,6 +129,26 @@ public class ManagerBusiness {
         //la rimozione è andata a buon fine
         result.setResult(ManagerResult.Result.RIMOZIONE_OK);
         result.setMessage("Manager rimosso correttamente!");
+        return result;
+    }
+
+    public ManagerResult caricaManagerByUsername(String username) {
+        ManagerResult result = new ManagerResult();
+
+        ManagerDAO managerDAO = ManagerDAO.getInstance();
+
+        Manager manager = managerDAO.findByUsername(username);
+
+        if(manager == null){ //Manager non trovato
+            result.setResult(ManagerResult.Result.MANAGER_ERROR);
+            result.setMessage("Manager non trovato!");
+            return result;
+
+        }else result.getManagers().add(manager); //Manager caricato
+
+        result.setResult(ManagerResult.Result.MANAGER_CARICATI);
+        result.setMessage("Manager caricato correttamente");
+
         return result;
     }
 }

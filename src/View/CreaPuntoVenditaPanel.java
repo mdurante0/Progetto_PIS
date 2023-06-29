@@ -53,12 +53,12 @@ public class CreaPuntoVenditaPanel extends JPanel {
         ManagerResult result = ManagerBusiness.getInstance().caricaManagers();
         if(!result.getManagers().isEmpty()) {
             Iterator<Manager> iterator = result.getManagers().iterator();
-            String[] nomiManager = new String[result.getManagers().size() + 1];
+            String[] usernameManagers = new String[result.getManagers().size() + 1];
             for (int i = 0; i < result.getManagers().size(); i++) {
-                nomiManager[i] = iterator.next().getName();
+                usernameManagers[i] = iterator.next().getUsername();
             }
-            nomiManager[nomiManager.length - 1] = "Nessun Manager";
-            managerBox= new JComboBox<>(nomiManager);
+            usernameManagers[usernameManagers.length - 1] = "Nessun Manager";
+            managerBox= new JComboBox<>(usernameManagers);
             managerBox.setFocusable(false);
             managerBox.setFont(bodyFont);
         }

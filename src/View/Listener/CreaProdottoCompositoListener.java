@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class CreaNuovoProdottoCompositoListener implements ActionListener {
+public class CreaProdottoCompositoListener implements ActionListener {
 
     private MainFrame frame;
     private JTextField nomeProdottoCompositoField;
@@ -30,7 +30,7 @@ public class CreaNuovoProdottoCompositoListener implements ActionListener {
     private ArrayList<JTextField> quantitaComponentiFields;
     private ProdottoComposito prodottoComposito;
 
-    public CreaNuovoProdottoCompositoListener(MainFrame frame, JTextField nomeProdottoCompositoField, JTextField descrizioneField, JTextField quantitaField, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files, ArrayList<JComboBox<String>> componentiBoxes, ArrayList<JTextField> quantitaComponentiFields) {
+    public CreaProdottoCompositoListener(MainFrame frame, JTextField nomeProdottoCompositoField, JTextField descrizioneField, JTextField quantitaField, JComboBox<String> categoriaProdottoBox, JComboBox<String> puntoVenditaBox, JTextField corsiaField, JTextField scaffaleField, ArrayList<File> files, ArrayList<JComboBox<String>> componentiBoxes, ArrayList<JTextField> quantitaComponentiFields) {
         this.frame = frame;
         this.nomeProdottoCompositoField = nomeProdottoCompositoField;
         this.descrizioneField = descrizioneField;
@@ -53,7 +53,7 @@ public class CreaNuovoProdottoCompositoListener implements ActionListener {
         prodottoComposito.setDescrizione(descrizioneField.getText());
 
         //Caricamento Categoria
-        if(categoriaProdottoBox.getSelectedItem() != null && !categoriaProdottoBox.getSelectedItem().toString().isBlank() ) {
+        if(categoriaProdottoBox.getSelectedItem().toString().equals("Nessuna Categoria")) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaProdottoByName(categoriaProdottoBox.getSelectedItem().toString());
 
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))

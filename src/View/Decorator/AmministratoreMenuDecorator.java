@@ -32,9 +32,9 @@ public class AmministratoreMenuDecorator extends CustomMenuDecorator {
         JButton magazziniButton = new JButton("Magazzini");
 
         //action command, listener...
-        nuovoProdotto.addActionListener(new GoToNuovoProdottoListener(this.frame));
-        nuovoProdottoComposito.addActionListener(new GoToNuovoProdottoCompositoListener(this.frame));
-        nuovoServizio.addActionListener(new GoToNuovoServizioListener(this.frame));
+        nuovoProdotto.addActionListener(new GoToCreaProdottoListener(this.frame));
+        nuovoProdottoComposito.addActionListener(new GoToCreaProdottoCompositoListener(this.frame));
+        nuovoServizio.addActionListener(new GoToCreaServizioListener(this.frame));
         produttore.addActionListener(new GoToMostraProduttoriListener(this.frame));
         fornitore.addActionListener(new GoToMostraFornitoriListener(this.frame));
         categorieProdotti.addActionListener(new GoToMostraCategorieProdottiListener(this.frame));

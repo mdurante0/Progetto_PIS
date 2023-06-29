@@ -6,7 +6,7 @@ import Business.Results.CategoriaResult;
 import Business.Results.FornitoreResult;
 import Model.CategoriaServizio;
 import Model.Fornitore;
-import View.Listener.CreaNuovoServizioListener;
+import View.Listener.CreaServizioListener;
 import View.Listener.GoToMenuListener;
 import View.Listener.ImmaginiListener;
 
@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class NuovoServizioPanel extends JPanel {
+public class CreaServizioPanel extends JPanel {
     private MainFrame frame;
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
@@ -29,7 +29,7 @@ public class NuovoServizioPanel extends JPanel {
     private ArrayList<File> files = new ArrayList<>();
     private JLabel immaginiCounterLabel;
 
-    public NuovoServizioPanel(MainFrame frame) {
+    public CreaServizioPanel(MainFrame frame) {
         this.frame = frame;
 
         this.setLayout(new BorderLayout());
@@ -88,6 +88,7 @@ public class NuovoServizioPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieServizio().size(); i++) {
                 nomiCategorieServizio[i] = iterator.next().getNome();
             }
+            nomiCategorieServizio[nomiCategorieServizio.length - 1] = "Nessuna Categoria";
             categoriaServizioBox = new JComboBox<>(nomiCategorieServizio);
             categoriaServizioBox.setFocusable(false);
             categoriaServizioBox.setFont(bodyFont);
@@ -117,7 +118,7 @@ public class NuovoServizioPanel extends JPanel {
 
         JButton aggiungiButton = new JButton("Aggiunti servizio");
         aggiungiButton.setFont(bodyFont);
-        aggiungiButton.addActionListener(new CreaNuovoServizioListener(this.frame, nomeServizioField, descrizioneField, prezzoField, fornitoreBox, categoriaServizioBox, files));
+        aggiungiButton.addActionListener(new CreaServizioListener(this.frame, nomeServizioField, descrizioneField, prezzoField, fornitoreBox, categoriaServizioBox, files));
 
 
         JButton backButton = new JButton("Torna indietro");

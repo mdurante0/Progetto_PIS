@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class CreaNuovoServizioListener implements ActionListener {
+public class CreaServizioListener implements ActionListener {
     private MainFrame frame;
     private JTextField nomeServizioField;
     private JTextField descrizioneField;
@@ -29,7 +29,7 @@ public class CreaNuovoServizioListener implements ActionListener {
     private ArrayList<File> files;
     private Servizio servizio;
 
-    public CreaNuovoServizioListener(MainFrame frame, JTextField nomeServizioField, JTextField descrizioneField, JTextField prezzoField, JComboBox<String> fornitoreBox, JComboBox<String> categoriaServizioBox, ArrayList<File> files) {
+    public CreaServizioListener(MainFrame frame, JTextField nomeServizioField, JTextField descrizioneField, JTextField prezzoField, JComboBox<String> fornitoreBox, JComboBox<String> categoriaServizioBox, ArrayList<File> files) {
         this.frame = frame;
         this.nomeServizioField = nomeServizioField;
         this.descrizioneField = descrizioneField;
@@ -62,7 +62,7 @@ public class CreaNuovoServizioListener implements ActionListener {
             else JOptionPane.showMessageDialog(this.frame, fornitoreResult.getMessage());
         }
 
-        if(categoriaServizioBox.getSelectedItem() != null && !categoriaServizioBox.getSelectedItem().toString().isBlank() ) {
+        if(!categoriaServizioBox.getSelectedItem().toString().equals("Nessuna Categoria") ) {
             CategoriaResult categoriaResult = CategoriaBusiness.getInstance().caricaCategoriaServizioByName(categoriaServizioBox.getSelectedItem().toString());
             if (categoriaResult.getResult().equals(CategoriaResult.Result.CATEGORIE_CARICATE))
                 servizio.setCategoria(categoriaResult.getCategorieServizio().get(0));

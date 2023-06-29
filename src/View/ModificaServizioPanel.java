@@ -75,7 +75,7 @@ public class ModificaServizioPanel extends JPanel {
             fornitoreBox.setFont(bodyFont);
             fornitoreBox.setSelectedItem(servizio.getFornitore().getNome());
 
-            JLabel produttoreLabel = new JLabel("  Fornitore del nuovo servizio:");
+            JLabel produttoreLabel = new JLabel("  Fornitore del servizio:");
             produttoreLabel.setFont(bodyFont);
             fornitoreBox.setFont(bodyFont);
             contentPanel.add(produttoreLabel);
@@ -89,12 +89,15 @@ public class ModificaServizioPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieServizio().size(); i++) {
                 nomiCategorieServizio[i] = iterator.next().getNome();
             }
+            nomiCategorieServizio[nomiCategorieServizio.length - 1] = "Nessuna Categoria";
             categoriaServizioBox = new JComboBox<>(nomiCategorieServizio);
             categoriaServizioBox.setFocusable(false);
             categoriaServizioBox.setFont(bodyFont);
-            categoriaServizioBox.setSelectedItem(servizio.getCategoria().getNome());
+            if(servizio.getCategoria().getNome() != null)
+                categoriaServizioBox.setSelectedItem(servizio.getCategoria().getNome());
+            else categoriaServizioBox.setSelectedItem("Nessuna Categoria");
 
-            JLabel categoriaLabel = new JLabel("  Categoria da assegnare al nuovo servizio:");
+            JLabel categoriaLabel = new JLabel("  Categoria da assegnare al servizio:");
             categoriaLabel.setFont(bodyFont);
             categoriaServizioBox.setFont(bodyFont);
             contentPanel.add(categoriaLabel);

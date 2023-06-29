@@ -49,7 +49,7 @@ public class AcquistoListener implements ActionListener {
 
                     if (articoloLista.getQuantita() > prodotto.getQuantita()) {
                         int quantitaRestanti = articoloLista.getQuantita() - prodotto.getQuantita();
-                        int confirmed = JOptionPane.showConfirmDialog(this.frame, "La quantità richiesta per " + articoloLista.getName() + "è superiore alla disponibilità presente in magazzino. Vuole prenotare i restanti " + quantitaRestanti + "?", "Prenotare?", JOptionPane.YES_NO_OPTION);
+                        int confirmed = JOptionPane.showConfirmDialog(this.frame, "La quantità richiesta per " + articoloLista.getName() + " è superiore alla disponibilità presente in magazzino. Vuole prenotare i restanti " + quantitaRestanti + "?", "Prenotare?", JOptionPane.YES_NO_OPTION);
                         if (prodotto.getQuantita() == 0) {
                             listaAcquisto.remove(articoloLista);
                             ListaAcquistoBusiness.getInstance().removeArticoloFromListaAcquisto(listaAcquisto, articoloLista.getName());

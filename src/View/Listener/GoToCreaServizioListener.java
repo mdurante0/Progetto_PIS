@@ -1,20 +1,20 @@
 package View.Listener;
 
 import View.MainFrame;
-import View.NuovoServizioPanel;
+import View.CreaServizioPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GoToNuovoServizioListener implements ActionListener {
+public class GoToCreaServizioListener implements ActionListener {
     private MainFrame frame;
 
-    public GoToNuovoServizioListener(MainFrame frame) {
+    public GoToCreaServizioListener(MainFrame frame) {
         this.frame = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.frame.mostraPannelloAttuale(new NuovoServizioPanel(this.frame));
+        this.frame.mostraPannelloAttuale(new CreaServizioPanel(this.frame));
     }
 }

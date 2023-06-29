@@ -100,6 +100,7 @@ public class ModificaProdottoPanel extends JPanel {
                 corsiaField = new JTextField(String.valueOf(prodotto.getCollocazione().getCorsia()),20);
                 scaffaleField = new JTextField(String.valueOf(prodotto.getCollocazione().getScaffale()),20);
             } else {
+                puntoVenditaBox.setSelectedItem("Nessun punto vendita");
                 quantitaField = new JTextField(20);
                 corsiaField = new JTextField(20);
                 scaffaleField = new JTextField(20);
@@ -160,6 +161,9 @@ public class ModificaProdottoPanel extends JPanel {
             JLabel categoriaLabel = new JLabel("  Categoria da assegnare al prodotto:");
             categoriaLabel.setFont(bodyFont);
             categoriaProdottoBox.setFont(bodyFont);
+            if (prodotto.getCategoria().getNome() != null)
+                categoriaProdottoBox.setSelectedItem(prodotto.getCategoria().getNome());
+            else categoriaProdottoBox.setSelectedItem("Nessuna Categoria");
             contentPanel.add(categoriaLabel);
             contentPanel.add(categoriaProdottoBox);
         }
