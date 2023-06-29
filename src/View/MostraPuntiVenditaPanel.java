@@ -3,9 +3,7 @@ package View;
 import Business.PuntoVenditaBusiness;
 import Business.Results.PuntoVenditaResult;
 import Model.PuntoVendita;
-import View.Listener.GoToCreaPuntoVenditaListener;
-import View.Listener.GoToMenuListener;
-import View.Listener.JTableButtonMouseListener;
+import View.Listener.*;
 import View.ViewModel.PuntoVenditaTableModel;
 import View.ViewModel.RigaPuntoVendita;
 
@@ -49,7 +47,8 @@ public class MostraPuntiVenditaPanel extends JPanel {
             rigaPuntoVendita.setModificaButton(modificaButton);
             rigaPuntoVendita.setEliminaButton(eliminaButton);
 
-            //aggiungere action listener
+            modificaButton.addActionListener(new GoToModificaPuntoVenditaListener(this.frame, puntiVendita.get(i)));
+            eliminaButton.addActionListener(new RemovePuntoVenditaListener(this.frame,puntiVendita.get(i)));
 
             righe.add(rigaPuntoVendita);
         }
@@ -71,7 +70,6 @@ public class MostraPuntiVenditaPanel extends JPanel {
 
             tabella.getColumn("Modifica").setCellRenderer(buttonRenderer);
             tabella.addMouseListener(new JTableButtonMouseListener(tabella));
-
 
             contentPanel.add(new JLabel("          "), BorderLayout.WEST);
             contentPanel.add(scrollPane, BorderLayout.CENTER);

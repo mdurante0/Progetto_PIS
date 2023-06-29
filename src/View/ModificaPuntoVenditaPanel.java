@@ -7,10 +7,11 @@ import Business.Results.ManagerResult;
 import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
+import View.Listener.GoToMostraPuntiVenditaListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class ModificaPuntoVenditaPanel extends JPanel {
     private MainFrame frame;
@@ -54,49 +55,48 @@ public class ModificaPuntoVenditaPanel extends JPanel {
         magazzinoLabel.setFont(bodyFont);
 
         ManagerResult result = ManagerBusiness.getInstance().caricaManagers();
+        ArrayList<Manager> managers = result.getManagers();
         if(!result.getManagers().isEmpty()) {
-            Iterator<Manager> iterator = result.getManagers().iterator();
-            String[] nomiPV = new String[result.getManagers().size()];
-            for (int i = 0; i < result.getManagers().size(); i++) {
-                nomiPV[i] = iterator.next().getName();
+            String[] nomiPV = new String[managers.size()+1];
+            for (int i = 0; i < managers.size(); i++) {
+                nomiPV[i] =managers.get(i).getName();
             }
+            nomiPV[nomiPV.length-1]="Nessun manager";
             managerBox= new JComboBox<>(nomiPV);
+            managerBox.setSelectedItem(puntoVendita.getManager().getName());
             managerBox.setFocusable(false);
             managerBox.setFont(bodyFont);
         }
         MagazzinoResult resultMagazzino = MagazzinoBusiness.getInstance().caricaMagazzini();
+        ArrayList<Magazzino> magazzini = resultMagazzino.getMagazzini();
         if(!resultMagazzino.getMagazzini().isEmpty()) {
-            Iterator<Magazzino> iterator = resultMagazzino.getMagazzini().iterator();
-            String[] indirizziMPV = new String[resultMagazzino.getMagazzini().size()];
-            for (int i = 0; i < resultMagazzino.getMagazzini().size(); i++) {
-                indirizziMPV[i] = iterator.next().getIndirizzo();
+            String[] indirizziMPV = new String[magazzini.size()+1];
+            for (int i = 0; i < magazzini.size(); i++) {
+                indirizziMPV[i] = magazzini.get(i).getIndirizzo();
             }
+            indirizziMPV[indirizziMPV.length-1] = "Nessun magazzino";
            magazzinoBox= new JComboBox<>(indirizziMPV);
+           magazzinoBox.setSelectedItem(puntoVendita.getMagazzino().getIndirizzo());
            magazzinoBox.setFocusable(false);
            magazzinoBox.setFont(bodyFont);
         }
-
-
 
         nomeField = new JTextField(puntoVendita.getNome(),20);
         indirizzoField = new JTextField(puntoVendita.getIndirizzo(),20);
         telefonoField = new JTextField(puntoVendita.getTelefono(), 20);
         cittaField = new JTextField(puntoVendita.getCitta(), 20);
 
-
-
         nomeField.setFont(bodyFont);
         indirizzoField.setFont(bodyFont);
         telefonoField.setFont(bodyFont);
         cittaField.setFont(bodyFont);
 
-
         JButton aggiungiPuntoVenditaButton = new JButton("Modifica");
+        // aggiungere gli action listener
         aggiungiPuntoVenditaButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
+        tornaIndietroButton.addActionListener(new GoToMostraPuntiVenditaListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
-
-        // aggiungere gli action listener
 
         contentPanel.add(firstNameLabel);
         contentPanel.add(nomeField);
