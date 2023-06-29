@@ -86,12 +86,12 @@ public class CreaPuntoVenditaPanel extends JPanel {
         cittaField.setFont(bodyFont);
 
         JButton aggiungiPuntoVenditaButton = new JButton("Aggiungi");
+        // aggiungere gli action listener
         aggiungiPuntoVenditaButton.setFont(bodyFont);
         aggiungiPuntoVenditaButton.addActionListener(new CreaPuntoVenditaListener(this.frame, nomeField, indirizzoField, telefonoField, cittaField, managerBox, magazzinoBox));
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.setFont(bodyFont);
         tornaIndietroButton.addActionListener(new GoToMostraPuntiVenditaListener(this.frame));
-        // aggiungere gli action listener
 
         contentPanel.add(firstNameLabel);
         contentPanel.add(nomeField);
