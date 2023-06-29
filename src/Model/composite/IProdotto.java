@@ -3,6 +3,8 @@ package Model.composite;
 import Business.AbstractFactory.ICategoria;
 import Model.*;
 
+import java.util.List;
+
 public interface IProdotto {
     void setIdArticolo(int idArticolo);
     Float getPrezzo();
@@ -20,6 +22,6 @@ public interface IProdotto {
     Magazzino getMagazzino();
     void setMagazzino(Magazzino magazzino);
     void setDescrizione(String descrizione);
-
-
+    void setImmagini(List<Immagine> listaImmagini);
+    List<Immagine> getImmagini();
 }

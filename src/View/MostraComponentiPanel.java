@@ -2,7 +2,6 @@ package View;
 
 import Business.ArticoloBusiness;
 import Business.Results.ArticoloResult;
-import Model.Articolo;
 import Model.PuntoVendita;
 import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
@@ -44,7 +43,7 @@ public class MostraComponentiPanel extends JPanel {
             riga.setNomeCategoria(p.getCategoria().getNome());
             riga.setPrezzo(p.getPrezzo());
             riga.setDettagliButton(dettagliButton);
-            dettagliButton.addActionListener(new GoToDettagliComponenteListener(this.frame, (Articolo) p, prodottoComposito, puntoVendita));
+            dettagliButton.addActionListener(new GoToDettagliComponenteListener(this.frame, p, prodottoComposito, puntoVendita));
             righe.add(riga);
         }
 

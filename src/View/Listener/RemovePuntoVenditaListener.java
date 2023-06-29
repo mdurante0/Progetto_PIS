@@ -4,7 +4,7 @@ import Business.PuntoVenditaBusiness;
 import Business.Results.PuntoVenditaResult;
 import Model.PuntoVendita;
 import View.MainFrame;
-import View.MostraManagerPanel;
+import View.MostraPuntiVenditaPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,9 +24,9 @@ public class RemovePuntoVenditaListener implements ActionListener {
         if(confirmed == 0) {
             PuntoVenditaResult result = PuntoVenditaBusiness.getInstance().removeSalePoint(puntoVendita);
 
-            if(result.getResult().equals(PuntoVenditaResult.Result.DELETE_OK)){
-                    this.frame.mostraPannelloAttuale(new MostraManagerPanel(this.frame));
-            }else JOptionPane.showMessageDialog(this.frame, result.getMessage());
+            JOptionPane.showMessageDialog(this.frame, result.getMessage());
+            if(result.getResult().equals(PuntoVenditaResult.Result.DELETE_OK))
+                    this.frame.mostraPannelloAttuale(new MostraPuntiVenditaPanel(this.frame));
         }
     }
 }

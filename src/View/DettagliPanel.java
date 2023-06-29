@@ -38,6 +38,7 @@ public class DettagliPanel extends JPanel {
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
+        this.add(titlePanel);
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -47,7 +48,7 @@ public class DettagliPanel extends JPanel {
         if(!result.getListaImmagini().isEmpty()) {
             immaginiPanel.setLayout(new FlowLayout());
             articolo.setImmagini(result.getListaImmagini());
-
+            immaginiPanel.setPreferredSize(new Dimension(250,250));
             previousImageButton = new JButton("<-");
             previousImageButton.setActionCommand(ImageListener.PREVIOUS);
 
@@ -68,8 +69,6 @@ public class DettagliPanel extends JPanel {
         }
 
         contentPanel.setLayout(new GridLayout(0,2));
-        contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
 
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
@@ -281,7 +280,7 @@ public class DettagliPanel extends JPanel {
         contentPanel.add(feedbackButton);
         contentPanel.add(backButton);
 
-        this.add(titlePanel);
+
         this.add(scrollPane);
     }
 }

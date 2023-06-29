@@ -170,7 +170,6 @@ public class ModificaProdottoListener implements ActionListener {
                                 return;
                             }
                         } else {
-                            JOptionPane.showMessageDialog(this.frame, "Prodotto inserito con successo in " + puntoVendita.getNome());
                             this.frame.mostraPannelloAttuale(new DettagliPanel(this.frame, prodotto, puntoVendita));
                         }
                     } else JOptionPane.showMessageDialog(this.frame, collocazioneResult.getMessage());

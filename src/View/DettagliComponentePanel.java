@@ -4,11 +4,14 @@ import Business.ArticoloBusiness;
 import Business.ImmagineBusiness;
 import Business.Results.ArticoloResult;
 import Business.Results.ImmagineResult;
-import Business.SessionManager;
-import Model.*;
+import Model.Articolo;
+import Model.PuntoVendita;
 import Model.composite.IProdotto;
+import Model.composite.Prodotto;
 import Model.composite.ProdottoComposito;
-import View.Listener.*;
+import View.Listener.GoToFeedbackListener;
+import View.Listener.GoToMostraComponentiListener;
+import View.Listener.ImageListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +25,7 @@ public class DettagliComponentePanel extends JPanel {
     private ImagePanel imagePanel;
     private JPanel contentPanel = new JPanel();
 
-    public DettagliComponentePanel(MainFrame frame, Articolo articolo, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
+    public DettagliComponentePanel(MainFrame frame, IProdotto prodotto, ProdottoComposito prodottoComposito, PuntoVendita puntoVendita) {
         this.frame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -30,42 +33,40 @@ public class DettagliComponentePanel extends JPanel {
         Font titleFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
         titleLabel.setFont(titleFont);
         titlePanel.add(titleLabel);
+        this.add(titlePanel);
 
-        ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(articolo.getName());
+        ImmagineResult result = ImmagineBusiness.getInstance().caricaImmaginiByArticolo(prodotto.getName());
         if(!result.getListaImmagini().isEmpty()) {
             immaginiPanel.setLayout(new FlowLayout());
-            articolo.setImmagini(result.getListaImmagini());
+            immaginiPanel.setPreferredSize(new Dimension(260,260));
+            prodotto.setImmagini(result.getListaImmagini());
 
             previousImageButton = new JButton("<-");
             previousImageButton.setActionCommand(ImageListener.PREVIOUS);
             immaginiPanel.add(previousImageButton);
 
-            imagePanel = new ImagePanel(articolo.getImmagini().get(0).getPic().getImage());
+            imagePanel = new ImagePanel(prodotto.getImmagini().get(0).getPic().getImage());
             immaginiPanel.add(imagePanel);
 
             nextImageButton = new JButton("->");
             nextImageButton.setActionCommand(ImageListener.NEXT);
             immaginiPanel.add(nextImageButton);
 
-            ImageListener imageListener = new ImageListener(this, imagePanel, articolo);
+            ImageListener imageListener = new ImageListener(this, imagePanel,(Articolo) prodotto);
             previousImageButton.addActionListener(imageListener);
             nextImageButton.addActionListener(imageListener);
 
             this.add(immaginiPanel);
         }
 
-        contentPanel.setLayout(new GridLayout(11,2));
-        contentPanel.add(new JLabel());
-        contentPanel.add(new JLabel());
+        contentPanel.setLayout(new GridLayout(0,2));
         Font bodyFont = new Font(Font.DIALOG, Font.ITALIC, 20);
-
-        Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
 
         //nome articolo
         JLabel nomeLabel = new JLabel("  Nome:");
         nomeLabel.setFont(bodyFont);
         contentPanel.add(nomeLabel);
-        JLabel nome = new JLabel(articolo.getName());
+        JLabel nome = new JLabel(prodotto.getName());
         nome.setFont(bodyFont);
         contentPanel.add(nome);
 
@@ -73,7 +74,7 @@ public class DettagliComponentePanel extends JPanel {
         JLabel descrizioneLabel = new JLabel("  Descrizione:");
         descrizioneLabel.setFont(bodyFont);
         contentPanel.add(descrizioneLabel);
-        JLabel descrizione = new JLabel(articolo.getDescrizione());
+        JLabel descrizione = new JLabel(prodotto.getDescrizione());
         descrizione.setFont(bodyFont);
         contentPanel.add(descrizione);
 
@@ -81,7 +82,7 @@ public class DettagliComponentePanel extends JPanel {
         JLabel prezzoLabel = new JLabel("  Prezzo (€):");
         prezzoLabel.setFont(bodyFont);
         contentPanel.add(prezzoLabel);
-        JLabel prezzo = new JLabel(String.valueOf(articolo.getPrezzo()));
+        JLabel prezzo = new JLabel(String.valueOf(prodotto.getPrezzo()));
         prezzo.setFont(bodyFont);
         contentPanel.add(prezzo);
 
@@ -91,13 +92,12 @@ public class DettagliComponentePanel extends JPanel {
         categoriaLabel = new JLabel("  Categoria:");
         categoriaLabel.setFont(bodyFont);
         contentPanel.add(categoriaLabel);
-        if(articolo.getCategoria().getNome() != null)
-            categoria = new JLabel(articolo.getCategoria().getNome());
+        if(prodotto.getCategoria().getNome() != null)
+            categoria = new JLabel(prodotto.getCategoria().getNome());
         else
             categoria = new JLabel("Categoria non assegnata");
         categoria.setFont(bodyFont);
         contentPanel.add(categoria);
-
 
         //produttore e quantità
         JLabel produttoreLabel;
@@ -105,30 +105,28 @@ public class DettagliComponentePanel extends JPanel {
         JLabel disponibilitaLabel;
         JLabel disponibilita;
 
-        if(articolo instanceof IProdotto prodotto){
-            disponibilitaLabel = new JLabel("  Quantità:");
-            disponibilitaLabel.setFont(bodyFont);
-            contentPanel.add(disponibilitaLabel);
-            disponibilita = new JLabel(String.valueOf(articolo.getQuantita()));
-            disponibilita.setFont(bodyFont);
-            contentPanel.add(disponibilita);
-            if(prodotto.getProduttore().getNome() != null) {
-                produttoreLabel = new JLabel("  Produttore:");
-                produttoreLabel.setFont(bodyFont);
-                contentPanel.add(produttoreLabel);
-                produttore = new JLabel(prodotto.getProduttore().getNome());
-                produttore.setFont(bodyFont);
-                contentPanel.add(produttore);
-            } else {
-                contentPanel.add(new JLabel());
-                contentPanel.add(new JLabel());
-            }
+        disponibilitaLabel = new JLabel("  Quantità:");
+        disponibilitaLabel.setFont(bodyFont);
+        contentPanel.add(disponibilitaLabel);
+        disponibilita = new JLabel(String.valueOf(prodotto.getQuantita()));
+        disponibilita.setFont(bodyFont);
+        contentPanel.add(disponibilita);
+        if(prodotto.getProduttore().getNome() != null) {
+            produttoreLabel = new JLabel("  Produttore:");
+            produttoreLabel.setFont(bodyFont);
+            contentPanel.add(produttoreLabel);
+            produttore = new JLabel(prodotto.getProduttore().getNome());
+            produttore.setFont(bodyFont);
+            contentPanel.add(produttore);
+        } else {
+            contentPanel.add(new JLabel());
+            contentPanel.add(new JLabel());
         }
 
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
 
-        ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType(articolo);
+        ArticoloResult articoloResult = ArticoloBusiness.getInstance().getType((Prodotto) prodotto);
         if(articoloResult.getArticolo() instanceof ProdottoComposito pc){
             JButton mostraComponentiButton = new JButton("Mostra i componenti");
             mostraComponentiButton.setFont(bodyFont);
@@ -141,13 +139,13 @@ public class DettagliComponentePanel extends JPanel {
         backButton.setFont(bodyFont);
 
         JButton feedbackButton = new JButton("Mostra i feedback");
-        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame, articolo, prodottoComposito, puntoVendita));
+        feedbackButton.addActionListener(new GoToFeedbackListener(this.frame,(Articolo) prodotto, prodottoComposito, puntoVendita));
         feedbackButton.setFont(bodyFont);
 
         contentPanel.add(feedbackButton);
         contentPanel.add(backButton);
 
-        this.add(titlePanel);
+
         this.add(contentPanel);
     }
 }

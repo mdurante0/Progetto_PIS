@@ -74,6 +74,10 @@ public class Prodotto extends Articolo implements IProdotto {
     public ICategoria getCategoria(){return super.getCategoria();}
     public void setCategoria(CategoriaProdotto categoria){super.setCategoria(categoria);}
     public String getDescrizione(){return super.getDescrizione();}
+    @Override
+    public void setImmagini(List<Immagine> listaImmagini) {
+        super.setImmagini(listaImmagini);
+    }
 
     @Override
     public String toString() {

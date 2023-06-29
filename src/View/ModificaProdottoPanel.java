@@ -153,6 +153,7 @@ public class ModificaProdottoPanel extends JPanel {
             for (int i = 0; i < categoriaResult.getCategorieProdotto().size(); i++) {
                 nomiCategorieProdotto[i] = iterator.next().getNome();
             }
+            nomiCategorieProdotto[nomiCategorieProdotto.length - 1] = "Nessuna Categoria";
             categoriaProdottoBox = new JComboBox<>(nomiCategorieProdotto);
             categoriaProdottoBox.setFocusable(false);
             categoriaProdottoBox.setFont(bodyFont);

@@ -5,6 +5,7 @@ import Business.Results.FeedbackResult;
 import Business.SessionManager;
 import Business.Strategy.*;
 import Model.*;
+import Model.composite.IProdotto;
 import Model.composite.ProdottoComposito;
 import View.Listener.*;
 import View.ViewModel.FeedbackTableModel;
@@ -85,7 +86,7 @@ public class FeedbackPanel extends JPanel {
         if(prodottoComposito == null)
             tornaIndietroButton.addActionListener(new GoToDettagliListener(this.frame, articolo, puntoVendita));
         else
-            tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, articolo, prodottoComposito, puntoVendita));
+            tornaIndietroButton.addActionListener(new GoToDettagliComponenteListener(this.frame, (IProdotto) articolo, prodottoComposito, puntoVendita));
         JButton creaFeedback = new JButton("Crea feedback");
         southPanel.add(tornaIndietroButton);
         if (u instanceof Cliente c){

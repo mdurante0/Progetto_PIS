@@ -77,7 +77,14 @@ public class ProdottoComposito extends Articolo implements IProdotto {
     public void setCollocazione(Collocazione collocazione) {
         this.collocazione = collocazione;
     }
-
+    @Override
+    public void setImmagini(List<Immagine> listaImmagini) {
+        super.setImmagini(listaImmagini);
+    }
+    @Override
+    public List<Immagine> getImmagini(){
+        return super.getImmagini();
+    }
     @Override
     public Float getPrezzo() {
         float p = 0F;

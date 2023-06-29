@@ -8,6 +8,7 @@ import Model.Magazzino;
 import Model.Manager;
 import Model.PuntoVendita;
 import View.Listener.GoToMostraPuntiVenditaListener;
+import View.Listener.ModificaPuntoVenditaListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,15 +19,11 @@ public class ModificaPuntoVenditaPanel extends JPanel {
     private JPanel titlePanel = new JPanel();
     private JPanel contentPanel = new JPanel();
     private JTextField nomeField;
-
     private JTextField indirizzoField;
     private JTextField telefonoField;
     private JTextField cittaField;
-    private JComboBox managerBox;
-    private JComboBox magazzinoBox;
-
-
-
+    private JComboBox<String> managerBox;
+    private JComboBox<String> magazzinoBox;
 
     public ModificaPuntoVenditaPanel(MainFrame frame, PuntoVendita puntoVendita) {
         this.frame = frame;
@@ -57,16 +54,19 @@ public class ModificaPuntoVenditaPanel extends JPanel {
         ManagerResult result = ManagerBusiness.getInstance().caricaManagers();
         ArrayList<Manager> managers = result.getManagers();
         if(!result.getManagers().isEmpty()) {
-            String[] nomiPV = new String[managers.size()+1];
+            String[] usernameManagers = new String[managers.size()+1];
             for (int i = 0; i < managers.size(); i++) {
-                nomiPV[i] =managers.get(i).getName();
+                usernameManagers[i] = managers.get(i).getUsername();
             }
-            nomiPV[nomiPV.length-1]="Nessun manager";
-            managerBox= new JComboBox<>(nomiPV);
-            managerBox.setSelectedItem(puntoVendita.getManager().getName());
+            usernameManagers[usernameManagers.length-1]="Nessun Manager";
+            managerBox= new JComboBox<>(usernameManagers);
             managerBox.setFocusable(false);
             managerBox.setFont(bodyFont);
+            if (puntoVendita.getManager().getUsername() != null)
+                managerBox.setSelectedItem(puntoVendita.getManager().getUsername());
+            else managerBox.setSelectedItem("Nessun Manager");
         }
+
         MagazzinoResult resultMagazzino = MagazzinoBusiness.getInstance().caricaMagazzini();
         ArrayList<Magazzino> magazzini = resultMagazzino.getMagazzini();
         if(!resultMagazzino.getMagazzini().isEmpty()) {
@@ -74,11 +74,13 @@ public class ModificaPuntoVenditaPanel extends JPanel {
             for (int i = 0; i < magazzini.size(); i++) {
                 indirizziMPV[i] = magazzini.get(i).getIndirizzo();
             }
-            indirizziMPV[indirizziMPV.length-1] = "Nessun magazzino";
-           magazzinoBox= new JComboBox<>(indirizziMPV);
-           magazzinoBox.setSelectedItem(puntoVendita.getMagazzino().getIndirizzo());
-           magazzinoBox.setFocusable(false);
-           magazzinoBox.setFont(bodyFont);
+            indirizziMPV[indirizziMPV.length-1] = "Nessun Magazzino";
+            magazzinoBox= new JComboBox<>(indirizziMPV);
+            magazzinoBox.setFocusable(false);
+            magazzinoBox.setFont(bodyFont);
+            if(puntoVendita.getMagazzino().getIndirizzo() != null)
+                magazzinoBox.setSelectedItem(puntoVendita.getMagazzino().getIndirizzo());
+            else magazzinoBox.setSelectedItem("Nessun Magazzino");
         }
 
         nomeField = new JTextField(puntoVendita.getNome(),20);
@@ -91,9 +93,9 @@ public class ModificaPuntoVenditaPanel extends JPanel {
         telefonoField.setFont(bodyFont);
         cittaField.setFont(bodyFont);
 
-        JButton aggiungiPuntoVenditaButton = new JButton("Modifica");
-        // aggiungere gli action listener
-        aggiungiPuntoVenditaButton.setFont(bodyFont);
+        JButton modificaPuntoVenditaButton = new JButton("Modifica");
+        modificaPuntoVenditaButton.addActionListener(new ModificaPuntoVenditaListener(this.frame, nomeField, indirizzoField, telefonoField, cittaField, managerBox, magazzinoBox, puntoVendita));
+        modificaPuntoVenditaButton.setFont(bodyFont);
         JButton tornaIndietroButton = new JButton("Torna indietro");
         tornaIndietroButton.addActionListener(new GoToMostraPuntiVenditaListener(this.frame));
         tornaIndietroButton.setFont(bodyFont);
@@ -113,12 +115,9 @@ public class ModificaPuntoVenditaPanel extends JPanel {
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(tornaIndietroButton);
-        contentPanel.add(aggiungiPuntoVenditaButton);
+        contentPanel.add(modificaPuntoVenditaButton);
 
         this.add(titlePanel, BorderLayout.PAGE_START);
         this.add(contentPanel, BorderLayout.CENTER);
     }
-
-
-
 }

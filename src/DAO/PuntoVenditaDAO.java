@@ -260,39 +260,46 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         String sql;
 
         //ne manager ne magazzino sono null
-        if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() != null)
+        if(puntoVendita.getManager().getUsername() != null && puntoVendita.getMagazzino().getIndirizzo() != null)
             sql = "UPDATE progetto_pis.punto_vendita " +
                     "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
                     "', magazzino_idmagazzino ='" + puntoVendita.getMagazzino().getIdMagazzino() +
                     "', citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
+                    "', nome ='" + puntoVendita.getNome() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
         //manager è null
-        else if(puntoVendita.getManager() == null && puntoVendita.getMagazzino() != null)
+        else if(puntoVendita.getManager().getUsername() == null && puntoVendita.getMagazzino().getIndirizzo() != null)
             sql = "UPDATE progetto_pis.punto_vendita " +
-                    "SET magazzino_idmagazzino ='" + puntoVendita.getMagazzino().getIdMagazzino() +
+                    "SET manager_utente_idutente = null" +
+                    ", magazzino_idmagazzino ='" + puntoVendita.getMagazzino().getIdMagazzino() +
                     "', citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
         //magazzino è null
-        else if(puntoVendita.getManager() != null && puntoVendita.getMagazzino() == null)
+        else if(puntoVendita.getManager().getUsername() != null && puntoVendita.getMagazzino().getIndirizzo() == null)
             sql = "UPDATE progetto_pis.punto_vendita " +
                     "SET manager_utente_idutente = '" + puntoVendita.getManager().getIdUtente() +
-                    "', citta ='" + puntoVendita.getCitta() +
+                    "', magazzino_idmagazzino = null" +
+                    ", citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
+                    "', nome ='" + puntoVendita.getNome() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
             //sia magazzino che manager sono null
         else
             sql = "UPDATE progetto_pis.punto_vendita " +
-                    "SET citta ='" + puntoVendita.getCitta() +
+                    "SET manager_utente_idutente = null" +
+                    ", magazzino_idmagazzino = null" +
+                    ", citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
+                    "', nome ='" + puntoVendita.getNome() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();

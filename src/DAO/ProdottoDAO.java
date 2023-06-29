@@ -301,11 +301,15 @@ public class ProdottoDAO implements IProdottoDAO {
         else if(prodotto.getCategoria().getNome() == null && prodotto.getProduttore().getNome() != null)
             sql = "UPDATE progetto_pis.prodotto " +
                     "SET produttore_idproduttore = '" + prodotto.getProduttore().getIdProduttore() +
-                    "', categoria_prodotto_idcategoria_prodotto = null WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
+                    "', categoria_prodotto_idcategoria_prodotto = null" +
+                    " WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
             //sia categoria che produttore sono null
         else
-            return rowCount;
+            sql = "UPDATE progetto_pis.prodotto " +
+                    "SET produttore_idproduttore = null" +
+                    ", categoria_prodotto_idcategoria_prodotto = null" +
+                    " WHERE articolo_idarticolo = '" + prodotto.getIdArticolo() + "';";
 
         DbOperationExecutor executor = new DbOperationExecutor();
         IDbOperation writeOp = new WriteOperation(sql);

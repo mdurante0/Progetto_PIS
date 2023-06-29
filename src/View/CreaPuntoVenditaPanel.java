@@ -21,8 +21,8 @@ public class CreaPuntoVenditaPanel extends JPanel {
     private JTextField indirizzoField;
     private JTextField telefonoField;
     private JTextField cittaField;
-    private JComboBox managerBox;
-    private JComboBox magazzinoBox;
+    private JComboBox<String> managerBox;
+    private JComboBox<String> magazzinoBox;
 
     public CreaPuntoVenditaPanel(MainFrame frame) {
         this.frame = frame;
@@ -86,7 +86,6 @@ public class CreaPuntoVenditaPanel extends JPanel {
         cittaField.setFont(bodyFont);
 
         JButton aggiungiPuntoVenditaButton = new JButton("Aggiungi");
-        // aggiungere gli action listener
         aggiungiPuntoVenditaButton.setFont(bodyFont);
         aggiungiPuntoVenditaButton.addActionListener(new CreaPuntoVenditaListener(this.frame, nomeField, indirizzoField, telefonoField, cittaField, managerBox, magazzinoBox));
         JButton tornaIndietroButton = new JButton("Torna indietro");
