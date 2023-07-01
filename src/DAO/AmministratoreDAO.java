@@ -28,7 +28,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     }
 
     @Override
-    public Amministratore findById(String username) {
+    public Amministratore findByUsername(String username) {
 
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idutente, nome, cognome, email, username FROM progetto_pis.utente " +

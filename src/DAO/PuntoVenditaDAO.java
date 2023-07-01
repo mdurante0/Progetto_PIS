@@ -245,16 +245,6 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
         return executor.executeOperation(writeOp).getRowsAffected();
     }
 
-    public int removeByManager(int idManager) {
-
-        String sql = "DELETE FROM progetto_pis.punto_vendita " +
-                "WHERE manager_utente_idutente = '" + idManager + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
-
     @Override
     public int update(PuntoVendita puntoVendita) {
         String sql;

@@ -60,6 +60,37 @@ public class CollocazioneDAO implements ICollocazioneDAO {
     }
 
     @Override
+    public Collocazione findByCorsiaScaffaleAndMagazzino(int corsia, int scaffale, int idMagazzino) {
+
+        DbOperationExecutor executor = new DbOperationExecutor();
+        String sql = "SELECT idcollocazione, scaffale, corsia, magazzino_idmagazzino FROM progetto_pis.collocazione " +
+                "WHERE corsia = '" + corsia + "' AND scaffale = '" + scaffale + "' AND magazzino_idmagazzino = '" + idMagazzino + "';";
+        IDbOperation readOp = new ReadOperation(sql);
+        rs = executor.executeOperation(readOp).getResultSet();
+
+        try {
+            rs.next();
+            if (rs.getRow()==1) {
+                collocazione = new Collocazione();
+                collocazione.getMagazzino().setIdMagazzino(rs.getInt("magazzino_idmagazzino"));
+                collocazione.setIdCollocazione(rs.getInt("idcollocazione"));
+                collocazione.setCorsia(rs.getInt("corsia"));
+                collocazione.setScaffale(rs.getInt("scaffale"));
+                return collocazione;
+            }
+        } catch (SQLException e) {
+            // handle any errors
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } catch (NullPointerException e) {
+            // handle any errors
+            System.out.println("Resultset: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public Collocazione findByMagazzinoAndProdotto(int idMagazzino, int idProdotto) {
 
         DbOperationExecutor executor = new DbOperationExecutor();

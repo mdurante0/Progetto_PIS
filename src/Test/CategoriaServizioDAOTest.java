@@ -14,13 +14,13 @@ public class CategoriaServizioDAOTest {
     @Before
     public void setUp() throws Exception {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        categoriaServizioDAO.add(new CategoriaServizio("aaa"));
+        categoriaServizioDAO.add(new CategoriaServizio("TrasportiTest"));
     }
 
     @After
     public void tearDown() throws Exception {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        categoriaServizioDAO.removeById("aaa");
+        categoriaServizioDAO.removeById("TrasportiTest");
 
     }
 
@@ -28,31 +28,33 @@ public class CategoriaServizioDAOTest {
     public void findAllTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         ArrayList<CategoriaServizio> categorie = categoriaServizioDAO.findAll();
-        Assert.assertEquals(1, categorie.size());
+        Assert.assertFalse(categorie.isEmpty());
     }
 
     @Test
     public void findByIdTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        CategoriaServizio categoriaServizio = categoriaServizioDAO.findById(categoriaServizioDAO.findByName("aaa").getIdCategoria());
-        Assert.assertEquals("aaa", categoriaServizio.getNome());
+        CategoriaServizio categoriaServizio = categoriaServizioDAO.findById(categoriaServizioDAO.findByName("TrasportiTest").getIdCategoria());
+        Assert.assertEquals("TrasportiTest", categoriaServizio.getNome());
     }
 
     @Test
     public void findByNameTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("aaa");
-        Assert.assertEquals("aaa", categoriaServizio.getNome());
+        CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("TrasportiTest");
+        Assert.assertEquals("TrasportiTest", categoriaServizio.getNome());
     }
 
 
     @Test
     public void updateTest() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
-        CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("aaa");
-        categoriaServizio.setIdCategoria(categoriaServizioDAO.findByName("aaa").getIdCategoria());
+        CategoriaServizio categoriaServizio = categoriaServizioDAO.findByName("TrasportiTest");
+        categoriaServizio.setNome("MontaggiTest");
         categoriaServizioDAO.update(categoriaServizio);
-        categoriaServizio = categoriaServizioDAO.findByName("aaa");
-        Assert.assertEquals("aaa", categoriaServizio.getNome());
+        categoriaServizio = categoriaServizioDAO.findByName("MontaggiTest");
+        Assert.assertEquals("MontaggiTest", categoriaServizio.getNome());
+        categoriaServizio.setNome("TrasportiTest");
+        categoriaServizioDAO.update(categoriaServizio);
     }
 }

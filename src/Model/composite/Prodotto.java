@@ -8,7 +8,7 @@ import java.util.List;
 public class Prodotto extends Articolo implements IProdotto {
 
     private Collocazione collocazione;
-    private Produttore produttore;
+    private Produttore produttore = new Produttore();
     private Magazzino magazzino;
 
     public Prodotto(Float prezzo, List<Feedback> commenti, String nome, String descrizione, ICategoria categoria, Collocazione collocazione, Produttore produttore, Magazzino magazzino, List<Immagine> immagini, int quantita) {
@@ -25,6 +25,7 @@ public class Prodotto extends Articolo implements IProdotto {
 
     public Prodotto(String nome,String descrizione, Float prezzo, int quantita){
         super(nome, descrizione, prezzo, quantita);
+        super.setCategoria(new CategoriaProdotto());
 
     }
 

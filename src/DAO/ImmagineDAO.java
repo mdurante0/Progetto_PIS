@@ -185,16 +185,4 @@ public class ImmagineDAO implements IImmagineDAO {
         IDbOperation writeOp = new WriteOperation(sql);
         return executor.executeOperation(writeOp).getRowsAffected();
     }
-
-    //vedi se così funziona
-    public int update(File file, Immagine immagine) {
-
-        String sql = "UPDATE progetto_pis.immagine " +
-                "SET immagine = '?', articolo_idarticolo = '" + immagine.getIdArticolo() +
-                "' WHERE idimmagine = '" + immagine.getIdImmagine() + "';";
-
-        DbOperationExecutor executor = new DbOperationExecutor();
-        IDbOperation writeOp = new WriteOperation(file, sql);
-        return executor.executeOperation(writeOp).getRowsAffected();
-    }
 }

@@ -26,6 +26,12 @@ public class ProdottoComposito extends Articolo implements IProdotto {
         super(name, descrizione, categoriaProdotto);
         this.produttore = produttore;
     }
+
+    public ProdottoComposito(String name, String descrizione) {
+        super(name, descrizione, new CategoriaProdotto());
+        this.produttore = new Produttore();
+    }
+
     @Override
     public String getName() {
         return super.getName();

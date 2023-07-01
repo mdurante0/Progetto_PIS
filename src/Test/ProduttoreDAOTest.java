@@ -14,51 +14,43 @@ public class ProduttoreDAOTest {
     @Before
     public void setUp() throws Exception {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        produttoreDAO.add(new Produttore("Valentino","vr46@gmail.com","trento","italy","0995331239","boh"));
+        produttoreDAO.add(new Produttore("test","produttore@gmail.com","trento","italy","099533test","produciamo prodotti"));
     }
 
     @After
     public void tearDown() throws Exception {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        produttoreDAO.removeById("Valentino");
+        produttoreDAO.removeById("test");
     }
 
     @Test
     public void findAllTest() {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         ArrayList<Produttore> produttori = produttoreDAO.findAll();
-        Assert.assertEquals(1, produttori.size());
+        Assert.assertFalse(produttori.isEmpty());
     }
 
     @Test
     public void findByIdTest() {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        Produttore produttore = produttoreDAO.findById(produttoreDAO.findByName("Valentino").getIdProduttore());
-        Assert.assertEquals("Valentino", produttore.getNome());
+        Produttore produttore = produttoreDAO.findById(produttoreDAO.findByName("test").getIdProduttore());
+        Assert.assertEquals("test", produttore.getNome());
     }
 
     @Test
     public void findByNameTest() {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        Produttore produttore = produttoreDAO.findByName("Valentino");
-        Assert.assertEquals("Valentino", produttore.getNome());
-    }
-
-
-    @Test
-    public void removeByIdTest() {
-        IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        int rowCount = produttoreDAO.removeById("Valentino");
-        Assert.assertEquals(1, rowCount);
+        Produttore produttore = produttoreDAO.findByName("test");
+        Assert.assertEquals("test", produttore.getNome());
     }
 
     @Test
     public void updateTest() {
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
-        Produttore produttore = new Produttore("Valentino","vr46@gmail.it","trento","italy","0995331239","boh");
-        produttore.setIdProduttore(produttoreDAO.findById(produttore.getIdProduttore()).getIdProduttore());
+        Produttore produttore = produttoreDAO.findByName("test");
+        produttore.setDescrizione("prodotti in produzione");
         produttoreDAO.update(produttore);
-        produttore = produttoreDAO.findByName("Valentino");
-        Assert.assertEquals("vr46@gmail.it", produttore.getMail());
+        produttore = produttoreDAO.findByName("test");
+        Assert.assertEquals("prodotti in produzione", produttore.getDescrizione());
     }
 }

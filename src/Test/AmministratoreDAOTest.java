@@ -12,28 +12,28 @@ import java.util.ArrayList;
 
 public class AmministratoreDAOTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        amministratoreDAO.add(new Amministratore("Valentino", "Rossi", "vr46", "123", "valentino@gmail.com", "am"));
+        amministratoreDAO.add(new Amministratore("Valentino", "Rossi", "test", "123", "valentino@gmail.com", "AM"));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        amministratoreDAO.removeById("vr46");
+        amministratoreDAO.removeById("test");
     }
 
     @Test
     public void findAllTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
         ArrayList<Amministratore> amministratori = amministratoreDAO.findAll();
-        Assert.assertEquals(1, amministratori.size());
+        Assert.assertEquals(2, amministratori.size());
     }
 
     @Test
     public void findByIdTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        Amministratore amministratore = amministratoreDAO.findById("vr46");
+        Amministratore amministratore = amministratoreDAO.findByUsername("test");
         Assert.assertEquals("Valentino", amministratore.getName());
     }
 
@@ -41,17 +41,17 @@ public class AmministratoreDAOTest {
     @Test
     public void removeByIdTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        int rowCount = amministratoreDAO.removeById("vr46");
+        int rowCount = amministratoreDAO.removeById("test");
         Assert.assertEquals(1, rowCount);
     }
 
     @Test
     public void updateTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        Amministratore amministratore = new Amministratore("Valentino", "Rossi", "vr46", "123", "valentino@vr46.com", "MN");
-        amministratore.setIdUtente(amministratoreDAO.findById(amministratore.getUsername()).getIdUtente());
+        Amministratore amministratore = amministratoreDAO.findByUsername("test");
+        amministratore.setEmail("valentino@vr46.com");
         amministratoreDAO.update(amministratore);
-        amministratore = amministratoreDAO.findById("vr46");
+        amministratore = amministratoreDAO.findByUsername("test");
         Assert.assertEquals("valentino@vr46.com", amministratore.getEmail());
     }
 }

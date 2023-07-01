@@ -74,7 +74,7 @@ public class UtenteBusiness {
 
        } else if(isAmministratore) {
            IAmministratoreDAO aDao = AmministratoreDAO.getInstance();
-           Amministratore a = aDao.findById(username);
+           Amministratore a = aDao.findByUsername(username);
            SessionManager.getSession().put(SessionManager.LOGGED_USER, a);
            result.setMessage("Benvenuto "+ a.getName() +" e buon lavoro con MyShop!!");
 

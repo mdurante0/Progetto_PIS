@@ -5,7 +5,7 @@ import Model.Amministratore;
 import java.util.ArrayList;
 
 public interface IAmministratoreDAO {
-    Amministratore findById(String username);
+    Amministratore findByUsername(String username);
     ArrayList<Amministratore> findAll();
     int add(Amministratore amministratore);
     int removeById(String username);

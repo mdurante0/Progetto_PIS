@@ -11,6 +11,5 @@ public interface IPuntoVenditaDAO {
     ArrayList<PuntoVendita> findAll();
     int add(PuntoVendita puntoVendita);
     int removeById(int id);
-    int removeByManager(int idManager);
     int update(PuntoVendita puntoVendita);
 }

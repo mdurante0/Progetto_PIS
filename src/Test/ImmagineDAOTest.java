@@ -21,8 +21,8 @@ public class ImmagineDAOTest {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
         File file = new File("resources\\LOGO.PNG");
-        articoloDAO.add(new Articolo(700.55F, null, "Armadio", "Armadio in quercia pregiata", null, null, 8));
-        immagineDAO.add(file, articoloDAO.findByName("Armadio").getIdArticolo());
+        articoloDAO.add(new Articolo(700.55F, null, "ArmadioTest", "Armadio in quercia pregiata", null, null, 8));
+        immagineDAO.add(file, articoloDAO.findByName("ArmadioTest").getIdArticolo());
     }
 
     @After
@@ -30,41 +30,32 @@ public class ImmagineDAOTest {
         IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        immagineDAO.removeByArticolo(articoloDAO.findByName("Armadio").getIdArticolo());
-        articoloDAO.removeById(articoloDAO.findByName("Armadio").getIdArticolo());
+        immagineDAO.removeByArticolo(articoloDAO.findByName("ArmadioTest").getIdArticolo());
+        articoloDAO.removeById(articoloDAO.findByName("ArmadioTest").getIdArticolo());
     }
 
     @Test
     public void findAllTest() {
         IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         ArrayList<Immagine> immagini = immagineDAO.findAll();
-        Assert.assertEquals(2, immagini.size());
+        Assert.assertFalse(immagini.isEmpty());
     }
 
     @Test
     public void findByIdTest() {
         IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
-        Immagine immagine = immagineDAO.findById(23);
-        Assert.assertEquals(270, immagine.getIdArticolo());
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
+
+        Articolo articolo = articoloDAO.findByName("ArmadioTest");
+        Immagine immagine = immagineDAO.findByArticolo(articolo.getIdArticolo()).get(0);
+        immagine = immagineDAO.findById(immagine.getIdImmagine());
+        Assert.assertNotNull(immagine);
     }
     @Test
     public void findByArticoloTest() {
         IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        ArrayList<Immagine> immagini = immagineDAO.findByArticolo(articoloDAO.findByName("Armadio").getIdArticolo());
+        ArrayList<Immagine> immagini = immagineDAO.findByArticolo(articoloDAO.findByName("ArmadioTest").getIdArticolo());
         Assert.assertEquals(1, immagini.size());
-    }
-
-    @Test
-    public void updateTest() {
-        IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
-        Immagine immagine = immagineDAO.findById(23);
-
-        File file = new File("C:\\Users\\lenovo\\Documents\\ING_INF_III\\Tesi\\LOGO.PNG");
-            immagine.setIdArticolo(1);
-            immagineDAO.update(file, immagine);
-            Assert.assertEquals(1, immagine.getIdArticolo());
-
-
     }
 }

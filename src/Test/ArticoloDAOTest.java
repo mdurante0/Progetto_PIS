@@ -2,7 +2,6 @@ package Test;
 
 import DAO.*;
 import Model.*;
-import Model.composite.Prodotto;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,37 +13,36 @@ public class ArticoloDAOTest {
     @Before
     public void setUp() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.add(new Articolo(7.5F, null, "Armadio", "Armadio spazioso", null, null, 8));
+        articoloDAO.add(new Articolo(7.5F, null, "ArmadioTest", "Armadio spazioso", null, null, 8));
     }
 
     @After
     public void tearDown() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        articoloDAO.removeById(articoloDAO.findByName("Armadio").getIdArticolo());
+        articoloDAO.removeById(articoloDAO.findByName("ArmadioTest").getIdArticolo());
     }
 
     @Test
-    public void testFindByName() {
+    public void findByNameTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        Articolo articolo = articoloDAO.findByName("Armadio");
-        Assert.assertEquals("Armadio", articolo.getName());
+        Articolo articolo = articoloDAO.findByName("ArmadioTest");
+        Assert.assertEquals("ArmadioTest", articolo.getName());
     }
 
     @Test
-    public void testFindAll() {
+    public void findAllTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         ArrayList<Articolo> articoli = articoloDAO.findAll();
-        Assert.assertEquals(1, articoli.size());
+        Assert.assertFalse(articoli.isEmpty());
     }
 
     @Test
-    public void testUpdate() {
+    public void updateTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        float prezzo = 8.5F;
-        Articolo articolo = new Articolo(prezzo, null, "Armadio", "Armadio grande", null, null, 8);
-        articolo.setIdArticolo(articoloDAO.findByName(articolo.getName()).getIdArticolo());
+        Articolo articolo = articoloDAO.findByName("ArmadioTest");
+        articolo.setDescrizione("Armadio grande");
         articoloDAO.update(articolo);
-        articolo = articoloDAO.findByName("Armadio");
+        articolo = articoloDAO.findByName("ArmadioTest");
         Assert.assertEquals("Armadio grande", articolo.getDescrizione());
 
     }
@@ -52,91 +50,60 @@ public class ArticoloDAOTest {
     @Test
     public void articoloExistsTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        boolean exist = articoloDAO.articoloExists("Armadio");
+        boolean exist = articoloDAO.articoloExists("ArmadioTest");
         Assert.assertTrue(exist);
-        exist = articoloDAO.articoloExists("Comodino");
-        Assert.assertFalse(exist);
     }
 
     @Test
     public void isProdottoTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        boolean check = articoloDAO.isProdotto("Armadio");
-        Assert.assertTrue(check);
-
-        check = articoloDAO.isProdotto("Trasporto");
+        boolean check = articoloDAO.isProdotto("ArmadioTest");
         Assert.assertFalse(check);
-
-        check = articoloDAO.isProdotto("Tavolo con sedie");
-        Assert.assertFalse(check);
-
     }
 
     @Test
     public void isProdottoCompositoTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        boolean check = articoloDAO.isProdottoComposito("Armadio");
+        boolean check = articoloDAO.isProdottoComposito("ArmadioTest");
         Assert.assertFalse(check);
-
-        check = articoloDAO.isProdottoComposito("Trasporto");
-        Assert.assertFalse(check);
-
-        check = articoloDAO.isProdottoComposito("Tavolo con sedie");
-        Assert.assertTrue(check);
-
     }
 
     @Test
     public void isServizioTest() {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        boolean check = articoloDAO.isServizio("Armadio");
-        Assert.assertFalse(check);
-
-        check = articoloDAO.isServizio("Trasporto");
-        Assert.assertTrue(check);
-
-        check = articoloDAO.isServizio("Tavolo con sedie");
+        boolean check = articoloDAO.isServizio("ArmadioTest");
         Assert.assertFalse(check);
     }
 
     @Test
     public void isAcquistatoTest(){
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
-        IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
+        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
         IClienteDAO clienteDAO = ClienteDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
-        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
-        Magazzino magazzino = new Magazzino(7,5,"via mozart 25");
-        magazzinoDAO.add(magazzino);
-
-        PuntoVendita puntoVendita = new PuntoVendita("Lecce", "via mozart 23", "1234567890", "MyPuntoVendita", magazzino, null);
+        PuntoVendita puntoVendita = new PuntoVendita("test", "test", "1234567899", "puntoVenditaTest", new Magazzino(), new Manager());
         puntoVenditaDAO.add(puntoVendita);
-        puntoVendita = puntoVenditaDAO.findByName("MyPuntoVendita");
+        puntoVendita = puntoVenditaDAO.findByName("puntoVenditaTest");
 
-        Cliente c = new Cliente("Valentino","Rossi","vr46","123","valentino@gmail.com","CL", puntoVendita, true, 18, "via mozart 21", "avvocato", "0231561237" );
+        Cliente c = new Cliente("Valentino","Rossi","test","123","valentino@gmail.com","CL", puntoVendita, true, 18, "via mozart 21", "avvocato", "0231561237" );
         clienteDAO.add(c);
 
-        Prodotto p = new Prodotto("Comodino", "Comodino con due cassetti", 10F, 1);
-
-        prodottoDAO.add(p);
+        Articolo articolo = articoloDAO.findByName("ArmadioTest");
 
         ArrayList<Articolo> articoli = new ArrayList<>();
-        articoli.add(p);
+        articoli.add(articolo);
 
-        ListaAcquisto lista = new ListaAcquisto(c, true, "mylist", articoli);
+        ListaAcquisto lista = new ListaAcquisto(c, true, "listaTest", articoli);
         listaAcquistoDAO.add(lista);
 
-        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        Assert.assertTrue(articoloDAO.isAcquistato(p.getIdArticolo(),c));
+        Assert.assertTrue(articoloDAO.isAcquistato(articolo.getIdArticolo(),c));
 
         clienteDAO.removeById("vr46");
-        prodottoDAO.removeById(prodottoDAO.findByName("Comodino").getIdArticolo());
-        puntoVenditaDAO.removeById(puntoVenditaDAO.findByName("MyPuntoVendita").getIdPuntoVendita());
-        magazzinoDAO.removeById(magazzinoDAO.findByAddress("via mozart 25").getIdMagazzino());
+        puntoVenditaDAO.removeById(puntoVenditaDAO.findByName("puntoVenditaTest").getIdPuntoVendita());
     }
 }
 

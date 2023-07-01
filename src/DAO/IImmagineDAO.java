@@ -12,5 +12,4 @@ public interface IImmagineDAO {
     int removeById(int id);
     ArrayList<Immagine> findByArticolo(int idArticolo);
    int removeByArticolo(int idArticolo);
-    int update(File file, Immagine immagine);
 }

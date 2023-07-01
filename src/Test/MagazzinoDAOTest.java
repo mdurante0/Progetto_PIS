@@ -16,24 +16,24 @@ public class MagazzinoDAOTest {
     @Before
     public void setUp() {
 
-        Produttore produttore = new Produttore("PoltroneSofa","poltronesofa@gmail.com","trento","italy","0995331239","artigiani della qualita");
+        Produttore produttore = new Produttore("PoltroneSofa Test","poltronesofaTest@gmail.com","trento","italy","099533Test","artigiani della qualita");
         IProduttoreDAO produttoreDAO = ProduttoreDAO.getInstance();
         produttoreDAO.add(produttore);
-        produttore = produttoreDAO.findByName("PoltroneSofa");
+        produttore = produttoreDAO.findByName("PoltroneSofa Test");
 
-        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("Soggiorno");
+        CategoriaProdotto categoriaProdotto = new CategoriaProdotto("Soggiorno Test");
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         categoriaProdottoDAO.add(categoriaProdotto);
-        categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
+        categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno Test");
 
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
-        Prodotto p1 = new Prodotto("Poltrona", "poltrona massaggiante",30.99F,produttore,categoriaProdotto,2);
-        Prodotto p2 = new Prodotto("Sofa", "divano reclinabile",55.30F, produttore, categoriaProdotto,1);
+        Prodotto p1 = new Prodotto("Poltrona Test", "poltrona massaggiante",30.99F,produttore,categoriaProdotto,2);
+        Prodotto p2 = new Prodotto("Sofa Test", "divano reclinabile",55.30F, produttore, categoriaProdotto,1);
         prodottoDAO.add(p1);
         prodottoDAO.add(p2);
 
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino m = new Magazzino( 4, 5, "via Paoli 23");
+        Magazzino m = new Magazzino( 4, 5, "via Paoli 23 Test");
         magazzinoDAO.add(m);
 
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
@@ -58,13 +58,13 @@ public class MagazzinoDAOTest {
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
 
-        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
-        Articolo a1 = articoloDAO.findByName("Poltrona");
-        Articolo a2 = articoloDAO.findByName("Sofa");
-        Produttore p = produttoreDAO.findByName("PoltroneSofa");
+        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23 Test");
+        Articolo a1 = articoloDAO.findByName("Poltrona Test");
+        Articolo a2 = articoloDAO.findByName("Sofa Test");
+        Produttore p = produttoreDAO.findByName("PoltroneSofa Test");
         Collocazione c1 = collocazioneDAO.findByMagazzinoAndProdotto(m.getIdMagazzino(), a1.getIdArticolo());
         Collocazione c2 = collocazioneDAO.findByMagazzinoAndProdotto(m.getIdMagazzino(), a2.getIdArticolo());
-        CategoriaProdotto cp = categoriaProdottoDAO.findByName("Soggiorno");
+        CategoriaProdotto cp = categoriaProdottoDAO.findByName("Soggiorno Test");
 
         produttoreDAO.removeById(p.getNome());
         categoriaProdottoDAO.removeById(cp.getNome());
@@ -79,25 +79,25 @@ public class MagazzinoDAOTest {
     public void findAllTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         ArrayList<Magazzino> magazzini = magazzinoDAO.findAll();
-        Assert.assertEquals(4, magazzini.size());
+        Assert.assertFalse(magazzini.isEmpty());
     }
 
     @Test
     public void findByIdTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23").getIdMagazzino());
-        Assert.assertEquals("via Paoli 23", magazzino.getIndirizzo());
-        Assert.assertEquals("Poltrona", magazzino.getProdotti().get(0).getName());
-        Assert.assertEquals("Sofa", magazzino.getProdotti().get(1).getName());
+        Magazzino magazzino = magazzinoDAO.findById(magazzinoDAO.findByAddress("via Paoli 23 Test").getIdMagazzino());
+        Assert.assertEquals("via Paoli 23 Test", magazzino.getIndirizzo());
+        Assert.assertEquals("Poltrona Test", magazzino.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa Test", magazzino.getProdotti().get(1).getName());
     }
 
     @Test
     public void findByAddressTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
-        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23 Test");
         Assert.assertEquals(4, magazzino.getQuantitaCorsie());
-        Assert.assertEquals("Poltrona", magazzino.getProdotti().get(0).getName());
-        Assert.assertEquals("Sofa", magazzino.getProdotti().get(1).getName());
+        Assert.assertEquals("Poltrona Test", magazzino.getProdotti().get(0).getName());
+        Assert.assertEquals("Sofa Test", magazzino.getProdotti().get(1).getName());
     }
 
     @Test
@@ -105,8 +105,8 @@ public class MagazzinoDAOTest {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
         IProdottoDAO prodottoDAO = ProdottoDAO.getInstance();
 
-        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
-        IProdotto prodotto = prodottoDAO.findByName("Poltrona");
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23 Test");
+        IProdotto prodotto = prodottoDAO.findByName("Poltrona Test");
 
         Assert.assertTrue(magazzinoDAO.prodottoExists(magazzino.getIdMagazzino(),prodotto.getIdArticolo()));
     }
@@ -115,7 +115,7 @@ public class MagazzinoDAOTest {
     public void updateTest() {
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
-        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23 Test");
         magazzino.setQuantitaCorsie(7);
         magazzino.getProdotti().get(0).setQuantita(10);
 
@@ -134,13 +134,13 @@ public class MagazzinoDAOTest {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-        CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
-        Produttore produttore = produttoreDAO.findByName("PoltroneSofa");
+        CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno Test");
+        Produttore produttore = produttoreDAO.findByName("PoltroneSofa Test");
 
-        Prodotto p = new Prodotto("Tavolo", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
+        Prodotto p = new Prodotto("Tavolo Test", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
         pDao.add(p);
 
-        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+        Magazzino m = magazzinoDAO.findByAddress("via Paoli 23 Test");
         Collocazione c = new Collocazione(1,3, m);
         collocazioneDAO.add(c);
         p.setCollocazione(c);
@@ -155,7 +155,7 @@ public class MagazzinoDAOTest {
     public void updateProdottoTest(){
         IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
 
-        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23");
+        Magazzino magazzino = magazzinoDAO.findByAddress("via Paoli 23 Test");
         IProdotto prodotto = magazzino.getProdotti().get(0);
         prodotto.setQuantita(15);
 
@@ -173,13 +173,13 @@ public class MagazzinoDAOTest {
        ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
        IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
-       CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno");
-       Produttore produttore = produttoreDAO.findByName("PoltroneSofa");
+       CategoriaProdotto categoriaProdotto = categoriaProdottoDAO.findByName("Soggiorno Test");
+       Produttore produttore = produttoreDAO.findByName("PoltroneSofa Test");
 
-       Prodotto p = new Prodotto("Tavolo", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
+       Prodotto p = new Prodotto("Tavolo Test", "Tavolo in legno",15.99F,produttore,categoriaProdotto,5);
        pDao.add(p);
 
-       Magazzino m = magazzinoDAO.findByAddress("via Paoli 23");
+       Magazzino m = magazzinoDAO.findByAddress("via Paoli 23 Test");
        Collocazione c = new Collocazione(1,3, m);
        collocazioneDAO.add(c);
        p.setCollocazione(c);

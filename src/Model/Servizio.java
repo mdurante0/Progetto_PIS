@@ -5,7 +5,7 @@ import Business.AbstractFactory.ICategoria;
 import java.util.List;
 
 public class Servizio extends Articolo {
-    private Fornitore fornitore;
+    private Fornitore fornitore = new Fornitore();
 
     public Servizio(Float prezzo, List<Feedback> commenti, String nome, String descrizione, CategoriaServizio categoria, Fornitore fornitore, List<Immagine> immagini) {
         super(prezzo, commenti, nome, descrizione, categoria, immagini);
@@ -25,6 +25,7 @@ public class Servizio extends Articolo {
     public Servizio(String nome, String descrizione, Float prezzo, Fornitore fornitore) {
         super(nome,descrizione,prezzo);
         this.fornitore = fornitore;
+        super.setCategoria(new CategoriaServizio());
     }
 
     public Fornitore getFornitore() {
