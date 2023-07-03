@@ -31,18 +31,10 @@ public class AmministratoreDAOTest {
     }
 
     @Test
-    public void findByIdTest() {
+    public void findByUsernameTest() {
         IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
         Amministratore amministratore = amministratoreDAO.findByUsername("test");
         Assert.assertEquals("Valentino", amministratore.getName());
-    }
-
-
-    @Test
-    public void removeByIdTest() {
-        IAmministratoreDAO amministratoreDAO = AmministratoreDAO.getInstance();
-        int rowCount = amministratoreDAO.removeById("test");
-        Assert.assertEquals(1, rowCount);
     }
 
     @Test

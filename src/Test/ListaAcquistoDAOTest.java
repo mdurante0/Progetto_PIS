@@ -97,7 +97,7 @@ public class ListaAcquistoDAOTest {
     }
 
     @Test
-    public void findNotPaidByPuntoVenditaTest(){
+    public void findAllByPuntoVenditaTest(){
         IListaAcquistoDAO listaAcquistoDAO = ListaAcquistoDAO.getInstance();
         IPuntoVenditaDAO puntoVenditaDAO = PuntoVenditaDAO.getInstance();
         PuntoVendita puntoVendita = puntoVenditaDAO.findByName("puntoVenditaTest");

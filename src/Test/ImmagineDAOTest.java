@@ -47,15 +47,15 @@ public class ImmagineDAOTest {
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
 
         Articolo articolo = articoloDAO.findByName("ArmadioTest");
-        Immagine immagine = immagineDAO.findByArticolo(articolo.getIdArticolo()).get(0);
+        Immagine immagine = immagineDAO.findAllByArticolo(articolo.getIdArticolo()).get(0);
         immagine = immagineDAO.findById(immagine.getIdImmagine());
         Assert.assertNotNull(immagine);
     }
     @Test
-    public void findByArticoloTest() {
+    public void findAllByArticoloTest() {
         IImmagineDAO immagineDAO = ImmagineDAO.getInstance();
         IArticoloDAO articoloDAO = ArticoloDAO.getInstance();
-        ArrayList<Immagine> immagini = immagineDAO.findByArticolo(articoloDAO.findByName("ArmadioTest").getIdArticolo());
+        ArrayList<Immagine> immagini = immagineDAO.findAllByArticolo(articoloDAO.findByName("ArmadioTest").getIdArticolo());
         Assert.assertEquals(1, immagini.size());
     }
 }

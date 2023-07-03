@@ -10,6 +10,6 @@ public interface IImmagineDAO {
     ArrayList<Immagine> findAll();
     int add(File file, int idArticolo);
     int removeById(int id);
-    ArrayList<Immagine> findByArticolo(int idArticolo);
+    ArrayList<Immagine> findAllByArticolo(int idArticolo);
    int removeByArticolo(int idArticolo);
 }

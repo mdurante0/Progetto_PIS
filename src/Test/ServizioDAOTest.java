@@ -35,7 +35,6 @@ public class ServizioDAOTest {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         IFornitoreDAO fornitoreDAO = FornitoreDAO.getInstance();
 
-
         Servizio servizio = servizioDAO.findByName("TrasportoTest");
         servizioDAO.removeById(servizio.getIdArticolo());
         fornitoreDAO.removeById("test");

@@ -116,7 +116,8 @@ public class ImmagineDAO implements IImmagineDAO {
         return null;
     }
 
-    public ArrayList<Immagine> findByArticolo(int idArticolo) {
+    @Override
+    public ArrayList<Immagine> findAllByArticolo(int idArticolo) {
         String sql = "SELECT idimmagine, immagine, articolo_idarticolo " +
                 "FROM progetto_pis.immagine " +
                 "WHERE articolo_idarticolo = '" + idArticolo + "';";

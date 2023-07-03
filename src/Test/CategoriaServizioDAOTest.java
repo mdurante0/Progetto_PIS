@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class CategoriaServizioDAOTest {
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         categoriaServizioDAO.add(new CategoriaServizio("TrasportiTest"));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         ICategoriaServizioDAO categoriaServizioDAO = CategoriaServizioDAO.getInstance();
         categoriaServizioDAO.removeById("TrasportiTest");
 

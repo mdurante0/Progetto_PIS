@@ -33,7 +33,7 @@ public class ImmagineBusiness {
         }
         Articolo articolo = articoloDAO.findByName(nomeArticolo);
 
-        ArrayList<Immagine> listaImmagini = immagineDAO.findByArticolo(articolo.getIdArticolo());
+        ArrayList<Immagine> listaImmagini = immagineDAO.findAllByArticolo(articolo.getIdArticolo());
         if(listaImmagini.isEmpty()){ //L'articolo non ha immagini
             result.setResult(ImmagineResult.Result.IMAGE_DOESNT_EXIST);
             result.setMessage("Immagini non caricate! L'articolo non ha immagini!");

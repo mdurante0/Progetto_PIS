@@ -24,7 +24,7 @@ public class CategoriaProdottoDAOTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         ICategoriaProdottoDAO categoriaProdottoDAO = CategoriaProdottoDAO.getInstance();
         categoriaProdottoDAO.removeById("SoggiornoTest");
         categoriaProdottoDAO.removeById("ArredamentoTest");

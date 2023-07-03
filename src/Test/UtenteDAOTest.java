@@ -48,36 +48,43 @@ public class UtenteDAOTest {
     }
     @Test
     public void userExistsTest(){
-    IUtenteDAO utenteDAO = UtenteDAO.getInstance();
-    boolean exist = utenteDAO.userExists("test");
-    Assert.assertEquals(true, exist);
-    exist = utenteDAO.userExists("test2");
-    Assert.assertEquals(false, exist);
+        IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+
+        boolean exist = utenteDAO.userExists("test");
+        Assert.assertTrue(exist);
+
+        exist = utenteDAO.userExists("test2");
+        Assert.assertFalse(exist);
     }
     @Test
     public void checkCredentialsTest(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+
         boolean check = utenteDAO.checkCredentials("test", "123");
-        Assert.assertEquals(true, check);
+        Assert.assertTrue(check);
+
         check = utenteDAO.checkCredentials("test", "125");
-        Assert.assertEquals(false, check);
+        Assert.assertFalse(check);
     }
     @Test
     public void isClienteTest(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+
         boolean check = utenteDAO.isCliente("test");
-        Assert.assertEquals(false, check);
+        Assert.assertFalse(check);
     }
     @Test
     public void isManagerTest(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+
         boolean check = utenteDAO.isManager("test");
-        Assert.assertEquals(true, check);
+        Assert.assertTrue(check);
     }
     @Test
     public void isAmministratoreTest(){
         IUtenteDAO utenteDAO = UtenteDAO.getInstance();
+
         boolean check = utenteDAO.isAmministratore("test");
-        Assert.assertEquals(false, check);
+        Assert.assertFalse(check);
     }
 }

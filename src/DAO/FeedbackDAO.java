@@ -120,8 +120,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         }
         return null;
     }
-
-    public ArrayList<Feedback> findByUser(int idUtenteAcquirente) {
+    @Override
+    public ArrayList<Feedback> findAllByUser(int idUtenteAcquirente) {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idfeedback, commento, gradimento, " +
                 "articolo_idarticolo, utente_acquirente_utente_idutente, " +
@@ -164,8 +164,8 @@ public class FeedbackDAO implements IFeedbackDAO {
         }
         return null;
     }
-
-    public ArrayList<Feedback> findByArticolo(int idArticolo) {
+    @Override
+    public ArrayList<Feedback> findAllByArticolo(int idArticolo) {
         DbOperationExecutor executor = new DbOperationExecutor();
         String sql = "SELECT idfeedback, commento, gradimento, " +
                 "articolo_idarticolo, utente_acquirente_utente_idutente, " +

@@ -63,6 +63,17 @@ public class CollocazioneDAOTest {
         collocazione = collocazioneDAO.findById(collocazione.getIdCollocazione());
         Assert.assertEquals(4, collocazione.getCorsia());
     }
+
+    @Test
+    public void findByCorsiaScaffaleAndMagazzinoTest() {
+        ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();
+        IMagazzinoDAO magazzinoDAO = MagazzinoDAO.getInstance();
+
+        Magazzino magazzino = magazzinoDAO.findByAddress("magazzinoTest");
+        Collocazione collocazione = collocazioneDAO.findByCorsiaScaffaleAndMagazzino(4,4, magazzino.getIdMagazzino());
+        Assert.assertEquals(4, collocazione.getCorsia());
+    }
+
     @Test
     public void findAllByMagazzinoTest() {
         ICollocazioneDAO collocazioneDAO = CollocazioneDAO.getInstance();

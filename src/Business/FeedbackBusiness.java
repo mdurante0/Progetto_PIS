@@ -36,7 +36,7 @@ public class FeedbackBusiness {
         } else a = aDao.findByName(nomeArticolo);
 
         //Carico i feedback
-        ArrayList<Feedback> feedbacks = fDao.findByArticolo(a.getIdArticolo());
+        ArrayList<Feedback> feedbacks = fDao.findAllByArticolo(a.getIdArticolo());
         if(feedbacks.isEmpty()){ //Non ci sono feedback
             result.setResult(FeedbackResult.Result.FEEDBACK_DOESNT_EXIST);
             result.setMessage("Non ci sono feedback per questo articolo!");
