@@ -152,7 +152,7 @@ public class ModificaProdottoListener implements ActionListener {
                     prodotto.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
                     prodotto.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
 
-                    if(prodotto.getCollocazione().getMagazzino() == null){
+                    if(prodotto.getCollocazione().getMagazzino().getIndirizzo() == null){
                         prodotto.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
                         collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(prodotto.getCollocazione());
                     }else {

@@ -147,7 +147,7 @@ public class ModificaProdottoCompositoListener implements ActionListener {
                     prodottoComposito.getCollocazione().setCorsia(Integer.parseInt(corsiaField.getText()));
                     prodottoComposito.getCollocazione().setScaffale(Integer.parseInt(scaffaleField.getText()));
 
-                    if(prodottoComposito.getCollocazione().getMagazzino() == null){
+                    if(prodottoComposito.getCollocazione().getMagazzino().getIndirizzo() == null){
                         prodottoComposito.getCollocazione().setMagazzino(magazzinoResult.getMagazzini().get(0));
                         collocazioneResult = CollocazioneBusiness.getInstance().addCollocazione(prodottoComposito.getCollocazione());
                     }else {

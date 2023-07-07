@@ -36,9 +36,8 @@ public class AggiungiFeedbackListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gradimentoField.setModel(new DefaultComboBoxModel(Feedback.Punteggio.values()));
-        feedback.setGradimento((Feedback.Punteggio) gradimentoField.getSelectedItem());
-        feedback.setCommento(commentoField.toString());
+        feedback.setGradimento(Feedback.Punteggio.valueOf(gradimentoField.getSelectedItem().toString()));
+        feedback.setCommento(commentoField.getText());
         feedback.setData(new Date());
         feedback.setArticolo(articolo);
 

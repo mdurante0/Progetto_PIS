@@ -218,13 +218,11 @@ public class FeedbackDAO implements IFeedbackDAO {
         String formatted = formato.format(data);
 
         String sql = "INSERT INTO progetto_pis.feedback (commento, gradimento, " +
-                "articolo_idarticolo, utente_acquirente_utente_idutente, " +
-                "risposta, data) VALUES ('"+
+                "articolo_idarticolo, utente_acquirente_utente_idutente, data) VALUES ('"+
                 feedback.getCommento() + "','" +
                 feedback.getGradimento() + "','" +
                 feedback.getArticolo().getIdArticolo() + "','" +
                 feedback.getCliente().getIdUtente() + "','" +
-                feedback.getRisposta() + "','" +
                 formatted + "');";
         IDbOperation writeOp = new WriteOperation(sql);
 

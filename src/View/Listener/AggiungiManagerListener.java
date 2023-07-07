@@ -1,11 +1,8 @@
 package View.Listener;
 
-import Business.PuntoVenditaBusiness;
-import Business.Results.PuntoVenditaResult;
 import Business.Results.RegisterResult;
 import Business.UtenteBusiness;
 import Model.Manager;
-import Model.PuntoVendita;
 import View.MainFrame;
 import View.MostraManagerPanel;
 
@@ -24,10 +21,9 @@ public class AggiungiManagerListener implements ActionListener {
     private JPasswordField passwordField;
     private JPasswordField confermaPasswordField;
     private JTextField durataIncaricoField;
-    private JComboBox puntiVenditaBox;
     private Manager manager = new Manager();
 
-    public AggiungiManagerListener(MainFrame frame, JTextField firstNameField, JTextField lastNameField, JTextField emailField, JTextField usernameField, JPasswordField passwordField, JPasswordField confermaPasswordField, JTextField durataIncaricoField, JComboBox puntiVenditaBox) {
+    public AggiungiManagerListener(MainFrame frame, JTextField firstNameField, JTextField lastNameField, JTextField emailField, JTextField usernameField, JPasswordField passwordField, JPasswordField confermaPasswordField, JTextField durataIncaricoField) {
         this.frame = frame;
         this.firstNameField = firstNameField;
         this.lastNameField = lastNameField;
@@ -36,7 +32,6 @@ public class AggiungiManagerListener implements ActionListener {
         this.passwordField = passwordField;
         this.confermaPasswordField = confermaPasswordField;
         this.durataIncaricoField = durataIncaricoField;
-        this.puntiVenditaBox = puntiVenditaBox;
     }
 
     @Override
@@ -56,17 +51,11 @@ public class AggiungiManagerListener implements ActionListener {
             manager.setPwd(String.valueOf(passwordField.getPassword()));
             manager.setDurataIncarico(Integer.parseInt(String.valueOf(durataIncaricoField.getText())));
 
-            PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntoVenditaByNome(puntiVenditaBox.getSelectedItem().toString());
-            PuntoVendita puntoVendita = puntoVenditaResult.getPuntiVendita().get(0);
-            puntoVendita.setManager(manager);
-
-
             RegisterResult registerResult = UtenteBusiness.getInstance().register(manager);
-            puntoVenditaResult = PuntoVenditaBusiness.getInstance().updateSalePoint(puntoVendita);
-            if(registerResult.getResult() == RegisterResult.Result.REGISTER_OK && puntoVenditaResult.getResult() == PuntoVenditaResult.Result.UPDATE_SALEPOINT_OK ){
+            if(registerResult.getResult() == RegisterResult.Result.REGISTER_OK){
                 this.frame.mostraPannelloAttuale(new MostraManagerPanel(this.frame));
             }
-            JOptionPane.showMessageDialog(this.frame, registerResult.getMessage()+ "    "+ puntoVenditaResult.getMessage());
+            JOptionPane.showMessageDialog(this.frame, registerResult.getMessage());
         }
     }
 }

@@ -1,13 +1,10 @@
 package View;
 
-import Business.PuntoVenditaBusiness;
-import Business.Results.PuntoVenditaResult;
-import Model.PuntoVendita;
 import View.Listener.AggiungiManagerListener;
 import View.Listener.GoToMostraManagerListener;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class CreaManagerPanel extends JPanel {
     private MainFrame frame;
@@ -20,8 +17,6 @@ public class CreaManagerPanel extends JPanel {
     private JPasswordField passwordField;
     private JPasswordField confermaPasswordField;
     private JTextField durataIncaricoField;
-    private JComboBox<String> puntiVenditaBox;
-
 
     public CreaManagerPanel(MainFrame frame) {
         this.frame = frame;
@@ -62,18 +57,6 @@ public class CreaManagerPanel extends JPanel {
         confermaPasswordField = new JPasswordField(20);
         durataIncaricoField = new JTextField(20);
 
-        PuntoVenditaResult puntoVenditaResult = PuntoVenditaBusiness.getInstance().caricaPuntiVendita();
-        if(!puntoVenditaResult.getPuntiVendita().isEmpty()){
-            ArrayList<PuntoVendita> puntiVendita = puntoVenditaResult.getPuntiVendita();
-            String[] nomiPuntiVendita = new String[puntoVenditaResult.getPuntiVendita().size()+1];
-            for (int i = 0; i < puntiVendita.size(); i++) {
-                nomiPuntiVendita[i] = puntiVendita.get(i).getNome();
-            }
-            puntiVenditaBox = new JComboBox<>(nomiPuntiVendita);
-            puntiVenditaBox.setFocusable(false);
-            puntiVenditaBox.setFont(bodyFont);
-        }
-
 
         firstNameField.setFont(bodyFont);
         lastNameField.setFont(bodyFont);
@@ -86,7 +69,7 @@ public class CreaManagerPanel extends JPanel {
 
         JButton registerButton = new JButton("Aggiungi");
         registerButton.setFont(bodyFont);
-        registerButton.addActionListener(new AggiungiManagerListener(this.frame,firstNameField,lastNameField, emailField, usernameField, passwordField, confermaPasswordField,durataIncaricoField, puntiVenditaBox));
+        registerButton.addActionListener(new AggiungiManagerListener(this.frame,firstNameField,lastNameField, emailField, usernameField, passwordField, confermaPasswordField,durataIncaricoField));
 
         JButton backButton = new JButton("Indietro");
         backButton.setFont(bodyFont);
@@ -106,8 +89,6 @@ public class CreaManagerPanel extends JPanel {
         contentPanel.add(confermaPasswordField);
         contentPanel.add(durataincaricoLabel);
         contentPanel.add(durataIncaricoField);
-        contentPanel.add(puntiVenditaLabel);
-        contentPanel.add(puntiVenditaBox);
         contentPanel.add(new JLabel());
         contentPanel.add(new JLabel());
         contentPanel.add(backButton);

@@ -35,10 +35,6 @@ public class MostraListeAcquistoPanel extends JPanel {
         Utente u = (Utente) SessionManager.getSession().get(SessionManager.LOGGED_USER);
         ListaAcquistoResult listaAcquistoResult;
         ArrayList<ListaAcquisto> listeAcquisto = new ArrayList<>();
-        JButton dettagliButton = new JButton("Dettagli");
-        JButton eliminaButton = new JButton("Elimina");
-        JButton pagataButton = new JButton();
-        RigaListaAcquisto riga = new RigaListaAcquisto();
 
         if (u instanceof Cliente c){
             listaAcquistoResult = ListaAcquistoBusiness.getInstance().caricaListeAcquistoByCliente(c.getUsername());
@@ -58,6 +54,11 @@ public class MostraListeAcquistoPanel extends JPanel {
         }
 
         for (int i = 0; i < listeAcquisto.size(); i++) {
+            JButton dettagliButton = new JButton("Dettagli");
+            JButton eliminaButton = new JButton("Elimina");
+            JButton pagataButton = new JButton();
+            RigaListaAcquisto riga = new RigaListaAcquisto();
+
             if (listeAcquisto.get(i).isPagata()) {
                 pagataButton.setText("Acquistata");
                 riga.setPagata("Acquistata");

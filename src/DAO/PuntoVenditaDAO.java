@@ -268,6 +268,7 @@ public class PuntoVenditaDAO implements IPuntoVenditaDAO {
                     "', citta ='" + puntoVendita.getCitta() +
                     "', indirizzo ='" + puntoVendita.getIndirizzo() +
                     "', telefono ='" + puntoVendita.getTelefono() +
+                    "', nome ='" + puntoVendita.getNome() +
                     "' WHERE idpunto_vendita = '" + puntoVendita.getIdPuntoVendita() + "';";
 
         //magazzino è null
